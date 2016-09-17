@@ -15,18 +15,25 @@
 </head>    
 <body>
     
-<div id="parentcontainer" style="position:relative;width:600px;height:338px;">   
+<div id="parentcontainer" style="position:relative;width:600px;height:338px;">
+    <progress id="health" value="0" max="100"style="position:absolute;top:0px;left:0px;"></progress>
     <p id="p1"style="position:absolute;top:0px;left:0px;color:white;">0000</p>
     <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/TrumpSpeechSmall.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
     </div>
     <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunchedNewNew.gif" rel:auto_play="0" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
     </div>
     
-    <div id="phasergame" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-4;"></div>
+    <div id="phasergame" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:2;"></div>
 </div>
 
 <script type="text/javascript">
   
+// get punch count so far (do once at beginning of js)    
+$.get('http://babybrain.org/cgi-bin/trumpcount.pl', 
+      function(data){
+        numOfPunches = parseInt(data,10);
+        document.getElementById("p1").textContent = "000" + String(numOfPunches);
+      });    
 //SuperGif library enables us to move back and forth between frames in the gif. It also adds delay to the load time //upfront, which is a bit problematic.      
 var tSpeechGif = new SuperGif({ gif: document.getElementById('parentgif') } );
 tSpeechGif.load();
@@ -42,9 +49,10 @@ var isPunching = false;
 var isExploding = false; 
 var isSquishing = false; 
 var timeSinceLastClick;
+var health = document.getElementById("health");
 $(document).ready(function(){
     
-    $('#phasergame').hide();
+   // $('#phasergame').hide();
     $('#punchgifDiv').hide();
     
     $( "#parentcontainer" ).mousedown(function() {
@@ -54,15 +62,25 @@ $(document).ready(function(){
             var d = new Date();
             var t = d.getTime();
             timeSinceLastClick = t - lastClickTime; 
-            //if(t - lastClickTime < 1000) {
-                counter = counter +1;    
-            //}
-            lastClick = t;
-            console.log("counting");
-            if(counter >= 10){
-                console.log("punching");
-                numOfPunches++; 
+           // console.log(timeSinceLastClick);
+            //if(timeSinceLastClick < 1000) {
                 
+                counter = counter +2;   
+                console.log("UPcounter: " + String(counter));
+                health.value = String(counter * 10);
+                head.scale.setTo(head.scale.x + 0.3,head.scale.y  + 0.3);
+
+                //scaleuptween.onComplete.add(function () {    this.addQuestion(this.questionText);   }, this);
+                
+            //}
+            lastClickTime = t;
+
+            
+            if(counter >= 10){
+                
+                numOfPunches++; 
+                // increment punch count
+                $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
                 document.getElementById("p1").textContent = "000" + String(numOfPunches);
                 //hide the current gif div
                 $('#parentgifDiv').hide();
@@ -74,12 +92,18 @@ $(document).ready(function(){
                 tPunchGif.play();
                 $('#punchgifDiv').show();  
                 //var myVar1 = setTimeout(pausePunch, 1500);
-                var myVar = setTimeout(resetPunch, 2000); 
+                var myVar = setTimeout(resetPunch, 2500); 
                 counter = 0; 
+                health.value = 0;
+                game.add.tween(head).to({ x: 1000 }, 200, Phaser.Easing.Quadratic.In, true,100);
+                
                 doOnce = true; 
             }
             else if(isPunching == false){
-                console.log("explising");
+               // $('#parentgifDiv').hide();
+                $('#phasergame').show();
+                talkingHead();
+                /*
                 //reset all vars before starting another animation
                 resetAnvilAndExplosion();
                 //hide the current gif div
@@ -114,15 +138,32 @@ $(document).ready(function(){
                         playExplosion();    
                     }
                     
-                }
+                }*/
             }
         }
     });
     
 });    
-    
 
+            setInterval(function(){    
+                if(Number(health.value) > 0){
+                health.value = String(Number(health.value) - 1);
+                if(head.scale.x > 1.26){
+                    head.scale.setTo(head.scale.x - 0.1,head.scale.y  - 0.1);
+                }
+                counter = parseInt(Number(health.value)*0.10);
+                console.log("health" + health.value); 
+                console.log("counter: " +String(counter));
+                }
+            }, 150);
 
+function frame(){
+    var d = new Date();
+    var t = d.getTime();
+    if((t - lastClickTime) > 1000){
+        health.value = String(health.value() - 1); 
+    } 
+}
 
 // Returns a random integer between min (included) and max (included)
 // Using Math.round() will give you a non-uniform distribution!
@@ -143,6 +184,7 @@ function preload() {
     game.load.image('bkg', 'assets/BkgWithoutTrump.jpg');
     game.load.image('anvil', 'assets/Anvil.png');
     game.load.atlas('fire', 'assets/fire.png', 'assets/fire.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.atlas('speech', 'assets/mouth.png', 'assets/mouth.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
 
 }
 
@@ -153,13 +195,13 @@ var headlessTrump;
 function create() {
 
     //  A simple background for our game
-    bkgSprite = game.add.sprite(0, 0, 'bkg');
+   // bkgSprite = game.add.sprite(0, 0, 'bkg');
 
     trumpSprite = game.add.sprite(0, 0, 'trumpSprite');
     trumpSprite.anchor.setTo(1, 1);
     trumpSprite.scale.setTo(1, 1);
     trumpSprite.position.setTo(600, 338);
-    
+    trumpSprite.alpha = 0; 
     
     headlessTrump = game.add.sprite(0, 0, 'headlessTrumpSprite');
     headlessTrump.alpha = 0; 
@@ -172,7 +214,21 @@ function create() {
     explosion.alpha = 0; 
     //  Create an animation called 'explode', the fact we don't specify any frames means it will use all frames in the atlas
     explosion.animations.add('explode');
+    
+    head = game.add.sprite(410,20, 'speech');
+    head.anchor.setTo(0.5, 0.5);
+    head.pivot.setTo(0.5,0.5);
+    //head.position.setTo(457, 75);
+    head.position.setTo(464, 104);
+    head.scale.setTo(1.26,1.26);
+    head.animations.add('talking');
+    head.animations.play('talking', 10, true);
+    
 }  
+    
+function talkingHead(){
+    head.scale.setTo(head.scale.x * 1.2,head.scale.y * 1.2);
+}    
     
 function playExplosion(){
     isExploding = true; 
@@ -251,6 +307,8 @@ function resetAnvilAndExplosion()
     
 function resetPunch()
 {   
+     head.position.setTo(464, 104);
+    head.scale.setTo(1.26,1.26);
     $('#punchgifDiv').hide();  
     $('#phasergame').hide();
     $('#parentgifDiv').show();
@@ -281,6 +339,8 @@ function update() {
             game.world.setBounds(0, 0, game.width,game.height);    
         }
     }
+    
+
 
 }
 
