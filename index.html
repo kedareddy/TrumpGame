@@ -1,0 +1,291 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+    <title>Punch Trump</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="./js/libgif.js"></script>
+    <script type="text/javascript" src="./js/rubbable.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>    
+<body>
+    
+<div id="parentcontainer" style="position:relative;width:600px;height:338px;">   
+    <p id="p1"style="position:absolute;top:0px;left:0px;color:white;">0000</p>
+    <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/TrumpSpeechSmall.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
+    </div>
+    <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunchedNewNew.gif" rel:auto_play="0" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
+    </div>
+    
+    
+    <div id="phasergame" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-4;"></div>
+</div>
+
+<script type="text/javascript">
+  
+//SuperGif library enables us to move back and forth between frames in the gif. It also adds delay to the load time //upfront, which is a bit problematic.      
+var tSpeechGif = new SuperGif({ gif: document.getElementById('parentgif') } );
+tSpeechGif.load();
+var tPunchGif = new SuperGif({ gif: document.getElementById('punchgif'), loop_mode: false} );
+tPunchGif.load();
+
+
+var doOnce = false;
+var counter = 0; 
+var numOfPunches = 0; 
+var lastClickTime = 0; 
+var isPunching = false; 
+var isExploding = false; 
+var isSquishing = false; 
+var timeSinceLastClick;
+$(document).ready(function(){
+    
+    $('#phasergame').hide();
+    $('#punchgifDiv').hide();
+    
+    $( "#parentcontainer" ).mousedown(function() {
+        if(doOnce == false){
+
+        
+            var d = new Date();
+            var t = d.getTime();
+            timeSinceLastClick = t - lastClickTime; 
+            //if(t - lastClickTime < 1000) {
+                counter = counter +1;    
+            //}
+            lastClick = t;
+            console.log("counting");
+            if(counter >= 10){
+                console.log("punching");
+                numOfPunches++; 
+                
+                document.getElementById("p1").textContent = "000" + String(numOfPunches);
+                //hide the current gif div
+                $('#parentgifDiv').hide();
+                //and pause it
+                tSpeechGif.pause();
+                
+                isPunching = true; 
+                tPunchGif.move_to(0);
+                tPunchGif.play();
+                $('#punchgifDiv').show();  
+                //var myVar1 = setTimeout(pausePunch, 1500);
+                var myVar = setTimeout(resetPunch, 2000); 
+                counter = 0; 
+                doOnce = true; 
+            }
+            else if(isPunching == false){
+                console.log("explising");
+                //reset all vars before starting another animation
+                resetAnvilAndExplosion();
+                //hide the current gif div
+                $('#parentgifDiv').hide();
+                //and pause it
+                tSpeechGif.pause();
+                
+                var num = getRandomIntInclusive(1,2);
+                    //window.alert(num);
+
+                if(num == 2){
+                     $('#phasergame').show();
+                    if(timeSinceLastClick < 200)
+                    {
+                        anvilDown();  
+                        //shakeWorld = shakeWorld + 10; 
+                    }
+                    else{ 
+                        //shakeWorld = shakeWorld + 5; 
+                        dropAnvil();       
+                    }
+                }
+                else if(num == 1){
+                     $('#phasergame').show();
+                    if(timeSinceLastClick < 200)
+                    {
+                        //shakeWorld = shakeWorld + 10;
+                        exploded();    
+                    }
+                    else{
+                       // shakeWorld = shakeWorld + 5; 
+                        playExplosion();    
+                    }
+                    
+                }
+            }
+        }
+    });
+    
+});    
+    
+
+
+
+// Returns a random integer between min (included) and max (included)
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+    
+    
+
+var game = new Phaser.Game(600, 338, Phaser.CANVAS, 'phasergame', { preload: preload, create: create, update: update}, true);
+
+function preload() {
+
+    game.load.image('headlessTrumpSprite', 'assets/HeadlessTrumpSprite.png');
+    game.load.image('trumpSprite', 'assets/TrumpSprite.png');
+    game.load.image('bkg', 'assets/BkgWithoutTrump.jpg');
+    game.load.image('anvil', 'assets/anvil.png');
+    game.load.atlas('fire', 'assets/fire.png', 'assets/fire.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+
+}
+
+var explosion;
+var anvilObj;
+var trumpSprite; 
+var headlessTrump; 
+function create() {
+
+    //  A simple background for our game
+    bkgSprite = game.add.sprite(0, 0, 'bkg');
+
+    trumpSprite = game.add.sprite(0, 0, 'trumpSprite');
+    trumpSprite.anchor.setTo(1, 1);
+    trumpSprite.scale.setTo(1, 1);
+    trumpSprite.position.setTo(600, 338);
+    
+    
+    headlessTrump = game.add.sprite(0, 0, 'headlessTrumpSprite');
+    headlessTrump.alpha = 0; 
+    
+    anvilObj =  game.add.sprite(330, -300, 'anvil');
+    anvilObj.alpha = 0; 
+
+    //  Create our explosion animation sprite
+    explosion = game.add.sprite(360, -100, 'fire');
+    explosion.alpha = 0; 
+    //  Create an animation called 'explode', the fact we don't specify any frames means it will use all frames in the atlas
+    explosion.animations.add('explode');
+}  
+    
+function playExplosion(){
+    isExploding = true; 
+    //show the explosion sprite
+    explosion.alpha = 1; 
+    //  Play the animation at 30fps on a loop
+    explosion.animations.play('explode', 30, false);
+    
+    trumpSprite.alpha = 0; 
+    headlessTrump.alpha = 1;
+    game.time.events.add(1000, resetAnvilAndExplosion, this);
+}
+    
+function exploded(){
+    isExploding = true; 
+    trumpSprite.alpha = 0; 
+    headlessTrump.alpha = 1;
+    game.time.events.add(timeSinceLastClick, resetAnvilAndExplosion, this);
+}
+function terminateExplosion(){
+    explosion.alpha = 0; 
+}
+
+var dropAnim; 
+var squishAnim;
+var cancelScreenShake = true; 
+function dropAnvil(){
+    isSquishing = true; 
+    anvilObj.alpha = 1; 
+    dropAnim =  game.add.tween(anvilObj).to({ y: 220 }, 200, Phaser.Easing.Quadratic.In, true);
+    squishAnim = game.add.tween(trumpSprite.scale).to({y:0.15}, 100, Phaser.Easing.Quadratic.In, true, 100);
+   // game.add.tween(trumpSprite).to({x:(trumpSprite.x - 10)},100, Phaser.Easing.Quadratic.In, true, 500,2,true);
+    cancelScreenShake = false; 
+    //game.time.events.add(150, shakeScreen, this);
+    game.time.events.add(500, resetAnvilAndExplosion, this);
+}
+
+function anvilDown(){
+    isSquishing = true; 
+    anvilObj.alpha = 1; 
+    anvilObj.position.setTo(330,220);
+    trumpSprite.scale.setTo(1,0.15);
+    game.time.events.add(timeSinceLastClick, resetAnvilAndExplosion, this);
+}    
+function terminateAnvil(){
+   /* dropAnim.stop();
+    squishAnim.stop();
+    anvilObj.position.setTo(330,220);
+    trumpSprite.scale.setTo(1,0.15);*/
+    //cancelScreenShake = true; 
+}    
+    
+function shakeScreen()
+{
+   // if(cancelScreenShake == false){
+        shakeWorld = 10;     
+        game.time.events.add(600, resetAnvilAndExplosion, this);
+  //  }
+}
+    
+function resetAnvilAndExplosion()
+{  
+    if(!isPunching)
+    {
+        $('#phasergame').hide();
+        $('#parentgifDiv').show();
+        tSpeechGif.play();
+    }
+    isExploding = false; 
+    isSquishing = false; 
+    anvilObj.position.setTo(330, -300);
+    trumpSprite.alpha = 1; 
+    trumpSprite.scale.setTo(1,1);
+    headlessTrump.alpha = 0;     
+}
+    
+function resetPunch()
+{   
+    $('#punchgifDiv').hide();  
+    $('#phasergame').hide();
+    $('#parentgifDiv').show();
+    tSpeechGif.play();
+
+    isPunching = false;
+    doOnce = false; 
+}  
+    
+function pausePunch()
+{   
+    tPunchGif.pause(); 
+}      
+    
+
+
+var shakeWorld = 0;
+function update() {
+    
+    if (shakeWorld > 0) 
+    {   
+        var rand1 = game.rnd.integerInRange(-20,20);  
+        var rand2 = game.rnd.integerInRange(-20,20);    
+        game.world.setBounds(rand1, rand2, game.width + rand1, game.height + rand2);    
+        shakeWorld--;    
+        if (shakeWorld == 0) 
+        {        
+            game.world.setBounds(0, 0, game.width,game.height);    
+        }
+    }
+
+}
+
+</script>
+
+</body>
+</html>
