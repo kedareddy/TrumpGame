@@ -1,0 +1,24 @@
+{
+  "name": "micro trump",
+  "version": "1.0.0",
+  "description": "micro trump ",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kedareddy/trumpgame.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kedareddy/trumpgame/issues"
+  },
+  "homepage": "https://github.com/kedareddy/trumpgame#readme",
+  "dependencies": {
+    "phaser": "^2.6.1",
+    "engine.io": "^1.6.11"
+  },
+  "engines": {
+    "node": "4.4.7"  
+  }
+}
+
