@@ -1,29 +1,26 @@
 {
-  "name": "micro trump",
-  "version": "1.0.0",
-  "description": "micro trump ",
-  "main": "server.js",
+  "name": "microtrump",
+  "version": "0.2.5",
+  "description": "A sample Node.js app using Express 4",
+  "engines": {
+    "node": "5.9.1"
+  },
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"    
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "ejs": "2.4.1",
+    "express": "4.13.3"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kedareddy/trumpgame.git"
+    "url": "https://github.com/heroku/node-js-getting-started"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kedareddy/trumpgame/issues"
-  },
-  "homepage": "https://github.com/kedareddy/trumpgame#readme",
-  "dependencies": {
-    "phaser": "^2.6.1",
-    "express": "^4.14.0",
-    "engine.io": "^1.6.11"
-  },
-  "engines": {
-    "node": "4.4.7"  
-  }
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
 }
-
