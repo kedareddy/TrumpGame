@@ -2,6 +2,10 @@
   "name": "micro trump",
   "version": "1.0.0",
   "description": "micro trump ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"    
   },
   "repository": {
     "type": "git",
@@ -15,6 +19,7 @@
   "homepage": "https://github.com/kedareddy/trumpgame#readme",
   "dependencies": {
     "phaser": "^2.6.1",
+    "express": "^4.14.0",
     "engine.io": "^1.6.11"
   },
   "engines": {
