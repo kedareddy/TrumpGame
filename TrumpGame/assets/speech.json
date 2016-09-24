@@ -1,0 +1,44 @@
+{"frames": [
+
+{
+	"filename": "speech_0000_Layer-4.png",
+	"frame": {"x":1,"y":1,"w":64,"h":86},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":4,"w":64,"h":86},
+	"sourceSize": {"w":74,"h":93}
+},
+{
+	"filename": "speech_0001_Layer-3.png",
+	"frame": {"x":67,"y":1,"w":64,"h":86},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":4,"w":64,"h":86},
+	"sourceSize": {"w":74,"h":93}
+},
+{
+	"filename": "speech_0002_Layer-2.png",
+	"frame": {"x":133,"y":1,"w":64,"h":86},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":4,"w":64,"h":86},
+	"sourceSize": {"w":74,"h":93}
+},
+{
+	"filename": "speech_0003_Layer-1.png",
+	"frame": {"x":199,"y":1,"w":62,"h":86},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":4,"w":62,"h":86},
+	"sourceSize": {"w":74,"h":93}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "speech.png",
+	"format": "RGBA8888",
+	"size": {"w":262,"h":88},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b417b7b06c1125218ae23a739bcb4cf0:bc6030917335a8782fb8085a059c14f5:446cb050617092ceec2bf7db963fe8aa$"
+}
+}
