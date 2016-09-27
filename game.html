@@ -16,7 +16,7 @@
 <body>
     
 <div id="parentcontainer" style="position:relative;width:0px;height:0px;">
-    <p id="p1"style="position:absolute;top:0px;left:0px;color:white;">0000</p>
+    <p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>
     <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/Hulk.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
     </div>
     <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunch.gif" rel:auto_play="0" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
@@ -45,6 +45,7 @@ var doOnce = false;
 var counter = 0; 
 var numOfPunches = 0; 
 var isPunching = false; 
+ 
 $(document).ready(function(){
     
     $('#punchgifDiv').hide();
@@ -54,16 +55,32 @@ $(document).ready(function(){
         var hitGood = CheckForOverlap(e.pageX, e.pageY);
         if(doOnce == false && hitGood == true){
             
-            counter = counter +1;   
-            //console.log("UPcounter: " + String(counter));
+            if(counter != headcounter){
+                counter = 0; 
+                headcounter = 0; 
+            }
             
-            if(counter == 3){
+            counter = counter +1;   
+            headcounter++; 
+            console.log("headcounter: " + headcounter + " counter: " + counter);
+            
+            
+            
+            if(counter == 3 && headcounter == counter){
                 head3.alpha = 0; 
                 
                 // increment punch count
                 numOfPunches++;
                 $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
-                document.getElementById("p1").textContent = "000" + String(numOfPunches);
+                
+                setTimeout((function() {
+                    $("p").animate({fontSize: '+=.2em'}, 25);
+                }), 700);
+                setTimeout((function() {
+                    $("p").animate({fontSize: '-=.2em'}, 250);    
+                    document.getElementById("p1").textContent = "000" + String(numOfPunches);
+                }), 725);
+                
                 
                 $('#parentgifDiv').hide();
                 isPunching = true; 
@@ -76,12 +93,14 @@ $(document).ready(function(){
                 doOnce = true; 
             }
             else if(isPunching == false && counter < 3){
-                talkingHead();
+                changeHead();
             }
         }
     });
     
 });    
+    
+    
 
 // Returns a random integer between min (included) and max (included)
 // Using Math.round() will give you a non-uniform distribution!
@@ -139,36 +158,74 @@ function create() {
   
 var timer;     
 function StartGame(){
-    timer = game.time.events.add(Phaser.Timer.SECOND * 1, ShowHead1, this);
+    timer = game.time.events.add(Phaser.Timer.SECOND * 1, changeHead, this);
 }   
     
 var head1Tween, head2Tween, head3Tween; 
 var tweenTime = 5000; 
-function ShowHead1(){
+/*function ShowHead1(){
     head1.alpha = 1; 
     head1.position.y = 92;
-    head1Tween = game.add.tween(head1).to({ y: 400 }, tweenTime, Phaser.Easing.Quadratic.In, true, 0, 5000, true);
+    head1Tween = game.add.tween(head1).to({ y: 400 }, tweenTime, Phaser.Easing.Quadratic.In, true, 0, 0, false);
+    head1Tween.onComplete.add(head1TweenComplete, this);
+} */   
+
+function head1TweenComplete(){
+    //console.log("tween completed. now will change heads.asdfasdf ");
+    if(head1.alpha == 1){
+        head2Tween.stop();
+        head3Tween.stop();
+        // console.log("tween completed. now will change heads. ");
+        headcounter ++; 
+        changeHead(); 
+    }
+}
+    
+function head2TweenComplete(){
+    if(head2.alpha == 1){
+        head1Tween.stop();
+        head3Tween.stop();
+        headcounter ++; 
+        changeHead(); 
+    }
+}
+    
+function head3TweenComplete(){
+    if(head3.alpha == 1){
+        head2Tween.stop();
+        head1Tween.stop();
+        headcounter ++; 
+        changeHead(); 
+    }
 }    
     
-function talkingHead(){
-    if(counter == 0){
-        head1.alpha = 1; 
+var headcounter = 0;     
+function changeHead(){
+   // console.log("headcounter: " + headcounter);
+    if(headcounter >= 3){
+        headcounter = 0;     
     }
-    else if(counter == 1){
+    
+    if(headcounter == 0){
+        head3.alpha = 0; 
+        head1.alpha = 1;
+        head1.position.y = 92;
+        head1Tween = game.add.tween(head1).to({ y: 400 }, tweenTime, Phaser.Easing.Quadratic.In, true, 0, 0, false);
+        head1Tween.onComplete.add(head1TweenComplete, this);
+    }
+    else if(headcounter == 1){
         head1.alpha = 0;
         head2.alpha = 1; 
         head2.position.x = 485; 
-        head2Tween = game.add.tween(head2).to({ x: 650 }, tweenTime, Phaser.Easing.Quadratic.In,true, 0,5000, true);
+        head2Tween = game.add.tween(head2).to({ x: 650 }, tweenTime, Phaser.Easing.Quadratic.In,true, 0,0, false);
+        head2Tween.onComplete.add(head2TweenComplete, this);
     }
-     else if(counter == 2){
+     else if(headcounter == 2){
         head2.alpha = 0;
         head3.alpha = 1;
         head3.position.y = 202; 
-        head3Tween = game.add.tween(head3).to({ y: 379 }, tweenTime, Phaser.Easing.Quadratic.In,true, 0,5000, true);
-    }
-     else if(counter == 3){
-        head3.alpha = 0;
-        head4.alpha = 1; 
+        head3Tween = game.add.tween(head3).to({ y: 379 }, tweenTime, Phaser.Easing.Quadratic.In,true, 0,0, false);
+        head3Tween.onComplete.add(head3TweenComplete, this);
     }
     else{
         head1.alpha = 0;    
@@ -183,8 +240,8 @@ function resetPunch()
     $('#punchgifDiv').hide();  
     $('#parentgifDiv').show();
     tweenTime = tweenTime - 1000; 
-    if(tweenTime <= 1000){
-        tweenTime == 1000; 
+    if(tweenTime < 1000){
+        tweenTime = 1000; 
     }
     
     isPunching = false;
@@ -199,12 +256,15 @@ function resetPunch()
     head1.position = head1Pos; 
     head2.position = head2Pos; 
     head3.position = head3Pos; 
-    ShowHead1();
+    //ShowHead1();
+    headcounter = 0; 
+    changeHead();
 }  
 
 
 var shakeWorld = 0;
 function update() {
+    console.log("tweenTIme: " + tweenTime);
     game.canvas.focus(); 
     if (shakeWorld > 0) 
     {   
@@ -220,11 +280,11 @@ function update() {
 }
     
 function CheckForOverlap(cX, cY){
-    console.log(String(cX) + " : " + String(cY) ); 
+   // console.log(String(cX) + " : " + String(cY) ); 
     var myPoint = new Phaser.Point(cX, cY) ;
-    console.log(head1.getBounds());
+    //console.log(head1.getBounds());
     if(Phaser.Rectangle.containsPoint(head1.getBounds(), myPoint) && head1.alpha == 1){
-        console.log("yes!");
+        //console.log("yes!");
         return true; 
     }
     else if(Phaser.Rectangle.containsPoint(head2.getBounds(), myPoint) && head2.alpha == 1){
@@ -234,7 +294,7 @@ function CheckForOverlap(cX, cY){
         return true; 
     }
     else{
-        console.log("NOPE");
+        //console.log("NOPE");
         return false; 
     }
 }
