@@ -7,16 +7,18 @@
     <script type="text/javascript" src="./js/libgif.js"></script>
     <script type="text/javascript" src="./js/rubbable.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+ <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
     <style type="text/css">
         body {
             margin: 0;
         }
     </style>
 </head>    
-<body>
+<body style="background-color:black">
     
-<div id="parentcontainer" style="position:relative;width:0px;height:0px;">
-    <p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>
+<div id="parentcontainer" style="display:block;left:30%;margin:0;position:relative;width:0px;height:0px;">
+    
     <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/Hulk.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
     </div>
     <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunch.gif" rel:auto_play="0" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
@@ -24,9 +26,13 @@
     
     <div id="phasergame" style="position:absolute;top:0px;left:0px;z-index:2;"></div>
 </div>
-
+<div id="punchcounter" style="display: block; left:30%;margin:0;position:relative;width:0px;height:0px;">
+    <p id="p1" style="color:white;">0000</p>
+</div>
+    
+    
+    
 <script type="text/javascript">
-  
 // get punch count so far (do once at beginning of js)    
 $.get('http://babybrain.org/cgi-bin/trumpcount.pl', 
       function(data){
@@ -50,8 +56,8 @@ $(document).ready(function(){
     
     $('#punchgifDiv').hide();
     
-    
-    $( "#parentcontainer" ).click(function(e) {
+        $( "#parentcontainer" ).on('click', function(e){
+                    e.stopPropagation(); e.preventDefault();
         var hitGood = CheckForOverlap(e.pageX, e.pageY);
         if(doOnce == false && hitGood == true){
             
@@ -74,11 +80,21 @@ $(document).ready(function(){
                 $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
                 
                 setTimeout((function() {
+                    //hillary.alpha =1; 
+                }), 70);
+                
+                setTimeout((function() {
+                    //hillary.alpha =0; 
+                }), 950);
+                
+                setTimeout((function() {
                     $("p").animate({fontSize: '+=.2em'}, 25);
+                   
                 }), 700);
                 setTimeout((function() {
                     $("p").animate({fontSize: '-=.2em'}, 250);    
                     document.getElementById("p1").textContent = "000" + String(numOfPunches);
+                     
                 }), 725);
                 
                 
@@ -97,10 +113,8 @@ $(document).ready(function(){
             }
         }
     });
-    
-});    
-    
-    
+
+});  
 
 // Returns a random integer between min (included) and max (included)
 // Using Math.round() will give you a non-uniform distribution!
@@ -120,13 +134,18 @@ function preload() {
     game.load.image('head3', 'assets/head3.png');
     game.load.image('head4', 'assets/TrumpSprite.png');
     game.load.image('podium', 'assets/podium.jpg');
+    game.load.image('hillary', 'assets/Hillary.png');
 }
 
-var head1, head2, head3, head4, podium; 
+var head1, head2, head3, head4, podium, hillary;
 var head1Pos, head2Pos, head3Pos; 
 function create() {
     
-
+   /* hillary = game.add.sprite(0, 0, 'hillary');
+    hillary.position.setTo(125, -20);
+    hillary.scale.setTo(.3,.3);
+    hillary.alpha = 0; */
+    
     head3 = game.add.sprite(0, 0, 'head3');
     head3.position.setTo(375, 202);
     head3.scale.setTo(.75,.75);
@@ -158,7 +177,7 @@ function create() {
   
 var timer;     
 function StartGame(){
-    timer = game.time.events.add(Phaser.Timer.SECOND * 1, changeHead, this);
+    timer = game.time.events.add(Phaser.Timer.SECOND * .25, changeHead, this);
 }   
     
 var head1Tween, head2Tween, head3Tween; 
@@ -173,8 +192,12 @@ var tweenTime = 5000;
 function head1TweenComplete(){
     //console.log("tween completed. now will change heads.asdfasdf ");
     if(head1.alpha == 1){
-        head2Tween.stop();
-        head3Tween.stop();
+        if(head2Tween != null){
+            head2Tween.stop();
+        }
+        if(head3Tween != null){
+            head3Tween.stop();
+        }
         // console.log("tween completed. now will change heads. ");
         headcounter ++; 
         changeHead(); 
@@ -183,8 +206,12 @@ function head1TweenComplete(){
     
 function head2TweenComplete(){
     if(head2.alpha == 1){
-        head1Tween.stop();
-        head3Tween.stop();
+        if(head1Tween != null){
+            head1Tween.stop();
+        }
+        if(head3Tween != null){
+            head3Tween.stop();
+        }
         headcounter ++; 
         changeHead(); 
     }
@@ -192,8 +219,12 @@ function head2TweenComplete(){
     
 function head3TweenComplete(){
     if(head3.alpha == 1){
-        head2Tween.stop();
-        head1Tween.stop();
+        if(head2Tween != null){
+            head2Tween.stop();
+        }
+        if(head1Tween != null){
+            head1Tween.stop();
+        }
         headcounter ++; 
         changeHead(); 
     }
@@ -240,9 +271,10 @@ function resetPunch()
     $('#punchgifDiv').hide();  
     $('#parentgifDiv').show();
     tweenTime = tweenTime - 1000; 
-    if(tweenTime < 1000){
-        tweenTime = 1000; 
+    if(tweenTime < 2000){
+        tweenTime = 2000; 
     }
+    headcounter = 0; 
     
     isPunching = false;
     doOnce = false; 
@@ -257,14 +289,14 @@ function resetPunch()
     head2.position = head2Pos; 
     head3.position = head3Pos; 
     //ShowHead1();
-    headcounter = 0; 
+    
     changeHead();
 }  
 
 
 var shakeWorld = 0;
 function update() {
-    console.log("tweenTIme: " + tweenTime);
+    //console.log("tweenTIme: " + tweenTime);
     game.canvas.focus(); 
     if (shakeWorld > 0) 
     {   
@@ -280,8 +312,8 @@ function update() {
 }
     
 function CheckForOverlap(cX, cY){
-   // console.log(String(cX) + " : " + String(cY) ); 
-    var myPoint = new Phaser.Point(cX, cY) ;
+    console.log(String(cX) + " : " + String(cY) ); 
+    var myPoint = new Phaser.Point(cX - .3*window.innerWidth, cY) ;
     //console.log(head1.getBounds());
     if(Phaser.Rectangle.containsPoint(head1.getBounds(), myPoint) && head1.alpha == 1){
         //console.log("yes!");
