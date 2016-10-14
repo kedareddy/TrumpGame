@@ -3,40 +3,136 @@
 <head> 
 	<meta charset="UTF-8" />
     <title>Punch Trump</title>
+    <meta name="viewport" content="width=device-width;">
+    
+    <meta property="og:site_name"   content="Bricked Loops">
+<meta property="og:url"         content="http://kedareddy.com/GIFExperiments/TrumpGame/game.html">
+<meta property="og:title"       content="Punch Trump">
+<meta property="og:description" content="Hulk Punch Trump! How many times can we Hulk punch Trump before Nov 8th?">
+<meta property="og:type"        content="video.other">
+<meta property="og:image"       content="http://kedareddy.com/GIFExperiments/TrumpGame/assets/BkgWithoutTrump.jpg">
+<meta property="fb:app_id"			content="930904337042753">
+    
+    <meta name="twitter:card" content="photo">
+<meta name="twitter:site" content="Bricked Loops">
+<meta name="twitter:title" content="Punch Trump">
+<meta name="twitter:image" content="http://kedareddy.com/GIFExperiments/TrumpGame/assets/BkgWithoutTrump.jpg">
+<meta name="twitter:url" content="http://kedareddy.com/GIFExperiments/TrumpGame/game.html" />
+<meta name="twitter:description" content="Hulk Punch Trump! How many times can we Hulk punch Trump before Nov 8th?">
+
+    
+    
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="./js/libgif.js"></script>
     <script type="text/javascript" src="./js/rubbable.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+ <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Exo:800|Lato:700" rel="stylesheet">
     <style type="text/css">
         body {
             margin: 0;
         }
     </style>
 </head>    
-<body>
-    
-<div id="parentcontainer" style="position:relative;width:600px;height:338px;">
-    <progress id="health" value="0" max="100"style="position:absolute;top:0px;left:0px;"></progress>
-    <p id="p1"style="position:absolute;top:0px;left:0px;color:white;">0000</p>
-    <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/TrumpSpeechSmall.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
-    </div>
-    <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunchedNewNew.gif" rel:auto_play="0" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
-    </div>
-    
-    <div id="phasergame" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:2;"></div>
-</div>
-
-<script type="text/javascript">
+<body style="background-color:black; position: relative;">
   
+<div style="display:block; position:relative; left:30%; margin:0 auto;padding: 0px;">
+    <h1 id="bigcounter" style="color:white; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;">00,000,000,981</h1>
+</div>
+       
+    
+<div id="parentcontainer" style="display:block; left: 30%; margin:0 auto; position:relative;">
+    <!--<p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>-->
+    <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/Hulk.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
+    </div>
+    <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunch.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
+    </div>
+    
+    <div id="phasergame" style="position:absolute;top:0px;left:0px;z-index:2;"></div>
+</div>
+    
+<div id="logocontainer" style=" position:absolute; left:30%; top: 429.5%; width: 600px;">
+    
+    <h1 class = "uielement" style=" vertical-align: middle;display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 17px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">BRICKED LOOPS</h1>
+
+    <a class = "uielement facebook customer share" style= "vertical-align: middle; display:inline-block;margin-left:90px;" href="http://www.facebook.com/sharer/sharer.php?u=http://kedareddy.com/GIFExperiments/TrumpGame/game.html&title=PunchTrump"><img src="assets/facebook-icon.svg" width="50"></a>
+    
+    <a 
+       class = "uielement twitter customer share"
+       style="vertical-align: middle;display:inline-block;margin-left:90px;" 
+       href="http://twitter.com/intent/tweet?status=Hulk Punch Trump!+http://kedareddy.com/GIFExperiments/TrumpGame/game.html">
+       <img src="assets/twitter-icon.svg" width="50">
+    </a>
+</div>
+    
+    
+<style>
+.uielement{
+    opacity: 0.5; 
+}
+.uielement:hover, .uielement:active {
+    opacity: 1;
+}
+</style>    
+        
+
+
+
+    
+    
+    
+<script type="text/javascript">
+    
+;(function($){
+  
+  /**
+   * jQuery function to prevent default anchor event and take the href * and the title to make a share pupup
+   *
+   * @param  {[object]} e           [Mouse event]
+   * @param  {[integer]} intWidth   [Popup width defalut 500]
+   * @param  {[integer]} intHeight  [Popup height defalut 400]
+   * @param  {[boolean]} blnResize  [Is popup resizeabel default true]
+   */
+  $.fn.customerPopup = function (e, intWidth, intHeight, blnResize) {
+    
+    // Prevent default anchor event
+    e.preventDefault();
+    
+    // Set values for window
+    intWidth = intWidth || '500';
+    intHeight = intHeight || '400';
+    strResize = (blnResize ? 'yes' : 'no');
+
+    // Set title and open popup with focus on it
+    var strTitle = ((typeof this.attr('title') !== 'undefined') ? this.attr('title') : 'Social Share'),
+        strParam = 'width=' + intWidth + ',height=' + intHeight + ',resizable=' + strResize,            
+        objWindow = window.open(this.attr('href'), strTitle, strParam).focus();
+  }
+  
+  /* ================================================== */
+  
+  $(document).ready(function ($) {
+    $('.customer.share').on("click", function(e) {
+      $(this).customerPopup(e);
+    });
+  });
+    
+}(jQuery));    
+    
+    
+    
 // get punch count so far (do once at beginning of js)    
 $.get('http://babybrain.org/cgi-bin/trumpcount.pl', 
       function(data){
         numOfPunches = parseInt(data,10);
-        document.getElementById("p1").textContent = "000" + String(numOfPunches);
-      });    
+        //document.getElementById("p1").textContent = "000" + String(numOfPunches);
+        document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+      }
+);    
 //SuperGif library enables us to move back and forth between frames in the gif. It also adds delay to the load time //upfront, which is a bit problematic.      
-var tSpeechGif = new SuperGif({ gif: document.getElementById('parentgif') } );
-tSpeechGif.load();
+//var tSpeechGif = new SuperGif({ gif: document.getElementById('parentgif') } );
+//tSpeechGif.load();
 var tPunchGif = new SuperGif({ gif: document.getElementById('punchgif'), loop_mode: false} );
 tPunchGif.load();
 
@@ -44,126 +140,74 @@ tPunchGif.load();
 var doOnce = false;
 var counter = 0; 
 var numOfPunches = 0; 
-var lastClickTime = 0; 
 var isPunching = false; 
-var isExploding = false; 
-var isSquishing = false; 
-var timeSinceLastClick;
-var health = document.getElementById("health");
+ 
 $(document).ready(function(){
     
-   // $('#phasergame').hide();
     $('#punchgifDiv').hide();
     
-    $( "#parentcontainer" ).click(function() {
-        if(doOnce == false){
-
-        
-            var d = new Date();
-            var t = d.getTime();
-            timeSinceLastClick = t - lastClickTime; 
-           // console.log(timeSinceLastClick);
-            //if(timeSinceLastClick < 1000) {
-                
-                counter = counter +2;   
-                console.log("UPcounter: " + String(counter));
-                health.value = String(counter * 10);
-                head.scale.setTo(head.scale.x + 0.3,head.scale.y  + 0.3);
-
-                //scaleuptween.onComplete.add(function () {    this.addQuestion(this.questionText);   }, this);
-                
-            //}
-            lastClickTime = t;
-
+        $( "#parentcontainer" ).on('touchend click', function(){
+                    //e.stopPropagation(); e.preventDefault();
+        var hitGood = CheckForOverlap(); //e.pageX, e.pageY);
             
-            if(counter >= 10){
+        if(doOnce == false && hitGood == true){
+            
+            if(counter != headcounter){
+                counter = 0; 
+                headcounter = 0; 
+            }
+            
+            counter = counter +1;   
+            headcounter++; 
+            console.log("headcounter: " + headcounter + " counter: " + counter);
+            
+            
+            
+            if(counter == 3 && headcounter == counter){
+                head3.alpha = 0; 
                 
-                numOfPunches++; 
                 // increment punch count
+                numOfPunches++;
                 $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
-                document.getElementById("p1").textContent = "000" + String(numOfPunches);
-                //hide the current gif div
-                $('#parentgifDiv').hide();
-                //and pause it
-                tSpeechGif.pause();
                 
+
+                setTimeout((function() {
+                    //$("p").animate({fontSize: '-=.2em'}, 250);    
+                    //document.getElementById("p1").textContent = "000" + String(numOfPunches);
+                    document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                     
+                }), 725);
+                
+                $('#logocontainer').css({'position': 'relative'});
+                $('#parentgifDiv').hide();
                 isPunching = true; 
-                tPunchGif.move_to(0);
+                tPunchGif.move_to(2);
                 tPunchGif.play();
                 $('#punchgifDiv').show();  
-                //var myVar1 = setTimeout(pausePunch, 1500);
-                var myVar = setTimeout(resetPunch, 2500); 
-                counter = 0; 
-                health.value = 0;
-                game.add.tween(head).to({ x: 1000 }, 200, Phaser.Easing.Quadratic.In, true,100);
                 
+                var myVar = setTimeout(resetPunch, 1100);
+                //counter = 2;
+                //headcounter = 2; 
+                counter = 0; 
                 doOnce = true; 
             }
-            else if(isPunching == false){
-               // $('#parentgifDiv').hide();
-                $('#phasergame').show();
-                talkingHead();
-                /*
-                //reset all vars before starting another animation
-                resetAnvilAndExplosion();
-                //hide the current gif div
-                $('#parentgifDiv').hide();
-                //and pause it
-                tSpeechGif.pause();
+            else if(isPunching == false && counter < 3){
+               // setTimeout((function() {
+                     changeHead();
+                //}), 200);
                 
-                var num = getRandomIntInclusive(1,2);
-                    //window.alert(num);
-
-                if(num == 2){
-                     $('#phasergame').show();
-                    if(timeSinceLastClick < 200)
-                    {
-                        anvilDown();  
-                        //shakeWorld = shakeWorld + 10; 
-                    }
-                    else{ 
-                        //shakeWorld = shakeWorld + 5; 
-                        dropAnvil();       
-                    }
-                }
-                else if(num == 1){
-                     $('#phasergame').show();
-                    if(timeSinceLastClick < 200)
-                    {
-                        //shakeWorld = shakeWorld + 10;
-                        exploded();    
-                    }
-                    else{
-                       // shakeWorld = shakeWorld + 5; 
-                        playExplosion();    
-                    }
-                    
-                }*/
             }
         }
+        else{
+            /*if(counter != headcounter){
+                counter = 0; 
+                headcounter = 0; 
+            }
+            changeHead();*/
+        }
     });
-    
-});    
 
-            setInterval(function(){    
-                if(Number(health.value) > 0){
-                health.value = String(Number(health.value) - 1);
-                if(head.scale.x > 1.26){
-                    head.scale.setTo(head.scale.x - 0.1,head.scale.y  - 0.1);
-                }
-                counter = parseInt(Number(health.value)*0.10);
-                console.log("health" + health.value); 
-                console.log("counter: " +String(counter));
-                }
-            }, 150);
-
-function frame(){
-    var d = new Date();
-    var t = d.getTime();
-    if((t - lastClickTime) > 1000){
-        health.value = String(health.value() - 1); 
-    } 
-}
+});  
 
 // Returns a random integer between min (included) and max (included)
 // Using Math.round() will give you a non-uniform distribution!
@@ -171,163 +215,201 @@ function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}  
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
-    
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
     
 
 var game = new Phaser.Game(600, 338, Phaser.CANVAS, 'phasergame', { preload: preload, create: create, update: update}, true);
 
 function preload() {
-
-    game.load.image('headlessTrumpSprite', 'assets/HeadlessTrumpSprite.png');
-    game.load.image('trumpSprite', 'assets/TrumpSprite.png');
-    game.load.image('bkg', 'assets/BkgWithoutTrump.jpg');
-    game.load.image('anvil', 'assets/Anvil.png');
-    game.load.atlas('fire', 'assets/fire.png', 'assets/fire.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
-    game.load.atlas('speech', 'assets/mouth.png', 'assets/mouth.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
-
+    //game.load.atlas('speech', 'assets/mouth.png', 'assets/mouth.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.image('head1', 'assets/head1.png');
+    game.load.image('head2', 'assets/head2.png');
+    game.load.image('head3', 'assets/head3.png');
+   // game.load.image('head4', 'assets/TrumpSprite.png');
+    game.load.image('podium', 'assets/podium.jpg');
+    //game.load.image('hillary', 'assets/Hillary.png');
 }
 
-var explosion;
-var anvilObj;
-var trumpSprite; 
-var headlessTrump; 
+var head1, head2, head3, head4, podium, hillary;
+var head1Pos, head2Pos, head3Pos; 
 function create() {
+    
+   /* hillary = game.add.sprite(0, 0, 'hillary');
+    hillary.position.setTo(125, -20);
+    hillary.scale.setTo(.3,.3);
+    hillary.alpha = 0; */
+    
+    head3 = game.add.sprite(0, 0, 'head3');
+    head3.position.setTo(375, 202);
+    head3.scale.setTo(.75,.75);
+    head3Pos = head3.position; 
+    head4 = game.add.sprite(0, 0, 'head4');
+    head4.position.setTo(295, 92);
+    podium = game.add.sprite(0, 0, 'podium');
+    podium.position.setTo(357, 248);
+    head1 = game.add.sprite(0, 0, 'head1');
+    head1.position.setTo(295, 92);
+    head1Pos = head1.position; 
+    head2 = game.add.sprite(0, 0, 'head2');
+    head2.position.setTo(485, 65);
+    head2.angle -= 10;
+    head2Pos = head2.position; 
+    
+    head1.alpha = 0; 
+    head2.alpha = 0;
+    head3.alpha = 0; 
+    head4.alpha = 0; 
+    head1.inputEnabled = true; 
+    head2.inputEnabled = true; 
+    head3.inputEnabled = true; 
+    head4.inputEnabled = true; 
+    head1.input.useHandCursor = true;
 
-    //  A simple background for our game
-   // bkgSprite = game.add.sprite(0, 0, 'bkg');
-
-    trumpSprite = game.add.sprite(0, 0, 'trumpSprite');
-    trumpSprite.anchor.setTo(1, 1);
-    trumpSprite.scale.setTo(1, 1);
-    trumpSprite.position.setTo(600, 338);
-    trumpSprite.alpha = 0; 
-    
-    headlessTrump = game.add.sprite(0, 0, 'headlessTrumpSprite');
-    headlessTrump.alpha = 0; 
-    
-    anvilObj =  game.add.sprite(330, -300, 'anvil');
-    anvilObj.alpha = 0; 
-
-    //  Create our explosion animation sprite
-    explosion = game.add.sprite(360, -100, 'fire');
-    explosion.alpha = 0; 
-    //  Create an animation called 'explode', the fact we don't specify any frames means it will use all frames in the atlas
-    explosion.animations.add('explode');
-    
-    head = game.add.sprite(410,20, 'speech');
-    head.anchor.setTo(0.5, 0.5);
-    head.pivot.setTo(0.5,0.5);
-    //head.position.setTo(457, 75);
-    head.position.setTo(464, 104);
-    head.scale.setTo(1.26,1.26);
-    head.animations.add('talking');
-    head.animations.play('talking', 10, true);
-    
+    StartGame(); 
 }  
+  
+var timer;     
+function StartGame(){
+    timer = game.time.events.add(Phaser.Timer.SECOND * .25, changeHead, this);
+}   
     
-function talkingHead(){
-    head.scale.setTo(head.scale.x * 1.2,head.scale.y * 1.2);
-}    
-    
-function playExplosion(){
-    isExploding = true; 
-    //show the explosion sprite
-    explosion.alpha = 1; 
-    //  Play the animation at 30fps on a loop
-    explosion.animations.play('explode', 30, false);
-    
-    trumpSprite.alpha = 0; 
-    headlessTrump.alpha = 1;
-    game.time.events.add(1000, resetAnvilAndExplosion, this);
-}
-    
-function exploded(){
-    isExploding = true; 
-    trumpSprite.alpha = 0; 
-    headlessTrump.alpha = 1;
-    game.time.events.add(timeSinceLastClick, resetAnvilAndExplosion, this);
-}
-function terminateExplosion(){
-    explosion.alpha = 0; 
-}
+var head1Tween, head2Tween, head3Tween; 
+var tweenTime = 5000; 
+/*function ShowHead1(){
+    head1.alpha = 1; 
+    head1.position.y = 92;
+    head1Tween = game.add.tween(head1).to({ y: 400 }, tweenTime, Phaser.Easing.Quadratic.In, true, 0, 0, false);
+    head1Tween.onComplete.add(head1TweenComplete, this);
+} */   
 
-var dropAnim; 
-var squishAnim;
-var cancelScreenShake = true; 
-function dropAnvil(){
-    isSquishing = true; 
-    anvilObj.alpha = 1; 
-    dropAnim =  game.add.tween(anvilObj).to({ y: 220 }, 200, Phaser.Easing.Quadratic.In, true);
-    squishAnim = game.add.tween(trumpSprite.scale).to({y:0.15}, 100, Phaser.Easing.Quadratic.In, true, 100);
-   // game.add.tween(trumpSprite).to({x:(trumpSprite.x - 10)},100, Phaser.Easing.Quadratic.In, true, 500,2,true);
-    cancelScreenShake = false; 
-    //game.time.events.add(150, shakeScreen, this);
-    game.time.events.add(500, resetAnvilAndExplosion, this);
-}
-
-function anvilDown(){
-    isSquishing = true; 
-    anvilObj.alpha = 1; 
-    anvilObj.position.setTo(330,220);
-    trumpSprite.scale.setTo(1,0.15);
-    game.time.events.add(timeSinceLastClick, resetAnvilAndExplosion, this);
-}    
-function terminateAnvil(){
-   /* dropAnim.stop();
-    squishAnim.stop();
-    anvilObj.position.setTo(330,220);
-    trumpSprite.scale.setTo(1,0.15);*/
-    //cancelScreenShake = true; 
-}    
-    
-function shakeScreen()
-{
-   // if(cancelScreenShake == false){
-        shakeWorld = 10;     
-        game.time.events.add(600, resetAnvilAndExplosion, this);
-  //  }
-}
-    
-function resetAnvilAndExplosion()
-{  
-    if(!isPunching)
-    {
-        $('#phasergame').hide();
-        $('#parentgifDiv').show();
-        tSpeechGif.play();
+function head1TweenComplete(){
+    //console.log("tween completed. now will change heads.asdfasdf ");
+    if(head1.alpha == 1){
+        if(head2Tween != null){
+            head2Tween.stop();
+        }
+        if(head3Tween != null){
+            head3Tween.stop();
+        }
+        // console.log("tween completed. now will change heads. ");
+        
+        headcounter ++; 
+        changeHead(); 
     }
-    isExploding = false; 
-    isSquishing = false; 
-    anvilObj.position.setTo(330, -300);
-    trumpSprite.alpha = 1; 
-    trumpSprite.scale.setTo(1,1);
-    headlessTrump.alpha = 0;     
 }
     
+function head2TweenComplete(){
+    if(head2.alpha == 1){
+        if(head1Tween != null){
+            head1Tween.stop();
+        }
+        if(head3Tween != null){
+            head3Tween.stop();
+        }
+        headcounter ++; 
+        changeHead(); 
+    }
+}
+    
+function head3TweenComplete(){
+    if(head3.alpha == 1){
+        if(head2Tween != null){
+            head2Tween.stop();
+        }
+        if(head1Tween != null){
+            head1Tween.stop();
+        }
+        headcounter ++; 
+        changeHead(); 
+    }
+}    
+    
+var headcounter = 0;     
+function changeHead(){
+    if(counter != headcounter){
+        counter = 0; 
+        headcounter = 0; 
+    }
+   // console.log("headcounter: " + headcounter);
+    if(headcounter >= 3){
+        headcounter = 0;     
+    }
+    
+    if(headcounter == 0){
+        head3.alpha = 0; 
+        head1.alpha = 1;
+        head1.position.y = 92;
+        head1Tween = game.add.tween(head1).to({ y: 400 }, tweenTime, Phaser.Easing.Quadratic.In, true, 0, 0, false);
+        head1Tween.onComplete.add(head1TweenComplete, this);
+    }
+    else if(headcounter == 1){
+        head1.alpha = 0;
+        head2.alpha = 1; 
+        head2.position.x = 485; 
+        head2Tween = game.add.tween(head2).to({ x: 650 }, tweenTime, Phaser.Easing.Quadratic.In,true, 0,0, false);
+        head2Tween.onComplete.add(head2TweenComplete, this);
+    }
+     else if(headcounter == 2){
+        head2.alpha = 0;
+        head3.alpha = 1;
+        head3.position.y = 202; 
+        head3Tween = game.add.tween(head3).to({ y: 379 }, tweenTime, Phaser.Easing.Quadratic.In,true, 0,0, false);
+        head3Tween.onComplete.add(head3TweenComplete, this);
+    }
+    else{
+        head1.alpha = 0;    
+        head2.alpha = 0;
+        head3.alpha = 0; 
+        head4.alpha = 0; 
+    }
+}    
+     
 function resetPunch()
 {   
-     head.position.setTo(464, 104);
-    head.scale.setTo(1.26,1.26);
-    $('#punchgifDiv').hide();  
-    $('#phasergame').hide();
+    
+    $('#punchgifDiv').hide(); 
+    tPunchGif.move_to(2);
+    $('#logocontainer').css({'position': 'absolute'});
     $('#parentgifDiv').show();
-    tSpeechGif.play();
-
+    tweenTime = tweenTime - 1000; 
+    if(tweenTime < 2000){
+        tweenTime = 2000; 
+    }
+    headcounter = 0; 
+    
     isPunching = false;
     doOnce = false; 
+    head1Tween.stop(); 
+    head2Tween.stop();
+    head3Tween.stop();
+    head1.alpha = 0; 
+    head2.alpha = 0;
+    head3.alpha = 0; 
+    head4.alpha = 0;
+    head1.position = head1Pos; 
+    head2.position = head2Pos; 
+    head3.position = head3Pos; 
+    //ShowHead1();
+    //head1.tint =  0xffffff;
+    //head2.tint =  0xffffff;
+    //head3.tint =  0xffffff;
+    
+    changeHead();
 }  
-    
-function pausePunch()
-{   
-    tPunchGif.pause(); 
-}      
-    
 
 
 var shakeWorld = 0;
 function update() {
-    
+    //console.log("tweenTIme: " + tweenTime);
+    game.canvas.focus(); 
     if (shakeWorld > 0) 
     {   
         var rand1 = game.rnd.integerInRange(-20,20);  
@@ -339,9 +421,34 @@ function update() {
             game.world.setBounds(0, 0, game.width,game.height);    
         }
     }
+}
     
+function CheckForOverlap(){
+    //console.log(String(cX) + " : " + String(cY) ); 
+    //var myPoint = new Phaser.Point(cX - .3*window.innerWidth, cY) ;
+    //console.log(head1.getBounds());
+    //if(Phaser.Rectangle.containsPoint(head1.getBounds(), myPoint) && head1.alpha == 1){
+    if(head1.alpha == 1){
 
+            //head1.tint =  Math.random() * 0xCD5C5C;
 
+        //console.log("yes!");
+        return true; 
+    }
+    //else if(Phaser.Rectangle.containsPoint(head2.getBounds(), myPoint) && head2.alpha == 1){
+    if(head2.alpha == 1){
+        //head2.tint = Math.random() * 0xCD5C5C;
+        return true; 
+    }
+    //else if(Phaser.Rectangle.containsPoint(head3.getBounds(), myPoint) && head3.alpha == 1){
+    if(head3.alpha == 1){
+        //head3.tint = Math.random() * 0xCD5C5C;
+        return true; 
+    }
+    else{
+        //console.log("NOPE");
+        return false; 
+    }
 }
 
 </script>
