@@ -44,9 +44,9 @@
     
 <div id="parentcontainer" style="display:block; left: 30%; margin:0 auto; position:relative;">
     <!--<p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>-->
-    <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/Hulk.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
+    <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/HulkPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
     </div>
-    <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunch.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
+    <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunchPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
     </div>
     
     <div id="phasergame" style="position:absolute;top:0px;left:0px;z-index:2;"></div>
@@ -141,6 +141,7 @@ var doOnce = false;
 var counter = 0; 
 var numOfPunches = 0; 
 var isPunching = false; 
+var resetPunchTimeout, counterTimeout; 
  
 $(document).ready(function(){
     
@@ -150,7 +151,7 @@ $(document).ready(function(){
                     //e.stopPropagation(); e.preventDefault();
         var hitGood = CheckForOverlap(); //e.pageX, e.pageY);
             
-        if(doOnce == false && hitGood == true){
+        if((doOnce == false && hitGood == true) || isPunching == true){
             
             if(counter != headcounter){
                 counter = 0; 
@@ -164,31 +165,54 @@ $(document).ready(function(){
             
             
             if(counter == 3 && headcounter == counter){
+
+                isPunching = true; 
                 head3.alpha = 0; 
                 
                 // increment punch count
                 numOfPunches++;
                 $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
+                /*setTimeout((function() {
+                    //hillary.alpha =1; 
+                }), 70);
                 
-
                 setTimeout((function() {
+                    hillary.alpha =0; 
+                }), 950);*/
+                bloodsprite.alpha = 0; 
+                bloodsprite.animations.play('spurtAnimation', 12, false);
+                bloodsprite.animations.currentAnim.onComplete.add(function () {	bloodsprite.alpha = 0;}, this);
+
+         
+                
+                $('#logocontainer').css({'position': 'relative'});
+                $('#parentgifDiv').hide();
+                
+                if(isPunching == true){
+                    tPunchGif.move_to(4);   
+                    counter = 2;
+                    headcounter = 2;
+                    clearTimeout(counterTimeout); 
+                    clearTimeout(resetPunchTimeout);
+                    document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                }
+                else{
+                    tPunchGif.move_to(2);
+                    counter = 0;
+                }
+                
+                counterTimeout = setTimeout((function() {
                     //$("p").animate({fontSize: '-=.2em'}, 250);    
                     //document.getElementById("p1").textContent = "000" + String(numOfPunches);
                     document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
                      
                 }), 725);
                 
-                $('#logocontainer').css({'position': 'relative'});
-                $('#parentgifDiv').hide();
-                isPunching = true; 
-                tPunchGif.move_to(2);
+                resetPunchTimeout = setTimeout(resetPunch, 1100);
+                
                 tPunchGif.play();
                 $('#punchgifDiv').show();  
                 
-                var myVar = setTimeout(resetPunch, 1100);
-                //counter = 2;
-                //headcounter = 2; 
-                counter = 0; 
                 doOnce = true; 
             }
             else if(isPunching == false && counter < 3){
@@ -230,22 +254,24 @@ var game = new Phaser.Game(600, 338, Phaser.CANVAS, 'phasergame', { preload: pre
 
 function preload() {
     //game.load.atlas('speech', 'assets/mouth.png', 'assets/mouth.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.atlas('blood', 'assets/blood.png', 'assets/blood.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
     game.load.image('head1', 'assets/head1.png');
     game.load.image('head2', 'assets/head2.png');
     game.load.image('head3', 'assets/head3.png');
    // game.load.image('head4', 'assets/TrumpSprite.png');
     game.load.image('podium', 'assets/podium.jpg');
-    //game.load.image('hillary', 'assets/Hillary.png');
+    game.load.image('hillary', 'assets/pussy4.png');
 }
 
 var head1, head2, head3, head4, podium, hillary;
 var head1Pos, head2Pos, head3Pos; 
+var spurtAnimation, bloodsprite; 
 function create() {
     
-   /* hillary = game.add.sprite(0, 0, 'hillary');
-    hillary.position.setTo(125, -20);
-    hillary.scale.setTo(.3,.3);
-    hillary.alpha = 0; */
+    hillary = game.add.sprite(0, 0, 'hillary');
+    hillary.position.setTo(65, -65);
+    hillary.scale.setTo(.4,.4);
+    hillary.alpha = 0; 
     
     head3 = game.add.sprite(0, 0, 'head3');
     head3.position.setTo(375, 202);
@@ -272,6 +298,12 @@ function create() {
     head3.inputEnabled = true; 
     head4.inputEnabled = true; 
     head1.input.useHandCursor = true;
+    
+    bloodsprite = game.add.sprite(315, -60, 'blood');
+    bloodsprite.scale.setTo(3.2,3.2);
+    spurtAnimation = bloodsprite.animations.add('spurtAnimation');
+    bloodsprite.alpha = 0; 
+    
 
     StartGame(); 
 }  
@@ -282,7 +314,7 @@ function StartGame(){
 }   
     
 var head1Tween, head2Tween, head3Tween; 
-var tweenTime = 5000; 
+var tweenTime = 7000; 
 /*function ShowHead1(){
     head1.alpha = 1; 
     head1.position.y = 92;
