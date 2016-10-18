@@ -5,26 +5,8 @@
     <title>Punch Trump</title>
     <meta name="viewport" content="width=device-width;">
     
-    <meta property="og:site_name"   content="Bricked Loops">
-<meta property="og:url"         content="http://kedareddy.com/GIFExperiments/TrumpGame/game.html">
-<meta property="og:title"       content="Punch Trump">
-<meta property="og:description" content="Hulk Punch Trump! How many times can we Hulk punch Trump before Nov 8th?">
-<meta property="og:type"        content="video.other">
-<meta property="og:image"       content="http://kedareddy.com/GIFExperiments/TrumpGame/assets/BkgWithoutTrump.jpg">
-<meta property="fb:app_id"			content="930904337042753">
-    
-    <meta name="twitter:card" content="photo">
-<meta name="twitter:site" content="Bricked Loops">
-<meta name="twitter:title" content="Punch Trump">
-<meta name="twitter:image" content="http://kedareddy.com/GIFExperiments/TrumpGame/assets/BkgWithoutTrump.jpg">
-<meta name="twitter:url" content="http://kedareddy.com/GIFExperiments/TrumpGame/game.html" />
-<meta name="twitter:description" content="Hulk Punch Trump! How many times can we Hulk punch Trump before Nov 8th?">
-
-    
-    
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="./js/libgif.js"></script>
-    <script type="text/javascript" src="./js/rubbable.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
@@ -35,11 +17,11 @@
         }
     </style>
 </head>    
-<body style="background-color:black; position: relative;">
+<body style=" position: relative;">
   
-<div style="display:block; position:relative; left:30%; margin:0 auto;padding: 0px;">
+<!--<div style="display:block; position:relative; left:30%; margin:0 auto;padding: 0px;">
     <h1 id="bigcounter" style="color:white; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;">00,000,000,981</h1>
-</div>
+</div>-->
        
     
 <div id="parentcontainer" style="display:block; left: 30%; margin:0 auto; position:relative;">
@@ -52,29 +34,7 @@
     <div id="phasergame" style="position:absolute;top:0px;left:0px;z-index:2;"></div>
 </div>
     
-<div id="logocontainer" style=" position:absolute; left:30%; top: 429.5%; width: 600px;">
-    
-    <h1 class = "uielement" style=" vertical-align: middle;display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 17px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">BRICKED LOOPS</h1>
-
-    <a class = "uielement facebook customer share" style= "vertical-align: middle; display:inline-block;margin-left:90px;" href="http://www.facebook.com/sharer/sharer.php?u=http://kedareddy.com/GIFExperiments/TrumpGame/game.html&title=PunchTrump"><img src="assets/facebook-icon.svg" width="50"></a>
-    
-    <a 
-       class = "uielement twitter customer share"
-       style="vertical-align: middle;display:inline-block;margin-left:90px;" 
-       href="http://twitter.com/intent/tweet?status=Hulk Punch Trump!+http://kedareddy.com/GIFExperiments/TrumpGame/game.html">
-       <img src="assets/twitter-icon.svg" width="50">
-    </a>
-</div>
-    
-    
-<style>
-.uielement{
-    opacity: 0.5; 
-}
-.uielement:hover, .uielement:active {
-    opacity: 1;
-}
-</style>    
+  
         
 
 
@@ -83,43 +43,6 @@
     
     
 <script type="text/javascript">
-    
-;(function($){
-  
-  /**
-   * jQuery function to prevent default anchor event and take the href * and the title to make a share pupup
-   *
-   * @param  {[object]} e           [Mouse event]
-   * @param  {[integer]} intWidth   [Popup width defalut 500]
-   * @param  {[integer]} intHeight  [Popup height defalut 400]
-   * @param  {[boolean]} blnResize  [Is popup resizeabel default true]
-   */
-  $.fn.customerPopup = function (e, intWidth, intHeight, blnResize) {
-    
-    // Prevent default anchor event
-    e.preventDefault();
-    
-    // Set values for window
-    intWidth = intWidth || '500';
-    intHeight = intHeight || '400';
-    strResize = (blnResize ? 'yes' : 'no');
-
-    // Set title and open popup with focus on it
-    var strTitle = ((typeof this.attr('title') !== 'undefined') ? this.attr('title') : 'Social Share'),
-        strParam = 'width=' + intWidth + ',height=' + intHeight + ',resizable=' + strResize,            
-        objWindow = window.open(this.attr('href'), strTitle, strParam).focus();
-  }
-  
-  /* ================================================== */
-  
-  $(document).ready(function ($) {
-    $('.customer.share').on("click", function(e) {
-      $(this).customerPopup(e);
-    });
-  });
-    
-}(jQuery));    
-    
     
     
 // get punch count so far (do once at beginning of js)    
@@ -151,7 +74,7 @@ $(document).ready(function(){
                     //e.stopPropagation(); e.preventDefault();
         var hitGood = CheckForOverlap(); //e.pageX, e.pageY);
             
-        if((doOnce == false && hitGood == true) || isPunching == true){
+        if(doOnce == false ){
             
             if(counter != headcounter){
                 counter = 0; 
@@ -164,7 +87,7 @@ $(document).ready(function(){
             
             
             
-            if(counter == 3 && headcounter == counter){
+            if(counter == 1 && headcounter == counter){
 
                 isPunching = true; 
                 head3.alpha = 0; 
@@ -172,34 +95,14 @@ $(document).ready(function(){
                 // increment punch count
                 numOfPunches++;
                 $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
-                /*setTimeout((function() {
-                    //hillary.alpha =1; 
-                }), 70);
-                
-                setTimeout((function() {
-                    hillary.alpha =0; 
-                }), 950);*/
-                bloodsprite.alpha = 0; 
-                bloodsprite.animations.play('spurtAnimation', 12, false);
-                bloodsprite.animations.currentAnim.onComplete.add(function () {	bloodsprite.alpha = 0;}, this);
-
-         
                 
                 $('#logocontainer').css({'position': 'relative'});
                 $('#parentgifDiv').hide();
                 
-                if(isPunching == true){
-                    tPunchGif.move_to(4);   
-                    counter = 2;
-                    headcounter = 2;
-                    clearTimeout(counterTimeout); 
-                    clearTimeout(resetPunchTimeout);
-                    document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
-                }
-                else{
+ 
                     tPunchGif.move_to(2);
                     counter = 0;
-                }
+
                 
                 counterTimeout = setTimeout((function() {
                     //$("p").animate({fontSize: '-=.2em'}, 250);    
@@ -305,7 +208,7 @@ function create() {
     bloodsprite.alpha = 0; 
     
 
-    StartGame(); 
+    //StartGame(); 
 }  
   
 var timer;     
