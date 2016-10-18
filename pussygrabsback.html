@@ -4,12 +4,12 @@
 <meta charset="UTF-8" />
 <title>Pussy Grabs Back!</title>
 <meta name="viewport" content="width=device-width">
-<meta name="keywords" content="Pussygrabsback,dumptrump,southasiansdumptrump,nomoretrumpmodirapeculture, notorapeculture">
+<meta name="keywords" content="Pussygrabsback,dumptrump,southasiansdumptrump,nomoretrumpmodirapeculture, notorapeculture, notoislamophobia">
     
 <meta property="og:site_name"   content="PlayLoops">
 <meta property="og:url"         content="http://www.playloops.io/pussygrabsback.html">
 <meta property="og:title"       content="Pussy Grabs Back!">
-<meta property="og:description" content="How many times can we say NO to Trump and his Rape Culture before Nov 8th? #DumpTrump #SouthAsiansDumpTrump #LoveTrumpsHate">
+<meta property="og:description" content="How many times can we say NO to Trump, his Rape Culture, Islamophobia, White Supremacy before Nov 8th? #DumpTrump #SouthAsiansDumpTrump #LoveTrumpsHate">
 <meta property="og:type"        content="video.other">
 <meta property="og:image"       content="http://www.playloops.io/assets/BkgWithoutTrump.jpg">
 <meta property="fb:app_id"			content="930904337042753">
@@ -19,7 +19,7 @@
 <meta name="twitter:title" content="Pussy Grabs Back!">
 <meta name="twitter:image" content="http://www.playloops.io/assets/BkgWithoutTrump.jpg">
 <meta name="twitter:url" content="http://www.playloops.io/pussygrabsback.html" />
-<meta name="twitter:description" content="How many times can we say NO to Trump and his Rape Culture before Nov 8th? #DumpTrump #SouthAsiansDumpTrump #LoveTrumpsHate">
+<meta name="twitter:description" content="How many times can we say NO to Trump, his Rape Culture, Islamophobia, White Supremacy before Nov 8th? #DumpTrump #SouthAsiansDumpTrump #LoveTrumpsHate">
 
     
     
@@ -67,7 +67,7 @@
     
 <div id="logocontainer">
     
-    <h1 class = "uielement" style=" vertical-align: middle;display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
+    <h1 class = "uielement" style="vertical-align: middle; display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
     <!--<span class="tooltiptext">Coming Soon</span>-->
 
     <a class = "uielement facebook customer share" style= "vertical-align: middle; display:inline-block;margin-left:90px;" href="http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/pussygrabsback.html&title=Pussy Grabs Back!"><img src="assets/facebook-icon.svg" width="50"></a>
@@ -118,44 +118,29 @@
     #countercontainer{
         display:block; 
         position:relative; 
-        left:30%; 
+        
+        width: 600px; 
         margin:0 auto;
         padding: 0px;
     }
     #parentcontainer{
         display:block; 
-        left: 30%; 
+        width: 600px; 
+        height: 338px; 
         margin:0 auto; 
         position:relative;
+        
     }
 #logocontainer{
-    position:absolute; 
-    left:30%; 
-    top: 429.5%; 
+    display: block; 
+    position:relative; 
+    margin:0 auto;
+    //top: 429.5%;
+    //left: 28.3%;
     width: 600px;
-    }
     
-    @media screen and (max-device-width: 480px){
-     #countercontainer{
-        display:block; 
-        position:relative; 
-        
-        margin:0 auto;
-        padding: 0px;
-    }
-    #parentcontainer{
-        display:block; 
-        
-        margin:0 auto; 
-        position:relative;
-    }
-#logocontainer{
-    position:absolute; 
     
-    top: 429.5%; 
-    width: 600px;
-    }
-} 
+    } 
     
 
    
@@ -267,8 +252,8 @@ $(document).ready(function(){
                 
          
                 
-                $('#logocontainer').css({'position': 'relative'});
-                $('#parentgifDiv').hide();
+                //$('#logocontainer').css({'position': 'relative'});
+                
                 
                 if(isPunching == true){
                     tPunchGif.move_to(4);   
@@ -300,6 +285,7 @@ $(document).ready(function(){
                 
                 tPunchGif.play();
                 $('#punchgifDiv').show();  
+                $('#parentgifDiv').hide();
                 
                 doOnce = true; 
             }
@@ -496,11 +482,11 @@ function changeHead(){
      
 function resetPunch()
 {   
-    
+    $('#parentgifDiv').show();
     $('#punchgifDiv').hide(); 
     tPunchGif.move_to(2);
-    $('#logocontainer').css({'position': 'absolute'});
-    $('#parentgifDiv').show();
+   // $('#logocontainer').css({'position': 'absolute'});
+    
     tweenTime = tweenTime - 1000; 
     if(tweenTime < 2000){
         tweenTime = 2000; 
