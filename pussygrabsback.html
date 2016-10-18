@@ -50,12 +50,12 @@
     
 <body style="background-color:black; position: relative;">
   
-<div style="display:block; position:relative; left:30%; margin:0 auto;padding: 0px;">
+<div id="countercontainer">
     <h1 id="bigcounter" style="color:white; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;">00,000,000,981</h1>
 </div>
        
     
-<div id="parentcontainer" style="display:block; left: 30%; margin:0 auto; position:relative;">
+<div id="parentcontainer">
     <!--<p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>-->
     <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/HulkPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
     </div>
@@ -65,7 +65,7 @@
     <div id="phasergame" style="position:absolute;top:0px;left:0px;z-index:2;"></div>
 </div>
     
-<div id="logocontainer" style=" position:absolute; left:30%; top: 429.5%; width: 600px;">
+<div id="logocontainer">
     
     <h1 class = "uielement" style=" vertical-align: middle;display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
     <!--<span class="tooltiptext">Coming Soon</span>-->
@@ -79,6 +79,7 @@
        <img src="assets/twitter-icon.svg" width="50">
     </a>
 </div>
+    
     
     
 <style>
@@ -113,6 +114,51 @@
     visibility: visible;
     opacity: 0.5;
 }
+    
+    #countercontainer{
+        display:block; 
+        position:relative; 
+        left:30%; 
+        margin:0 auto;
+        padding: 0px;
+    }
+    #parentcontainer{
+        display:block; 
+        left: 30%; 
+        margin:0 auto; 
+        position:relative;
+    }
+#logocontainer{
+    position:absolute; 
+    left:30%; 
+    top: 429.5%; 
+    width: 600px;
+    }
+    
+    @media screen and (max-device-width: 480px){
+     #countercontainer{
+        display:block; 
+        position:relative; 
+        
+        margin:0 auto;
+        padding: 0px;
+    }
+    #parentcontainer{
+        display:block; 
+        
+        margin:0 auto; 
+        position:relative;
+    }
+#logocontainer{
+    position:absolute; 
+    
+    top: 429.5%; 
+    width: 600px;
+    }
+} 
+    
+
+   
 </style>    
         
 
