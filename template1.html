@@ -61,7 +61,7 @@ $(document).ready(function(){
         console.log('stored: ', playLoopData);
 
         jsonData = JSON.parse(playLoopData);
-        console.log('stored: ', jasonData);
+        console.log('stored: ', jsonData);
         $('#parentgif').attr("src", jsonData['scenes'][0]['url']);
         $('#punchgif').attr("src", jsonData['scenes'][1]['url']);
     }

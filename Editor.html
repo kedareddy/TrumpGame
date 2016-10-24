@@ -19,8 +19,10 @@
 </head>
     
 <body style=" position: relative;">
-<div style="display:block; width:50em; margin: 0 auto; position:relative; border-style: solid;border-width: 10px; border-color: gray">
-<div class = "topdiv" style="text-align: right;display:block; width:100%; margin: 0 auto; position:relative; background-color: rgba(0,0,0,0.75);;">
+    
+<div style="position: relative; width: 100%; height: 150%;">
+<div style="display:block; width:50em; margin: 0 auto; position:relative; border-style: solid;border-width: 10px; border-color: gray;background-color: white;">
+<div class = "topdiv" style="text-align: right;display:block; width:100%; margin: 0 auto; position:relative; background-color: rgba(0,0,0,0.75); padding: 3px 3px 3px 0px; margin-right: 3px; ">
     <button class="button" style="text-align: right; ">PUBLISH</button>    
 </div> 
     
@@ -33,9 +35,9 @@
         <h1 id="text" style="color:white; text-align: left;font-family: 'Exo', sans-serif;font-size: 200%; padding-left: 5px;margin:0 auto;">DON'T YOU DARE.</h1>
     </div>    
     <div class="parent container" id="parentcontainer">
-        <div id = 'parentgifDiv' style="width: 498px;"> <img id = 'parentgif' src="assets/giphy.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto;position:absolute;top:0px;left:0px;z-index:-3;">
+        <div id = 'parentgifDiv' style="width: 498px;"> <img id = 'parentgif' src="assets/giphy.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto;position:absolute;top:0px;left:0px;z-index:0;">
         </div>
-        <div id = 'punchgifDiv' style="width: 498px;" > <img id='punchgif' src="assets/raw.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto; position:absolute;top:0px;left:0px;z-index:-2;">
+        <div id = 'punchgifDiv' style="width: 498px;" > <img id='punchgif' src="assets/raw.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto; position:absolute;top:0px;left:0px;z-index:0;">
         </div>
     </div>    
 </div>    
@@ -66,15 +68,14 @@
       <textarea readonly style="width: 75%; padding-left:3px;">
           http://www.playloops.io/template1.html
       </textarea>
-      
-      
     </div>
     <div class="modal-footer">
       <h3></h3>
     </div>
   </div>
-
 </div>        
+    
+</div>
     
 </div>
     
@@ -84,6 +85,8 @@
     
     
 <style>
+    html { background-color: black; }
+   /* body { background-color: white; }*/
     .container{
         display:block; 
         width: 498px;  
