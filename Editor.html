@@ -240,7 +240,7 @@ $(document).ready(function(){
     
     $( ".button" ).on('touchend click', function(){
         $("#myModal").show(); 
-        
+        console.log("the URL: " + $('#parentgif').attr("src"));
         var myObj = {};
         myObj["scenes"][0]["url"] = $('#parentgif').attr("src");
         myObj["scenes"][0]["width"] = $('#parentgif').width();

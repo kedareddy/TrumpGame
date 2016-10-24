@@ -24,9 +24,9 @@
     <h1 id="text" style="color:white; text-align: left;font-family: 'Exo', sans-serif;font-size: 200%; padding-left: 5px;margin:0 auto;">DON'T YOU DARE.</h1>
 </div>    
 <div class="parent container" id="parentcontainer">
-    <div id ='parentgifDiv'> <img id = 'parentgif' src="assets/giphy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;z-index:-3;">
+    <div id ='parentgifDiv'> <img id = 'parentgif' src="assets/HulkPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;z-index:-3;">
     </div>
-    <div id ='punchgifDiv'> <img id='punchgif' src="assets/raw.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;z-index:-2;">
+    <div id ='punchgifDiv'> <img id='punchgif' src="assets/TrumpPunchPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;z-index:-2;">
     </div>
 </div>
     
@@ -62,6 +62,7 @@ $(document).ready(function(){
 
         jsonData = JSON.parse(playLoopData);
         console.log('stored: ', jsonData);
+        console.log('templateURL: ', jsonData['scenes'][0]['url']);
         $('#parentgif').attr("src", jsonData['scenes'][0]['url']);
         $('#punchgif').attr("src", jsonData['scenes'][1]['url']);
     }
