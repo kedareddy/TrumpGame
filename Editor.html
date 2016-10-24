@@ -241,7 +241,41 @@ $(document).ready(function(){
     $( ".button" ).on('touchend click', function(){
         $("#myModal").show(); 
         console.log("the URL: " + $('#parentgif').attr("src"));
+        
         var myObj = {};
+        var scenes = [];
+        
+        myObj.scenes = scenes;
+
+
+        var url1 = $('#parentgif').attr("src");
+        var width1 = $('#parentgif').width();
+        var height1 = $('#parentgif').height();
+        var text1 = "DON'T YOU DARE";
+        var scene1 = {
+            "url": url1,
+            "width": width1,
+            "height": height1,
+            "text": text1
+        };
+        
+        var url2 = $('#punchgif').attr("src");
+        var width2 = $('#punchgif').width();
+        var height2 = $('#punchgif').height();
+        var text2 = " ";
+        var scene2 = {
+            "url": url2,
+            "width": width2,
+            "height": height2,
+            "text": text2
+        };
+
+        myObj.scenes.push(scene1);
+        myObj.scenes.push(scene2);
+        console.log("myOBJ: " + JSON.stringify(myObj));
+        
+        
+        /*var myObj = {};
         myObj["scenes"][0]["url"] = $('#parentgif').attr("src");
         myObj["scenes"][0]["width"] = $('#parentgif').width();
         myObj["scenes"][0]["height"] = $('#parentgif').height();
@@ -252,7 +286,7 @@ $(document).ready(function(){
         myObj["scenes"][1]["height"] = $('#punchgif').height();
         myObj["scenes"][1]["text"] = " ";
         
-        /*var JSONObject = {
+        var JSONObject = {
               "scenes": [ 
                     {
                         url: "assets/giphy.gif",
