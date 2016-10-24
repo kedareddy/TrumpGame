@@ -22,8 +22,13 @@
     
 <div style="position: relative; width: 100%; height: 150%;">
 <div style="display:block; width:50em; margin: 0 auto; position:relative; border-style: solid;border-width: 10px; border-color: gray;background-color: white;">
-<div class = "topdiv" style="text-align: right;display:block; width:100%; margin: 0 auto; position:relative; background-color: rgba(0,0,0,0.75); padding: 3px 3px 3px 0px; margin-right: 3px; ">
-    <button class="button" style="text-align: right; ">PUBLISH</button>    
+<div class = "topdiv" style="display:flex; width:100%; margin: 0 auto; position:relative; background-color: rgba(0,0,0,0.75);">
+    <div style="text-align: left; width: 100%; height: 100%;">
+    <h1 class = "uielement" style=" display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 5px; margin-left: 8px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
+    </div>
+    <div style="text-align: right; padding: 5px; width: 100%; height: 100%;">
+    <button class="button" style=" ">PUBLISH</button>   
+    </div>
 </div> 
     
 <div id='scenetextdiv' style="text-align: center;display:block; width:130px; margin: 0 auto; position:relative;">
@@ -264,6 +269,7 @@ $(document).ready(function(){
               ]
         };*/
         var dataToStore = JSON.stringify(myObj);
+        localStorage.removeItem('playloopData');
         localStorage.setItem('playloopData', dataToStore);
         
     });
