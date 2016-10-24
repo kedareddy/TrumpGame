@@ -57,9 +57,16 @@ var index = 0;
 var textInterval; 
 $(document).ready(function(){
     var playLoopData = localStorage.getItem('playloopData');
-    console.log('stored: ', playLoopData);
-    
-    
+    if(playLoopData != null){
+        console.log('stored: ', playLoopData);
+
+        jsonData = JSON.parse(playLoopData);
+        console.log('stored: ', jasonData);
+        $('#parentgif').attr("src", jsonData['scenes'][0]['url']);
+        $('#punchgif').attr("src", jsonData['scenes'][1]['url']);
+    }
+        
+        
     $('#punchgifDiv').hide();
     animatetext();
     $("#text").empty();

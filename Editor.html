@@ -232,8 +232,19 @@ $(document).ready(function(){
     
     $( ".button" ).on('touchend click', function(){
         $("#myModal").show(); 
-        //$('#parentgif').width()
-        var JSONObject = {
+        
+        var myObj = {};
+        myObj["scenes"][0]["url"] = $('#parentgif').attr("src");
+        myObj["scenes"][0]["width"] = $('#parentgif').width();
+        myObj["scenes"][0]["height"] = $('#parentgif').height();
+        myObj["scenes"][0]["text"] = "DON'T YOU DARE";
+        
+        myObj["scenes"][1]["url"] = $('#punchgif').attr("src");
+        myObj["scenes"][1]["width"] = $('#punchgif').width();
+        myObj["scenes"][1]["height"] = $('#punchgif').height();
+        myObj["scenes"][1]["text"] = " ";
+        
+        /*var JSONObject = {
               "scenes": [ 
                     {
                         url: "assets/giphy.gif",
@@ -248,8 +259,8 @@ $(document).ready(function(){
                         text:"DON'T YOU DARE"
                     }
               ]
-        };
-        var dataToStore = JSON.stringify(JSONObject);
+        };*/
+        var dataToStore = JSON.stringify(myObj);
         localStorage.setItem('playloopData', dataToStore);
         
     });
