@@ -1,0 +1,346 @@
+<!doctype html> 
+<html lang="en"> 
+
+<head> 
+	<meta charset="UTF-8" />
+    <title>Punch Trump</title>
+    <meta name="viewport" content="width=device-width">
+    
+    <script type="text/javascript" src="./js/libgif.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Exo:800|Lato:700" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+    
+<body style=" position: relative;">
+<div style="display:block; width:50em; margin: 0 auto; position:relative; border-style: solid;border-width: 10px; border-color: gray">
+<div class = "topdiv" style="text-align: right;display:block; width:100%; margin: 0 auto; position:relative; background-color: rgba(0,0,0,0.75);;">
+    <button class="button" style="text-align: right; ">PUBLISH</button>    
+</div> 
+    
+<div id='scenetextdiv' style="text-align: center;display:block; width:130px; margin: 0 auto; position:relative;">
+<h1 id="scenetext" style="position: relative; color:gray; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;margin:0 auto; margin-bottom: 50px;margin-top: 5px; width: 130px; ">SCENE 1</h1>    
+</div>
+    
+<div class = "gamediv"style=" position: relative; height: 400px; " >
+    <div class="text container" style="height: 50px;">
+        <h1 id="text" style="color:white; text-align: left;font-family: 'Exo', sans-serif;font-size: 200%; padding-left: 5px;margin:0 auto;">DON'T YOU DARE.</h1>
+    </div>    
+    <div class="parent container" id="parentcontainer">
+        <div id = 'parentgifDiv' style="width: 498px;"> <img id = 'parentgif' src="assets/giphy.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto;position:absolute;top:0px;left:0px;z-index:-3;">
+        </div>
+        <div id = 'punchgifDiv' style="width: 498px;" > <img id='punchgif' src="assets/raw.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto; position:absolute;top:0px;left:0px;z-index:-2;">
+        </div>
+    </div>    
+</div>    
+    
+<div id="myForm">
+<form>
+  <input id="searchbox" type="text" name="search" placeholder="Search..">
+</form>    
+</div>
+    
+<div class = "giphydiv" id = "giphydiv" style="text-align: center; display:inline-block; margin: 0 auto; position:relative; background-color:gray;display: flex; overflow: auto;" >
+</div>     
+
+<!-- The Modal Window-->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">×</span>
+      <h2>Your Play Loop!</h2>
+    </div>
+    <div class="modal-body">
+      <p>Loop Link</p>
+      <a href="http://playloops.io/" target="_blank">
+        <img id = 'newtab' src="assets/newtabicon.svg" alt="HTML5 Icon" style="opacity: 0.75; width:7%; height: auto; ">
+      </a>
+      <textarea readonly style="width: 75%; padding-left:3px;">
+          www.playloops.io
+      </textarea>
+      
+      
+    </div>
+    <div class="modal-footer">
+      <h3></h3>
+    </div>
+  </div>
+
+</div>        
+    
+</div>
+    
+    
+
+    
+    
+    
+<style>
+    .container{
+        display:block; 
+        width: 498px;  
+        margin:0 auto; 
+        position:relative;
+        background-color:black;
+    }
+    span {
+        color: red;
+    }
+    .button {
+        background-color: gray;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    
+    input[type=text] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+       
+        font-size: 16px;
+        background-color: white;
+        background-image: url('assets/searchicon.png');
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+    }
+    
+        /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 50%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+
+    /* Add Animation */
+    @-webkit-keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+    }
+
+    @keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+    }
+
+    /* The Close Button */
+    .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: rgba(0,0,0,0.75);
+        color: white;
+    }
+
+    .modal-body {padding: 2px 16px;}
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: rgba(0,0,0,0.75);
+        color: white;
+    }
+
+</style>       
+    
+<script type="text/javascript">
+        
+//SuperGif library enables us to move back and forth between frames in the gif. It also adds delay to the load time //upfront, which is a bit problematic. 
+//var tPunchGif = new SuperGif({ gif: document.getElementById('punchgif'), loop_mode: false} );
+//tPunchGif.load();
+    //var sentence =  document.getElementById("text").textContent;
+var words = $("#text").text().split(" ");
+
+var doOnce = false; 
+//var words = []; 
+var index = 0; 
+var textInterval; 
+var stateIsSceneOne = true; 
+var searchData; 
+$(document).ready(function(){
+    
+    
+    changescene(); 
+    $( "#scenetextdiv" ).on('touchend click', function(){
+        changescene(); 
+    });
+  
+    var xhr = $.get("http://api.giphy.com/v1/gifs/search?q=tantrum&api_key=dc6zaTOxFJmzC&limit=5");
+    xhr.done(function(data) { 
+        displayresults(data);
+    }); 
+    
+    $('#myForm').on('submit', function(e){
+        e.preventDefault();
+        var val = $('#searchbox').val();
+        var hr = $.get("http://api.giphy.com/v1/gifs/search?q="+val+"&api_key=dc6zaTOxFJmzC&limit=5");
+        hr.done(function(data) { 
+            displayresults(data);
+        }); 
+    });
+    
+    $( ".button" ).on('touchend click', function(){
+        $("#myModal").show(); 
+        //$('#parentgif').width()
+        var JSONObject = {
+              "scenes": [ 
+                    {
+                        url: "assets/giphy.gif",
+                        width: 489,
+                        height:100,
+                        text:"DON'T YOU DARE"
+                    },
+                    {
+                        url: "assets/giphy.gif",
+                        width: 489,
+                        height:100,
+                        text:"DON'T YOU DARE"
+                    }
+              ]
+        };
+        var dataToStore = JSON.stringify(JSONObject);
+        localStorage.setItem('playloopData', dataToStore);
+        
+    });
+    
+    $( ".close" ).on('touchend click', function(){
+        $("#myModal").hide();
+    });
+    
+    /*$( ".newtab" ).on('touchend click', function(){
+        
+    });*/
+    
+});  
+    
+function displayresults(data){
+        searchData = data; 
+        console.log("success got data", data); 
+        $('#giphydiv').empty();    
+    
+        for (i = 0; i < 5; i++) { 
+            var divname = "image " + String(i);
+            var imagename = "img" + String(i);
+            var wImg = searchData['data'][i]['images']['downsized']['width']; 
+            var hImg = searchData['data'][i]['images']['downsized']['height'];
+            var aspect = wImg/hImg; 
+            console.log("aspect: " + aspect);
+            
+            $('#giphydiv').append('<div style="flex:'+aspect+';" class='+divname+ ' id=' +divname+'>'+'<img style="width:100%; height: auto;" class='+imagename+' id='+imagename+' src='+searchData['data'][i]['images']['downsized']['url'] + ' >' + '</div>');
+            
+            /*if(i == 0 ){
+                $('#giphydiv').append('<div style="float: left; width: 63.89%;" class='+divname+ ' id=' +divname+'>'+'<img style="width:100%; height: auto;" class='+imagename+' id='+imagename+' src='+searchData['data'][i]['images']['downsized']['url'] + ' >' + '</div>');
+            }
+            else{
+                $('#giphydiv').append('<div style="float: left; width: 36.11%;" class='+divname+ ' id=' +divname+'>'+'<img style="width:100%; height: auto;" class='+imagename+' id='+imagename+' src='+searchData['data'][i]['images']['downsized']['url'] + ' >' + '</div>');
+            }*/
+        }
+}    
+    
+    
+$(document).on('touchend click', function(){    
+    console.log("bla: " + String(event.target.id).substring(0,2));
+    if(String(event.target.id).substring(0,3) == "img"){
+        console.log("bla: " + event.target.id);
+        var $target = event.target;
+        
+        if(stateIsSceneOne){
+            $('#parentgif').attr("src",$target.src); 
+        }
+        else{
+            $('#punchgif').attr("src",$target.src); 
+        }
+       
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    if (String(event.target.id) == "myModal") {
+       $("#myModal").hide();
+    }
+});    
+    
+function loadImage(path, width, height, target) {
+    $('<img src="'+ path +'">').load(function() {
+        console.log("should show iandf");
+        $(this).appendTo(target);
+      //$(this).width(width).height(height).appendTo(target);
+    });
+}    
+    
+function changescene(){
+    if(stateIsSceneOne){
+        stateIsSceneOne = false; 
+    }
+    else{
+        stateIsSceneOne = true; 
+    }
+    if(stateIsSceneOne){
+        $('#punchgifDiv').hide();
+        $('#parentgifDiv').show();
+        $("#text").show();
+        $("#scenetext").text("SCENE 2");
+    }
+    else{
+        $('#punchgifDiv').show();
+        $('#parentgifDiv').hide();
+        $("#text").hide();
+        $("#scenetext").text("SCENE 1");
+    }
+}    
+    
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html> 
+<html lang="en"> 
+
+<head> 
+	<meta charset="UTF-8" />
+    <title>Punch Trump</title>
+    <meta name="viewport" content="width=device-width;">
+    
+    <script type="text/javascript" src="./js/libgif.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Exo:800|Lato:700" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+    
+<body style=" position: relative;">
+     
+<div class="text container" style="height: 50px;">
+    <h1 id="text" style="color:white; text-align: left;font-family: 'Exo', sans-serif;font-size: 200%; padding-left: 5px;margin:0 auto;">DON'T YOU DARE.</h1>
+</div>    
+<div class="parent container" id="parentcontainer">
+    <div id ='parentgifDiv'> <img id = 'parentgif' src="assets/giphy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;z-index:-3;">
+    </div>
+    <div id ='punchgifDiv'> <img id='punchgif' src="assets/raw.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;z-index:-2;">
+    </div>
+</div>
+    
+<style>
+    .container{
+        display:block; 
+        width: 498px;  
+        margin:0 auto; 
+        position:relative;
+        background-color:black;
+    }
+    span {
+        color: red;
+    }
+</style>       
+    
+<script type="text/javascript">
+        
+//SuperGif library enables us to move back and forth between frames in the gif. It also adds delay to the load time //upfront, which is a bit problematic. 
+//var tPunchGif = new SuperGif({ gif: document.getElementById('punchgif'), loop_mode: false} );
+//tPunchGif.load();
+    //var sentence =  document.getElementById("text").textContent;
+var words = $("#text").text().split(" ");
+
+var doOnce = false; 
+//var words = []; 
+var index = 0; 
+var textInterval; 
+$(document).ready(function(){
+    var playLoopData = localStorage.getItem('playLoopData');
+    console.log('stored: ', playLoopData);
+    
+    
+    $('#punchgifDiv').hide();
+    animatetext();
+    $("#text").empty();
+    $("#text").append($("<span>").text(words[index] + " "));
+    index++;
+    
+    $( "#parentcontainer" ).on('touchend click', function(){
+        if(doOnce == false){
+            doOnce = true; 
+            $('#punchgifDiv').show();
+            var psrc = $('#punchgif').attr('src');
+            psrc = psrc.replace(/\?.*$/,"")+"?x="+Math.random();
+            $('#punchgif').attr('src',psrc);
+            
+            $("#text").hide();
+            clearInterval(textInterval);
+            $('#parentgifDiv').hide();
+            setTimeout((function() {
+                $('#punchgifDiv').hide();
+                
+                
+
+                looptext(); 
+                textInterval = setInterval(looptext, 2500);
+                
+                $("#text").show();
+                var imgsrc = $('#parentgif').attr('src');
+                imgsrc = imgsrc.replace(/\?.*$/,"")+"?x="+Math.random();
+                $('#parentgif').attr('src',imgsrc);
+                
+                $('#parentgifDiv').show();
+                doOnce = false; 
+            }), 1700);
+        }
+    });
+    
+    
+    textInterval = setInterval(looptext, 2500);
+  
+
+}); 
+    
+function looptext(){
+    index = 0; 
+    clearInterval(intervalID);
+    $("#text").empty();
+    $("#text").append($("<span>").text(words[index] + " "));
+    index++;
+    animatetext();
+}
+    
+var intervalID; 
+function animatetext(){
+    intervalID = setInterval(function(){
+        if(index < words.length){
+            $("#text").append($("<span>").text(words[index] + " "));
+            index++;
+        }
+        else{
+            clearInterval(intervalID);
+        }
+    }, 2500/words.length);
+}    
+
+</script>
+
+</body>
+</html>
