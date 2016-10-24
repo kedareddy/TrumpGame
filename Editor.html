@@ -270,6 +270,7 @@ $(document).ready(function(){
         };*/
         var dataToStore = JSON.stringify(myObj);
         localStorage.removeItem('playloopData');
+        localStorage.clear(); 
         localStorage.setItem('playloopData', dataToStore);
         
     });
