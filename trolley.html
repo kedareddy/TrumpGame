@@ -77,18 +77,20 @@ function preload() {
     //ui
     game.load.image('chooseIcon', 'assets/TGA/choose.svg');
     game.load.image('gradientBkg', 'assets/TGA/gradientBKG.svg');
+    game.load.image('sideArrow', 'assets/TGA/sideArrow.png');
+    game.load.image('downArrow', 'assets/TGA/downArrow.png');
 }
 
 var bkg, bloodSprt, isoBlkFSprt, isoBlkMSprt, isoBrwnSprt, isoBrwnerSprt, sideBrwnSprt, lever, signalStraight, signalSide, switcher, loopLocation;
 var isoTrain, train1, train2, train3, train4, train5;
 var sideTrain, sTrain1, sTrain2, sTrain3, sTrain4, sTrain5; 
 var isoTrainTween;
-var chooseIcon, gradientBkg;  
+var chooseIcon, gradientBkg, sideArrow, downArrow; 
 function create() {
     
     bkg = game.add.sprite(0, 0, 'bkg');
     
-    isoBlkFSprt = game.add.sprite(472, 270, 'isoBlkFAnim');
+    isoBlkFSprt = game.add.sprite(468, 265, 'isoBlkFAnim');
     isoBlkFSprt.animations.add('idle');
     isoBlkFSprt.animations.play('idle', 4, true);
     
@@ -114,6 +116,10 @@ function create() {
     switcher = game.add.sprite(283, 170, 'switcherStraight');
     loopLocation = game.add.sprite(213, 130, 'switcherStraight');
     loopLocation.alpha = 0; 
+    sideArrow = game.add.sprite(366, 171, 'sideArrow');
+    sideArrow.alpha = 0.6; 
+    downArrow = game.add.sprite(354, 215, 'downArrow');
+    downArrow.alpha = 0.6;
     
     
        //  An explosion pool
@@ -166,6 +172,8 @@ function create() {
     chooseIcon.inputEnabled = true;
     chooseIcon.events.onInputDown.add(chooseIconClick, this);
     gradientBkg = game.add.sprite(0, 0, 'gradientBkg');
+    
+     
     
 }  
 
