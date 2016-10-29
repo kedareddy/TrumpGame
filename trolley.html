@@ -162,14 +162,19 @@ function create() {
     for(i=0; i < sideTrain.children.length; i++){
         sideTrain.children[i].alpha = 0; 
     }
-    
-    game.input.onDown.add(handleInputOnDown, this);
-    
-    
+
+		var bg = game.add.sprite(0, 0);
+		bg.fixedToCamera = true;
+		bg.scale.setTo(game.width, game.height);
+		bg.inputEnabled = true;
+		bg.input.priorityID = 0; // lower priority
+		bg.events.onInputDown.add(handleInputOnDown);
+
     chooseIcon = game.add.sprite(250, 260, 'chooseIcon');
     chooseIcon.scale.setTo(.4,.4);
     chooseIcon.inputEnabled = true;
     chooseIcon.events.onInputDown.add(chooseIconClick, this);
+		chooseIcon.input.priorityID = 1;
     gradientBkg = game.add.sprite(0, 0, 'gradientBkg');
     
    arrowInterval = setInterval(handleInputOnDown, 1000);
