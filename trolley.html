@@ -241,8 +241,8 @@ function handleInputOnDown(){
  
 var beginTheGame = false; 
 function chooseIconClick(){
-    gradientBkg.alpha = 0; 
-    chooseIcon.alpha = 0; 
+    game.add.tween(gradientBkg).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 0, false);
+    game.add.tween(chooseIcon).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 0, false);
     chooseIcon.inputEnabled = false; 
     beginTheGame = true; 
     
@@ -301,13 +301,14 @@ function drawChart() {
 			])
 		;
 	// Set chart options
-	var options = {'title':'Number of Lives Saved',
+	var options = {title:'',
 		'width':691,
-		colors: ['#FF0000', '#228B22'],
+		colors: ['#ab192b', '#228B22'],
 		'height':377,
-		legend: {position: 'none'}
+		legend: {position: 'none'},
+		gridlines: { count: -1},
+		vAxis: {viewWindow:{max:Math.max(upcount,downcount),min:0}}
 	};
-
 	// Instantiate and draw our chart, passing in some options.
 	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 	chart.draw(data, options);
