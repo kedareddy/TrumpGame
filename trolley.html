@@ -233,8 +233,8 @@ function handleInputOnDown(){
  
 var beginTheGame = false; 
 function chooseIconClick(){
-    gradientBkg.alpha = 0; 
-    chooseIcon.alpha = 0; 
+    game.add.tween(gradientBkg).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 0, false);
+    game.add.tween(chooseIcon).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 0, false);
     chooseIcon.inputEnabled = false; 
     beginTheGame = true; 
     
