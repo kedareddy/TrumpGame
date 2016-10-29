@@ -176,9 +176,8 @@ function create() {
     chooseIcon.events.onInputDown.add(chooseIconClick, this);
 		chooseIcon.input.priorityID = 1;
     gradientBkg = game.add.sprite(0, 0, 'gradientBkg');
-    
-   arrowInterval = setInterval(handleInputOnDown, 1000);
-    
+
+		arrowInterval = setInterval(handleInputOnDown, 1000);
 }  
 
 var upcount, downcount;
