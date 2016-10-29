@@ -228,7 +228,7 @@ function update() {
 }    
     
 function handleInputOnDown(){
-	if(beginTheGame == true) clearInterval(arrowInterval);
+	if(beginTheGame == false) clearInterval(arrowInterval);
         if(lever.key == 'leverSide' ){
                    lever.loadTexture('leverStraight');
                    signalStraight.loadTexture("signalGreen");
@@ -245,7 +245,7 @@ function handleInputOnDown(){
                    downArrow.alpha = 0; 
                    sideArrow.alpha = 0.6; 
         }
-	if(beginTheGame == true) arrowInterval = setInterval(handleInputOnDown, 1000);
+	if(beginTheGame == false) arrowInterval = setInterval(handleInputOnDown, 1000);
 }
  
 var beginTheGame = false; 
