@@ -86,6 +86,8 @@ var isoTrain, train1, train2, train3, train4, train5;
 var sideTrain, sTrain1, sTrain2, sTrain3, sTrain4, sTrain5; 
 var isoTrainTween;
 var chooseIcon, gradientBkg, sideArrow, downArrow; 
+var bloodExplosions; 
+var bloodSprtBlkF, bloodSprtBlkM, bloodSprtBrwn, bloodSprtBrwner, bloodSprtSideBrwn;
 function create() {
     
     bkg = game.add.sprite(0, 0, 'bkg');
@@ -121,16 +123,31 @@ function create() {
     downArrow = game.add.sprite(354, 215, 'downArrow');
     downArrow.alpha = 0.6;
     
+    bloodSprtBlkF = game.add.sprite(465, 262, 'bloodAnim');
+    bloodSprtBlkF.position.setTo(isoBlkFSprt.x-5,isoBlkFSprt.y-5);
+    bloodSprtBlkF.animations.add('explosionAnim');
+    bloodSprtBlkF.alpha = 0;
     
-       //  An explosion pool
-    //explosions = game.add.group();
-    //explosions.createMultiple(30, 'kaboom');
-    //explosions.forEach(setupInvader, this);
+    bloodSprtBlkM = game.add.sprite(472, 260, 'bloodAnim');
+    bloodSprtBlkM.position.setTo(isoBlkMSprt.x-5,isoBlkMSprt.y-5);
+    bloodSprtBlkM.animations.add('explosionAnim');
+    bloodSprtBlkM.alpha = 0;
     
-    bloodSprt = game.add.sprite(472, 260, 'bloodAnim');
-    bloodSprt.animations.add('explosionAnim');
-    bloodSprt.alpha = 0;
-    //bloodSprt.animations.play('explosionAnim', 12, false);
+    bloodSprtBrwn = game.add.sprite(472, 260, 'bloodAnim');
+    bloodSprtBrwn.position.setTo(isoBrwnSprt.x-5,isoBrwnSprt.y-5);
+    bloodSprtBrwn.animations.add('explosionAnim');
+    bloodSprtBrwn.alpha = 0;
+    
+    bloodSprtBrwner = game.add.sprite(472, 260, 'bloodAnim');
+    bloodSprtBrwner.position.setTo(isoBrwnerSprt.x-5,isoBrwnerSprt.y-5);
+    bloodSprtBrwner.animations.add('explosionAnim');
+    bloodSprtBrwner.alpha = 0;
+    
+    bloodSprtSideBrwn = game.add.sprite(472, 260, 'bloodAnim');
+    bloodSprtSideBrwn.position.setTo(sideBrwnSprt.x-5,sideBrwnSprt.y-5);
+    bloodSprtSideBrwn.animations.add('explosionAnim');
+    bloodSprtSideBrwn.alpha = 0;
+    
     
     isoTrain = game.add.group();
     train5 = game.add.sprite(69, 21, 'isoTrain5');
@@ -194,7 +211,12 @@ function makeChoice(choice){
 				})},2000);
 }
 
-var startTime = 0;   
+var startTime = 0;  
+var bloodSprtBlkFBled = false; 
+var bloodSprtBlkMBled = false; 
+var bloodSprtBrwnBled = false; 
+var bloodSprtBrwnerBled = false; 
+var bloodSprtSideBrwnBled = false; 
 function update() {
     //check if user presses choose and then start for real.
     
@@ -213,9 +235,56 @@ function update() {
         }
         else{
             if(checkOverlap( isoBlkFSprt , isoTrain.children[isoTrain.children.length-1])){
-							makeChoice("down");
-                bloodSprt.alpha = 1;
-                bloodSprt.animations.play('explosionAnim', 12, true);
+							if(bloodSprtBlkFBled == false){
+                                setTimeout((function() {
+                                    bloodSprtBlkFBled = true; 
+                                    makeChoice("down");
+                                    bloodSprtBlkF.alpha = 1; 
+                                    bloodSprtBlkF.animations.play('explosionAnim', 10, false);
+                                }), 75);
+                            }
+            }
+            if(checkOverlap( isoBlkMSprt , isoTrain.children[isoTrain.children.length-1])){
+							if(bloodSprtBlkMBled == false){
+                                setTimeout((function() {
+                                bloodSprtBlkMBled = true; 
+                                makeChoice("down");
+                                bloodSprtBlkM.alpha = 1; 
+                                bloodSprtBlkM.animations.play('explosionAnim', 10, false);
+                                    }), 75);
+                            }
+            }
+            if(checkOverlap( isoBrwnSprt , isoTrain.children[isoTrain.children.length-1])){
+							if(bloodSprtBrwnBled == false){
+                                setTimeout((function() {
+                                bloodSprtBrwnBled = true; 
+                                makeChoice("down");
+                                bloodSprtBrwn.alpha = 1; 
+                                bloodSprtBrwn.animations.play('explosionAnim', 10, false);
+                                    }), 75);
+                            }
+            }
+            if(checkOverlap( isoBrwnerSprt , isoTrain.children[isoTrain.children.length-1])){
+							if(bloodSprtBrwnerBled == false){
+                                setTimeout((function() {
+                                bloodSprtBrwnerBled = true; 
+                                makeChoice("down");
+                                bloodSprtBrwner.alpha = 1; 
+                                bloodSprtBrwner.animations.play('explosionAnim', 10, false);
+                                    }), 75);
+                            }
+            }
+            if(checkOverlap( sideBrwnSprt , sideTrain.children[sideTrain.children.length-1])){
+                        console.log("aad");
+							if(bloodSprtSideBrwnBled == false){
+                                console.log("aad2");
+                                setTimeout((function() {
+                                bloodSprtSideBrwnBled = true; 
+                                makeChoice("up");
+                                bloodSprtSideBrwn.alpha = 1; 
+                                bloodSprtSideBrwn.animations.play('explosionAnim', 10, false);
+                                    }), 75);
+                            }
             }
 						else{
 //							makeChoice("up");
