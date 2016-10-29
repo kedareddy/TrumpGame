@@ -24,7 +24,7 @@
 <div class="parent container" id="parentcontainer">
 	<div id="phasergame" style="position:absolute;top:0px;left:0px;"></div>
 </div>
-	<div id="chart_div"></div>
+<div id="chart_div" class="container" style="opacity: 0.9;display:none"></div>
     
 <style>
     .container{
@@ -173,6 +173,7 @@ var upcount, downcount;
 function makeChoice(choice){
 	if(trackChosen == true) return;
 	trackChosen = true;
+	console.log(choice);
 	// increment and get data from babybrain
 	setTimeout(function(){
 			$.getJSON('http://babybrain.org/cgi-bin/trolleycount.pl?chose'+choice+'=true', 
@@ -181,7 +182,7 @@ function makeChoice(choice){
 			downcount = parseInt(data.chosedown,10);
 			upcount = parseInt(data.choseup,10);
 			google.charts.setOnLoadCallback(drawChart);
-				})},1000);
+				})},2000);
 }
 
 var startTime = 0;   
@@ -209,7 +210,7 @@ function update() {
                 bloodSprt.animations.play('explosionAnim', 12, true);
             }
 						else{
-							makeChoice("up");
+//							makeChoice("up");
             }
         }
     }
@@ -293,13 +294,16 @@ function drawChart() {
 		;
 	// Set chart options
 	var options = {'title':'Number of Lives Saved',
-		'width':800,
+		'width':691,
 		colors: ['#FF0000', '#228B22'],
-		'height':300};
+		'height':377,
+		legend: {position: 'none'}
+	};
 
 	// Instantiate and draw our chart, passing in some options.
 	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 	chart.draw(data, options);
+	$('#chart_div').fadeIn(1000);
 }
 
 
