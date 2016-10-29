@@ -178,6 +178,7 @@ function create() {
 }  
 
 var upcount, downcount;
+var trackChosen = false; 
 function makeChoice(choice){
 	if(trackChosen == true) return;
 	trackChosen = true;
@@ -194,7 +195,6 @@ function makeChoice(choice){
 }
 
 var startTime = 0;   
-var trackChosen = false; 
 function update() {
     //check if user presses choose and then start for real.
     
