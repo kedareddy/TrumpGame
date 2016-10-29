@@ -87,6 +87,7 @@ var sideTrain, sTrain1, sTrain2, sTrain3, sTrain4, sTrain5;
 var isoTrainTween;
 var chooseIcon, gradientBkg, sideArrow, downArrow; 
 var arrowInterval;
+var arrowMaxAlpha=.8;
 function create() {
     
     bkg = game.add.sprite(0, 0, 'bkg');
@@ -120,7 +121,7 @@ function create() {
     sideArrow = game.add.sprite(366, 171, 'sideArrow');
     sideArrow.alpha = 0; 
     downArrow = game.add.sprite(354, 215, 'downArrow');
-    downArrow.alpha = 0.6;
+    downArrow.alpha = arrowMaxAlpha;
     
     
        //  An explosion pool
@@ -234,7 +235,7 @@ function handleInputOnDown(){
                    signalStraight.loadTexture("signalGreen");
                    signalSide.loadTexture("signalRed");
                    switcher.loadTexture("switcherStraight");
-                   downArrow.alpha = 0.6; 
+                   downArrow.alpha = arrowMaxAlpha;
                    sideArrow.alpha = 0; 
         }
         else{
@@ -243,7 +244,7 @@ function handleInputOnDown(){
                    signalSide.loadTexture("signalGreen");
                    switcher.loadTexture("switcherSide");
                    downArrow.alpha = 0; 
-                   sideArrow.alpha = 0.6; 
+                   sideArrow.alpha = arrowMaxAlpha;
         }
 	if(beginTheGame == false) arrowInterval = setInterval(handleInputOnDown, 1000);
 }
