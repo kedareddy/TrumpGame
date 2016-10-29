@@ -1,0 +1,28 @@
+{"frames": [
+
+{
+	"filename": "side_brown_1.png",
+	"frame": {"x":0,"y":0,"w":22,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":43},
+	"sourceSize": {"w":22,"h":43}
+},
+{
+	"filename": "side_brown_2.png",
+	"frame": {"x":0,"y":43,"w":22,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":43},
+	"sourceSize": {"w":22,"h":43}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "side_brwn_anim.png",
+	"format": "RGBA8888",
+	"size": {"w":22,"h":86},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ee44f107d4eae140f86b814b14c45f05:ffe85c05331828207a5c122799753ce3:5783db0ddeca6e37a1641f4cef8869cc$"
+}
+}

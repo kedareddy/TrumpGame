@@ -1,0 +1,28 @@
+{"frames": [
+
+{
+	"filename": "isometric_browner_1.png",
+	"frame": {"x":0,"y":0,"w":52,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":33},
+	"sourceSize": {"w":52,"h":33}
+},
+{
+	"filename": "isometric_browner_2.png",
+	"frame": {"x":52,"y":0,"w":52,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":33},
+	"sourceSize": {"w":52,"h":33}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "iso_brwner_anim.png",
+	"format": "RGBA8888",
+	"size": {"w":104,"h":33},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ff66a21f5002188d6281cde180ab44b4:0a5f203dc2fa0ff7c4111b9d7403d0f0:9a3ca44b853015fe9d3abeea172a0ae8$"
+}
+}

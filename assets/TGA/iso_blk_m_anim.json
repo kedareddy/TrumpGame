@@ -1,0 +1,28 @@
+{"frames": [
+
+{
+	"filename": "isometric_black_male_1.png",
+	"frame": {"x":0,"y":0,"w":52,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":33},
+	"sourceSize": {"w":52,"h":33}
+},
+{
+	"filename": "isometric_black_male_2.png",
+	"frame": {"x":52,"y":0,"w":52,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":33},
+	"sourceSize": {"w":52,"h":33}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "iso_blk_m_anim.png",
+	"format": "RGBA8888",
+	"size": {"w":104,"h":33},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:bd37339088ae4481d5c75a719c0cf9d5:d1d5fdab4bee0b260a1eb9f98ff3d605:2f90b269c382ce81fd8dc364b824c323$"
+}
+}

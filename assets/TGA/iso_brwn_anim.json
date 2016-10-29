@@ -1,0 +1,28 @@
+{"frames": [
+
+{
+	"filename": "isometric_brown_1.png",
+	"frame": {"x":0,"y":0,"w":52,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":33},
+	"sourceSize": {"w":52,"h":33}
+},
+{
+	"filename": "isometric_brown_2.png",
+	"frame": {"x":52,"y":0,"w":52,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":33},
+	"sourceSize": {"w":52,"h":33}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "iso_brwn_anim.png",
+	"format": "RGBA8888",
+	"size": {"w":104,"h":33},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6afa8ba6cf4b8f50baa337a3e8e05ca6:49052e120987ea1216d545a503923564:e2a3bde7e365309d5bacc0fc617fa937$"
+}
+}
