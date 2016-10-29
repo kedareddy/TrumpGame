@@ -86,6 +86,7 @@ var isoTrain, train1, train2, train3, train4, train5;
 var sideTrain, sTrain1, sTrain2, sTrain3, sTrain4, sTrain5; 
 var isoTrainTween;
 var chooseIcon, gradientBkg, sideArrow, downArrow; 
+var arrowInterval;
 function create() {
     
     bkg = game.add.sprite(0, 0, 'bkg');
@@ -171,7 +172,7 @@ function create() {
     chooseIcon.events.onInputDown.add(chooseIconClick, this);
     gradientBkg = game.add.sprite(0, 0, 'gradientBkg');
     
-     
+   arrowInterval = setInterval(handleInputOnDown, 1000);
     
 }  
 
@@ -252,7 +253,7 @@ function chooseIconClick(){
     restartTrain(); 
     loopLocation.x = 5000; 
     loopLocation.y = 5000; 
-    
+    clearInterval(arrowInterval);
 }
     
 function restartTrain(){
