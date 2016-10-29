@@ -90,7 +90,7 @@ function create() {
     
     bkg = game.add.sprite(0, 0, 'bkg');
     
-    isoBlkFSprt = game.add.sprite(468, 265, 'isoBlkFAnim');
+    isoBlkFSprt = game.add.sprite(465, 262, 'isoBlkFAnim');
     isoBlkFSprt.animations.add('idle');
     isoBlkFSprt.animations.play('idle', 4, true);
     
@@ -117,7 +117,7 @@ function create() {
     loopLocation = game.add.sprite(213, 130, 'switcherStraight');
     loopLocation.alpha = 0; 
     sideArrow = game.add.sprite(366, 171, 'sideArrow');
-    sideArrow.alpha = 0.6; 
+    sideArrow.alpha = 0; 
     downArrow = game.add.sprite(354, 215, 'downArrow');
     downArrow.alpha = 0.6;
     
@@ -229,13 +229,17 @@ function handleInputOnDown(){
                    lever.loadTexture('leverStraight');
                    signalStraight.loadTexture("signalGreen");
                    signalSide.loadTexture("signalRed");
-                   switcher.loadTexture("switcherStraight"); 
+                   switcher.loadTexture("switcherStraight");
+                   downArrow.alpha = 0.6; 
+                   sideArrow.alpha = 0; 
         }
         else{
                    lever.loadTexture('leverSide');
                    signalStraight.loadTexture("signalRed");
                    signalSide.loadTexture("signalGreen");
                    switcher.loadTexture("switcherSide");
+                   downArrow.alpha = 0; 
+                   sideArrow.alpha = 0.6; 
         }
 }
  
