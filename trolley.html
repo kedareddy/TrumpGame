@@ -169,6 +169,7 @@ function create() {
     
 }  
 
+var upcount, downcount;
 function makeChoice(choice){
 	if(trackChosen == true) return;
 	trackChosen = true;
@@ -176,7 +177,10 @@ function makeChoice(choice){
 	setTimeout(function(){
 			$.getJSON('http://babybrain.org/cgi-bin/trolleycount.pl?chose'+choice+'=true', 
 			function(data){
-				drawChart(parseInt(data.chosedown,10),parseInt(data.choseup,10));
+			// Set a callback to run when the Google Visualization API is loaded.
+			downcount = parseInt(data.chosedown,10);
+			upcount = parseInt(data.choseup,10);
+			google.charts.setOnLoadCallback(drawChart);
 				})},1000);
 }
 
@@ -272,21 +276,19 @@ function checkOverlap(spriteA, spriteB) {
 // Load the Visualization API and the corechart package.
 google.charts.load('current', {'packages':['corechart']});
 
-// Set a callback to run when the Google Visualization API is loaded.
-google.charts.setOnLoadCallback(drawChart);
 
 // Callback that creates and populates a data table,
 // instantiates the Column chart, passes in the data and
 // draws it.
-function drawChart(downcount,upcount) {
+function drawChart() {
 	//    
 	// Create the data table.
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Track');
 	data.addColumn('number', 'Lives Saved');
 	data.addRows([
-			['Killed One, Saved Many', chosedown],
-			['Killed Many', choseup]
+			['Killed One, Saved Many', upcount],
+			['Killed Many', downcount]
 			])
 		;
 	// Set chart options
