@@ -293,14 +293,14 @@ function drawChart() {
 			])
 		;
 	// Set chart options
-	var options = {'title':'Number of Lives Saved',
+	var options = {title:'',
 		'width':691,
-		colors: ['#FF0000', '#228B22'],
+		colors: ['#ab192b', '#228B22'],
 		'height':377,
 		legend: {position: 'none'},
-		gridlines: { count: -1}
+		gridlines: { count: -1},
+		vAxis: {viewWindow:{max:Math.max(upcount,downcount),min:0}}
 	};
-
 	// Instantiate and draw our chart, passing in some options.
 	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 	chart.draw(data, options);
