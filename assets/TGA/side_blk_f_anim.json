@@ -1,0 +1,28 @@
+{"frames": [
+
+{
+	"filename": "side_black_female_1.png",
+	"frame": {"x":0,"y":0,"w":19,"h":37},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":37},
+	"sourceSize": {"w":19,"h":37}
+},
+{
+	"filename": "side_black_female_2.png",
+	"frame": {"x":0,"y":37,"w":19,"h":37},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":37},
+	"sourceSize": {"w":19,"h":37}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "side_blk_f_anim.png",
+	"format": "RGBA8888",
+	"size": {"w":19,"h":74},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:65bc4cd2c39b155c871fa5a96b5e5a64:407a616f6053f191dabb38e55850433f:1749b15ba10db5dc7834c3b8fe2e6bef$"
+}
+}
