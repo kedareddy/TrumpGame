@@ -224,10 +224,6 @@ var bloodSprtSideBrwnBled = false;
 function update() {
     //check if user presses choose and then start for real.
     
-    //check if train hits invisible location, and then loop back.
-    if(checkOverlap(isoTrain.children[isoTrain.children.length-1], loopLocation)){
-        restartTrain();
-    }else{
         //if taking the side path check for collisions there. 
         if(lever.key == 'leverSide' ){
             for (i = 0; i < isoTrain.children.length; i++) { 
@@ -237,7 +233,6 @@ function update() {
                 }    
             }
         }
-        else{
             if(checkOverlap( isoBlkFSprt , isoTrain.children[isoTrain.children.length-1])){
 							if(bloodSprtBlkFBled == false){
                                 setTimeout((function() {
@@ -290,11 +285,6 @@ function update() {
                                     }), 75);
                             }
             }
-						else{
-//							makeChoice("up");
-            }
-        }
-    }
 }    
     
 function handleInputOnDown(){
