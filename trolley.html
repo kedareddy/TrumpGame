@@ -386,7 +386,8 @@ function drawChart() {
 		'height':377,
 		legend: {position: 'none'},
 		gridlines: { count: -1},
-		vAxis: {viewWindow:{max:Math.max(upcount,downcount),min:0}}
+		vAxis: {viewWindow:{max:Math.max(upcount,downcount),min:0},format: 'short'},
+		animation: {"startup": true}
 	};
 	// Instantiate and draw our chart, passing in some options.
 	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
