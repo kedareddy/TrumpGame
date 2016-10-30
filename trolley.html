@@ -203,7 +203,6 @@ var trackChosen = false;
 function makeChoice(choice){
 	if(trackChosen == true) return;
 	trackChosen = true;
-	console.log(choice);
 	// increment and get data from babybrain
 	setTimeout(function(){
 			$.getJSON('http://babybrain.org/cgi-bin/trolleycount.pl?chose'+choice+'=true', 
@@ -291,6 +290,7 @@ function update() {
 }    
     
 function handleInputOnDown(){
+	if(trackChose==true) return;
 	if(beginTheGame == false) clearInterval(arrowInterval);
         if(lever.key == 'leverSide' ){
                    lever.loadTexture('leverStraight');
