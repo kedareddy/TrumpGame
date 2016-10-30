@@ -1,0 +1,52 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+<style type="text/css">
+ 
+  .mask {
+  mask: url(mask.png);
+}
+  .toptextboxdiv {
+    position:absolute;
+    transform-origin:right center;
+    margin: 4em 1em;
+    width: 500px;
+    height: 60px;
+    border: 2px solid green;
+    background-color: #fff;
+    line-height: 60px;
+    text-align: center;
+    -webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+    transition: 1s ease-in-out;
+  }
+  .toptextboxdiv.slideright:hover {
+    -webkit-transform: scale(0, 1);
+    -moz-transform: scale(0, 1);
+    -o-transform: scale(0, 1);
+    -ms-transform: scale(0, 1);
+    transform: scale(0,1);
+  }
+   
+  .bottomtextboxdiv  {
+    z-index: -5;  
+    position: absolute;
+    margin: 4em 1em;
+    width: 500px;
+    height: 60px;
+    border: 2px solid green;
+    background-color: #fff;
+    line-height: 60px;
+    text-align: center;
+  }    
+
+}
+
+</style>
+</head>
+
+<body style="posiiton:relative">
+<div class="toptextboxdiv slideright">"Look at that face! Would anyone vote for that?"</div>
+    <div class="bottomtextboxdiv">"I don't know how to treat women"</div>
+ </body>
