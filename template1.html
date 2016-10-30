@@ -60,8 +60,10 @@ $(document).ready(function(){
 		var game_id = window.location.toString().split('?')[1];
 		if(game_id){
 		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( data ) {
-console.log(data);
-			var playLoopData = data[game_id];
+			var playLoopData;
+			for(var i=0; i<data.length; i++){
+				if(data[i].hasOwnProperty('_id') && data[i]['_id'] == game_id) playLoopData = data[i]['content'];
+			}
 			if(playLoopData){
         console.log('stored: ', playLoopData);
 
