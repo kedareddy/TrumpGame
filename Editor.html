@@ -301,12 +301,13 @@ $(document).ready(function(){
                         text:"DON'T YOU DARE"
                     }
               ]
-        };*/
-        var dataToStore = JSON.stringify(myObj);
-        localStorage.removeItem('playloopData');
-        localStorage.clear(); 
-        localStorage.setItem('playloopData', dataToStore);
-        
+							};*/
+				var tomongo = {};
+				tomongo['game_id'] = Date.now();
+				console.log('http://playloops.io/template1.html?'+game_id)
+				tomongo['content'] = myObj;
+				var dataToStore = JSON.stringify(tomongo);
+				$.ajax({url:'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-',type: "POST",contentType: "application/json",data:tomongo});
     });
     
     $( ".close" ).on('touchend click', function(){
