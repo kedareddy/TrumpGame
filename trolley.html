@@ -220,6 +220,7 @@ var bloodSprtBlkMBled = false;
 var bloodSprtBrwnBled = false; 
 var bloodSprtBrwnerBled = false; 
 var bloodSprtSideBrwnBled = false; 
+var lockSwitch = false;
 function update() {
     //check if user presses choose and then start for real.
     
@@ -227,7 +228,8 @@ function update() {
         if(lever.key == 'leverSide' ){
             for (i = 0; i < isoTrain.children.length; i++) { 
                 if (checkOverlap( isoTrain.children[i], switcher))
-                {
+								{
+									lockSwitch = true;
                     slightDelay(i);        
                 }    
 						}
@@ -295,7 +297,7 @@ function update() {
 }    
     
 function handleInputOnDown(){
-	if(trackChosen==true) return;
+	if(lockSwitch==true) return;
 	if(beginTheGame == false) clearInterval(arrowInterval);
         if(lever.key == 'leverSide' ){
                    lever.loadTexture('leverStraight');
