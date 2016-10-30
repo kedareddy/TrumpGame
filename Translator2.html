@@ -36,7 +36,7 @@
 <body style="background-color:black; position: relative;">
   
 <div id="countercontainer">
-    <h1 id="bigcounter" style="color:white; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;">&nbsp;</h1>
+    <h1 id="bigcounter" style="color:white; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;">WHAT HE SAID</h1>
 </div>
        
     
@@ -158,18 +158,18 @@
 		}
 
 		.bord{
-background-color:#aaa;
+			background-color:#aaa;
 			top:20px;
 			height:295px;
 		}	
 
-		#first {
+		#OFFfirst {
 			position:absolute;
 			margin: 0 auto;
 			padding: 10px 20px 10px 20px;
 		}
 
-		#second {
+		#OFFsecond {
 			position:absolute;
 			margin: 0 auto;
 			color:#black;
@@ -182,8 +182,11 @@ background-color:#aaa;
 			position:relative;
 		}
 
-		#OFFfirst {
+		#first {
+			background-color:#aaa;
 			position:absolute;
+			margin: 0 auto;
+			padding: 10px 20px 10px 20px;
 			width:250px;
 			transform-origin:right center;
 			-webkit-transition: 1s ease-in-out;
@@ -191,10 +194,9 @@ background-color:#aaa;
 			-o-transition: 1s ease-in-out;
 			transition: 1s ease-in-out;
 			z-index:2;
-			background-color:black;
 		}
 
-		#OFFfirst:hover {
+		#first:hover {
 			-webkit-transform: scale(0, 1);
 			-moz-transform: scale(0, 1);
 			-o-transform: scale(0, 1);
@@ -202,9 +204,13 @@ background-color:#aaa;
 			transform: scale(0,1);
 		}
 
-		#OFFsecond {
+		#second {
+			background-color:#aaa;
 			position:absolute;
 			z-index:1;
+			margin: 0 auto;
+			color:#black;
+			padding: 10px 20px 10px 20px;
 		}
 
    
@@ -220,19 +226,23 @@ background-color:#aaa;
 
 	var firstOn = true;
 	$(document).ready(function(){
-			$('#parentcontainer').click(function(){
+/*			$('#parentcontainer').click(function(){
 				if(firstOn){
 					firstOn = false;
 					$('#first').fadeOut(750);
 					$('#second').fadeIn(750);
-					$('#bigcounter').html('TRANSLATION:');
+					$('#bigcounter').html('&nbsp;&nbsp;&nbsp;&nbsp;TRANSLATION');
+					setTimeout(function(){
+						firstOn = true;
+						$('#second').fadeOut(750);
+						$('#first').fadeIn(750);
+						$('#bigcounter').html('WHAT HE SAID');},2500);
 				}
-				else{
-					firstOn = true;
-					$('#second').fadeOut(750);
-					$('#first').fadeIn(750);
-					$('#bigcounter').html('&nbsp;');
-				}
+			});
+*/
+			$('#parentcontainer').hover(
+				function(){$('#bigcounter').html('&nbsp;&nbsp;&nbsp;&nbsp;TRANSLATION');},
+				function(){$('#bigcounter').html('WHAT HE SAID');
 			});
 		});
 </script>
