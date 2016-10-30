@@ -59,11 +59,8 @@ $(document).ready(function(){
 		var game_id = window.location.toString().split('?')[1];
 		if(game_id){
 		var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
-		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( playLoopData ) {
-			if(playLoopData){
-        console.log('stored: ', playLoopData);
-
-        jsonData = JSON.parse(playLoopData);
+		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( jsonData ) {
+			if(jsonData){
         console.log('stored: ', jsonData);
         console.log('templateURL: ', jsonData['scenes'][0]['url']);
         $('#parentgif').attr("src", jsonData['scenes'][0]['url']);
