@@ -1,0 +1,164 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8" />
+<title></title>
+<meta name="viewport" content="width=device-width">
+<meta name="keywords" content="">
+
+<meta property="og:url" content="http://www.playloops.io/assets/mitchscratchoff.gif">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="js/jquery.eraser.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Exo:800|Lato:700" rel="stylesheet">
+    <style type="text/css">
+			* {
+						-webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
+						-webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
+						/* make transparent link selection, adjust last value opacity 0 to 1.0 */
+						-webkit-tap-highlight-color: rgba(0,0,0,0);
+						-webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
+						/* -webkit-tap-highlight-color: rgba(0,0,0,0); */
+					}
+        body {
+            margin: 0;
+					}
+    </style>
+    
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85949084-1', 'auto');
+  ga('send', 'pageview');
+
+	$(document).ready(function(){
+		$('#over').eraser( "size", 30 );
+
+       $('#resetBtn').click(function(event) {
+          $('#redux').eraser('reset');
+            $('#progress').html('0%');
+          event.preventDefault();
+        });
+
+        $('#clearBtn').click(function(event) {
+          $('#redux').eraser('clear');
+            $('#progress').html('100%');
+          event.preventDefault();
+        });
+
+
+	});
+
+</script>
+    
+</head>    
+    
+<body style="background-color:black; position: relative;">
+  
+<div id="countercontainer">
+    <h1 id="bigcounter" style="color:white; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;">00,000,000,981</h1>
+</div>
+       
+    
+<div id="parentcontainer">
+    <!--<p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>-->
+    <div id="parentgifDiv"> <img id="over" src="assets/scratchoffmitchover.png" style="position:absolute;top:0px;left:0px;width:600px;height:949px;z-index:3;">
+    </div>
+    <div id="punchgifDiv"> <img class="under" src="assets/scratchoffmitchunder.png" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:949px;z-index:2;">
+    </div>
+    
+</div>
+    
+<div id="logocontainer">
+    
+    <h1 class = "uielement" style="vertical-align: middle; display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
+    <!--<span class="tooltiptext">Coming Soon</span>-->
+
+    <a class = "uielement facebook customer share" style= "vertical-align: middle; display:inline-block;margin-left:90px;" href="http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/pussygrabsback.html&title=Pussy Grabs Back!"><img src="assets/facebook-icon.svg" width="50"></a>
+    
+    <a 
+       class = "uielement twitter customer share"
+       style="vertical-align: middle;display:inline-block;margin-left:90px;" 
+       href="http://twitter.com/intent/tweet?status=Pussy Grabs Back!+http://www.playloops.io/scratchoff.html">
+       <img src="assets/twitter-icon.svg" width="50">
+    </a>
+</div>
+    
+    
+    
+<style>
+.uielement{
+    opacity: 0.5; 
+}
+.uielement:hover, .uielement:active {
+    opacity: 1;
+}
+.tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    font-size: 75%;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0%;
+    margin-left: -20px;
+        /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+    opacity: 0;
+    transition: opacity 1s;
+}
+    
+.uielement:hover .tooltiptext {
+    visibility: visible;
+    opacity: 0.5;
+}
+    
+    #countercontainer{
+        display:block; 
+        position:relative; 
+        
+        width: 600px; 
+        margin:0 auto;
+        padding: 0px;
+    }
+    #parentcontainer{
+        display:block; 
+        width: 600px; 
+        height: 949px; 
+        margin:0 auto; 
+        position:relative;
+        
+    }
+#logocontainer{
+    display: block; 
+    position:relative; 
+    margin:0 auto;
+    //top: 429.5%;
+    //left: 28.3%;
+    width: 600px;
+    
+    
+    } 
+    
+
+   
+</style>    
+
+
+      <div id="resetBtn" class="box" style="float:right"> RESET </div>
+			      <div id="clearBtn" class="box" style="float:right"> CLEAR </div>
+
+
+</body>
+</html>
