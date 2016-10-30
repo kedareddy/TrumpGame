@@ -62,6 +62,7 @@ $(document).ready(function(){
 		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( data ) {
 			var playLoopData;
 			for(var i=0; i<data.length; i++){
+				console.log(JSON.stringify(data[i]));
 				if(data[i].hasOwnProperty('_id') && data[i]['_id'] == game_id) playLoopData = data[i]['content'];
 			}
 			if(playLoopData){
