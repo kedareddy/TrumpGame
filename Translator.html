@@ -28,9 +28,7 @@
 <body style="background-color:black; position: relative;">
     
 <div id="parentcontainer">
-    <!--<p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>-->
-    <div id = 'parentgifDiv' style="position:absolute;top:0px;left:0px;width:175px;height:450px; border-style: solid;border-width: 5px; background-color: black;" > <img id = 'parentgif' src="assets/TrumpFaceGif.gif" alt="HTML5 Icon"> </div>
-    
+   
     <div class="toptextboxdiv slideright">
         "Look at that face! Would anyone vote for that?"
     </div>
@@ -66,7 +64,7 @@
     
 .toptextboxdiv {
     z-index: 5;
-    /*position:absolute;*/
+    position:absolute;
     left: 100px; 
     
     transform-origin:right center;
@@ -84,6 +82,7 @@
     transition: 1s ease-in-out;
   }
   .toptextboxdiv.slideright:hover {
+    position:absolute;
     -webkit-transform: scale(0, 1);
     -moz-transform: scale(0, 1);
     -o-transform: scale(0, 1);
@@ -93,11 +92,12 @@
    
   .bottomtextboxdiv  {
     z-index: 2;  
+    
+    position:absolute;  
     left: 100px;
     /*position: absolute;*/
     margin: 4em 1em;
-   /* width: 500px;*/
-      width: auto; 
+   width: 500px;
     height: 60px;
     /*border: 2px solid green;*/
     background-color: #fff;
@@ -119,6 +119,9 @@
     
     
 .button {
+  position:absolute;
+  bottom: 100px;
+  left: 200px;    
   display: inline-block;
   padding: 15px 25px;
   font-size: 24px;
