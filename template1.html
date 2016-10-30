@@ -55,10 +55,10 @@ var doOnce = false;
 //var words = []; 
 var index = 0; 
 var textInterval; 
-var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
 $(document).ready(function(){
 		var game_id = window.location.toString().split('?')[1];
 		if(game_id){
+		var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
 		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( data ) {
 			var playLoopData;
 			for(var i=0; i<data.length; i++){
