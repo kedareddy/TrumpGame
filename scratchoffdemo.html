@@ -128,15 +128,13 @@
     <script type = "text/javascript">
 
 			$(function(){
-					$( "#redux" ).load(function() {
-						$('#robot').show();
-						});
-
 					$('#redux').eraser({size:100});
 
           event.preventDefault();
 
       });
+
+			setTimeout(function(){$('#robot').show();},1000);
 
     </script>
 
