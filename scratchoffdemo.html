@@ -55,7 +55,8 @@
         position: relative;
         display: inline-block;
         width: 533px;
-        height: 800px;
+        height: 835px;
+        });
       }
 
       #robot {
@@ -105,13 +106,7 @@
     <span class="container">
       <img id="robot" src="assets/scratchoffmitchunder.png" style="display:none"/>
       <img id="redux" src="assets/scratchoffmitchover.png" />
-      <div id="progress">0%</div>
     </span>
-    <p>
-      <div id="resetBtn" class="box"> RESET </div>
-      <div id="clearBtn" class="box"> CLEAR </div>
-      <div id="toggleBtn" class="box"> DISABLE </div>
-    </p>
 
 <div id="logocontainer">
 
@@ -139,32 +134,7 @@
 
 					$('#redux').eraser({size:100});
 
-        $('#resetBtn').click(function(event) {
-          $('#redux').eraser('reset');
-            $('#progress').html('0%');
           event.preventDefault();
-        });
-
-        $('#clearBtn').click(function(event) {
-          $('#redux').eraser('clear');
-            $('#progress').html('100%');
-          event.preventDefault();
-        });
-
-        $('#toggleBtn').click(function(event) {
-          var $redux = $('#redux'),
-            $toggleBtn = $('#toggleBtn');
-
-          if ($redux.eraser('enabled')) {
-            $toggleBtn.text(' ENABLE ');
-            $redux.eraser('disable');
-          } else {
-            $toggleBtn.text(' DISABLE ');
-            $redux.eraser('enable');
-          }
-
-          event.preventDefault();
-        });
 
       });
 
