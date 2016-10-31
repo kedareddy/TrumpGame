@@ -103,7 +103,7 @@
   <body>
 
     <span class="container">
-      <img id="robot" src="assets/scratchoffmitchunder.png" />
+      <img id="robot" src="assets/scratchoffmitchunder.png" style="display:none"/>
       <img id="redux" src="assets/scratchoffmitchover.png" />
       <div id="progress">0%</div>
     </span>
@@ -132,7 +132,11 @@
     <script src='js/jquery.eraser.js' type='text/javascript'></script>
     <script type = "text/javascript">
 
-      $(function(){
+			$(function(){
+					$( "#redux" ).load(function() {
+						$('#robot').show();
+						});
+
 					$('#redux').eraser({size:100});
 
         $('#resetBtn').click(function(event) {
