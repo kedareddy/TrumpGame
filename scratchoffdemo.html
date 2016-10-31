@@ -133,11 +133,7 @@
     <script type = "text/javascript">
 
       $(function(){
-        $('#redux').eraser({
-          progressFunction: function(p) {
-            $('#progress').html(Math.round(p*100)+'%');
-          }
-        });
+					$('#redux').eraser({size:100});
 
         $('#resetBtn').click(function(event) {
           $('#redux').eraser('reset');
