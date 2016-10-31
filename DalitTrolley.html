@@ -5,6 +5,7 @@
 	<meta charset="UTF-8" />
     <title>Trolley Game</title>
     <meta name="viewport" content="width=device-width">
+		<meta property="og:url" content="http://www.playloops.io/assets/DalitTrolleyPreview.gif">
     
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="js/phaser.min.js"></script>
@@ -14,18 +15,45 @@
     <link href="https://fonts.googleapis.com/css?family=Exo:800|Lato:700" rel="stylesheet">
     <style type="text/css">
         body {
-            margin: 0;
-        }
+					margin: 0;
+margin-top:20px;
+					}
+#logocontainer{
+    display: block; 
+    position:relative; 
+    margin:0 auto;
+    top: 400px;
+    width: 600px;
+    
+    
+    } 
+
+
     </style>
 </head>
     
-<body style=" position: relative;">
+<body style=" position: relative;background-color:black">
         
 <div class="parent container" id="parentcontainer">
 	<div id="phasergame" style="position:absolute;top:0px;left:0px;"></div>
 </div>
 <div id="chart_div" class="container" style="opacity: 0.9;display:none"></div>
+    <div id="logocontainer">
     
+    <h1 class = "uielement" style="vertical-align: middle; display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
+    <!--<span class="tooltiptext">Coming Soon</span>-->
+
+    <a class = "uielement facebook customer share" style= "vertical-align: middle; display:inline-block;margin-left:90px;" href="http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/Translator2.html&title=Trump translator"><img src="assets/facebook-icon.svg" width="50"></a>
+    
+    <a 
+       class = "uielement twitter customer share"
+       style="vertical-align: middle;display:inline-block;margin-left:90px;" 
+       href="http://twitter.com/intent/tweet?status=Trump translator+http://www.playloops.io/Translator2.html">
+       <img src="assets/twitter-icon.svg" width="50">
+    </a>
+</div>
+    
+
 <style>
     .container{
         display:block; 
