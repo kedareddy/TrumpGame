@@ -304,7 +304,7 @@ $(document).ready(function(){
 							};*/
 				var game_id = Date.now();
 				var game_url = 'http://playloops.io/template1.html?'+game_id;
-				$('.modal-body#a').attr('href', game_url);
+				$('.modal-body a').attr('href', game_url);
 				$('.modal-body textarea').val(game_url);
 				myObj['_id'] = game_id;
 				var dataToStore = JSON.stringify(myObj);
