@@ -1,0 +1,247 @@
+<!doctype html> 
+<html lang="en"> 
+
+<head> 
+	<meta charset="UTF-8" />
+    <title>Dissapeared</title>
+    <meta name="viewport" content="width=device-width">
+    <meta property="og:url" content="http://www.playloops.io/VOWGames/Dissapeared/assets/Dissapear2_small.gif">
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="js/phaser.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Exo:800|Lato:700" rel="stylesheet">
+    <style type="text/css">
+        body {
+					margin: 0;
+margin-top:20px;
+					}
+#logocontainer{
+    display: block; 
+    position:relative; 
+    margin:0 auto;
+    top: 275px;
+    width: 391px;
+    
+    
+    } 
+
+
+    </style>
+</head>
+    
+<body style=" position: relative;background-color:black;">
+        
+<div class="parent container" id="parentcontainer">
+	<div id="phasergame" style="position:absolute;top:0px;left:0px;background-color:white; border-width: 0px;"></div>
+</div>
+<div id="chart_div" class="container" style="opacity: 0.9;display:none"></div>
+<div id="logocontainer">
+    
+    <h1 class = "uielement" style="vertical-align: middle; display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
+    <!--<span class="tooltiptext">Coming Soon</span>-->
+
+    <a class = "uielement facebook customer share" style= "vertical-align: middle; display:inline-block;margin-left:50px;" href="http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/DalitTrolley.html&title=Dalit trolley"><img src="assets/facebook-icon.svg" width="50"></a>
+    
+    <a 
+       class = "uielement twitter customer share"
+       style="vertical-align: middle;display:inline-block;margin-left:50px;" 
+       href="http://twitter.com/intent/tweet?status=Dalit trolley+http://www.playloops.io/DalitTrolley.html">
+       <img src="assets/twitter-icon.svg" width="50">
+    </a>
+</div>
+    
+
+<style>
+    .container{
+        display:block; 
+        width: 393px;  
+        margin:0 auto; 
+        position:relative;
+        background-color:white;
+    }
+</style>       
+    
+<script type="text/javascript">
+        
+var index = 0; 
+var lastClick = 0; 
+$(document).ready(function(){
+
+    $( "#parentcontainer" ).on('touchend click', function(){
+    
+       lastClick = (new Date()).getTime();
+      /* if(introTextTween != null){
+           if(introTextTween.isRunning == true){
+               console.log("adfasdf");
+                introTextTween.stop();    
+           }
+       }*/
+       // console.log("introtext: " + introText.name);
+       introText.alpha = 0; 
+        
+       if(index > (allSprites.length-1)){
+           index = 0; 
+       }    
+       if(index <= (allSprites.length-1)){
+        if(allTweens[index] != null){
+            allTweens[index].stop(); 
+        }
+        allSprites[index].alpha = 1;
+        var temp = game.add.tween(allSprites[index]).to({alpha:0}, 1000 ,Phaser.Easing.None,true, 0, 0, true);
+        allTweens[index] = temp;
+
+        index++;    
+       }
+       
+        
+    });
+
+}); 
+    
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+    
+var game = new Phaser.Game(393, 240, Phaser.CANVAS, 'phasergame', { preload: preload, create: create, update: update}, true);
+
+function preload() {
+    //game.load.image('bkg', 'assets/bkg.png');
+    game.load.atlas('bAnim', 'assets/banim.png', 'assets/banim.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+   // game.load.image('p1outline', 'assets/p1outline.png');
+    //game.load.image('p2outline', 'assets/p2outline.png');
+    //game.load.image('p3outline', 'assets/p3outline.png');
+    //game.load.image('p4outline', 'assets/p4outline.png');
+    //people
+    game.load.atlas('p1Anim', 'assets/p1anim.png', 'assets/p1anim.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.atlas('p2Anim', 'assets/p2anim.png', 'assets/p2anim.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.atlas('p3Anim', 'assets/p3anim.png', 'assets/p3anim.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.atlas('p4Anim', 'assets/p4anim.png', 'assets/p4anim.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+
+}
+
+var bkg, p1, p2, p3, p4, g2, p1outline, p2outline, p3outline, p4outline, outlines, introText, allSprites;
+var allTweens = [];
+function create() {
+    
+    bkg = game.add.sprite(0, 0, 'bAnim');
+    bkg.animations.add('idle');
+    bkg.animations.play('idle', 6, true);
+    
+    /*p1outline = game.add.sprite(0, 0, 'p1outline');
+    p2outline = game.add.sprite(0, 0, 'p2outline');
+    p3outline = game.add.sprite(0, 0, 'p3outline');
+    p4outline = game.add.sprite(0, 0, 'p4outline');
+    p1outline.alpha = 0; 
+    p2outline.alpha = 0; 
+    p3outline.alpha = 0; 
+    p4outline.alpha = 0; 
+    
+    outlines = [p1outline, p2outline,p3outline, p4outline];*/
+    
+    
+    p1 = game.add.sprite(0, 0, 'p1Anim');
+    p1.animations.add('idle');
+    p1.animations.play('idle', 10, true);
+    
+    
+    g2 = game.add.group();
+    p2 = game.add.sprite(0, 0, 'p2Anim');
+    p2.animations.add('idle');
+    p2.animations.play('idle', 10, true);
+    
+    p4 = game.add.sprite(0, 0, 'p4Anim');
+    p4.animations.add('idle');
+    p4.animations.play('idle', 10, true);
+    
+    
+    g2.add(p2);
+    g2.add(p4);
+    
+    p3 = game.add.sprite(0, 0, 'p3Anim');
+    p3.animations.add('idle');
+    p3.animations.play('idle', 10, true);
+    
+   // discovering brand new feelings of hurt. lacking a defense mechanism. a bit like the first time I was bullied by a little kid. time to overthrow the //gov. and rejoin mexico. hope they will have us.
+    //click to remember. 
+    p1tween = game.add.tween(p1).to({alpha:0}, 500 ,Phaser.Easing.None,false, 2000, 0, true);
+    g2tween = game.add.tween(g2).to({alpha:0}, 750 ,Phaser.Easing.None,false, 0, 0, true);
+    p3tween = game.add.tween(p3).to({alpha:0}, 500 ,Phaser.Easing.None,false, 2500, 0, true);
+    //p3tween.onComplete.add(finishedAnimating,this); 
+        
+    g2tween.chain(p1tween);
+    p1tween.chain(p3tween);
+
+    
+    //startWithDelay();
+    
+    p1.alpha = 0; 
+    g2.alpha = 0; 
+    p3.alpha = 0; 
+    
+    allSprites = [p1, g2, p3];
+    
+   
+    
+    introText = game.add.text(game.world.centerX, game.world.centerY + 90, "< CLICK to remember >");
+    introText.anchor.setTo(0.5);
+    introText.font = 'Open Sans';
+    introText.fontSize = 22;
+    //introText.fontWeight = 'italic';
+    
+    introText.fill = "#b8cceb";
+    introText.alpha = 1; 
+    
+      //	Stroke color and thickness
+    //introText.stroke = '#021d49';
+    //introText.strokeThickness = 16;
+   // introText.setShadow(2, 2, "#333333", 2, false, true);
+    
+    
+
+}  
+
+var introTextTween; 
+function update() {
+    //check ifuser presses choose and then start for real.
+    if(((new Date()).getTime() - lastClick) > 4000 && lastClick != 0){
+        introText.alpha = 1; 
+        //introTextTween = game.add.tween(introText).to({alpha:1}, 500 ,Phaser.Easing.None,true,0, 0, true);
+    }
+}    
+
+var p1tween, g2tween, p3tween; 
+function startWithDelay(){
+    setTimeout((function() {
+      g2tween.start(); 
+    }), 2000);
+}    
+  
+/*function finishedAnimating(){
+    setTimeout((function(){
+        index = 0; 
+        p1outline.alpha =0; 
+        p2outline.alpha =0; 
+        p3outline.alpha =0; 
+        p4outline.alpha =0; 
+        p1.alpha = 1; 
+        g2.alpha = 1; 
+        p3.alpha = 1; 
+        p1tween = game.add.tween(p1).to({alpha:0}, 500 ,Phaser.Easing.None,false, 2000, 0, false);
+        g2tween = game.add.tween(g2).to({alpha:0}, 750 ,Phaser.Easing.None,false, 2000, 0, false);
+        p3tween = game.add.tween(p3).to({alpha:0}, 500 ,Phaser.Easing.None,false, 2500, 0, false);
+        p3tween.onComplete.add(finishedAnimating,this); 
+
+        g2tween.chain(p1tween);
+        p1tween.chain(p3tween);
+        g2tween.start(); 
+    }),3000);
+}*/
+
+</script>
+
+
+</body>
+</html>

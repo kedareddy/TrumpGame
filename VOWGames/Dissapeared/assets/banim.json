@@ -1,0 +1,44 @@
+{"frames": [
+
+{
+	"filename": "b1.png",
+	"frame": {"x":0,"y":0,"w":393,"h":240},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":393,"h":240},
+	"sourceSize": {"w":393,"h":240}
+},
+{
+	"filename": "b2.png",
+	"frame": {"x":393,"y":0,"w":393,"h":240},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":393,"h":240},
+	"sourceSize": {"w":393,"h":240}
+},
+{
+	"filename": "b3.png",
+	"frame": {"x":786,"y":0,"w":393,"h":240},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":393,"h":240},
+	"sourceSize": {"w":393,"h":240}
+},
+{
+	"filename": "b4.png",
+	"frame": {"x":1179,"y":0,"w":393,"h":240},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":393,"h":240},
+	"sourceSize": {"w":393,"h":240}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "banim.png",
+	"format": "RGBA8888",
+	"size": {"w":1572,"h":240},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:06b711fb6fe476dc257204005fce50e1:1a565b6365d4a4a9c86dfbc040f1d0a0:15fb5f46a98ad24a9a064f2d8e726d6b$"
+}
+}
