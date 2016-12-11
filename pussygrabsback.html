@@ -5,24 +5,9 @@
 <title>Pussy Grabs Back!</title>
 <meta name="viewport" content="width=device-width">
 <meta name="keywords" content="Pussygrabsback,dumptrump,southasiansdumptrump,nomoretrumpmodirapeculture, notorapeculture, notoislamophobia">
-    
-<meta property="og:site_name"   content="PlayLoops">
-<meta property="og:url"         content="http://www.playloops.io/pussygrabsback.html">
-<meta property="og:title"       content="Pussy Grabs Back!">
-<meta property="og:description" content="How many times can we say NO to Trump, his Rape Culture, Islamophobia, White Supremacy before Nov 8th? #DumpTrump #SouthAsiansDumpTrump #LoveTrumpsHate">
-<meta property="og:type"        content="video.other">
-<meta property="og:image"       content="http://www.playloops.io/assets/BkgWithoutTrump.jpg">
-<meta property="fb:app_id"			content="930904337042753">
-    
-<meta name="twitter:card" content="photo">
-<meta name="twitter:site" content="PlayLoops">
-<meta name="twitter:title" content="Pussy Grabs Back!">
-<meta name="twitter:image" content="http://www.playloops.io/assets/BkgWithoutTrump.jpg">
-<meta name="twitter:url" content="http://www.playloops.io/pussygrabsback.html" />
-<meta name="twitter:description" content="How many times can we say NO to Trump, his Rape Culture, Islamophobia, White Supremacy before Nov 8th? #DumpTrump #SouthAsiansDumpTrump #LoveTrumpsHate">
 
-    
-    
+<meta property="og:url" content="http://www.playloops.io/assets/TrumpPunchPussy.gif">
+
 <script type="text/javascript" src="js/phaser.min.js"></script>
 <script type="text/javascript" src="./js/libgif.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -51,7 +36,7 @@
 <body style="background-color:black; position: relative;">
   
 <div id="countercontainer">
-    <h1 id="bigcounter" style="color:white; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;">00,000,000,981</h1>
+    <h1 id="bigcounter" style="color:black; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;text-align: center;">DON'T</h1>
 </div>
        
     
@@ -195,9 +180,8 @@
 // get punch count so far (do once at beginning of js)    
 $.get('http://babybrain.org/cgi-bin/trumpcount.pl', 
       function(data){
-        numOfPunches = parseInt(data,10);
-        //document.getElementById("p1").textContent = "000" + String(numOfPunches);
-        document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+        //numOfPunches = parseInt(data,10);
+        //document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
       }
 );    
 //SuperGif library enables us to move back and forth between frames in the gif. It also adds delay to the load time //upfront, which is a bit problematic.      
@@ -212,97 +196,67 @@ var counter = 0;
 var numOfPunches = 0; 
 var isPunching = false; 
 var resetPunchTimeout, counterTimeout; 
+var words = ["DON'T", "YOU", "DARE", "TOUCH", "ME"];
  
 $(document).ready(function(){
     
     $('#punchgifDiv').hide();
     
         $( "#parentcontainer" ).on('touchend click', function(){
-                    //e.stopPropagation(); e.preventDefault();
-        var hitGood = CheckForOverlap(); //e.pageX, e.pageY);
             
-        if((doOnce == false && hitGood == true) || isPunching == true){
+        if((doOnce == false) || isPunching == true){
             
-            if(counter != headcounter){
-                counter = 0; 
-                headcounter = 0; 
-            }
-            
-            counter = counter +1;   
-            headcounter++; 
-            console.log("headcounter: " + headcounter + " counter: " + counter);
-            
-            
-            
-            if(counter == 3 && headcounter == counter){
-
-           
-                head3.alpha = 0; 
+               
                 
-                // increment punch count
                 numOfPunches++;
-                $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
-                /*setTimeout((function() {
-                    //hillary.alpha =1; 
-                }), 70);
-                
-                setTimeout((function() {
-                    hillary.alpha =0; 
-                }), 950);*/
-                
-         
-                
-                //$('#logocontainer').css({'position': 'relative'});
-                
-                
-                if(isPunching == true){
+               // $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
+             
+               // if(isPunching == true){
                     tPunchGif.move_to(4);   
-                    counter = 2;
-                    headcounter = 2;
+                   // counter = 2;
+                    //headcounter = 2;
                     clearTimeout(counterTimeout); 
                     clearTimeout(resetPunchTimeout);
-                    document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                   // document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                    document.getElementById("bigcounter").style.color="white";
+                    if(counter > 4){ counter = 0; }
+                     document.getElementById("bigcounter").textContent = words[counter];
+            
                     bloodsprite.alpha = 1; 
                     bloodsprite.animations.play('spurtAnimation', 12, false);
                     bloodsprite.animations.currentAnim.onComplete.add(function () {	bloodsprite.alpha = 0;}, this);
 
-                }
+               /* }
                 else{
                     tPunchGif.move_to(4);
                     counter = 0;
-                }
+                }*/
                 
                      isPunching = true; 
                 
-                counterTimeout = setTimeout((function() {
+                //counterTimeout = setTimeout((function() {
+                   // document.getElementById("bigcounter").textContent = words[counter];
                     //$("p").animate({fontSize: '-=.2em'}, 250);    
-                    //document.getElementById("p1").textContent = "000" + String(numOfPunches);
-                    document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                    //document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                    //document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
                      
-                }), 725);
+                //}), 725);
                 
-                resetPunchTimeout = setTimeout(resetPunch, 1100);
-                
+                if(counter == 4){
+                    resetPunchTimeout = setTimeout(resetPunch, 1100);
+                }else{
+                    resetPunchTimeout = setTimeout(resetPunch, 250);
+                }
+            counter = counter +1;
+            
                 tPunchGif.play();
                 $('#punchgifDiv').show();  
                 $('#parentgifDiv').hide();
                 
                 doOnce = true; 
-            }
-            else if(isPunching == false && counter < 3){
-               // setTimeout((function() {
-                     changeHead();
-                //}), 200);
-                
-            }
+
         }
-        else{
-            /*if(counter != headcounter){
-                counter = 0; 
-                headcounter = 0; 
-            }
-            changeHead();*/
-        }
+
     });
 
 });  
@@ -328,10 +282,8 @@ var game = new Phaser.Game(600, 338, Phaser.CANVAS, 'phasergame', { preload: pre
 
 function preload() {
     //game.load.atlas('speech', 'assets/mouth.png', 'assets/mouth.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
-    game.load.atlas('blood', 'assets/blood.png', 'assets/blood.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
-    game.load.image('head1', 'assets/head1.png');
-    game.load.image('head2', 'assets/head2.png');
-    game.load.image('head3', 'assets/head3.png');
+    game.load.atlas('blood', 'assets/heart.png', 'assets/heart.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+
    // game.load.image('head4', 'assets/TrumpSprite.png');
     game.load.image('podium', 'assets/podium.jpg');
    // game.load.image('hillary', 'assets/pussy4.png');
@@ -342,143 +294,18 @@ var head1Pos, head2Pos, head3Pos;
 var spurtAnimation, bloodsprite; 
 function create() {
     
-    hillary = game.add.sprite(0, 0, 'hillary');
-    hillary.position.setTo(65, -65);
-    hillary.scale.setTo(.4,.4);
-    hillary.alpha = 0; 
-    
-    head3 = game.add.sprite(0, 0, 'head3');
-    head3.position.setTo(375, 202);
-    head3.scale.setTo(.75,.75);
-    head3Pos = head3.position; 
-    head4 = game.add.sprite(0, 0, 'head4');
-    head4.position.setTo(295, 92);
-    podium = game.add.sprite(0, 0, 'podium');
-    podium.position.setTo(357, 248);
-    head1 = game.add.sprite(0, 0, 'head1');
-    head1.position.setTo(295, 92);
-    head1Pos = head1.position; 
-    head2 = game.add.sprite(0, 0, 'head2');
-    head2.position.setTo(485, 65);
-    head2.angle -= 10;
-    head2Pos = head2.position; 
-    
-    head1.alpha = 0; 
-    head2.alpha = 0;
-    head3.alpha = 0; 
-    head4.alpha = 0; 
-    head1.inputEnabled = true; 
-    head2.inputEnabled = true; 
-    head3.inputEnabled = true; 
-    head4.inputEnabled = true; 
-    head1.input.useHandCursor = true;
-    head2.input.useHandCursor = true;
-    head3.input.useHandCursor = true;
-    
     bloodsprite = game.add.sprite(315, -60, 'blood');
     bloodsprite.scale.setTo(3.2,3.2);
     spurtAnimation = bloodsprite.animations.add('spurtAnimation');
     bloodsprite.alpha = 0; 
     
-
-    StartGame(); 
 }  
   
-var timer;     
-function StartGame(){
-    timer = game.time.events.add(Phaser.Timer.SECOND * .25, changeHead, this);
-}   
-    
-var head1Tween, head2Tween, head3Tween; 
-var tweenTime = 7000; 
-/*function ShowHead1(){
-    head1.alpha = 1; 
-    head1.position.y = 92;
-    head1Tween = game.add.tween(head1).to({ y: 400 }, tweenTime, Phaser.Easing.Quadratic.In, true, 0, 0, false);
-    head1Tween.onComplete.add(head1TweenComplete, this);
-} */   
 
-function head1TweenComplete(){
-    //console.log("tween completed. now will change heads.asdfasdf ");
-    if(head1.alpha == 1){
-        if(head2Tween != null){
-            head2Tween.stop();
-        }
-        if(head3Tween != null){
-            head3Tween.stop();
-        }
-        // console.log("tween completed. now will change heads. ");
-        
-        headcounter ++; 
-        changeHead(); 
-    }
-}
-    
-function head2TweenComplete(){
-    if(head2.alpha == 1){
-        if(head1Tween != null){
-            head1Tween.stop();
-        }
-        if(head3Tween != null){
-            head3Tween.stop();
-        }
-        headcounter ++; 
-        changeHead(); 
-    }
-}
-    
-function head3TweenComplete(){
-    if(head3.alpha == 1){
-        if(head2Tween != null){
-            head2Tween.stop();
-        }
-        if(head1Tween != null){
-            head1Tween.stop();
-        }
-        headcounter ++; 
-        changeHead(); 
-    }
-}    
-    
+ 
+
 var headcounter = 0;     
-function changeHead(){
-    if(counter != headcounter){
-        counter = 0; 
-        headcounter = 0; 
-    }
-   // console.log("headcounter: " + headcounter);
-    if(headcounter >= 3){
-        headcounter = 0;     
-    }
     
-    if(headcounter == 0){
-        head3.alpha = 0; 
-        head1.alpha = 1;
-        head1.position.y = 92;
-        head1Tween = game.add.tween(head1).to({ y: 400 }, tweenTime, Phaser.Easing.Quadratic.In, true, 0, 0, false);
-        head1Tween.onComplete.add(head1TweenComplete, this);
-    }
-    else if(headcounter == 1){
-        head1.alpha = 0;
-        head2.alpha = 1; 
-        head2.position.x = 485; 
-        head2Tween = game.add.tween(head2).to({ x: 650 }, tweenTime, Phaser.Easing.Quadratic.In,true, 0,0, false);
-        head2Tween.onComplete.add(head2TweenComplete, this);
-    }
-     else if(headcounter == 2){
-        head2.alpha = 0;
-        head3.alpha = 1;
-        head3.position.y = 202; 
-        head3Tween = game.add.tween(head3).to({ y: 379 }, tweenTime, Phaser.Easing.Quadratic.In,true, 0,0, false);
-        head3Tween.onComplete.add(head3TweenComplete, this);
-    }
-    else{
-        head1.alpha = 0;    
-        head2.alpha = 0;
-        head3.alpha = 0; 
-        head4.alpha = 0; 
-    }
-}    
      
 function resetPunch()
 {   
@@ -486,31 +313,10 @@ function resetPunch()
     $('#punchgifDiv').hide(); 
     tPunchGif.move_to(2);
    // $('#logocontainer').css({'position': 'absolute'});
-    
-    tweenTime = tweenTime - 1000; 
-    if(tweenTime < 2000){
-        tweenTime = 2000; 
-    }
-    headcounter = 0; 
-    
+
     isPunching = false;
     doOnce = false; 
-    head1Tween.stop(); 
-    head2Tween.stop();
-    head3Tween.stop();
-    head1.alpha = 0; 
-    head2.alpha = 0;
-    head3.alpha = 0; 
-    head4.alpha = 0;
-    head1.position = head1Pos; 
-    head2.position = head2Pos; 
-    head3.position = head3Pos; 
-    //ShowHead1();
-    //head1.tint =  0xffffff;
-    //head2.tint =  0xffffff;
-    //head3.tint =  0xffffff;
-    
-    changeHead();
+
 }  
 
 
@@ -528,34 +334,6 @@ function update() {
         {        
             game.world.setBounds(0, 0, game.width,game.height);    
         }
-    }
-}
-    
-function CheckForOverlap(){
-    //console.log(String(cX) + " : " + String(cY) ); 
-    //var myPoint = new Phaser.Point(cX - .3*window.innerWidth, cY) ;
-    //console.log(head1.getBounds());
-    //if(Phaser.Rectangle.containsPoint(head1.getBounds(), myPoint) && head1.alpha == 1){
-    if(head1.alpha == 1){
-
-            //head1.tint =  Math.random() * 0xCD5C5C;
-
-        //console.log("yes!");
-        return true; 
-    }
-    //else if(Phaser.Rectangle.containsPoint(head2.getBounds(), myPoint) && head2.alpha == 1){
-    if(head2.alpha == 1){
-        //head2.tint = Math.random() * 0xCD5C5C;
-        return true; 
-    }
-    //else if(Phaser.Rectangle.containsPoint(head3.getBounds(), myPoint) && head3.alpha == 1){
-    if(head3.alpha == 1){
-        //head3.tint = Math.random() * 0xCD5C5C;
-        return true; 
-    }
-    else{
-        //console.log("NOPE");
-        return false; 
     }
 }
 
