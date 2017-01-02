@@ -1,0 +1,351 @@
+<!doctype html> 
+<html lang="en"> 
+
+<head> 
+	<meta charset="UTF-8" />
+    <title>Punch Trump</title>
+    <meta name="viewport" content="width=device-width">
+    
+    <script type="text/javascript" src="js/tracking-min.js"></script>
+    <script src="js/data/face.js"></script>
+    <script type="text/javascript" src="js/libgif.js"></script>
+    <script src='js/gifshot.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Exo:800|Lato:700" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+    
+<body style=" position: relative;">
+    
+<div style="position: relative; width: 100%; height: 150%;">
+<!-->width: 50em; <-->
+<div style="display:block; margin: 0 auto; position:relative; border-style: solid;border-width: 0px; border-color: gray;background-color: white;">
+
+    <div class = "topdiv" style="display:flex; width:100%; margin: 0 auto; position:relative; background-color: rgba(0,0,0,0.75);">
+    <div style="text-align: left; width: 100%; height: 100%;">
+    <h1 class = "uielement" style=" display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 5px; margin-left: 8px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
+    </div>
+    <div style="text-align: right; padding: 5px; width: 100%; height: 100%;">
+    <button class="button" style=" ">PUBLISH</button>   
+    </div>
+</div> 
+    
+<div class = "gamediv"style=" position: relative; text-align: center; " >
+    <div class="text container" style="width: 600px; height: 60px;">
+        <canvas id="myCanvas" width="600" height="60" style="background-color: black;">
+            Your browser does not support the HTML5 canvas tag.</canvas>
+        <!--<h1 id="text" style="color:white; text-align: text-align;font-family: 'Exo', sans-serif;font-size: 300%; padding-left: 5px;margin:0 auto;">DON'T YOU DARE.</h1>-->
+    </div>    
+    <div class="parent container" id="parentcontainer">
+        <div id = 'parentgifDiv' style=""> <img id = 'parentgif' src="assets/TrumpSpeechSlow.gif" alt="HTML5 Icon" style=" height:auto;position:absolute;top:0px;left:0px;z-index:0;">
+        </div>
+        <div id = 'punchgifDiv' style="" > <img id='punchgif' src="assets/TrumpPunchedSlow.gif" alt="HTML5 Icon" style=" height:auto; position:absolute;top:0px;left:0px;z-index:0;">
+        </div>
+    </div>    
+</div>
+    
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content" >
+    <span class="close">&times;</span>
+    <div class="demo-frame">
+        <div class="demo-container">
+          <video class="webcamvideo" id="webcamvideo" width="320" height="240"  preload autoplay loop muted></video>
+          <canvas class="webcamcanvas" id="webcamcanvas" width="320" height="240"></canvas>
+        </div>
+    </div>
+  </div>
+
+</div>    
+    
+</div>
+    
+</div>
+    
+    
+
+    
+    
+    
+<style>
+    html { background-color: black; }
+   /* body { background-color: white; }*/
+    .container{
+        display:block; 
+     
+        margin:0 auto; 
+        position:relative;
+       /* background-color:black;*/
+    }
+    span {
+        color: red;
+    }
+    .button {
+        background-color: gray;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    .modal {
+        display: block; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+        /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+        height: 75%; 
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .webcamvideo, .webcamcanvas {
+
+        position: absolute; 
+        margin-left: 12%;
+        margin-top: 3%;
+    }
+
+</style>   
+
+    
+    
+<script type="text/javascript">
+    
+$('#punchgifDiv').hide();  
+//$('#parentgifDiv').hide();
+    
+var words = ["NOT","MY", "PRESIDENT"];    
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.font = "60px Lato";
+ctx.fillStyle = "white";
+ctx.textAlign = "center";
+ctx.fillText(" ",410,50);
+    
+var face_image = new Image();
+face_image.src = 'assets/kedar.png';
+var faceCoords = [{x: 120, y: 20}, {x: 120, y: 20}, {x: 120, y: 20}, {x: 120, y: 18}];
+var faceCoords2 = [{x: 125, y: 16}, {x: 162, y: 16}, {x: 152, y: 16}, {x: 152, y: 16}, {x: 152, y: 16}, {x: 152, y: 16}, {x: 152, y: 16}, {x: 151, y: 16}, {x: 150, y: 16}, {x: 146, y: 16}, {x: 143, y: 16}, {x: 140, y: 16}, {x: 137, y: 16}, {x: 137, y: 14}];
+
+  
+        
+//SuperGif library enables us to move back and forth between frames in the gif. It also adds delay to the load time //upfront, which is a bit problematic. 
+var tParentGif = new SuperGif({ gif: document.getElementById('parentgif'), loop_mode: true} );
+var tPunchGif;
+var gifFrames = []; 
+
+tParentGif.load(function(){
+    for (i = 0; i < (tParentGif.get_length()); i++) { 
+        tParentGif.move_to(i);
+        var tempCanvas = tParentGif.get_canvas(); 
+        var ctx= tempCanvas.getContext("2d");
+        //var imgData = tempCanvas.toDataURL('image/png');
+        //var imgNewData= ctx.getImageData(0,0, tempCanvas.width, tempCanvas.height);
+        var can3 = document.createElement('canvas');
+        can3.width = tempCanvas.width;
+        can3.height = tempCanvas.height + 60;
+        var ctx3 = can3.getContext('2d');
+
+        ctx3.drawImage(c, 0, 0);
+        ctx3.drawImage(tempCanvas, 0, 60);
+        ctx3.drawImage(face_image, faceCoords[i].x-(face_image.width/3), faceCoords[i].y+60-(face_image.height/2));
+        
+        var imgData = can3.toDataURL('image/jpeg');
+        //console.log("toDataURL: " + imgData);
+        //console.log("getImageData: " + imgNewData);
+        var oneImage = new Image();
+        oneImage.src = imgData;
+        gifFrames.push(oneImage);
+       
+    }
+   
+    var jLimit; 
+    tPunchGif = new SuperGif({ gif: document.getElementById('punchgif'), loop_mode: true} );    
+    tPunchGif.load(function(){
+    for(k=0; k< (words.length); k++){
+        if(k == (words.length - 1)){
+            jLimit = tPunchGif.get_length(); 
+        }
+        else{
+            jLimit = 3; 
+        }
+        for (j = 0; j < jLimit; j++) {
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx = c.getContext("2d");
+            ctx.font = "60px Lato";
+            ctx.fillStyle = "white";
+            ctx.textAlign = "center";
+            ctx.fillText(words[k],410,50);
+            
+            tPunchGif.move_to(j);
+            var tempCanvas2 = tPunchGif.get_canvas(); 
+            var ctx2= tempCanvas2.getContext("2d");
+            //var imgData = tempCanvas.toDataURL('image/png');
+            //var imgNewData= ctx.getImageData(0,0, tempCanvas.width, tempCanvas.height);
+            var can32 = document.createElement('canvas');
+            can32.width = tempCanvas2.width;
+            can32.height = tempCanvas2.height + 60;
+            var ctx32 = can32.getContext('2d');
+
+            ctx32.drawImage(c, 0, 0);
+            ctx32.drawImage(tempCanvas2, 0, 60);
+            ctx32.drawImage(face_image, faceCoords2[j].x-(face_image.width/3), faceCoords2[j].y+60-(face_image.height/2));
+
+            var imgData2 = can32.toDataURL('image/jpeg');
+            var oneImage2 = new Image();
+            oneImage2.src = imgData2;
+            gifFrames.push(oneImage2);
+    
+
+            //gifFrames.push(imgData);
+        }
+    }
+    gifshot.createGIF({
+        images: gifFrames,
+        gifWidth: tempCanvas.width, 
+        gifHeight: 398, 
+        interval: 0.12
+    }, function(obj) {
+        if(!obj.error) {
+            var image = obj.image,
+            animatedImage = document.createElement('img');
+            animatedImage.src = image;
+            document.getElementById('parentcontainer').appendChild(animatedImage);
+        }
+    });
+    });    
+});
+
+    
+    
+$(document).ready(function(){
+    var video = document.getElementById('webcamvideo');
+      var wCanvas = document.getElementById('webcamcanvas');
+      var wContext = wCanvas.getContext('2d');
+      var tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+      tracking.track('#webcamvideo', tracker, { camera: true });
+      tracker.on('track', function(event) {
+        wContext.clearRect(0, 0, wCanvas.width, wCanvas.height);
+        event.data.forEach(function(rect) {
+          wContext.strokeStyle = '#a64ceb';
+          wContext.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          wContext.font = '11px Helvetica';
+          wContext.fillStyle = "#fff";
+          wContext.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+          wContext.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        });
+             
+      });
+    
+    
+    $( ".demo-container" ).on('touchend click', function(){
+        console.log("where hwereh lj lkj ");
+        var webvideo = document.getElementById('webcamvideo');
+        var fcan = document.createElement('canvas');
+        fcan.width = webvideo.width;
+        fcan.height = webvideo.height;
+        var fctx = fcan.getContext('2d');
+        /// draw the shape we want to use for clipping
+        fctx.drawImage(face_image, 0, 0);
+        
+
+        /// change composite mode to use that shape
+        fctx.globalCompositeOperation = 'source-in';
+
+        /// draw the image to be clipped
+        fctx.drawImage(webvideo, 0, 0);   
+        
+        var wimgData = fcan.toDataURL('image/png');
+        //console.log("wimgData: " + wimgData);
+        
+        //var myImage = document.getElementById('parentgif');
+        //myImage.src = anImage; 
+        var cutOutImage = document.createElement('img');
+        cutOutImage.src = wimgData;
+        document.getElementById('parentcontainer').appendChild(cutOutImage);
+      
+        
+        
+    });
+
+    
+    $( "#parentcontainer" ).on('touchend click', function(){
+        $('#myModal').show();
+    });
+    $( ".close" ).on('touchend click', function(){
+        $("#myModal").hide();
+    });
+    
+    $(document).on('touchend click', function(){    
+        // When the user clicks anywhere outside of the modal, close it
+        if (String(event.target.id) == "myModal") {
+           $("#myModal").hide();
+        }
+    });   
+});
+    
+        
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+$(document).ready(function(){
+    
+    
+    
+});
+        
+    
+
+</script>
+
+</body>
+</html>
