@@ -6,6 +6,8 @@
     <title>Punch Trump</title>
     <meta name="viewport" content="width=device-width">
     
+    <script type="text/javascript" src="js/clmtrackr.min.js"></script>
+    <script src="js/models/model_pca_20_svm.js"></script>
     <script type="text/javascript" src="js/tracking-min.js"></script>
     <script src="js/data/face.js"></script>
     <script type="text/javascript" src="js/libgif.js"></script>
@@ -170,10 +172,14 @@ ctx.fillStyle = "white";
 ctx.textAlign = "center";
 ctx.fillText(" ",410,50);
     
+var face_outline = new Image();
+face_outline.src = 'assets/face_outline.png';    
 var square_image = new Image();
-square_image.src = 'assets/square.jpg';
+square_image.src = 'assets/triangle.png';
 var face_image = new Image();
-face_image.src = 'assets/kedar.png';
+face_image.src = 'assets/kedar_top.png';
+var glasses = new Image();
+glasses.src = 'assets/glasses.png';    
 var faceCoords = [{x: 120, y: 20}, {x: 120, y: 20}, {x: 120, y: 20}, {x: 120, y: 18}];
 var faceCoords2 = [{x: 125, y: 16}, {x: 162, y: 16}, {x: 152, y: 16}, {x: 152, y: 16}, {x: 152, y: 16}, {x: 152, y: 16}, {x: 152, y: 16}, {x: 151, y: 16}, {x: 150, y: 16}, {x: 146, y: 16}, {x: 143, y: 16}, {x: 140, y: 16}, {x: 137, y: 16}, {x: 137, y: 14}];
 
@@ -219,6 +225,7 @@ function GenerateGIF(face_jpg){
         ctx3.drawImage(tempCanvas, 0, 60);
         //-(face_jpg.width/3) -(face_jpg.height/2)
         ctx3.drawImage(face_jpg, faceCoords[i].x-(face_jpg.width/2) , faceCoords[i].y+60-(face_jpg.height/3));
+        //ctx3.drawImage(face_image, faceCoords[i].x-(face_image.width/2) , faceCoords[i].y+60-(face_image.height/2));
         
         var imgData = can3.toDataURL('image/jpeg');
         //console.log("toDataURL: " + imgData);
@@ -259,6 +266,7 @@ function GenerateGIF(face_jpg){
             ctx32.drawImage(c, 0, 0);
             ctx32.drawImage(tempCanvas2, 0, 60);
             ctx32.drawImage(face_jpg, faceCoords2[j].x-(face_jpg.width/2), faceCoords2[j].y+60-(face_jpg.height/3));
+           // ctx32.drawImage(face_image, faceCoords2[j].x-(face_image.width/2), faceCoords2[j].y+60-(face_image.height/2));
 
             var imgData2 = can32.toDataURL('image/jpeg');
             var oneImage2 = new Image();
@@ -289,17 +297,32 @@ function GenerateGIF(face_jpg){
 
     
 var faceRect; 
+var positions;
 $(document).ready(function(){
-    var video = document.getElementById('webcamvideo');
+      var video = document.getElementById('webcamvideo');
       var wCanvas = document.getElementById('webcamcanvas');
       var wContext = wCanvas.getContext('2d');
+      
+      var ctracker = new clm.tracker();
+      ctracker.init(pModel);  
+    
+      ctracker.start(video);
+      
+    
+    //var drawCanvas = document.getElementsById('somecanvas');
+    
+
+//ctracker.draw(wCanvas);
+    
       var tracker = new tracking.ObjectTracker('face');
       tracker.setInitialScale(4);
-      tracker.setStepSize(2);
+      tracker.setStepSize(2) ;
       tracker.setEdgesDensity(0.1);
       tracking.track('#webcamvideo', tracker, { camera: true });
-      tracker.on('track', function(event) {
+      /*tracker.on('track', function(event) {
         wContext.clearRect(0, 0, wCanvas.width, wCanvas.height);
+        
+        wContext.drawImage(face_outline,(wCanvas.width/2)-(face_outline.width/2),(wCanvas.height/2)-(face_outline.height/2) )
         event.data.forEach(function(rect) {
           faceRect = rect; 
           wContext.strokeStyle = '#a64ceb';
@@ -311,7 +334,18 @@ $(document).ready(function(){
           //wContext.drawImage(face_image, 85, 1);    
         });
              
-      });
+      });*/
+    
+    
+        function drawLoop() {
+          requestAnimationFrame(drawLoop);
+          //cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
+          wContext.clearRect(0, 0, wCanvas.width, wCanvas.height);
+          ctracker.draw(wCanvas);
+          positions = ctracker.getCurrentPosition();     
+          console.log("score: " + ctracker.getScore());
+        }
+        drawLoop();
     
     
     $( "#enterButton" ).on('touchend click', function(){
@@ -324,7 +358,11 @@ $(document).ready(function(){
         var fctx = fcan.getContext('2d');
         console.log("webcam: "+ webvideo.width+"::"+webvideo.height+ "face: " +face_image.width + "::" + face_image.height)
         /// draw the shape we want to use for clipping
-        fctx.drawImage(square_image, faceRect.x, faceRect.y-15,faceRect.width, faceRect.height+15);
+        //fctx.drawImage(square_image, faceRect.x, faceRect.y-30,faceRect.width, faceRect.height+30);
+         //fctx.drawImage(square_image, (webvideo.width/2)-(square_image.width/2),(webvideo.height/2)-(square_image.height/1.2),square_image.width, //square_image.height*1.3);
+        //square_image.style.width = Math.abs(positions[14][0]-positions[0][0]);
+        //square_image.style.height = 'auto';
+        fctx.drawImage(square_image, positions[0][0], positions[41][1] - Math.abs(positions[7][1]-positions[41][1]),Math.abs(positions[14][0]-positions[0][0]), 2*Math.abs(positions[7][1]-positions[41][1]));
         
 
         /// change composite mode to use that shape
@@ -332,7 +370,16 @@ $(document).ready(function(){
 
         /// draw the image to be clipped
         fctx.drawImage(webvideo, 0, 0, webvideo.width, webvideo.height);   
+        fctx.globalCompositeOperation = 'source-over';
         
+        //fctx.drawImage(face_image, (webvideo.width/2)-(face_image.width/2),(webvideo.height/2)-(face_image.height/2),face_image.width, face_image.height);
+
+            //face_image.style.width = Math.abs(positions[14][0]-positions[0][0]);
+        face_image.style.height = 'auto';
+        //fctx.drawImage(face_image, positions[0][0], positions[41][1] - Math.abs(positions[7][1]-positions[41][1]),Math.abs(positions[14][0]-positions[0][0]), 2*Math.abs(positions[7][1]-positions[41][1]));
+        glasses.style.width = Math.abs(positions[14][0]-positions[0][0]);
+        glasses.style.height = 'auto';
+        fctx.drawImage(glasses,positions[0][0]+((positions[19][0] - positions[0][0]) /1.25),positions[20][1],glasses.width, glasses.height);
         var wimgData = fcan.toDataURL('image/png');
         //console.log("wimgData: " + wimgData);
         
@@ -340,6 +387,9 @@ $(document).ready(function(){
         //myImage.src = anImage; 
         var cutOutImage = document.createElement('img');
         cutOutImage.src = wimgData;
+        //cutOutImage.style.width = face_image.width;
+        //cutOutImage.style.height = 'auto';
+        
         //document.getElementById('parentcontainer').appendChild(cutOutImage);
         var str = document.getElementById("myText").value;
         words.length = 0;
