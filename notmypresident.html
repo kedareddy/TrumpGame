@@ -1,0 +1,343 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8" />
+<title>Not My President!</title>
+<meta name="viewport" content="width=device-width">
+<meta name="keywords" content="Pussygrabsback,dumptrump,southasiansdumptrump,nomoretrumpmodirapeculture, notorapeculture, notoislamophobia">
+
+<meta property="og:url" content="http://www.playloops.io/assets/TrumpPunchPussy.gif">
+
+<script type="text/javascript" src="js/phaser.min.js"></script>
+<script type="text/javascript" src="./js/libgif.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Exo:800|Lato:700" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+    
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85949084-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+</head>    
+    
+<body style="background-color:black; position: relative;">
+  
+<div id="countercontainer">
+    <h1 id="bigcounter" style="color:black; font-family: 'Exo', sans-serif;font-size: 500%; padding: 0px;margin:0 auto;text-align: center;">DON'T</h1>
+</div>
+       
+    
+<div id="parentcontainer">
+    <!--<p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>-->
+    <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/HulkPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
+    </div>
+    <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunchPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
+    </div>
+    
+    <div id="phasergame" style="position:absolute;top:0px;left:0px;z-index:2;"></div>
+</div>
+    
+<div id="logocontainer">
+    
+    <h1 class = "uielement" style="vertical-align: middle; display:inline-block; color:white; font-family: 'Lato', sans-serif;font-size: 19px; letter-spacing: 4px; padding: 10px; border-style: solid;border-width: 5px;">PLAY LOOPS</h1>
+    <!--<span class="tooltiptext">Coming Soon</span>-->
+
+    <a class = "uielement facebook customer share" style= "vertical-align: middle; display:inline-block;margin-left:90px;" href="http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/notmypresident.html&title=Not My President!"><img src="assets/facebook-icon.svg" width="50"></a>
+    
+    <a 
+       class = "uielement twitter customer share"
+       style="vertical-align: middle;display:inline-block;margin-left:90px;" 
+       href="http://twitter.com/intent/tweet?status=Not My President!+http://www.playloops.io/notmypresident.html">
+       <img src="assets/twitter-icon.svg" width="50">
+    </a>
+</div>
+    
+    
+    
+<style>
+.uielement{
+    opacity: 0.5; 
+}
+.uielement:hover, .uielement:active {
+    opacity: 1;
+}
+.tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    font-size: 75%;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0%;
+    margin-left: -20px;
+        /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+    opacity: 0;
+    transition: opacity 1s;
+}
+    
+.uielement:hover .tooltiptext {
+    visibility: visible;
+    opacity: 0.5;
+}
+    
+    #countercontainer{
+        display:block; 
+        position:relative; 
+        
+        width: 600px; 
+        margin:0 auto;
+        padding: 0px;
+    }
+    #parentcontainer{
+        display:block; 
+        width: 600px; 
+        height: 338px; 
+        margin:0 auto; 
+        position:relative;
+        
+    }
+#logocontainer{
+    display: block; 
+    position:relative; 
+    margin:0 auto;
+    //top: 429.5%;
+    //left: 28.3%;
+    width: 600px;
+    
+    
+    } 
+    
+
+   
+</style>    
+        
+
+
+
+    
+    
+    
+<script type="text/javascript">
+    
+;(function($){
+  
+  /**
+   * jQuery function to prevent default anchor event and take the href * and the title to make a share pupup
+   *
+   * @param  {[object]} e           [Mouse event]
+   * @param  {[integer]} intWidth   [Popup width defalut 500]
+   * @param  {[integer]} intHeight  [Popup height defalut 400]
+   * @param  {[boolean]} blnResize  [Is popup resizeabel default true]
+   */
+  $.fn.customerPopup = function (e, intWidth, intHeight, blnResize) {
+    
+    // Prevent default anchor event
+    e.preventDefault();
+    
+    // Set values for window
+    intWidth = intWidth || '500';
+    intHeight = intHeight || '400';
+    strResize = (blnResize ? 'yes' : 'no');
+
+    // Set title and open popup with focus on it
+    var strTitle = ((typeof this.attr('title') !== 'undefined') ? this.attr('title') : 'Social Share'),
+        strParam = 'width=' + intWidth + ',height=' + intHeight + ',resizable=' + strResize,            
+        objWindow = window.open(this.attr('href'), strTitle, strParam).focus();
+  }
+  
+  /* ================================================== */
+  
+  $(document).ready(function ($) {
+    $('.customer.share').on("click", function(e) {
+      $(this).customerPopup(e);
+    });
+  });
+    
+}(jQuery));    
+    
+    
+    
+// get punch count so far (do once at beginning of js)    
+$.get('http://babybrain.org/cgi-bin/trumpcount.pl', 
+      function(data){
+        //numOfPunches = parseInt(data,10);
+        //document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+      }
+);    
+//SuperGif library enables us to move back and forth between frames in the gif. It also adds delay to the load time //upfront, which is a bit problematic.      
+//var tSpeechGif = new SuperGif({ gif: document.getElementById('parentgif') } );
+//tSpeechGif.load();
+var tPunchGif = new SuperGif({ gif: document.getElementById('punchgif'), loop_mode: false} );
+tPunchGif.load();
+
+
+var doOnce = false;
+var counter = 0; 
+var numOfPunches = 0; 
+var isPunching = false; 
+var resetPunchTimeout, counterTimeout; 
+var words = ["DON'T", "YOU", "DARE", "TOUCH", "ME"];
+ 
+$(document).ready(function(){
+    
+    $('#punchgifDiv').hide();
+    
+        $( "#parentcontainer" ).on('touchend click', function(){
+            
+        if((doOnce == false) || isPunching == true){
+            
+               
+                
+                numOfPunches++;
+               // $.get('http://babybrain.org/cgi-bin/trumpcount.pl?increment=true');
+             
+               // if(isPunching == true){
+                    tPunchGif.move_to(4);   
+                   // counter = 2;
+                    //headcounter = 2;
+                    clearTimeout(counterTimeout); 
+                    clearTimeout(resetPunchTimeout);
+                   // document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                    document.getElementById("bigcounter").style.color="white";
+                    if(counter > 4){ counter = 0; }
+                     document.getElementById("bigcounter").textContent = words[counter];
+            
+                    bloodsprite.alpha = 1; 
+                    bloodsprite.animations.play('spurtAnimation', 12, false);
+                    bloodsprite.animations.currentAnim.onComplete.add(function () {	bloodsprite.alpha = 0;}, this);
+
+               /* }
+                else{
+                    tPunchGif.move_to(4);
+                    counter = 0;
+                }*/
+                
+                     isPunching = true; 
+                
+                //counterTimeout = setTimeout((function() {
+                   // document.getElementById("bigcounter").textContent = words[counter];
+                    //$("p").animate({fontSize: '-=.2em'}, 250);    
+                    //document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                    //document.getElementById("bigcounter").textContent = numberWithCommas(pad(numOfPunches, 11));
+                     
+                //}), 725);
+                
+                if(counter == 4){
+                    resetPunchTimeout = setTimeout(resetPunch, 1000);
+                }else{
+                    resetPunchTimeout = setTimeout(resetPunch, 250);
+                }
+            counter = counter +1;
+            
+                tPunchGif.play();
+                $('#punchgifDiv').show();  
+                $('#parentgifDiv').hide();
+                
+                doOnce = true; 
+
+        }
+
+    });
+
+});  
+
+// Returns a random integer between min (included) and max (included)
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}  
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+    
+
+var game = new Phaser.Game(600, 338, Phaser.CANVAS, 'phasergame', { preload: preload, create: create, update: update}, true);
+
+function preload() {
+    //game.load.atlas('speech', 'assets/mouth.png', 'assets/mouth.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.atlas('blood', 'assets/heart.png', 'assets/heart.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+
+   // game.load.image('head4', 'assets/TrumpSprite.png');
+    game.load.image('podium', 'assets/podium.jpg');
+   // game.load.image('hillary', 'assets/pussy4.png');
+}
+
+var head1, head2, head3, head4, podium, hillary;
+var head1Pos, head2Pos, head3Pos; 
+var spurtAnimation, bloodsprite; 
+function create() {
+    
+    bloodsprite = game.add.sprite(315, -60, 'blood');
+    bloodsprite.scale.setTo(3.2,3.2);
+    spurtAnimation = bloodsprite.animations.add('spurtAnimation');
+    bloodsprite.alpha = 0; 
+    
+}  
+  
+
+ 
+
+var headcounter = 0;     
+    
+     
+function resetPunch()
+{   
+    $('#parentgifDiv').show();
+    $('#punchgifDiv').hide(); 
+    tPunchGif.move_to(2);
+   // $('#logocontainer').css({'position': 'absolute'});
+
+    isPunching = false;
+    doOnce = false; 
+
+}  
+
+
+var shakeWorld = 0;
+function update() {
+    //console.log("tweenTIme: " + tweenTime);
+    game.canvas.focus(); 
+    if (shakeWorld > 0) 
+    {   
+        var rand1 = game.rnd.integerInRange(-20,20);  
+        var rand2 = game.rnd.integerInRange(-20,20);    
+        game.world.setBounds(rand1, rand2, game.width + rand1, game.height + rand2);    
+        shakeWorld--;    
+        if (shakeWorld == 0) 
+        {        
+            game.world.setBounds(0, 0, game.width,game.height);    
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>
