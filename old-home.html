@@ -217,6 +217,12 @@
             console.log("what I wrote: " + inputText);
             $(".footertext").html("I am" + "<br>" + inputText);
         }, false);
+          
+        var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+
+        if (isMobile.matches) {
+            $('.previewfootersection').hide();
+        }  
 
       });
       //$('.previewfooterimage').attr('src', 'assets/Test/LEIA_IDLE_INK.gif');
