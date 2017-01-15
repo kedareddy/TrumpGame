@@ -1,0 +1,1035 @@
+.previewfootersection {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1;
+  background-color: transparent;
+}
+
+.previewfooterdiv {
+  position: static;
+  display: block;
+  width: 275px;
+  height: auto;
+  margin-right: auto;
+  margin-left: auto;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+
+.mostsections {
+  background-color: #000;
+}
+
+.mostcontainers {
+  display: block;
+  padding-right: 0px;
+  padding-left: 0px;
+  background-color: transparent;
+}
+
+.mosteditordivs {
+  display: block;
+  height: 100%;
+  padding-top: 5em;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  background-color: #f8e71c;
+}
+
+.mosteditordivs.last {
+  background-color: #000;
+}
+
+.stepnumicon {
+  display: none;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  padding: 0px;
+  float: none;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  -webkit-box-ordinal-group: 1;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+}
+
+.stepformwrapper {
+  display: block;
+  margin-bottom: 30%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 50px;
+}
+
+.stepnumdiv {
+  display: block;
+  width: 15%;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 8%;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  -webkit-box-ordinal-group: 0;
+  -webkit-order: -1;
+  -ms-flex-order: -1;
+  order: -1;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+  color: #666;
+  text-align: center;
+}
+
+.nextbutton {
+  display: inline-block;
+  float: none;
+  font-family: Montserrat, sans-serif;
+  font-size: 35px;
+  text-align: center;
+}
+
+.formdiv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  text-align: center;
+}
+
+.stepinputdiv {
+  width: 70%;
+  padding-right: 0.4em;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.stepinputdiv.step2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+.stepbutton {
+  display: block;
+  width: 100%;
+  margin-top: 0.1em;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.stepbutton.two {
+  margin-top: 0.4em;
+}
+
+.stepbutton.three {
+  margin-top: 0.5em;
+}
+
+.step1title {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-family: Oswald, sans-serif;
+  text-align: left;
+}
+
+.step1text2 {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  color: rgba(51, 51, 51, .5);
+  text-align: left;
+}
+
+.step1input1 {
+  margin-bottom: 1em;
+  padding-top: 1em;
+  padding-right: 12px;
+  padding-bottom: 1em;
+  font-family: Oswald, sans-serif;
+  color: #d9d9d9;
+  font-size: 35px;
+}
+
+.logoheading {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 8%;
+  font-family: 'Bodoniflf bold', sans-serif;
+  color: #fff;
+}
+
+.logoheading.template {
+  margin-left: 5%;
+}
+
+.headerdiv {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  background-color: #01afd1;
+  color: #fff;
+}
+
+.step2title {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-family: 'Oswald medium', sans-serif;
+  color: #666;
+  text-align: center;
+}
+
+.step2icon {
+  max-width: 50%;
+  border: 2px none #e41a1a;
+  text-align: center;
+}
+
+.nextlinkblock {
+  width: 2em;
+}
+
+.previewfootercontainer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #626364;
+}
+
+.stepnumber {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border: 8px none #666;
+  border-radius: 0px;
+  font-family: 'Oswald medium', sans-serif;
+  font-size: 100px;
+  text-align: left;
+}
+
+.headersection {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  z-index: 1;
+  background-color: #000;
+  color: #000;
+}
+
+.step2selfiediv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
+  margin-left: 14.7%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-ordinal-group: 1;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+}
+
+.step2uploaddiv {
+  display: none;
+  width: 40%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.step2or {
+  display: none;
+  width: 1.5em;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #666;
+}
+
+.step3title {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 4%;
+  font-family: 'Oswald medium', sans-serif;
+  color: #666;
+  text-align: left;
+}
+
+.step3heroesdiv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.hero1link {
+  width: 20%;
+  margin-right: 2%;
+  margin-left: 4%;
+  border: 4px solid #000;
+  border-radius: 15px;
+}
+
+.hero2link {
+  width: 20%;
+  margin-right: 2%;
+  margin-left: 2%;
+  border: 4px solid #000;
+  border-radius: 15px;
+}
+
+.hero3link {
+  width: 20%;
+  margin-right: 2%;
+  margin-left: 2%;
+  border: 4px solid #000;
+  border-radius: 15px;
+}
+
+.hero4link {
+  width: 20%;
+  margin-right: 2%;
+  margin-left: 2%;
+  border: 4px solid #000;
+  border-radius: 15px;
+}
+
+.step4title {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-family: 'Oswald medium', sans-serif;
+  color: #666;
+  text-align: left;
+}
+
+.step4input {
+  margin-bottom: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-family: 'Oswald medium', sans-serif;
+  color: #666;
+  font-size: 35px;
+}
+
+.extraspacecontainer {
+  padding-bottom: 10em;
+  background-color: #000;
+  font-size: 50px;
+}
+
+.submitbutton {
+  padding: 0.4em 0.5em;
+  border: 6px none #666;
+  background-color: #01afd1;
+  font-family: 'Oswald medium', sans-serif;
+  color: #fff;
+  text-decoration: none;
+}
+
+.modaldiv {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  z-index: 2;
+  display: none;
+  width: 100%;
+  height: 100%;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  background-color: rgba(0, 0, 0, .5);
+  text-align: center;
+}
+
+.modalcontent {
+  position: absolute;
+  z-index: 2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 600px;
+  height: 100%;
+  max-width: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  background-color: #01afd1;
+}
+
+.modalclosediv {
+  width: 10%;
+  padding-top: 0.5em;
+}
+
+.modalcanvasdiv {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.modalcameradiv {
+  width: 20%;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.modalapprovecontent {
+  position: absolute;
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 600px;
+  height: 100%;
+  max-width: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  background-color: #01afd1;
+}
+
+.modalyesno {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+
+.modalyes {
+  width: 20%;
+}
+
+.modalno {
+  width: 20%;
+}
+
+.parenttitlediv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  background-color: #01afd1;
+}
+
+.playerbkg {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: auto;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  border: 7px none #01afd1;
+  background-color: #000;
+}
+
+.playerdiv {
+  display: block;
+  width: 600px;
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+  background-color: #666;
+}
+
+.socialmediadiv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: auto;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.sharediv {
+  padding-bottom: 13em;
+  background-color: #f8e71c;
+}
+
+.sharelinkdiv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-content: flex-start;
+  -ms-flex-line-pack: start;
+  align-content: flex-start;
+  text-align: left;
+}
+
+.giflinkdiv {
+  display: none;
+}
+
+.facebookdiv {
+  width: 10%;
+  margin-right: 5%;
+}
+
+.twitterdiv {
+  width: 10%;
+  margin-left: 5%;
+}
+
+.titleheading {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+  margin-left: 0.25em;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  font-family: 'Bodoniflf bold', sans-serif;
+  color: #fff;
+}
+
+.statsdiv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  background-color: #01afd1;
+}
+
+.stats {
+  margin-top: 0em;
+  margin-right: 0.35em;
+  margin-bottom: 0em;
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  font-family: 'Oswald medium', sans-serif;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 400;
+  text-align: right;
+}
+
+.titleheadingdiv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.editbutton {
+  display: inline-block;
+  margin-right: 0.25em;
+  padding-top: 0.35em;
+  padding-bottom: 0.4em;
+  background-color: #f8e71c;
+  font-family: Oswald, sans-serif;
+  color: #000;
+  font-size: 45px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.editdiv {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.statsviews {
+  margin-top: 0em;
+  margin-right: 0.4em;
+  margin-bottom: 0em;
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  font-family: 'Oswald medium', sans-serif;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.sharelink {
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+  font-family: 'Oswald bold', sans-serif;
+  font-size: 35px;
+}
+
+.sharelinktext {
+  margin-right: 0.35em;
+  padding: 2% 2em 2% 0.5em;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+  border: 5px none #000;
+  background-color: #666;
+  font-family: Oswald, sans-serif;
+  color: #fff;
+  font-size: 25px;
+}
+
+.playerdelptxtdiv {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+}
+
+.playerhelptext {
+  display: block;
+  background-color: hsla(0, 0%, 40%, .5);
+  font-family: 'Oswald medium', sans-serif;
+  color: hsla(0, 0%, 100%, .7);
+  text-align: center;
+}
+
+.utility-page-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100%;
+  max-width: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.utility-page-content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 260px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  text-align: center;
+}
+
+.utility-page-form {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+.modalhelpertext {
+  position: absolute;
+  display: block;
+  background-color: rgba(0, 0, 0, .5);
+  color: hsla(0, 0%, 100%, .5);
+}
+
+.webcamvideo {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 600px;
+  height: 400px;
+  max-width: 100%;
+}
+
+.webcamhelpertext {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 3;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  background-color: rgba(0, 0, 0, .5);
+  font-family: 'Oswald medium', sans-serif;
+  color: #fff;
+  font-size: 35px;
+  font-weight: 400;
+}
+
+.webcamoverlayimage {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  width: 600px;
+  height: 400px;
+}
+
+.approveimage {
+  position: relative;
+  width: 600px;
+  height: 400px;
+}
+
+.approvehelpertext {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, .5);
+  font-family: 'Oswald medium', sans-serif;
+  color: #fff;
+  font-size: 35px;
+  font-weight: 400;
+}
+
+.closeicon {
+  width: 3em;
+}
+
+.footertext {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-color: #000;
+  font-family: 'Oswald medium', sans-serif;
+  color: #fff;
+  font-size: 30px;
+  line-height: 35px;
+  text-align: center;
+}
+
+.playertext {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  background-color: #000;
+  font-family: 'Oswald bold', sans-serif;
+  color: #fff;
+  font-size: 50px;
+  text-align: center;
+}
+
+html.w-mod-js *[data-ix="displaynoneonload"] {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .facebookdiv {
+    width: 12%;
+  }
+  .twitterdiv {
+    width: 12%;
+  }
+}
+
+@media (max-width: 767px) {
+  .formdiv {
+    font-size: 40px;
+  }
+  .facebookdiv {
+    width: 15%;
+  }
+  .twitterdiv {
+    width: 15%;
+  }
+}
+
+@media (max-width: 479px) {
+  .stepnumdiv {
+    font-size: 35px;
+  }
+  .formdiv {
+    font-size: 25px;
+  }
+  .step1title {
+    font-size: 25px;
+  }
+  .step1input1 {
+    font-size: 25px;
+  }
+  .stepnumber {
+    font-size: 50px;
+  }
+  .step4title {
+    line-height: 30px;
+  }
+  .step4input {
+    font-size: 25px;
+  }
+  .step2ortext {
+    font-size: 25px;
+  }
+  .parenttitlediv {
+    font-size: 14px;
+  }
+  .facebookdiv {
+    width: 18%;
+  }
+  .twitterdiv {
+    width: 18%;
+  }
+  .titleheading {
+    font-size: 30px;
+  }
+  .stats {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    font-family: 'Oswald bold', sans-serif;
+    font-size: 18px;
+  }
+  .editbutton {
+    font-size: 40px;
+  }
+  .statsviews {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    font-size: 14px;
+  }
+  .sharelink {
+    margin-top: 0em;
+    margin-bottom: 0em;
+    font-size: 30px;
+  }
+  .sharelinktext {
+    width: 95%;
+    font-size: 14px;
+  }
+  .playerhelptext {
+    font-size: 30px;
+  }
+  .playertext {
+    font-size: 33px;
+  }
+}
+
+@font-face {
+  font-family: 'Bodoniflf bold';
+  src: url('../fonts/BodoniFLF-Bold.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Bodoniflf roman';
+  src: url('../fonts/BodoniFLF-Roman.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Oswald';
+  src: url('../fonts/Oswald-RegularItalic.ttf') format('truetype'), url('../fonts/Oswald-MediumItalic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Oswald medium';
+  src: url('../fonts/Oswald-Medium.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Oswald bold';
+  src: url('../fonts/Oswald-Bold.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Oswald stencil';
+  src: url('../fonts/Oswald-Stencil.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
