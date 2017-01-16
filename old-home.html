@@ -7,6 +7,16 @@
   <title>AngerTranslator</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/angertranslator.webflow.css" rel="stylesheet" type="text/css">
@@ -23,20 +33,29 @@
   <link href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png" rel="apple-touch-icon">
     
     
- <script type="text/javascript" src="js/libgif.js"></script>
+    <script type="text/javascript" src="js/libgif.js"></script>
     <script src='js/gifshot.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>   
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="javascript.fullPage.css" />
+    <script type="text/javascript" src="javascript.fullPage.js"></script>
+    
+
     
 </head>
 <body class="body">
   <div class="modaldiv" data-ix="displaynoneonload">
     <div class="modalcontent">
-      <div class="modalclosediv" data-ix="closemodal"><img class="closeicon" src="images/VisualEditor_-_Icon_-_Close-01.svg">
+      <div class="modalclosediv" data-ix="closemodal"><img class="closeicon" id="closeiconwebcam" src="images/VisualEditor_-_Icon_-_Close-01.svg">
       </div>
       <div class="modalcanvasdiv">
-        <h1 class="webcamhelpertext">Tap To Change Filter</h1><img class="webcamoverlayimage" src="http://uploads.webflow.com/img/image-placeholder.svg">
+        <h1 class="webcamhelpertext">Tap To Change Filter</h1>
+        <img class="webcamoverlayimage" src="http://uploads.webflow.com/img/image-placeholder.svg">
+        <video autoplay="true" class="webcamvideo" id="videoElement"></video>  
       </div>
       <div class="modalcameradiv"><img src="images/cricle.png">
       </div>
@@ -62,7 +81,8 @@
       </div>
     </div>
   </div>
-  <div class="mostsections">
+  <div id="fullpage">
+  <div class="section mostsections">
     <div class="w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
@@ -75,7 +95,7 @@
               <input class="step1input1 w-input" data-name="Name" id="name" maxlength="256" name="name" placeholder="Who are you? " type="text">
             </div>
             <div class="stepbutton">
-              <a class="w-inline-block" href="#SectionStep2"><img class="nextlinkblock" src="images/25243.svg">
+              <a class="w-inline-block" href="#Step2"><img class="nextlinkblock" src="images/25243.svg">
               </a>
             </div>
           </form>
@@ -89,7 +109,7 @@
       </div>
     </div>
   </div>
-  <section class="mostsections" id="SectionStep2">
+  <section class="section mostsections" id="SectionStep2">
     <div class="mostcontainers w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
@@ -113,7 +133,7 @@
               </div>
             </div>
             <div class="stepbutton two">
-              <a class="w-inline-block" href="#SectionStep3"><img class="nextlinkblock" src="images/25243.svg">
+              <a class="w-inline-block" href="#Step3"><img class="nextlinkblock" src="images/25243.svg">
               </a>
             </div>
           </form>
@@ -127,7 +147,7 @@
       </div>
     </div>
   </section>
-  <section class="mostsections" id="SectionStep3">
+  <section class="section mostsections" id="SectionStep3">
     <div class="w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
@@ -149,7 +169,7 @@
               </div>
             </div>
             <div class="stepbutton three">
-              <a class="w-inline-block" href="#SectionStep4"><img class="nextlinkblock" src="images/25243.svg">
+              <a class="w-inline-block" href="#Step4"><img class="nextlinkblock" src="images/25243.svg">
               </a>
             </div>
           </form>
@@ -163,7 +183,7 @@
       </div>
     </div>
   </section>
-  <section class="mostsections" id="SectionStep4">
+  <section class="section mostsections" id="SectionStep4">
     <div class="w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
@@ -188,6 +208,7 @@
       </div>
     </div>
   </section>
+  </div>
   <div class="mostsections">
     <div class="extraspacecontainer w-container">
       <div class="last mosteditordivs"></div>
@@ -207,22 +228,86 @@
         //var testImage = new Image();
     //testImage.src = 'assets/Test/LEIA_IDLE_INK.gif'; 
       $(document).ready(function(){
-      //$('.previewfooterimage').attr('src', 'assets/Test/LEIA_IDLE_INK.gif');
+    fullpage.initialize('#fullpage', {
+		anchors: ['Step1', 'Step2', 'Step3', 'Step4'],
+		menu: '#menu',
+		css3:true
+	});
           
-        var step1Input = document.getElementsByClassName("step1input1 w-input")[0];
-       // var previewTextElement = document.getElementsByClassName("footertext")[0];  
+        
 
+        
+        /**********UPDATE PREVIEW TEXT1**********/  
+        var step1Input = document.getElementsByClassName("step1input1 w-input")[0];
+        
         step1Input.addEventListener("input", function(e) {
             var inputText = step1Input.value;
             console.log("what I wrote: " + inputText);
             $(".footertext").html("I am" + "<br>" + inputText);
         }, false);
-          
+        /****************************************/  
+       
+        /*********HIDE PREVIW ON MOBILE WHEN ENTERING TEXT****/  
         var isMobile = window.matchMedia("only screen and (max-width: 760px)");
 
-        if (isMobile.matches) {
-            $('.previewfootersection').hide();
-        }  
+        $( ".step1input1 w-input" ).on('touchend click', function(){
+            if (isMobile.matches) {
+                $('.previewfootersection').hide();
+            } 
+        });  
+
+        $('.step1input1 w-input').keypress(function(event) {
+            if (isMobile.matches) {
+                if (event.keyCode == 13 || event.which == 13) {
+                   $('.previewfootersection').show(); 
+                }
+            } 
+        });
+        /*************************************************/
+        
+        /* CODE TO DISPLAY WEBCAM FEED ON MODAL WINDOW */ 
+        var video = document.querySelector("#videoElement");
+        var track; 
+          
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+        $( ".step2icon" ).on('touchend click', function(){
+            if (navigator.getUserMedia) {       
+                navigator.getUserMedia({video: true}, handleVideo, videoError);
+            }
+        });
+
+        function handleVideo(stream) {
+            video.src = window.URL.createObjectURL(stream);
+            track = stream.getTracks()[0];
+        }
+        
+        //id name
+        $( "#closeiconwebcam" ).on('touchend click', function(){
+            track.stop();
+        });
+
+        function videoError(e) {
+            Console.log(e);
+        }
+        /*********************************************/
+          
+        $(document).on('touchend click', function(){    
+            // When the user clicks anywhere outside of the modal, close it
+            console.log("what I clicked: "+$(event.target).attr('class'));
+            //close webcam stream
+            if ($(event.target).attr('class') == "modaldiv") {
+                track.stop();
+                $(".modaldiv").hide();
+            }
+            
+            //show preview after input entered
+            if ($(event.target).attr('class') != "step1input1 w-input") {
+                if (isMobile.matches) {
+                    $('.previewfootersection').show();
+                }
+            }
+        });   
 
       });
       //$('.previewfooterimage').attr('src', 'assets/Test/LEIA_IDLE_INK.gif');
