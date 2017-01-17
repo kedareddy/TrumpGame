@@ -57,7 +57,7 @@
         <img class="webcamoverlayimage" src="http://uploads.webflow.com/img/image-placeholder.svg">
         <video autoplay="true" class="webcamvideo" id="videoElement"></video>  
       </div>
-      <div class="modalcameradiv"><img src="images/cricle.png">
+      <div class="modalcameradiv"><img class="photobutton" src="images/cricle.png">
       </div>
     </div>
     <div class="modalapprovecontent">
@@ -67,9 +67,9 @@
         <h1 class="approvehelpertext">Tap To Change Filter</h1><img class="approveimage" src="http://uploads.webflow.com/img/image-placeholder.svg">
       </div>
       <div class="modalyesno">
-        <div class="modalyes"><img data-ix="closemodal" src="images/choices-01.svg">
+        <div class="modalyes"><img class="yesbutton" src="images/choices-01.svg">
         </div>
-        <div class="modalno"><img data-ix="closemodal" src="images/choices-02.svg">
+        <div class="modalno"><img class="nobutton" src="images/choices-02.svg">
         </div>
       </div>
     </div>
@@ -158,13 +158,13 @@
             <div class="stepinputdiv">
               <label class="step3title" for="name-3">Choose Your Hero!</label>
               <div class="step3heroesdiv">
-                <a class="hero1link w-inline-block" href="#"><img src="images/Person_icon_BLACK-01.svg">
+                <a class="hero1link w-inline-block" href="#"><img class="hr1" src="images/Person_icon_BLACK-01.svg">
                 </a>
-                <a class="hero2link w-inline-block" href="#"><img src="images/Person_icon_BLACK-01.svg">
+                <a class="hero2link w-inline-block" href="#"><img class="hr2" src="images/Person_icon_BLACK-01.svg">
                 </a>
-                <a class="hero3link w-inline-block" href="#"><img src="images/Person_icon_BLACK-01.svg">
+                <a class="hero3link w-inline-block" href="#"><img class="hr3" src="images/Person_icon_BLACK-01.svg">
                 </a>
-                <a class="hero4link w-inline-block" href="#"><img src="images/Person_icon_BLACK-01.svg">
+                <a class="hero4link w-inline-block" href="#"><img class="hr4" src="images/Person_icon_BLACK-01.svg">
                 </a>
               </div>
             </div>
@@ -228,11 +228,15 @@
         //var testImage = new Image();
     //testImage.src = 'assets/Test/LEIA_IDLE_INK.gif'; 
       $(document).ready(function(){
-    fullpage.initialize('#fullpage', {
-		anchors: ['Step1', 'Step2', 'Step3', 'Step4'],
-		menu: '#menu',
-		css3:true
-	});
+        var selectedBody; 
+        var inputText1, inputText4; 
+          
+          
+        fullpage.initialize('#fullpage', {
+            anchors: ['Step1', 'Step2', 'Step3', 'Step4'],
+            menu: '#menu',
+            css3:true
+        });
           
         
 
@@ -241,9 +245,18 @@
         var step1Input = document.getElementsByClassName("step1input1 w-input")[0];
         
         step1Input.addEventListener("input", function(e) {
-            var inputText = step1Input.value;
-            console.log("what I wrote: " + inputText);
-            $(".footertext").html("I am" + "<br>" + inputText);
+            var inputText1 = step1Input.value;
+            console.log("what I wrote: " + inputText1);
+            $(".footertext").html("I am" + "<br>" + inputText1);
+        }, false);
+        /****************************************/
+          
+        /**********CAPTURE STEP 4**********/  
+        var step4Input = document.getElementsByClassName("step4input w-input")[0];
+        
+        step4Input.addEventListener("input", function(e) {
+            var inputText4 = step4Input.value;
+            console.log("Trump Message: " + inputText4);
         }, false);
         /****************************************/  
        
@@ -268,10 +281,14 @@
         /* CODE TO DISPLAY WEBCAM FEED ON MODAL WINDOW */ 
         var video = document.querySelector("#videoElement");
         var track; 
+        var overlayImageUrls = ["assets/FinalArt/SuperWomanHead.gif", "assets/FinalArt/TranslatorHead.png", "assets/FinalArt/LeiaHead.gif"]; 
+        var overlayindex = 0; 
           
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 
         $( ".step2icon" ).on('touchend click', function(){
+            $(".modaldiv").show(); 
+            $('.modalcontent').show(); 
             if (navigator.getUserMedia) {       
                 navigator.getUserMedia({video: true}, handleVideo, videoError);
             }
@@ -280,7 +297,39 @@
         function handleVideo(stream) {
             video.src = window.URL.createObjectURL(stream);
             track = stream.getTracks()[0];
+            $(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
+           // $(".webcamoverlayimage").css('z-index',  $('#videoElement').zIndex()+1);
+           
         }
+            
+        //cycle overlay images
+        $( ".webcamoverlayimage, .webcamhelpertext" ).on('touchend click', function(){
+            overlayindex++; 
+            if(overlayindex >= overlayImageUrls.length){
+                overlayindex = 0; 
+            }
+            $(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
+            if( $('.webcamhelpertext').is(':visible')){
+                $('.webcamhelpertext').hide(); 
+            }
+        });  
+          
+        //take photo  
+        $( ".photobutton" ).on('touchend click', function(){  
+            $('.modalcontent').hide(); 
+        });
+          
+        //retake photo  
+        $( ".nobutton" ).on('touchend click', function(){  
+            $('.modalcontent').show(); 
+        });
+          
+        //photo approved  
+        $( ".yesbutton" ).on('touchend click', function(){  
+            track.stop();
+            $(".modaldiv").hide(); 
+        });  
+          
         
         //id name
         $( "#closeiconwebcam" ).on('touchend click', function(){
@@ -307,6 +356,25 @@
                     $('.previewfootersection').show();
                 }
             }
+            
+            
+            if ($(event.target).attr('class') == "hr1") {
+                selectedBody = "superwoman";
+                console.log("Selected Body: " + selectedBody);
+            }
+            else if ($(event.target).attr('class') == "hr2") {
+                selectedBody = "leia";
+                console.log("Selected Body: " + selectedBody);
+            }
+            else if ($(event.target).attr('class') == "hr3") {
+                selectedBody = "translator";
+                console.log("Selected Body: " + selectedBody);
+            }
+            else if ($(event.target).attr('class') == "hr4") {
+                selectedBody = "hulk";
+                console.log("Selected Body: " + selectedBody);
+            }
+            
         });   
 
       });

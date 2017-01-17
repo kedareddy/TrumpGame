@@ -822,7 +822,7 @@
   color: hsla(0, 0%, 100%, .5);
 }
 
-.webcamvideo {
+/*.webcamvideo {
   position: absolute;
   left: 0px;
   top: 0px;
@@ -831,14 +831,14 @@
   width: 600px;
   height: auto;
   max-width: 100%;
-}
+}*/
 
 .webcamhelpertext {
   position: absolute;
   left: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 3;
+  z-index: 5;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -854,8 +854,13 @@
   left: 0px;
   top: 0px;
   right: 0px;
+      -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+    max-width: 100%;
   width: 600px;
-  height: 400px;
+  height: auto;
+  z-index: 4;
 }
 
 .webcamvideo {
@@ -863,8 +868,10 @@
   left: 0px;
   top: 0px;
   right: 0px;
+  max-width: 100%; 
   width: 600px;
-  height: 400px;
+  height: auto;
+    
 }
 
 .approveimage {
