@@ -249,13 +249,13 @@
         /*********HIDE PREVIW ON MOBILE WHEN ENTERING TEXT****/  
         var isMobile = window.matchMedia("only screen and (max-width: 760px)");
 
-        $( ".stepinputdiv" ).on('touchend click', function(){
+        $( ".stepinputdiv", ".step4input w-input" ).on('touchend click', function(){
             if (isMobile.matches) {
                 $('.previewfootersection').hide();
             } 
         });  
 
-        $('.step1input1 w-input').keypress(function(event) {
+        $('.step1input1 w-input', ".step4input w-input").keypress(function(event) {
             if (isMobile.matches) {
                 if (event.keyCode == 13 || event.which == 13) {
                    $('.previewfootersection').show(); 
@@ -416,7 +416,7 @@
             
             
             //show in the approve modal window.
-            $(".approveimage").width(wCanvas.width).height(wCanvas.height);
+           // $(".approveimage").width(wCanvas.width).height(wCanvas.height);
             $(".approveimage").attr('src', wimgData);
             $('.modalcontent').hide();
             

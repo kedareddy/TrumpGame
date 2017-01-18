@@ -858,7 +858,7 @@
   -ms-flex-item-align: center;
   align-self: center;
     max-width: 100%;
-  width: 600px;
+  width: 100%;
   height: auto;
   z-index: 4;
 }
@@ -869,7 +869,7 @@
   top: 0px;
   right: 0px;
   max-width: 100%; 
-  width: 600px;
+  width: 100%;
   height: auto;
 }
 
@@ -880,14 +880,14 @@
   top: 0px;
   right: 0px;
   max-width: 100%; 
-  width: 600px;
+  width: 100%;
   height: auto;
 }
 
 .approveimage {
   position: relative;
   max-width: 100%; 
-  width: 600px;
+  width: 100%;
   height: auto;
 }
 
