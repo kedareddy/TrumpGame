@@ -87,7 +87,7 @@
     <div class="w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
-          <form class="formdiv" data-name="Email Form" data-redirect="javascript:void(0);" id="email-form" name="email-form" redirect="javascript:void(0);">
+          <form class="formdiv" onsubmit="step1Submit()" data-name="Email Form" data-redirect="javascript:void(0);" id="email-form" name="email-form" redirect="javascript:void(0);">
             <div class="stepnumdiv">
               <h1 class="stepnumber">1.</h1><img class="stepnumicon" src="images/symbols-1.svg">
             </div>
@@ -188,7 +188,7 @@
     <div class="w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
-          <form class="formdiv" data-name="Email Form" data-redirect="javascript:void(0);" id="email-form" name="email-form" redirect="javascript:void(0);">
+          <form class="formdiv" onsubmit="step4Submit()" data-name="Email Form" data-redirect="javascript:void(0);" id="email-form" name="email-form" redirect="javascript:void(0);">
             <div class="stepnumdiv">
               <h1 class="stepnumber">4.</h1><img class="stepnumicon" src="images/symbols-1.svg">
             </div>
@@ -228,7 +228,7 @@
 <script type="text/javascript">
         //var testImage = new Image();
     //testImage.src = 'assets/Test/LEIA_IDLE_INK.gif'; 
-    
+    var isMobile;
     
       $(document).ready(function(){
         var selectedBody; 
@@ -247,7 +247,7 @@
           
         
         /*********HIDE PREVIW ON MOBILE WHEN ENTERING TEXT****/  
-        var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+        isMobile = window.matchMedia("only screen and (max-width: 760px)");
 
         $( ".stepinputdiv" ).on('touchend click', function(){
             if (isMobile.matches) {
@@ -262,7 +262,7 @@
         });    
         
 
-        $('.step1input1 w-input').keypress(function(event) {
+        /*$('.step1input1 w-input').keypress(function(event) {
             if (isMobile.matches) {
                 if (event.keyCode == 13 || event.which == 13) {
                    $('.previewfootersection').show(); 
@@ -275,7 +275,9 @@
                    $('.previewfootersection').show(); 
                 }
             } 
-        });  
+        }); */
+          
+        
         /*************************************************/
           
         
@@ -502,6 +504,20 @@
           
       });
     
+    
+      function step1Submit(){
+        //console.log("heeyyyyy it was submitted!!");
+        if (isMobile.matches) {      
+            $('.previewfootersection').show(); 
+        } 
+      } 
+    
+      function step4Submit(){
+        //console.log("heeyyyyy 4454 it was submitted!!");
+        if (isMobile.matches) {      
+            $('.previewfootersection').show(); 
+        } 
+      } 
     
       //$('.previewfooterimage').attr('src', 'assets/Test/LEIA_IDLE_INK.gif');
   </script>    

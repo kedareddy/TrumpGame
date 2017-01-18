@@ -33,7 +33,7 @@
 .mosteditordivs {
   display: block;
   height: 100%;
-  padding-top: 5em;
+  padding-top: 3em;
   -webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
   justify-content: space-around;
