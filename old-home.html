@@ -192,7 +192,7 @@
             <div class="stepnumdiv">
               <h1 class="stepnumber">4.</h1><img class="stepnumicon" src="images/symbols-1.svg">
             </div>
-            <div class="stepinputdiv">
+            <div class="stepinputdiv 4">
               <label class="step4title" for="name-4">Your Message To Trump</label>
               <input class="step4input w-input" data-name="Name 4" id="name-4" maxlength="256" name="name-4" placeholder="NOT MY PRESIDENT" type="text">
             </div>
@@ -249,19 +249,33 @@
         /*********HIDE PREVIW ON MOBILE WHEN ENTERING TEXT****/  
         var isMobile = window.matchMedia("only screen and (max-width: 760px)");
 
-        $( ".stepinputdiv", ".step4input w-input" ).on('touchend click', function(){
+        $( ".stepinputdiv" ).on('touchend click', function(){
             if (isMobile.matches) {
                 $('.previewfootersection').hide();
             } 
         });  
+          
+        $( ".stepinputdiv 4" ).on('touchend click', function(){
+            if (isMobile.matches) {
+                $('.previewfootersection').hide();
+            } 
+        });    
+        
 
-        $('.step1input1 w-input', ".step4input w-input").keypress(function(event) {
+        $('.step1input1 w-input').keypress(function(event) {
             if (isMobile.matches) {
                 if (event.keyCode == 13 || event.which == 13) {
                    $('.previewfootersection').show(); 
                 }
             } 
         });
+        $(".step4input w-input").keypress(function(event) {
+            if (isMobile.matches) {
+                if (event.keyCode == 13 || event.which == 13) {
+                   $('.previewfootersection').show(); 
+                }
+            } 
+        });  
         /*************************************************/
           
         
