@@ -479,8 +479,8 @@
 
 .modalcameradiv {
   width: 20%;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  margin-top: 3.5em;
+  margin-bottom: .5em;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -513,8 +513,8 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  margin-top: 3.5em;
+  margin-bottom: .5em;
   -webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
   justify-content: space-around;
@@ -863,7 +863,7 @@
   z-index: 4;
 }
 
-.webcamvideo {
+.webcamvideo{
   position: relative;
   left: 0px;
   top: 0px;
@@ -871,13 +871,24 @@
   max-width: 100%; 
   width: 600px;
   height: auto;
-    
+}
+
+.webcamcanvas {
+      position: relative;
+  display: none;
+    left: 0px;
+  top: 0px;
+  right: 0px;
+  max-width: 100%; 
+  width: 600px;
+  height: auto;
 }
 
 .approveimage {
   position: relative;
+  max-width: 100%; 
   width: 600px;
-  height: 400px;
+  height: auto;
 }
 
 .approvehelpertext {

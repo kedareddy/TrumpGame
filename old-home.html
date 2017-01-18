@@ -54,8 +54,9 @@
       </div>
       <div class="modalcanvasdiv">
         <h1 class="webcamhelpertext">Tap To Change Filter</h1>
-        <img class="webcamoverlayimage" src="http://uploads.webflow.com/img/image-placeholder.svg">
-        <video autoplay="true" class="webcamvideo" id="videoElement"></video>  
+        <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
+        <video autoplay="true" class="webcamvideo" id="videoElement"></video> 
+        <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
       </div>
       <div class="modalcameradiv"><img class="photobutton" src="images/cricle.png">
       </div>
@@ -64,7 +65,7 @@
       <div class="modalclosediv" data-ix="closemodal"><img class="closeicon" src="images/VisualEditor_-_Icon_-_Close-01.svg">
       </div>
       <div class="modalcanvasdiv">
-        <h1 class="approvehelpertext">Tap To Change Filter</h1><img class="approveimage" src="http://uploads.webflow.com/img/image-placeholder.svg">
+        <h1 class="approvehelpertext">Tap To Change Filter</h1><img class="approveimage" src="assets/FinalArt/LeiaHead.gif">
       </div>
       <div class="modalyesno">
         <div class="modalyes"><img class="yesbutton" src="images/choices-01.svg">
@@ -227,9 +228,15 @@
 <script type="text/javascript">
         //var testImage = new Image();
     //testImage.src = 'assets/Test/LEIA_IDLE_INK.gif'; 
+    
+    
       $(document).ready(function(){
         var selectedBody; 
         var inputText1, inputText4; 
+        var clip_image = new Image();
+        clip_image.src = 'assets/FinalArt/leia_facearea.png';
+        var imageLeia = new Image();
+        imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png';  
           
           
         fullpage.initialize('#fullpage', {
@@ -239,31 +246,10 @@
         });
           
         
-
-        
-        /**********UPDATE PREVIEW TEXT1**********/  
-        var step1Input = document.getElementsByClassName("step1input1 w-input")[0];
-        
-        step1Input.addEventListener("input", function(e) {
-            var inputText1 = step1Input.value;
-            console.log("what I wrote: " + inputText1);
-            $(".footertext").html("I am" + "<br>" + inputText1);
-        }, false);
-        /****************************************/
-          
-        /**********CAPTURE STEP 4**********/  
-        var step4Input = document.getElementsByClassName("step4input w-input")[0];
-        
-        step4Input.addEventListener("input", function(e) {
-            var inputText4 = step4Input.value;
-            console.log("Trump Message: " + inputText4);
-        }, false);
-        /****************************************/  
-       
         /*********HIDE PREVIW ON MOBILE WHEN ENTERING TEXT****/  
         var isMobile = window.matchMedia("only screen and (max-width: 760px)");
 
-        $( ".step1input1 w-input" ).on('touchend click', function(){
+        $( ".stepinputdiv" ).on('touchend click', function(){
             if (isMobile.matches) {
                 $('.previewfootersection').hide();
             } 
@@ -277,6 +263,29 @@
             } 
         });
         /*************************************************/
+          
+        
+        /**********UPDATE PREVIEW TEXT1**********/  
+        var step1Input = document.getElementsByClassName("step1input1 w-input")[0];
+        
+        step1Input.addEventListener("input", function(e) {
+            var inputText1 = step1Input.value;
+            console.log("what I wrote: " + inputText1);
+            $(".footertext").html("I am" + "<br>" + inputText1);
+                     //if (isMobile.matches) {
+                //$('.previewfootersection').hide();
+            //} 
+        }, false);
+        /****************************************/
+          
+        /**********CAPTURE STEP 4**********/  
+        var step4Input = document.getElementsByClassName("step4input w-input")[0];
+        
+        step4Input.addEventListener("input", function(e) {
+            var inputText4 = step4Input.value;
+            console.log("Trump Message: " + inputText4);
+        }, false);
+        /****************************************/  
         
         /* CODE TO DISPLAY WEBCAM FEED ON MODAL WINDOW */ 
         var video = document.querySelector("#videoElement");
@@ -314,11 +323,6 @@
             }
         });  
           
-        //take photo  
-        $( ".photobutton" ).on('touchend click', function(){  
-            $('.modalcontent').hide(); 
-        });
-          
         //retake photo  
         $( ".nobutton" ).on('touchend click', function(){  
             $('.modalcontent').show(); 
@@ -328,8 +332,7 @@
         $( ".yesbutton" ).on('touchend click', function(){  
             track.stop();
             $(".modaldiv").hide(); 
-        });  
-          
+        });   
         
         //id name
         $( "#closeiconwebcam" ).on('touchend click', function(){
@@ -341,8 +344,9 @@
         }
         /*********************************************/
           
+        /************DETECT CLICK ANYWHERE********************/  
         $(document).on('touchend click', function(){    
-            // When the user clicks anywhere outside of the modal, close it
+            // When the user clicks anywhere on the document
             console.log("what I clicked: "+$(event.target).attr('class'));
             //close webcam stream
             if ($(event.target).attr('class') == "modaldiv") {
@@ -356,7 +360,6 @@
                     $('.previewfootersection').show();
                 }
             }
-            
             
             if ($(event.target).attr('class') == "hr1") {
                 selectedBody = "superwoman";
@@ -376,8 +379,116 @@
             }
             
         });   
+        /***********************************************/
 
+        //clip the face and show on the approve window
+        $( ".photobutton" ).on('touchend click', function(){
+            //hide the photo taking modal window
+             
+            
+            var webvideo = document.getElementById('videoElement');
+            var wCanvas = document.getElementById('webcamcanvas');
+            wCanvas.width = $( "#videoElement" ).width();
+            wCanvas.height = $( "#videoElement" ).height();
+            var fctx = wCanvas.getContext('2d');
+            console.log("webcam: "+ $( "#videoElement" ).width() +"::"+$( "#videoElement" ).height());
+            /// draw the shape we want to use for clipping
+            fctx.drawImage(clip_image, 0 , 0,wCanvas.width, wCanvas.height);
+
+            /// change composite mode to use that shape
+            fctx.globalCompositeOperation = 'source-in';
+
+            /// draw the image to be clipped
+            fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
+            fctx.globalCompositeOperation = 'source-over';
+
+               
+            
+            
+            fctx.drawImage(imageLeia, 0, 0, wCanvas.width, wCanvas.height);
+            
+            var wimgData = wCanvas.toDataURL('image/png');
+     
+           // var cutOutImage = document.createElement('img');
+            //cutOutImage.src = wimgData;
+            
+            
+            
+            
+            //show in the approve modal window.
+            $(".approveimage").width(wCanvas.width).height(wCanvas.height);
+            $(".approveimage").attr('src', wimgData);
+            $('.modalcontent').hide();
+            
+            
+            //GenerateGIF(cutOutImage); 
+        }); 
+        
+        //combine face with overlay gif  
+       /* function GenerateGIF(face_jpg){
+            if(tParentGifLoaded == true){
+                for (i = 0; i < (tParentGif.get_length()); i++) { 
+                    tParentGif.move_to(i);
+                    var tempCanvas = tParentGif.get_canvas(); 
+                    var ctx= tempCanvas.getContext("2d");
+                    //var imgData = tempCanvas.toDataURL('image/png');
+                    //var imgNewData= ctx.getImageData(0,0, tempCanvas.width, tempCanvas.height);
+                    var can3 = document.createElement('canvas');
+                    can3.width = tempCanvas.width;
+                    can3.height = tempCanvas.height + 60;
+                    var ctx3 = can3.getContext('2d');
+
+                    //clear the heading canvas
+                    ctx.clearRect(0, 0, c.width, c.height);
+                    ctx = c.getContext("2d");
+                    ctx.font = "60px Lato";
+                    ctx.fillStyle = "white";
+                    ctx.textAlign = "center";
+                    ctx.fillText(" ",410,50);
+
+                    ctx3.drawImage(c, 0, 0);
+                    ctx3.drawImage(tempCanvas, 0, 60);
+                    //-(face_jpg.width/3) -(face_jpg.height/2)
+                    ctx3.drawImage(face_jpg, faceCoords[i].x-(face_jpg.width/2) , faceCoords[i].y+60-(face_jpg.height/3));
+                    //ctx3.drawImage(face_image, faceCoords[i].x-(face_image.width/2) , faceCoords[i].y+60-(face_image.height/2));
+
+                    var imgData = can3.toDataURL('image/jpeg');
+                    //console.log("toDataURL: " + imgData);
+                    //console.log("getImageData: " + imgNewData);
+                    var oneImage = new Image();
+                    oneImage.src = imgData;
+                    gifFrames.length = 0; 
+                    gifFrames.push(oneImage);
+
+                }
+
+                gifshot.createGIF({
+                    images: gifFrames,
+                    gifWidth: tempCanvas.width, 
+                    gifHeight: 398, 
+                    interval: 0.12
+                }, function(obj) {
+                    if(!obj.error) {
+                        var image = obj.image;
+                        //animatedImage = document.createElement('img');
+                        //animatedImage.src = image;
+                        //document.getElementById('resultgif').appendChild(animatedImage);
+                        document.getElementById('resultgif').src = image;
+                        $('#resultgif').show();
+                        /*tParentGif.load(image, function(){
+                            tPunchGifLoaded = true;
+                        });*/
+     /*               }
+                });
+            }
+        }  */
+          
+        //Make the Summary GIF
+          
+          
       });
+    
+    
       //$('.previewfooterimage').attr('src', 'assets/Test/LEIA_IDLE_INK.gif');
   </script>    
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
