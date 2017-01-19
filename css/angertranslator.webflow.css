@@ -851,15 +851,13 @@
 
 .webcamoverlayimage {
   position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 0px;
-      -webkit-align-self: center;
+  
+  -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
-    max-width: 100%;
+  /*  max-width: 100%;
   width: 100%;
-  height: auto;
+  height: auto;*/
   z-index: 4;
 }
 
@@ -886,9 +884,12 @@
 
 .approveimage {
   position: relative;
-  max-width: 100%; 
+      -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  /*max-width: 100%; 
   width: 100%;
-  height: auto;
+  height: auto;*/
 }
 
 .approvehelpertext {

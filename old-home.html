@@ -93,7 +93,7 @@
             </div>
             <div class="stepinputdiv">
               <label class="step1title" for="name">I am...</label>
-              <input class="step1input1 w-input" data-name="Name" id="name" maxlength="256" name="name" placeholder="Who are you? " type="text">
+              <input class="step1input1 w-input" data-name="Name" id="name" maxlength="20" name="name" placeholder="Who are you? " type="text">
             </div>
             <div class="stepbutton">
               <a class="w-inline-block" href="#Step2"><img class="nextlinkblock" src="images/25243.svg">
@@ -192,7 +192,7 @@
             <div class="stepnumdiv">
               <h1 class="stepnumber">4.</h1><img class="stepnumicon" src="images/symbols-1.svg">
             </div>
-            <div class="stepinputdiv 4">
+            <div class="stepinputdiv 4" id="step4inputdiv">
               <label class="step4title" for="name-4">Your Message To Trump</label>
               <input class="step4input w-input" data-name="Name 4" id="name-4" maxlength="256" name="name-4" placeholder="NOT MY PRESIDENT" type="text">
             </div>
@@ -236,7 +236,9 @@
         var clip_image = new Image();
         clip_image.src = 'assets/FinalArt/leia_facearea.png';
         var imageLeia = new Image();
-        imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png';  
+        imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png'; 
+          
+        var aspectOImage = $(".webcamoverlayimage").width()/ $(".webcamoverlayimage").height();   
           
           
         fullpage.initialize('#fullpage', {
@@ -244,6 +246,7 @@
             menu: '#menu',
             css3:true
         });
+          
           
         
         /*********HIDE PREVIW ON MOBILE WHEN ENTERING TEXT****/  
@@ -255,7 +258,7 @@
             } 
         });  
           
-        $( ".stepinputdiv 4" ).on('touchend click', function(){
+        $( "#step4inputdiv" ).on('touchend click', function(){
             if (isMobile.matches) {
                 $('.previewfootersection').hide();
             } 
@@ -306,7 +309,7 @@
         /* CODE TO DISPLAY WEBCAM FEED ON MODAL WINDOW */ 
         var video = document.querySelector("#videoElement");
         var track; 
-        var overlayImageUrls = ["assets/FinalArt/SuperWomanHead.gif", "assets/FinalArt/TranslatorHead.png", "assets/FinalArt/LeiaHead.gif"]; 
+        var overlayImageUrls = ["assets/FinalArt/hat.gif", "assets/FinalArt/pussyhat.gif", "assets/FinalArt/LeiaHead2.gif"]; 
         var overlayindex = 0; 
           
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
@@ -322,6 +325,15 @@
         function handleVideo(stream) {
             video.src = window.URL.createObjectURL(stream);
             track = stream.getTracks()[0];
+            
+             var maskH = $("#videoElement").height();
+             var maskW = maskH * aspectOImage; 
+              console.log("width: " + maskW + "height: " + maskH ); 
+             $( ".webcamoverlayimage" ).width(maskW);
+             $( ".webcamoverlayimage" ).height(maskH);
+            
+            
+            
             $(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
            // $(".webcamoverlayimage").css('z-index',  $('#videoElement').zIndex()+1);
            
@@ -356,7 +368,7 @@
         });
 
         function videoError(e) {
-            Console.log(e);
+            console.log(e);
         }
         /*********************************************/
           
@@ -400,6 +412,9 @@
         //clip the face and show on the approve window
         $( ".photobutton" ).on('touchend click', function(){
             //hide the photo taking modal window
+            
+                     
+            
              
             
             var webvideo = document.getElementById('videoElement');
@@ -409,7 +424,10 @@
             var fctx = wCanvas.getContext('2d');
             console.log("webcam: "+ $( "#videoElement" ).width() +"::"+$( "#videoElement" ).height());
             /// draw the shape we want to use for clipping
-            fctx.drawImage(clip_image, 0 , 0,wCanvas.width, wCanvas.height);
+            //clip_image.style.width = wCanvas.width;
+            //clip_image.style.height = 'auto';
+
+            fctx.drawImage(clip_image, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
@@ -417,22 +435,19 @@
             /// draw the image to be clipped
             fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
             fctx.globalCompositeOperation = 'source-over';
-
-               
             
-            
-            fctx.drawImage(imageLeia, 0, 0, wCanvas.width, wCanvas.height);
+            fctx.drawImage(imageLeia, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
             
             var wimgData = wCanvas.toDataURL('image/png');
      
-           // var cutOutImage = document.createElement('img');
+            // var cutOutImage = document.createElement('img');
             //cutOutImage.src = wimgData;
             
             
             
             
             //show in the approve modal window.
-           // $(".approveimage").width(wCanvas.width).height(wCanvas.height);
+            // $(".approveimage").width(wCanvas.width).height(wCanvas.height);
             $(".approveimage").attr('src', wimgData);
             $('.modalcontent').hide();
             
