@@ -62,10 +62,11 @@
       </div>
     </div>
     <div class="modalapprovecontent">
-      <div class="modalclosediv" data-ix="closemodal"><img class="closeicon" src="images/VisualEditor_-_Icon_-_Close-01.svg">
+      <div class="modalclosediv" data-ix="closemodal"><img class="closeicon" id="closeiconapprove" src="images/VisualEditor_-_Icon_-_Close-01.svg">
       </div>
       <div class="modalcanvasdiv">
-        <h1 class="approvehelpertext">Tap To Change Filter</h1><img class="approveimage" src="assets/FinalArt/LeiaHead.gif">
+        <h1 class="approvehelpertext">Tap To Change Filter</h1>
+        <img class="approveimage" src="assets/FinalArt/LeiaHead.gif">
       </div>
       <div class="modalyesno">
         <div class="modalyes"><img class="yesbutton" src="images/choices-01.svg">
@@ -229,14 +230,31 @@
         //var testImage = new Image();
     //testImage.src = 'assets/Test/LEIA_IDLE_INK.gif'; 
     var isMobile;
+    //timeout variables
+    var x, y = 1;
     
       $(document).ready(function(){
+        var webvideo = document.getElementById('videoElement');
+        var wCanvas = document.getElementById('webcamcanvas');  
         var selectedBody; 
         var inputText1, inputText4; 
         var clip_image = new Image();
         clip_image.src = 'assets/FinalArt/leia_facearea.png';
         var imageLeia = new Image();
         imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png'; 
+        var faces = { 
+            leia : { clipurl:  'assets/FinalArt/leia_facearea.png', pngurl:  'assets/FinalArt/LeiaHeadSingle.png'}, 
+            pussyhat : { clipurl:  'assets/FinalArt/pussyhat_facearea.png', pngurl:  'assets/FinalArt/pussyhatSingle.png'}, 
+            hat: { clipurl:  'assets/FinalArt/hat_facearea.png', pngurl:  'assets/FinalArt/hatSingle.png'} 
+        }  
+        for(var key in faces) {
+            if (faces.hasOwnProperty(key)) {
+                preloadImage(faces[key].clipurl);
+                preloadImage(faces[key].pngurl);
+            }
+        }
+        var currentface = "leia";
+          
           
         var aspectOImage = $(".webcamoverlayimage").width()/ $(".webcamoverlayimage").height();   
           
@@ -321,6 +339,12 @@
                 navigator.getUserMedia({video: true}, handleVideo, videoError);
             }
         });
+        
+        function preloadImage(url)
+        {
+            var img=new Image();
+            img.src=url;
+        }  
 
         function handleVideo(stream) {
             video.src = window.URL.createObjectURL(stream);
@@ -331,24 +355,47 @@
               console.log("width: " + maskW + "height: " + maskH ); 
              $( ".webcamoverlayimage" ).width(maskW);
              $( ".webcamoverlayimage" ).height(maskH);
+              $(".approveimage").width(maskW);
+            $(".approveimage").height(maskH);
             
-            
+            assignCurrentFace(overlayindex);
             
             $(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
            // $(".webcamoverlayimage").css('z-index',  $('#videoElement').zIndex()+1);
            
         }
+          
+        function assignCurrentFace(indexNum){
+            if(indexNum ==0){
+                currentface = "hat"; 
+                
+            }
+            else if(indexNum ==1){
+                currentface = "pussyhat";
+            }
+            else if(indexNum ==2){
+                currentface = "leia";
+            }
+        }
             
-        //cycle overlay images
-        $( ".webcamoverlayimage, .webcamhelpertext" ).on('touchend click', function(){
-            overlayindex++; 
-            if(overlayindex >= overlayImageUrls.length){
-                overlayindex = 0; 
-            }
-            $(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
-            if( $('.webcamhelpertext').is(':visible')){
-                $('.webcamhelpertext').hide(); 
-            }
+        //cycle overlay images //, .webcamhelpertext
+        $( ".modalcanvasdiv" ).on('touchend click', function(){
+              if (x) clearTimeout(x);
+              x = setTimeout(function() {
+                    overlayindex++; 
+                    if(overlayindex >= overlayImageUrls.length){
+                        overlayindex = 0; 
+                    }
+                    assignCurrentFace(overlayindex);
+                    $(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
+                    if( $('.webcamhelpertext').is(':visible')){
+                        $('.webcamhelpertext').hide(); 
+                    }
+                 y++;
+                 console.log(y);
+                 // ----------------
+              }, 100);
+            
         });  
           
         //retake photo  
@@ -363,7 +410,7 @@
         });   
         
         //id name
-        $( "#closeiconwebcam" ).on('touchend click', function(){
+        $( "#closeiconwebcam", "#closeiconapprove" ).on('touchend click', function(){
             track.stop();
         });
 
@@ -413,43 +460,46 @@
         $( ".photobutton" ).on('touchend click', function(){
             //hide the photo taking modal window
             
-                     
-            
+            console.log("CURRENT FACE: " + currentface + "clipurl: " + faces[currentface]["clipurl"] + " pngurl: " + faces[currentface]["pngurl"]);
+            clip_image.src = faces[currentface]["clipurl"];           
+            imageLeia.src = faces[currentface]["pngurl"];
              
             
-            var webvideo = document.getElementById('videoElement');
-            var wCanvas = document.getElementById('webcamcanvas');
+            
             wCanvas.width = $( "#videoElement" ).width();
             wCanvas.height = $( "#videoElement" ).height();
             var fctx = wCanvas.getContext('2d');
-            console.log("webcam: "+ $( "#videoElement" ).width() +"::"+$( "#videoElement" ).height());
+            //console.log("webcam: "+ $( "#videoElement" ).width() +"::"+$( "#videoElement" ).height());
             /// draw the shape we want to use for clipping
             //clip_image.style.width = wCanvas.width;
             //clip_image.style.height = 'auto';
 
-            fctx.drawImage(clip_image, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
+            imageLeia.onload = function(){
+                fctx.drawImage(clip_image, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
-            /// change composite mode to use that shape
-            fctx.globalCompositeOperation = 'source-in';
+                /// change composite mode to use that shape
+                fctx.globalCompositeOperation = 'source-in';
 
-            /// draw the image to be clipped
-            fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
-            fctx.globalCompositeOperation = 'source-over';
-            
-            fctx.drawImage(imageLeia, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
-            
-            var wimgData = wCanvas.toDataURL('image/png');
-     
-            // var cutOutImage = document.createElement('img');
-            //cutOutImage.src = wimgData;
-            
-            
-            
-            
-            //show in the approve modal window.
-            // $(".approveimage").width(wCanvas.width).height(wCanvas.height);
-            $(".approveimage").attr('src', wimgData);
-            $('.modalcontent').hide();
+                /// draw the image to be clipped
+                fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
+                fctx.globalCompositeOperation = 'source-over';
+
+                fctx.drawImage(imageLeia, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
+
+                var wimgData = wCanvas.toDataURL('image/png');
+
+                // var cutOutImage = document.createElement('img');
+                //cutOutImage.src = wimgData;
+
+
+
+                //show in the approve modal window.
+                // $(".approveimage").width(wCanvas.width).height(wCanvas.height);
+
+                $('.modalcontent').hide();
+                $(".approveimage").attr('src', wimgData); 
+            };
+         
             
             
             //GenerateGIF(cutOutImage); 

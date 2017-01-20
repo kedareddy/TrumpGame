@@ -336,25 +336,25 @@
 }
 
 .hero1link {
-  width: 20%;
-  margin-right: 2%;
-  margin-left: 4%;
+  width: 30%;
+  margin-right: 3%;
+  margin-left: 5%;
   border: 4px solid #000;
   border-radius: 15px;
 }
 
 .hero2link {
-  width: 20%;
-  margin-right: 2%;
-  margin-left: 2%;
+  width: 30%;
+  margin-right: 3%;
+  margin-left: 3%;
   border: 4px solid #000;
   border-radius: 15px;
 }
 
 .hero3link {
-  width: 20%;
-  margin-right: 2%;
-  margin-left: 2%;
+  width: 30%;
+  margin-right: 3%;
+  margin-left: 3%;
   border: 4px solid #000;
   border-radius: 15px;
 }
@@ -365,6 +365,7 @@
   margin-left: 2%;
   border: 4px solid #000;
   border-radius: 15px;
+  display: none; 
 }
 
 .step4title {
@@ -479,11 +480,12 @@
 
 .modalcameradiv {
   width: 20%;
-  margin-top: 3.5em;
-  margin-bottom: .5em;
+  margin-top: 2em;
+  margin-bottom: 2em;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+  z-index: 5; 
 }
 
 .modalapprovecontent {
@@ -513,11 +515,12 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-top: 3.5em;
-  margin-bottom: .5em;
+  margin-top: 2em;
+  margin-bottom: 2em;
   -webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
   justify-content: space-around;
+ z-index: 5; 
 }
 
 .modalyes {
