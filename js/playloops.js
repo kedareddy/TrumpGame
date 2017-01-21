@@ -1,4 +1,4 @@
-    const PLAYLOOPS_SERVER_URL = 'http://playloops.io';
+    const PLAYLOOPS_SERVER_URL = 'http://www.playloops.io';
     const PLAYLOOPS_SIGN_URL = PLAYLOOPS_SERVER_URL + '/playloops-img/sign-s3';
    
     function addPlayloop (playloop_dict, success_callback, error_callback) {
