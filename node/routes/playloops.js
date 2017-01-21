@@ -64,7 +64,7 @@ exports.signS3 = function(req, res) {
         Expires: 600,
         ContentType: fileType,
         ContentEncoding: contentEncoding,
-        ContentLength: contentLength,
+        //ContentLength: contentLength,
         ACL: 'public-read'
     };
 
