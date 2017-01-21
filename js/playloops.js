@@ -10,8 +10,10 @@
             //data: JSON.stringify(playloop_dict),
             data: playloop_dict,
             url: PLAYLOOPS_ADD_URL,
-            success : alert("its saved"),//success_callback,
-            error : alert("its failed")//error_callback 
+            success : function(data) {
+                    alert ("saved at " + playloop_dict['playloop_url']);
+                },//success_callback,
+            error : function(jqXHR, textStatus, errorThrown) { alert("Error: Status: "+textStatus+" Message: "+errorThrown); }//error_callback 
             
         });
         
