@@ -94,13 +94,13 @@
             xhr.onreadystatechange = () => {
                 if(xhr.readyState === 4){
                     if(xhr.status === 200){
-                        //alert("uploaded file!");
+                        alert("uploaded file!  " + url);
                         //document.getElementById('preview').src = url;
                         
-                        success_callback = function(data) { alert("playloop saved!"); }
-                        error_callback = function(error) { alert("playloop save failed!!"); }
+                        //success_callback = function(data) { alert("playloop saved!"); }
+                        //error_callback = function(error) { alert("playloop save failed!!"); }
                         
-                        addPlayloop (playloop_dict, success_callback, error_callback);
+                        //addPlayloop (playloop_dict, success_callback, error_callback);
                     }         
                         else{
                             alert('Could not upload file.');
