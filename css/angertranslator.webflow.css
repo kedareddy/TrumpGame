@@ -335,12 +335,18 @@
   display: flex;
 }
 
+/*.hr1{
+   -webkit-filter: invert(1);
+   filter: invert(1);
+}*/
+
 .hero1link {
   width: 30%;
   margin-right: 3%;
   margin-left: 5%;
   border: 4px solid #000;
   border-radius: 15px;
+  /*background-color: #666666;*/
 }
 
 .hero2link {
