@@ -5,7 +5,7 @@ var aws = require('aws-sdk');
 console.log("got through all the requires");
 
 const S3_BUCKET = 'playloops'; //process.env.S3_BUCKET;
-const APP_PORT = var port = process.env.PORT || CONFIG.port;
+var APP_PORT = process.env.PORT || CONFIG.port;
 
 var app = express();
 
