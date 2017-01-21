@@ -48,9 +48,10 @@
              var img_data = img_src.replace('data:'+img_type+';base64,','');
         
              alert(img_data);
-             alert(img_length);
+             
              const img_length = img_data.length;
             
+             alert(img_length);
         
              $.ajax({
                 dataType: 'jsonp',
