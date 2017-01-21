@@ -698,12 +698,16 @@
         //combine face with overlay gif  
         function GenerateGIF(){
             var idleArray; 
+            var headPos = { x:5, y: 116};
             if(selectedBody == "leia"){
                 idleArray = leiaidle_images.concat();
+                headPos = { x:5, y: 116};
             }else if(selectedBody == "luther"){
                 idleArray = lutheridle_images.concat();
+                headPos = { x:71, y: 50};
             }else if(selectedBody == "hulk"){
                 idleArray = hulkidle_images.concat();
+                headPos = { x:-21, y: 47};
             } 
             
             
@@ -739,8 +743,10 @@
                         
                     };
                     tempImage.src = allMyFaces[i].src; 
-                    //5 ,116,334, 251
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, -21 ,47,337, 253);    
+                    //5 ,116,334, 251 LEIA
+                    //-21 ,47,337, 253 HULK
+                    //71 ,50,337, 253 LUTHER
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
 
                         var imgData = tempCanvas.toDataURL('image/jpeg');
                         var oneImage = new Image();
