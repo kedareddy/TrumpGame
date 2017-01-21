@@ -160,11 +160,11 @@
             <div class="stepinputdiv">
               <label class="step3title" for="name-3">Choose Your Hero!</label>
               <div class="step3heroesdiv">
-                <a class="hero1link w-inline-block" href="#"><img class="hr1" src="images/Person_icon_BLACK-01.svg">
+                <a class="hero1link w-inline-block" href="#"><img class="hr1" src="images/Leia SVG.svg">
                 </a>
-                <a class="hero2link w-inline-block" href="#"><img class="hr2" src="images/Person_icon_BLACK-01.svg">
+                <a class="hero2link w-inline-block" href="#"><img class="hr2" src="images/Luther SVG.svg">
                 </a>
-                <a class="hero3link w-inline-block" href="#"><img class="hr3" src="images/Person_icon_BLACK-01.svg">
+                <a class="hero3link w-inline-block" href="#"><img class="hr3" src="images/Hulk SVG.svg">
                 </a>
                 <a class="hero4link w-inline-block" href="#"><img class="hr4" src="images/Person_icon_BLACK-01.svg">
                 </a>
@@ -228,29 +228,169 @@
 
 <script type="text/javascript">
         //var testImage = new Image();
+    var heightAvailable; 
+    var widthAvailable;
+    var xOffset; 
+    var yOffset; 
+    var bareFaceSrc; 
+    var gifFrames = []; 
+    var allMyFaces = []; 
+    var faceSrcData;
+    var faceImage = new Image(); 
+    var inputText1, inputText4; 
     //testImage.src = 'assets/Test/LEIA_IDLE_INK.gif'; 
     var isMobile;
     //timeout variables
     var x, y = 1;
+    var leiaidle_urls = ['assets/FinalArt/LeiaIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LeiaIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LeiaIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LeiaIdle/Idle_0000_Layer 4.jpg'];
+    var leiajab_urls = ['assets/FinalArt/LeiaJab/Jab_0003_Layer 1.jpg','assets/FinalArt/LeiaJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LeiaJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LeiaJab/Jab_0000_Layer 4.jpg'];
+    var leiapunch_urls = ['assets/FinalArt/LeiaPunch/Punch_0014_Layer 1.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0013_Layer 2.jpg', 
+                          'assets/FinalArt/LeiaPunch/Punch_0012_Layer 3.jpg', 
+                          'assets/FinalArt/LeiaPunch/Punch_0011_Layer 4.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0010_Layer 5.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0009_Layer 6.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0008_Layer 7.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0007_Layer 8.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0006_Layer 9.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0005_Layer 10.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0004_Layer 11.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0003_Layer 12.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0002_Layer 13.jpg',
+                          'assets/FinalArt/LeiaPunch/Punch_0001_Layer 14.jpg',
+                         ];
+    var leiaidle_images = [];
+    for (i = 0; i < leiaidle_urls.length; i++) {
+        leiaidle_images[i] = new Image();
+        leiaidle_images[i].src = leiaidle_urls[i];
+    }
+    var leiajab_images = [];
+    for (j = 0; j < leiajab_urls.length; j++) {
+        leiajab_images[j] = new Image();
+        leiajab_images[j].src = leiajab_urls[j];
+    }
+    var leiapunch_images = [];
+    for (k = 0; k < leiapunch_urls.length; k++) {
+        leiapunch_images[k] = new Image();
+        leiapunch_images[k].src = leiapunch_urls[k];
+    }
+    
+    var lutheridle_urls = ['assets/FinalArt/LutherIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LutherIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LutherIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LutherIdle/Idle_0000_Layer 4.jpg'];
+    var lutherjab_urls = ['assets/FinalArt/LutherJab/Jab_0003_Layer 1.jpg','assets/FinalArt/LutherJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LutherJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LutherJab/Jab_0000_Layer 4.jpg'];
+    var lutherpunch_urls = ['assets/FinalArt/LutherPunch/Punch_0014_Layer 1.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0013_Layer 2.jpg', 
+                          'assets/FinalArt/LutherPunch/Punch_0012_Layer 3.jpg', 
+                          'assets/FinalArt/LutherPunch/Punch_0011_Layer 4.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0010_Layer 5.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0009_Layer 6.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0008_Layer 7.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0007_Layer 8.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0006_Layer 9.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0005_Layer 10.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0004_Layer 11.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0003_Layer 12.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0002_Layer 13.jpg',
+                          'assets/FinalArt/LutherPunch/Punch_0001_Layer 14.jpg',
+                         ];
+    var lutheridle_images = [];
+    for (l = 0; l < lutheridle_urls.length; l++) {
+        lutheridle_images[l] = new Image();
+        lutheridle_images[l].src = lutheridle_urls[l];
+    }
+    var lutherjab_images = [];
+    for (m = 0; m < leiajab_urls.length; m++) {
+        lutherjab_images[m] = new Image();
+        lutherjab_images[m].src = lutherjab_urls[m];
+    }
+    var lutherpunch_images = [];
+    for (n = 0; n < lutherpunch_urls.length; n++) {
+        lutherpunch_images[n] = new Image();
+        lutherpunch_images[n].src = lutherpunch_urls[n];
+    }
+    
+    
+    var hulkidle_urls = ['assets/FinalArt/HulkIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/HulkIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/HulkIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/HulkIdle/Idle_0000_Layer 4.jpg'];
+    var hulkjab_urls = ['assets/FinalArt/HulkJab/Jab_0003_Layer 1.jpg','assets/FinalArt/HulkJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/HulkJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/HulkJab/Jab_0000_Layer 4.jpg'];
+    var hulkpunch_urls = ['assets/FinalArt/HulkPunch/Punch_0009_Layer 1.jpg',
+                          'assets/FinalArt/HulkPunch/Punch_0008_Layer 2.jpg', 
+                          'assets/FinalArt/HulkPunch/Punch_0007_Layer 3.jpg', 
+                          'assets/FinalArt/HulkPunch/Punch_0006_Layer 4.jpg',
+                          'assets/FinalArt/HulkPunch/Punch_0005_Layer 5.jpg',
+                          'assets/FinalArt/HulkPunch/Punch_0004_Layer 6.jpg',
+                          'assets/FinalArt/HulkPunch/Punch_0003_Layer 7.jpg',
+                          'assets/FinalArt/HulkPunch/Punch_0002_Layer 8.jpg',
+                          'assets/FinalArt/HulkPunch/Punch_0001_Layer 9.jpg',
+                          'assets/FinalArt/HulkPunch/Punch_0000_Layer 10.jpg',
+                         ];
+    var hulkidle_images = [];
+    for (t = 0; t < hulkidle_urls.length; t++) {
+        hulkidle_images[t] = new Image();
+        hulkidle_images[t].src = hulkidle_urls[t];
+    }
+    var hulkjab_images = [];
+    for (u = 0; u < hulkjab_urls.length; u++) {
+        hulkjab_images[u] = new Image();
+        hulkjab_images[u].src = hulkjab_urls[u];
+    }
+    var hulkpunch_images = [];
+    for (v = 0; v < hulkpunch_urls.length; v++) {
+        hulkpunch_images[v] = new Image();
+        hulkpunch_images[v].src = hulkpunch_urls[v];
+    }
+    
+    
+    
+    
+    
     
       $(document).ready(function(){
         var webvideo = document.getElementById('videoElement');
         var wCanvas = document.getElementById('webcamcanvas');  
-        var selectedBody; 
+        var selectedBody = "hulk";  
         var inputText1, inputText4; 
         var clip_image = new Image();
         clip_image.src = 'assets/FinalArt/leia_facearea.png';
         var imageLeia = new Image();
         imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png'; 
         var faces = { 
-            leia : { clipurl:  'assets/FinalArt/leia_facearea.png', pngurl:  'assets/FinalArt/LeiaHeadSingle.png'}, 
-            pussyhat : { clipurl:  'assets/FinalArt/pussyhat_facearea.png', pngurl:  'assets/FinalArt/pussyhatSingle.png'}, 
-            hat: { clipurl:  'assets/FinalArt/hat_facearea.png', pngurl:  'assets/FinalArt/hatSingle.png'} 
+            leia : {   clipurl:'assets/FinalArt/leia_facearea.png',
+                       pngurl:['assets/FinalArt/LeiaHead/head_0006_Layer-1.png',
+                              'assets/FinalArt/LeiaHead/head_0005_Layer-2.png',
+                              'assets/FinalArt/LeiaHead/head_0004_Layer-3.png',
+                              'assets/FinalArt/LeiaHead/head_0003_Layer-4.png']
+                   },
+            pussyhat : {   clipurl:'assets/FinalArt/pussyhat_facearea.png',
+                           pngurl:['assets/FinalArt/PussyHatHead/head_0004_Layer-1.png',
+                              'assets/FinalArt/PussyHatHead/head_0003_Layer-2.png',
+                              'assets/FinalArt/PussyHatHead/head_0002_Layer-3.png',
+                              'assets/FinalArt/PussyHatHead/head_0001_Layer-4.png']
+                       },
+            hat : {   clipurl:'assets/FinalArt/hat_facearea.png',
+                           pngurl:['assets/FinalArt/HatHead/head_0004_Layer-1.png',
+                              'assets/FinalArt/HatHead/head_0003_Layer-2.png',
+                              'assets/FinalArt/HatHead/head_0002_Layer-3.png',
+                              'assets/FinalArt/HatHead/head_0001_Layer-4.png']
+                       }
+        };
+        
+        var leiahead_images = [];
+        for (p = 0; p < faces["leia"].pngurl.length; p++) { 
+            leiahead_images[p] = new Image();
+            leiahead_images[p].src = faces["leia"].pngurl[p];
+        }  
+        var pussyhathead_images = [];
+        for (q = 0; q < faces["pussyhat"].pngurl.length; q++) { 
+            pussyhathead_images[q] = new Image();
+            pussyhathead_images[q].src = faces["pussyhat"].pngurl[q];
+        }  
+        var hathead_images = [];
+        for (r = 0; r < faces["hat"].pngurl.length; r++) { 
+            hathead_images[r] = new Image();
+            hathead_images[r].src = faces["hat"].pngurl[r];
         }  
         for(var key in faces) {
             if (faces.hasOwnProperty(key)) {
                 preloadImage(faces[key].clipurl);
-                preloadImage(faces[key].pngurl);
             }
         }
         var currentface = "leia";
@@ -306,7 +446,7 @@
         var step1Input = document.getElementsByClassName("step1input1 w-input")[0];
         
         step1Input.addEventListener("input", function(e) {
-            var inputText1 = step1Input.value;
+            inputText1 = step1Input.value;
             console.log("what I wrote: " + inputText1);
             $(".footertext").html("I am" + "<br>" + inputText1);
                      //if (isMobile.matches) {
@@ -319,7 +459,7 @@
         var step4Input = document.getElementsByClassName("step4input w-input")[0];
         
         step4Input.addEventListener("input", function(e) {
-            var inputText4 = step4Input.value;
+            inputText4 = step4Input.value;
             console.log("Trump Message: " + inputText4);
         }, false);
         /****************************************/  
@@ -368,7 +508,6 @@
         function assignCurrentFace(indexNum){
             if(indexNum ==0){
                 currentface = "hat"; 
-                
             }
             else if(indexNum ==1){
                 currentface = "pussyhat";
@@ -406,6 +545,7 @@
         //photo approved  
         $( ".yesbutton" ).on('touchend click', function(){  
             track.stop();
+            CreateFacePNGs(); 
             $(".modaldiv").hide(); 
         });   
         
@@ -437,15 +577,15 @@
             }
             
             if ($(event.target).attr('class') == "hr1") {
-                selectedBody = "superwoman";
-                console.log("Selected Body: " + selectedBody);
-            }
-            else if ($(event.target).attr('class') == "hr2") {
                 selectedBody = "leia";
                 console.log("Selected Body: " + selectedBody);
             }
+            else if ($(event.target).attr('class') == "hr2") {
+                selectedBody = "luther";
+                console.log("Selected Body: " + selectedBody);
+            }
             else if ($(event.target).attr('class') == "hr3") {
-                selectedBody = "translator";
+                selectedBody = "hulk";
                 console.log("Selected Body: " + selectedBody);
             }
             else if ($(event.target).attr('class') == "hr4") {
@@ -455,26 +595,80 @@
             
         });   
         /***********************************************/
+        var tempImages = [];   
+        function CreateFacePNGs(){
+            var headArray; 
+            if(currentface == "leia"){
+                headArray = leiahead_images.concat();
+            }else if(currentface == "pussyhat"){
+                headArray = pussyhathead_images.concat();
+            }else if(currentface == "hat"){
+                headArray = hathead_images.concat();
+            } 
+            
+            //setup
+            var faceCanvas = document.createElement('canvas');
+            
 
+            var baseImage = new Image(); 
+            baseImage.onload= function(){
+                faceCanvas.width = baseImage.width;
+                faceCanvas.height = baseImage.height;
+                var fctx = faceCanvas.getContext('2d');
+                var myW = xOffset + widthAvailable;
+                var myH = yOffset + heightAvailable;
+                console.log("baseimage w: "+ baseImage.width +" H: " + baseImage.height + "myW: " + myW+ "myH: "  + myH); 
+                fctx.drawImage(baseImage,0 ,0, baseImage.width,baseImage.height);
+                
+                //iterate through and add png to bare face
+                for (i = 0; i < headArray.length; i++) { 
+                    //leiahead_images[i].onload = function(){
+                  //  console.log("leiaheadimage w: "+ leiahead_images[i].width +" H: " + leiahead_images[i].height);
+                        fctx.clearRect(0, 0, baseImage.width,baseImage.height);
+                        fctx.drawImage(baseImage,0 ,0, baseImage.width,baseImage.height);
+                        fctx.drawImage(headArray[i],xOffset ,yOffset, widthAvailable,heightAvailable);
+                        var srcData = faceCanvas.toDataURL('image/png');
+                        var tImage = new Image(); 
+                        tImage.src = srcData; 
+                        allMyFaces.push(tImage); 
+                        if(i == 3){
+                            //console.log("before calling Generete GIF"); 
+                            GenerateGIF(); 
+                        }
+                        /* tempImages[i] = new Image();
+                        console.log("PNG iteration drawn");
+                        tempImages[i].onload = function(){
+                            console.log("tempimage onload: " + i);
+                            allMyFaces[i] = tempImages[i]; 
+                            if(i == 4){
+                                console.log("before calling Generete GIF"); 
+                                GenerateGIF(); 
+                            }
+                        };
+                        tempImages[i].src = srcData; */
+                   // };    
+                }   
+            };
+            baseImage.src = bareFaceSrc; 
+        }  
+          
         //clip the face and show on the approve window
         $( ".photobutton" ).on('touchend click', function(){
-            //hide the photo taking modal window
-            
-            console.log("CURRENT FACE: " + currentface + "clipurl: " + faces[currentface]["clipurl"] + " pngurl: " + faces[currentface]["pngurl"]);
             clip_image.src = faces[currentface]["clipurl"];           
-            imageLeia.src = faces[currentface]["pngurl"];
-             
-            
+            imageLeia.src = faces[currentface]["pngurl"][0];
             
             wCanvas.width = $( "#videoElement" ).width();
             wCanvas.height = $( "#videoElement" ).height();
+            //console.log("VIDEO ELEMENTWWW: " + wCanvas.width + "VIDEO ELEMENTHH: " + wCanvas.height); 
             var fctx = wCanvas.getContext('2d');
-            //console.log("webcam: "+ $( "#videoElement" ).width() +"::"+$( "#videoElement" ).height());
-            /// draw the shape we want to use for clipping
-            //clip_image.style.width = wCanvas.width;
-            //clip_image.style.height = 'auto';
-
+            
             imageLeia.onload = function(){
+                 //  console.log("webcamoverlayimaWIDTH: "+ $( ".webcamoverlayimage" ).width() + "webcamoverlayimaHEIGHT: " + $( ".webcamoverlayimage" //).height() + "x: " + $(".webcamoverlayimage").position().left + "y: " + $(".webcamoverlayimage").position().top );
+                xOffset = $(".webcamoverlayimage").position().left;
+                yOffset = $(".webcamoverlayimage").position().top;
+                widthAvailable = $( ".webcamoverlayimage" ).width();
+                heightAvailable = $( ".webcamoverlayimage" ).height();
+                
                 fctx.drawImage(clip_image, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
                 /// change composite mode to use that shape
@@ -483,91 +677,109 @@
                 /// draw the image to be clipped
                 fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
                 fctx.globalCompositeOperation = 'source-over';
+                //extract bare face to use later. 
+                bareFaceSrc = wCanvas.toDataURL('image/png');  
 
                 fctx.drawImage(imageLeia, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
-                var wimgData = wCanvas.toDataURL('image/png');
-
-                // var cutOutImage = document.createElement('img');
-                //cutOutImage.src = wimgData;
-
-
-
-                //show in the approve modal window.
-                // $(".approveimage").width(wCanvas.width).height(wCanvas.height);
-
+                faceSrcData = wCanvas.toDataURL('image/png');
+                faceImage.src = faceSrcData; 
+                faceImage.onload = faceImageLoaded;
+                
                 $('.modalcontent').hide();
-                $(".approveimage").attr('src', wimgData); 
+                $(".approveimage").attr('src', faceSrcData); 
             };
-         
-            
-            
-            //GenerateGIF(cutOutImage); 
-        }); 
+        });
+          
+        function faceImageLoaded() {
+           //GenerateGIF();
+        }  
         
         //combine face with overlay gif  
-       /* function GenerateGIF(face_jpg){
-            if(tParentGifLoaded == true){
-                for (i = 0; i < (tParentGif.get_length()); i++) { 
-                    tParentGif.move_to(i);
-                    var tempCanvas = tParentGif.get_canvas(); 
+        function GenerateGIF(){
+            var idleArray; 
+            if(selectedBody == "leia"){
+                idleArray = leiaidle_images.concat();
+            }else if(selectedBody == "luther"){
+                idleArray = lutheridle_images.concat();
+            }else if(selectedBody == "hulk"){
+                idleArray = hulkidle_images.concat();
+            } 
+            
+            
+                for (i = 0; i < idleArray.length; i++) { 
+                    
+                    var tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = 600;
+                    tempCanvas.height = 550;
                     var ctx= tempCanvas.getContext("2d");
                     //var imgData = tempCanvas.toDataURL('image/png');
                     //var imgNewData= ctx.getImageData(0,0, tempCanvas.width, tempCanvas.height);
-                    var can3 = document.createElement('canvas');
-                    can3.width = tempCanvas.width;
-                    can3.height = tempCanvas.height + 60;
-                    var ctx3 = can3.getContext('2d');
-
+                    var hcan = document.createElement('canvas');
+                    hcan.width = tempCanvas.width;
+                    hcan.height = 120;
+                    var hctx = hcan.getContext('2d');
                     //clear the heading canvas
-                    ctx.clearRect(0, 0, c.width, c.height);
-                    ctx = c.getContext("2d");
-                    ctx.font = "60px Lato";
-                    ctx.fillStyle = "white";
-                    ctx.textAlign = "center";
-                    ctx.fillText(" ",410,50);
+                    hctx.clearRect(0, 0, tempCanvas.width, 120);
+                    hctx = hcan.getContext("2d");
+                    hctx.font = "60px Lato";
+                    hctx.fillStyle = "white";
+                    hctx.textAlign = "center";
+                    hctx.fillText(inputText1,410,50);
 
-                    ctx3.drawImage(c, 0, 0);
-                    ctx3.drawImage(tempCanvas, 0, 60);
-                    //-(face_jpg.width/3) -(face_jpg.height/2)
-                    ctx3.drawImage(face_jpg, faceCoords[i].x-(face_jpg.width/2) , faceCoords[i].y+60-(face_jpg.height/3));
-                    //ctx3.drawImage(face_image, faceCoords[i].x-(face_image.width/2) , faceCoords[i].y+60-(face_image.height/2));
+                    ctx.drawImage(hcan, 0, 0);
+                    ctx.drawImage(idleArray[i], 0, 100);
+                    
+                    var hRatio = tempCanvas.width / faceImage.width;
+                    var vRatio = tempCanvas.height / faceImage.height;
+                    var ratio  = Math.min ( hRatio, vRatio );
+                    
+                    var tempImage = new Image(); 
+                    tempImage.onload = function(){
+                        
+                    };
+                    tempImage.src = allMyFaces[i].src; 
+                    //5 ,116,334, 251
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, -21 ,47,337, 253);    
 
-                    var imgData = can3.toDataURL('image/jpeg');
-                    //console.log("toDataURL: " + imgData);
-                    //console.log("getImageData: " + imgNewData);
-                    var oneImage = new Image();
-                    oneImage.src = imgData;
-                    gifFrames.length = 0; 
-                    gifFrames.push(oneImage);
-
+                        var imgData = tempCanvas.toDataURL('image/jpeg');
+                        var oneImage = new Image();
+                        oneImage.src = imgData;
+                       // gifFrames.length = 0; 
+                        gifFrames.push(oneImage);
+                        if(i == 3){
+                            console.log("ALLFACES: " + allMyFaces); 
+                            Giffyfy();   
+                        } 
                 }
-
-                gifshot.createGIF({
-                    images: gifFrames,
-                    gifWidth: tempCanvas.width, 
-                    gifHeight: 398, 
-                    interval: 0.12
-                }, function(obj) {
-                    if(!obj.error) {
-                        var image = obj.image;
-                        //animatedImage = document.createElement('img');
-                        //animatedImage.src = image;
-                        //document.getElementById('resultgif').appendChild(animatedImage);
-                        document.getElementById('resultgif').src = image;
-                        $('#resultgif').show();
-                        /*tParentGif.load(image, function(){
-                            tPunchGifLoaded = true;
-                        });*/
-     /*               }
-                });
-            }
-        }  */
+            //}
+        }  
           
         //Make the Summary GIF
           
           
       });
+    
+     function Giffyfy(){
+         
+                gifshot.createGIF({
+                    images: gifFrames,
+                    gifWidth: 600, 
+                    gifHeight: 550, 
+                    interval: 0.15
+                }, function(obj) {
+                    if(!obj.error) {
+                        console.log("making hte GIF"); 
+                        var image = obj.image;
+                        //animatedImage = document.createElement('img');
+                        //animatedImage.src = image;
+                        //document.getElementById('resultgif').appendChild(animatedImage);
+                         $(".previewimage").attr('src', image)
+                        //document.getElementById('resultgif').src = image;
+                        //$('#resultgif').show();
+                    }
+                });
+     }
     
     
       function step1Submit(){
