@@ -1,7 +1,9 @@
 var express = require('express');
 var playloops = require('./routes/playloops');
-    //scenes = require ('./routes/scenes')
 var aws = require('aws-sdk');
+
+console.log("got through all the requires");
+
 const S3_BUCKET = 'playloops'; //process.env.S3_BUCKET;
 const APP_PORT = (process.env.port || 3000);
 
@@ -12,6 +14,8 @@ app.configure(function () {
     app.use(express.bodyParser());
     app.use(express.static('..'));
 });
+
+console.log("app configured");
 
 //app.get('/playloops', wine.findAll);
 app.get("/hello", function(req, res) { res.send("hello world"); });
@@ -24,6 +28,8 @@ app.get('/playloops-all/', playloops.findAll);
 
 
 app.get('/playloops-img/sign-s3', playloops.signS3);
+
+console.log("routes set");
 
 app.listen(APP_PORT);
 console.log('Listening on port ' + APP_PORT);
