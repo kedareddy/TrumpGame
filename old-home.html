@@ -224,7 +224,7 @@
   <div class="previewfootersection">
     <div class="previewfootercontainer w-container">
       <div class="previewfooterdiv">
-        <h1 class="footertext">I am<br>Asian American</h1><img class="previewimage" src="images/LEIA_IDLE_INK.gif">
+        <h1 class="footertext">I am<br>Asian American</h1><img class="previewimage" id="previewimage" src="images/LEIA_IDLE_INK.gif">
       </div>
     </div>
   </div>
@@ -827,8 +827,8 @@
                         //animatedImage = document.createElement('img');
                         //animatedImage.src = image;
                         //document.getElementById('resultgif').appendChild(animatedImage);
-                         $(".previewimage").attr('src', image)
-                        //document.getElementById('resultgif').src = image;
+                        // $(".previewimage").attr('src', image)
+                        document.getElementById('previewimage').src = image;
                         //$('#resultgif').show();
                     }
                 });
