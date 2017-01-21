@@ -45,8 +45,10 @@
     //img_src => base64 encoded image data
     function uploadImage(img_name, img_type, img_src, playloop_dict){
         
-             var img_data = img_src.replace('data:image/gif;base64,','');
+             var img_data = img_src.replace('data:'+img_type+';base64,','');
         
+             alert(img_data);
+             alert(img_length);
              const img_length = img_data.length;
             
         
