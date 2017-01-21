@@ -1,10 +1,9 @@
-    const PLAYLOOPS_SERVER_URL = 'http://www.playloops.io';
+    const PLAYLOOPS_SERVER_URL = 'https://www.playloops.io';
     const PLAYLOOPS_SIGN_URL = PLAYLOOPS_SERVER_URL + '/playloops-img/sign-s3';
    
     function addPlayloop (playloop_dict, success_callback, error_callback) {
         const PLAYLOOPS_ADD_URL = PLAYLOOPS_SERVER_URL + "/playloops/";
-        
-        alert("about to ajax! " + PLAYLOOPS_ADD_URL) ;    
+           
         $.ajax({
             type: 'POST',
             //contentType: "application/json; charset=UTF-8",
@@ -40,7 +39,7 @@
     //img_name => foobar.gif
     //img_type => MIME type like "image/gif" or "image/jpeg"
     //img_src => base64 encoded image data
-    function uploadImage(img_name, img_type, img_src){
+    function uploadImage(img_name, img_type, img_src, playloop_dict){
         
              var img_data = img_src.replace('data:image/gif;base64,','');
         
@@ -51,19 +50,33 @@
                 dataType: 'jsonp',
                 data: `file-name=${img_name}&file-type=${img_type}&content-encoding=base64&content-length=${img_length}`,
                 url: _PLAYLOOPS_SIGN_URL,
-                success: function (signed_response) {
-                    uploadFileToS3(img_data, img_type, signed_response.signedRequest, signed_response.url);
+                success: 
+                 
+                    function (signed_response) {
+                        uploadFileToS3(img_data, 
+                                       img_type, 
+                                       signed_response.signedRequest, 
+                                       signed_response.url,
+                                       playloop_dict);
                   
-                },
-                error: function(retdata) { 
-                    alert('Could not get signed URL');
-                }
+                    },
+                 
+                error: 
+                 
+                    function(retdata) { 
+                        alert('Play loop could not be saved, Could not get signed URL :-()');
+                    }
+                 
              });
 
         }
              
 
-        function uploadFileToS3(file, contentType, signedRequest, url){
+        function uploadFileToS3(file, contentType, signedRequest, url, playloop_dict){
+            
+            playloop_dict['summary_img'] = url;
+            playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/' + playloop_dict['_id'];
+            
             const xhr = new XMLHttpRequest();
             sr = signedRequest;
             
@@ -74,8 +87,13 @@
             xhr.onreadystatechange = () => {
                 if(xhr.readyState === 4){
                     if(xhr.status === 200){
-                        alert("uploaded file!");
+                        //alert("uploaded file!");
                         //document.getElementById('preview').src = url;
+                        
+                        success_callback = function(data) { alert("playloop saved!"); }
+                        fail_callback = function(error) { alert("playloop save failed!!"); }
+                        
+                        addPlayloop (playloop_dict, success_callback, error_callback);
                     }         
                         else{
                             alert('Could not upload file.');
@@ -84,7 +102,7 @@
                 };
                 
                 xhr.send(file);
-            }
+        }
         
         
         

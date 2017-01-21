@@ -21,6 +21,7 @@
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/angertranslator.webflow.css" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+    
   <script type="text/javascript">
     WebFont.load({
       google: {
@@ -43,6 +44,9 @@
     
     <link rel="stylesheet" type="text/css" href="javascript.fullPage.css" />
     <script type="text/javascript" src="javascript.fullPage.js"></script>
+    
+    <!-- load that lib -->
+    <script src="js/playloops.js"></script>
     
 
     
@@ -197,7 +201,7 @@
               <label class="step4title" for="name-4">Your Message To Trump</label>
               <input class="step4input w-input" data-name="Name 4" id="name-4" maxlength="256" name="name-4" placeholder="NOT MY PRESIDENT" type="text">
             </div>
-            <div class="four stepbutton"><a class="submitbutton w-button" href="index.html">CREATE</a>
+            <div class="four stepbutton"><a class="submitbutton w-button" href="index.html"  id="createButton">CREATE</a>
             </div>
           </form>
           <div class="w-form-done">
@@ -763,6 +767,45 @@
           
         //Make the Summary GIF
           
+        //PRAVEEN's stuff starts here
+        $('#createButton').click(function(){
+          
+            
+            
+            //First make the data structure to pass to mongo
+            var playloop_dict = {};
+            playloop_dict['face_img'] = allMyFaces;
+            playloop_dict['text1'] = inputText1;
+            playloop_dict['text2'] = inputText4;
+            
+            
+            //then upload the image
+            playloop_id = generatePlayloopID();
+            playloop_dict['_id'] = playloop_id;
+            
+            /*sign_success_callback = function (signed_response) {
+                    uploadFileToS3(img_data, img_type, signed_response.signedRequest, signed_response.url);
+            }
+            
+            sign_fail_callback = function(error) { 
+                alert("Playloop save failed, couldn't make signature: " + error);
+            }*/
+            uploadImage(    playloop_id + ".gif", 
+                            "image/gif",
+                            $(".previewimage").src,
+                            playloop_dict,
+                            sign_success_callback,
+                            sign_fail_callback
+                        );
+            
+      
+        
+             
+            
+        });
+          
+          
+        //PRAVEEN's stuff ends here
           
       });
     
