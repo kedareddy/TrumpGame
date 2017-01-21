@@ -111,51 +111,13 @@
       </div>
     </div>
   </div>
-  <section class="section mostsections" id="SectionStep2">
-    <div class="mostcontainers w-container">
-      <div class="mosteditordivs">
-        <div class="stepformwrapper w-form">
-          <form class="formdiv" data-name="Email Form" id="email-form" name="email-form">
-            <div class="stepnumdiv">
-              <h1 class="stepnumber">2.</h1><img class="stepnumicon" src="images/symbols-1.svg">
-            </div>
-            <div class="step2 stepinputdiv">
-              <div class="step2selfiediv">
-                <label class="step2title" for="name-2">SELFIE!</label>
-                <a class="w-inline-block" data-ix="showselfiemodal" href="#"><img class="step2icon" src="images/camera.svg">
-                </a>
-              </div>
-              <div class="step2or">
-                <h1 class="step2ortext">or</h1>
-              </div>
-              <div class="step2uploaddiv">
-                <label class="step2title" for="name-2">Upload</label>
-                <a class="w-inline-block" href="#"><img class="step2icon upload" src="images/camera.svg">
-                </a>
-              </div>
-            </div>
-            <div class="stepbutton two">
-              <a class="w-inline-block" href="#Step3"><img class="nextlinkblock" src="images/25243.svg">
-              </a>
-            </div>
-          </form>
-          <div class="w-form-done">
-            <div>Thank you! Your submission has been received!</div>
-          </div>
-          <div class="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section mostsections" id="SectionStep3">
+<section class="section mostsections" id="SectionStep3">
     <div class="w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
           <form class="formdiv" data-name="Email Form" id="email-form" name="email-form">
             <div class="stepnumdiv">
-              <h1 class="stepnumber">3.</h1><img class="stepnumicon" src="images/symbols-1.svg">
+              <h1 class="stepnumber">2.</h1><img class="stepnumicon" src="images/symbols-1.svg">
             </div>
             <div class="stepinputdiv">
               <label class="step3title" for="name-3">Choose Your Hero!</label>
@@ -171,6 +133,44 @@
               </div>
             </div>
             <div class="stepbutton three">
+              <a class="w-inline-block" href="#Step3"><img class="nextlinkblock" src="images/25243.svg">
+              </a>
+            </div>
+          </form>
+          <div class="w-form-done">
+            <div>Thank you! Your submission has been received!</div>
+          </div>
+          <div class="w-form-fail">
+            <div>Oops! Something went wrong while submitting the form</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>      
+  <section class="section mostsections" id="SectionStep2">
+    <div class="mostcontainers w-container">
+      <div class="mosteditordivs">
+        <div class="stepformwrapper w-form">
+          <form class="formdiv" data-name="Email Form" id="email-form" name="email-form">
+            <div class="stepnumdiv">
+              <h1 class="stepnumber">3.</h1><img class="stepnumicon" src="images/symbols-1.svg">
+            </div>
+            <div class="step2 stepinputdiv">
+              <div class="step2selfiediv">
+                <label class="step2title" for="name-2">Add Your Face!</label>
+                <a class="w-inline-block" data-ix="showselfiemodal" href="#"><img class="step2icon" src="images/camera.svg">
+                </a>
+              </div>
+              <div class="step2or">
+                <h1 class="step2ortext">or</h1>
+              </div>
+              <div class="step2uploaddiv">
+                <label class="step2title" for="name-2">Upload</label>
+                <a class="w-inline-block" href="#"><img class="step2icon upload" src="images/camera.svg">
+                </a>
+              </div>
+            </div>
+            <div class="stepbutton two">
               <a class="w-inline-block" href="#Step4"><img class="nextlinkblock" src="images/25243.svg">
               </a>
             </div>
@@ -185,6 +185,7 @@
       </div>
     </div>
   </section>
+  
   <section class="section mostsections" id="SectionStep4">
     <div class="w-container">
       <div class="mosteditordivs">
@@ -237,7 +238,8 @@
     var allMyFaces = []; 
     var faceSrcData;
     var faceImage = new Image(); 
-    var inputText1, inputText4; 
+    var inputText1 = "I am American";
+    var inputText4 = "He is not my president"; 
     //testImage.src = 'assets/Test/LEIA_IDLE_INK.gif'; 
     var isMobile;
     //timeout variables
@@ -347,7 +349,6 @@
         var webvideo = document.getElementById('videoElement');
         var wCanvas = document.getElementById('webcamcanvas');  
         var selectedBody = "hulk";  
-        var inputText1, inputText4; 
         var clip_image = new Image();
         clip_image.src = 'assets/FinalArt/leia_facearea.png';
         var imageLeia = new Image();
@@ -731,7 +732,7 @@
                     //clear the heading canvas
                     hctx.clearRect(0, 0, tempCanvas.width, 120);
                     hctx = hcan.getContext("2d");
-                    hctx.font = "60px Lato";
+                    hctx.font = "60px Oswald";
                     hctx.fillStyle = "white";
                     hctx.textAlign = "center";
                     hctx.fillText(inputText1,410,50);
