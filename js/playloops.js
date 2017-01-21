@@ -49,7 +49,7 @@
              $.ajax({
                 dataType: 'jsonp',
                 data: `file-name=${img_name}&file-type=${img_type}&content-encoding=base64&content-length=${img_length}`,
-                url: _PLAYLOOPS_SIGN_URL,
+                url: PLAYLOOPS_SIGN_URL,
                 success: 
                  
                     function (signed_response) {
