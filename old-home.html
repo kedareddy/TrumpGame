@@ -578,21 +578,26 @@
             
             if ($(event.target).attr('class') == "hr1") {
                 selectedBody = "leia";
+                $('.hero1link').css('background-color','#666666');
+                $('.hero2link').css('background-color','transparent');
+                $('.hero3link').css('background-color','transparent');
                 console.log("Selected Body: " + selectedBody);
             }
             else if ($(event.target).attr('class') == "hr2") {
                 selectedBody = "luther";
+                $('.hero2link').css('background-color','#666666');
+                $('.hero3link').css('background-color','transparent');
+                $('.hero1link').css('background-color','transparent');
                 console.log("Selected Body: " + selectedBody);
             }
             else if ($(event.target).attr('class') == "hr3") {
                 selectedBody = "hulk";
+                $('.hero3link').css('background-color','#666666');
+                $('.hero2link').css('background-color','transparent');
+                $('.hero1link').css('background-color','transparent');
                 console.log("Selected Body: " + selectedBody);
             }
-            else if ($(event.target).attr('class') == "hr4") {
-                selectedBody = "hulk";
-                console.log("Selected Body: " + selectedBody);
-            }
-            
+
         });   
         /***********************************************/
         var tempImages = [];   
