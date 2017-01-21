@@ -12,7 +12,7 @@ var app = express();
 app.configure(function () {
     app.use(express.logger('dev'));     /* 'default', 'short', 'tiny', 'dev' */
     app.use(express.bodyParser());
-    app.use(express.static('..'));
+    //app.use(express.static('..'));
 });
 
 console.log("app configured");
