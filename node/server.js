@@ -12,10 +12,10 @@ var app = express();
 app.configure(function () {
     app.use(express.logger('dev'));     /* 'default', 'short', 'tiny', 'dev' */
     app.use(express.bodyParser());
-    app.use('/',express.static('..'));
+    app.use(express.static(__dirname));
 });
 
-console.log("app configured");
+console.log("app configured with " + __dirname);
 
 //app.get('/playloops', wine.findAll);
 app.get("/hello", function(req, res) { res.send("hello world"); });
