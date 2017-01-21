@@ -91,7 +91,7 @@
                         //document.getElementById('preview').src = url;
                         
                         success_callback = function(data) { alert("playloop saved!"); }
-                        fail_callback = function(error) { alert("playloop save failed!!"); }
+                        error_callback = function(error) { alert("playloop save failed!!"); }
                         
                         addPlayloop (playloop_dict, success_callback, error_callback);
                     }         
