@@ -3,7 +3,7 @@ var playloops = require('./routes/playloops');
     //scenes = require ('./routes/scenes')
 var aws = require('aws-sdk');
 const S3_BUCKET = 'playloops'; //process.env.S3_BUCKET;
-const APP_PORT = 80;
+const APP_PORT = (process.env.port || 80);
 
 var app = express();
 
