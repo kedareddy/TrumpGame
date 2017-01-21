@@ -55,7 +55,7 @@
         
              $.ajax({
                 dataType: 'jsonp',
-                data: `file-name=${img_name}&file-type=${img_type}&content-encoding=base64&content-length=${img_length}`,
+                data: `file-name=${img_name}&file-type=${img_type}&content-encoding=base64`,
                 url: PLAYLOOPS_SIGN_URL,
                 success: 
                  

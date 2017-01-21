@@ -55,7 +55,7 @@ exports.signS3 = function(req, res) {
     const fileName = req.query['file-name'];
     const fileType = req.query['file-type'];
     const contentEncoding = req.query['content-encoding'];
-    const contentLength = req.query['content-length'];
+    //const contentLength = req.query['content-length'];
     const callBack = req.query['callback'];
 
     const s3Params = {
