@@ -21,7 +21,10 @@
     
     addPlayloop(mydict,
                 function(data){ alert(getPlayloop(uuid));},
-                function(request, status, error){ alert("Couldn't insert shit!" + error);}
+                function(request, status, error){
+			 alert("status: " + status);
+			 alert("request: " + JSON.stringify(request));
+			 alert("Couldn't insert shit!" + error);}
                );
     
     

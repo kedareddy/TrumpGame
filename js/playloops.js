@@ -4,7 +4,7 @@
     function addPlayloop (playloop_dict, success_callback, error_callback) {
         const PLAYLOOPS_ADD_URL = PLAYLOOPS_SERVER_URL + "/playloops/";
         
-        
+        alert("about to ajax! " + PLAYLOOPS_ADD_URL) ;    
         $.ajax({
             type: 'POST',
             //contentType: "application/json; charset=UTF-8",
