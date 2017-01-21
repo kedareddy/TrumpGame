@@ -10,8 +10,8 @@
             //data: JSON.stringify(playloop_dict),
             data: playloop_dict,
             url: PLAYLOOPS_ADD_URL,
-            success : success_callback,
-            error : error_callback 
+            success : alert("its saved"),//success_callback,
+            error : alert("its failed")//error_callback 
             
         });
         
