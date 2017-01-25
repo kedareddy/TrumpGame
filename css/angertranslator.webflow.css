@@ -580,7 +580,9 @@
   -ms-flex: 0 auto;
   flex: 0 auto;
   background-color: #666;
+    overflow: hidden;
 }
+
 
 .socialmediadiv {
   display: -webkit-box;
@@ -775,7 +777,7 @@
     position: absolute; 
 }
 .animation3div{
-    position: absolute; 
+    position: absolute;     
 }
 .playerhelptext {
   display: none;
@@ -942,12 +944,12 @@
 .playertext {
   margin-top: 0px;
   margin-bottom: 0px;
-  padding-top: 0.1em;
-  padding-bottom: 0.1em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
   background-color: #000;
   font-family: 'Oswald bold', sans-serif;
   color: #fff;
-  font-size: 50px;
+  font-size: 70px;
   text-align: center;
 }
 

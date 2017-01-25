@@ -139,6 +139,30 @@
            $('.sharelinktext').text( data.playloopurl);    
         });       
     }
+ 
+           
+
+    assignTestValues(); 
+    function assignTestValues(){
+                
+           text1 = "I am American"; 
+           text2 = "This is not my President!"; 
+           
+           words.length = 0;
+           text2 = text2.toUpperCase();
+           words = text2.split(" ");
+           heroname = "leia";
+        
+           var head_urls = ['assets/FinalArt/FakeHead/head_0004_Layer-1.png','assets/FinalArt/FakeHead/head_0003_Layer-2.png','assets/FinalArt/FakeHead/head_0001_Layer-4.png','assets/FinalArt/FakeHead/head_0000_Layer-5.png'];
+           for (i = 0; i < head_urls.length; i++) {
+            allMyFaces[i] = new Image();
+            allMyFaces[i].src = head_urls[i];
+           }
+        
+        everythingDownloaded = true;
+           //allMyFaces = data.face_imgArray;
+          // $('.sharelinktext').text( data.playloopurl);    
+    }
     
     
         var hulkidle_urls = ['assets/FinalArt/HulkIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/HulkIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/HulkIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/HulkIdle/Idle_0000_Layer 4.jpg'];
@@ -196,7 +220,7 @@
          
         if(everythingDownloaded == true){
             if(heroname == "leia"){
-
+                    console.log("leia"); 
                 for (i = 0; i < leiaidle_urls.length; i++) {
                     leiaidle_images[i] = new Image();
                     leiaidle_images[i].src = leiaidle_urls[i];
@@ -247,9 +271,12 @@
                 } 
             }
             
-            MakeGif1(); 
-            MakeGif2();
-            MakeGif3(); 
+            setTimeout(function(){ 
+                MakeGif1(); 
+            }, 3000);
+            
+           // MakeGif2();
+            //MakeGif3(); 
         }
     
     function MakeGif1(){
@@ -275,7 +302,7 @@
                     var ctx= tempCanvas.getContext("2d");
                     
                     //ctx.drawImage(hcan, 0, 0);
-                    ctx.drawImage(idleArray[i], 0, 100);
+                    ctx.drawImage(idleArray[i], 0, 0);
                     
                     
                     var tempImage = new Image(); 
@@ -292,10 +319,13 @@
                     var oneImage = new Image();
                     oneImage.src = imgData;
                     var DOM_img = document.createElement("img");
+                    //DOM_img.style="position:absolute;";
                     DOM_img.src = imgData;
 
-                    $(".animation1div").appendChild(DOM_img);
+                    $(".animation1div").append(DOM_img);
             }  
+        MakeGif2(); 
+        //startAnimation1(); 
     }
     
     function MakeGif2(){
@@ -313,7 +343,7 @@
             } 
             
             
-            for (i = 0; i < idleArray.length; i++) { 
+            for (i = 0; i < jabArray.length; i++) { 
                     
                     var tempCanvas = document.createElement('canvas');
                     tempCanvas.width = 600;
@@ -321,7 +351,7 @@
                     var ctx= tempCanvas.getContext("2d");
                     
                     //ctx.drawImage(hcan, 0, 0);
-                    ctx.drawImage(jabArray[i], 0, 100);
+                    ctx.drawImage(jabArray[i], 0, 0);
                     
                     
                     var tempImage = new Image(); 
@@ -338,10 +368,12 @@
                     var oneImage = new Image();
                     oneImage.src = imgData;
                     var DOM_img = document.createElement("img");
+                    //DOM_img.style="position:absolute;";
                     DOM_img.src = imgData;
 
-                    $(".animation2div").appendChild(DOM_img);
+                    $(".animation2div").append(DOM_img);
             } 
+        MakeGif3(); 
     }
     
     function MakeGif3(){
@@ -369,7 +401,7 @@
                     var ctx= tempCanvas.getContext("2d");
                     
                     //ctx.drawImage(hcan, 0, 0);
-                    ctx.drawImage(punchArray[i], 0, 100);
+                    ctx.drawImage(punchArray[i], 0, 0);
                     
                     
                     var tempImage = new Image(); 
@@ -402,68 +434,107 @@
                     var oneImage = new Image();
                     oneImage.src = imgData;
                     var DOM_img = document.createElement("img");
+                    //DOM_img.style="position:absolute;";
                     DOM_img.src = imgData;
 
-                    $(".animation3div").appendChild(DOM_img);
+                    $(".animation3div").append(DOM_img);
                     j++; 
             }
         allGifsMade = true;
         $(".loadingBar").remove(); 
+        $('.animation1div').show();
+        $('.animation2div').hide();
+        $('.animation3div').hide();
         startAnimation1(); 
     }
     
-    
+    var frames1; 
+    var timer1; 
     function startAnimation1() { 
-        $(".playertext").html(text1);
-       
-        var frames = $(".animation1div").children;
-        var frameCount = frames.length;
+       // $(".playertext").html(text1);
+        if(frames1 == null){
+            var frames1 = $(".animation1div").children();
+        }
+        var frameCount = frames1.length;
         
         var i = 0;
-        var timer1 = setInterval(function () { 
-            frames[i % frameCount].style.display = "none";
-            frames[++i % frameCount].style.display = "block";
+        timer1 = setInterval(function () {
+            $(frames1[i % frameCount]).hide();
+            $(frames1[++i % frameCount]).show();
         }, 150); 
     }
     
     var wordCounter = 0; 
+    var frames2;
+    var timer2; 
     function startAnimation2() { 
-        var frames = $(".animation2div").children;
-        var frameCount = frames.length;
+        if(frames2 == null){
+            frames2 = $(".animation2div").children();
+        }
+        var frameCount = frames2.length;
+        console.log();
         if(wordCounter == (words.length-1)){
+            clearInterval(timer2);
+            clearInterval(timer1);
             startAnimation3();
+            $('.animation1div').hide();
+            $('.animation2div').hide();
+            $('.animation3div').show();
+            return;
         }
         $(".playertext").html(words[wordCounter]);
         wordCounter++; 
         var i = 0;
-        var timer 2  = setInterval(function () { 
-            if (i >= frames.length) {
+        timer2  = setInterval(function () { 
+            if (i >= frames2.length) {
                 clearInterval(timer2);
-                startAnimation2(); 
+                clearInterval(timer1);
+                startAnimation1(); 
+                $('.animation1div').show();
+                $('.animation2div').hide();
+                $('.animation3div').hide();
+                return; 
             }
-            frames[i % frameCount].style.display = "none";
-            frames[++i % frameCount].style.display = "block";
+            else{
+                $(frames2[i % frameCount]).hide();
+                $(frames2[++i % frameCount]).show();
+            }
         }, 150); 
     }
     
+    var frames3; 
+    var timer3; 
     function startAnimation3() { 
-        var frames = $(".animation3div").children;
-        var frameCount = frames.length;
+        if(frames3 == null)
+        {
+            frames3 = $(".animation3div").children();
+        }
+        var frameCount = frames3.length;
+        $(".playertext").html(words[words.length-1]);
         var i = 0;
-        var timer3 = setInterval(function () { 
-            if (i >= frames.length) {
+        timer3 = setInterval(function () { 
+            if (i >= frames3.length) {
                 clearInterval(timer3);
+                clearInterval(timer1);
+                clearInterval(timer2);
                 wordCounter = 0; 
                 startAnimation1(); 
+                $('.animation1div').show();
+                $('.animation2div').hide();
+                $('.animation3div').hide();
+                return;
             }
-            frames[i % frameCount].style.display = "none";
-            frames[++i % frameCount].style.display = "block";
+            else{
+                $(frames3[i % frameCount]).hide();
+                $(frames3[++i % frameCount]).show();
+            }
         }, 150); 
     }
     
     
     
     $(document).ready(function(){
+        
         
         //getPlayloop(id); 
         
@@ -472,18 +543,25 @@
             if(allGifsMade == true)
             {
                 if($('.animation1div').is(':visible')) {
+                    clearInterval(timer1);
+                    clearInterval(timer2);
                     $('.animation1div').hide();
                     $('.animation3div').hide();
                     //start the animation from the start. 
                     startAnimation2(); 
                     $('.animation2div').show();
                 }else if($('.animation2div').is(':visible')) {
+                    clearInterval(timer2);
+                    clearInterval(timer1);
+                    clearInterval(timer3);
                     $('.animation1div').hide();
                     $('.animation3div').hide();
                     //start the animation from the start.
                     startAnimation2(); 
                     $('.animation2div').show();
                 }else if($('.animation3div').is(':visible')) {
+                    clearInterval(timer1);
+                    clearInterval(timer2);
                     //don't do anything. should cycle back to animation 1 after it ends. 
                 } 
             } 

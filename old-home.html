@@ -640,6 +640,7 @@
                         var srcData = faceCanvas.toDataURL('image/png');
                         var tImage = new Image(); 
                         tImage.src = srcData; 
+                        console.log("allmyfaces x:" + tImage.width + " h: " + tImage.height);
                         allMyFaces.push(tImage); 
                         if(i == 3){
                             //console.log("before calling Generete GIF"); 
@@ -687,6 +688,16 @@
                 /// draw the image to be clipped
                 fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
                 fctx.globalCompositeOperation = 'source-over';
+                /*Filters.brightness = function(pixels, adjustment) {
+                      var d = pixels.data;
+                      for (var i=0; i<d.length; i+=4) {
+                        d[i] += adjustment;
+                        d[i+1] += adjustment;
+                        d[i+2] += adjustment;
+                      }
+                      return pixels;
+                };*/
+                
                 //extract bare face to use later. 
                 bareFaceSrc = wCanvas.toDataURL('image/png');  
 
@@ -706,7 +717,7 @@
         }  
         
         //combine face with overlay gif  
-        function GenerateGIF(){
+       /* function GenerateGIF(){
             var idleArray; 
             var headPos = { x:5, y: 116};
             if(selectedBody == "leia"){
@@ -731,15 +742,15 @@
                     //var imgNewData= ctx.getImageData(0,0, tempCanvas.width, tempCanvas.height);
                     var hcan = document.createElement('canvas');
                     hcan.width = tempCanvas.width;
-                    hcan.height = 120;
+                    hcan.height = 60;
                     var hctx = hcan.getContext('2d');
                     //clear the heading canvas
-                    hctx.clearRect(0, 0, tempCanvas.width, 120);
+                    hctx.clearRect(0, 0, tempCanvas.width, hcan.height);
                     hctx = hcan.getContext("2d");
                     hctx.font = "60px Oswald";
                     hctx.fillStyle = "white";
                     hctx.textAlign = "center";
-                    hctx.fillText(inputText1,310,50);
+                    hctx.fillText(inputText1,hcan.width/2,hcan.height/2);
 
                     ctx.drawImage(hcan, 0, 0);
                     ctx.drawImage(idleArray[i], 0, 100);
@@ -769,7 +780,128 @@
                         } 
                 }
             //}
-        }  
+        }  */
+        var words = []; 
+        function GenerateGIF(){
+            var jabArray; 
+            var punchArray; 
+            var headPos = { x:5, y: 116};
+            if(selectedBody == "leia"){
+                jabArray = leiajab_images.concat();
+                punchArray = leiapunch_images.concat();
+                headPos = { x:5, y: 116};
+            }else if(selectedBody == "luther"){
+                jabArray = lutherjab_images.concat();
+                punchArray = lutherjab_images.concat();
+                headPos = { x:71, y: 50};
+            }else if(selectedBody == "hulk"){
+                jabArray = hulkjab_images.concat();
+                punchArray = hulkjab_images.concat();
+                headPos = { x:-21, y: 47};
+            } 
+            
+            words.length = 0;
+            inputText4 = inputText4.toUpperCase();
+            words = inputText4.split(" ");
+            for(k=0; k < (words.length-1); k++){
+                for (i = 0; i < jabArray.length; i++) { 
+                    
+                    var tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = 600;
+                    tempCanvas.height = 550;
+                    var ctx= tempCanvas.getContext("2d");
+                    
+                    var hcan = document.createElement('canvas');
+                    hcan.width = tempCanvas.width;
+                    hcan.height = 60;
+                    var hctx = hcan.getContext('2d');
+                    
+                    //clear the heading canvas
+                    hctx.clearRect(0, 0, tempCanvas.width, hcan.height);
+                    hctx = hcan.getContext("2d");
+                    hctx.font = "60px Oswald";
+                    hctx.fillStyle = "white";
+                    hctx.textAlign = "center";
+                    hctx.fillText(words[k],hcan.width/2,hcan.height/2);
+
+                    ctx.drawImage(hcan, 0, 0);
+                    ctx.drawImage(jabArray[i], 0, 100);
+                    
+                    var hRatio = tempCanvas.width / faceImage.width;
+                    var vRatio = tempCanvas.height / faceImage.height;
+                    var ratio  = Math.min ( hRatio, vRatio );
+                    
+                    var tempImage = new Image(); 
+                    tempImage.onload = function(){
+                        
+                    };
+                    tempImage.src = allMyFaces[i].src; 
+                    //5 ,116,334, 251 LEIA
+                    //-21 ,47,337, 253 HULK
+                    //71 ,50,337, 253 LUTHER
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+
+                    var imgData = tempCanvas.toDataURL('image/jpeg');
+                    var oneImage = new Image();
+                    oneImage.src = imgData;
+                    // gifFrames.length = 0; 
+                    gifFrames.push(oneImage);
+                    if(i == 3){
+                        console.log("ALLFACES: " + allMyFaces); 
+                        Giffyfy();   
+                    } 
+                }
+            }
+            
+             for (m = 0; m < punchArray.length; m++) { 
+                    
+                    var tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = 600;
+                    tempCanvas.height = 550;
+                    var ctx= tempCanvas.getContext("2d");
+                    
+                    var hcan = document.createElement('canvas');
+                    hcan.width = tempCanvas.width;
+                    hcan.height = 60;
+                    var hctx = hcan.getContext('2d');
+                    
+                    //clear the heading canvas
+                    hctx.clearRect(0, 0, tempCanvas.width, hcan.height);
+                    hctx = hcan.getContext("2d");
+                    hctx.font = "60px Oswald";
+                    hctx.fillStyle = "white";
+                    hctx.textAlign = "center";
+                    hctx.fillText(inputText1,hcan.width/2,hcan.height/2);
+
+                    ctx.drawImage(hcan, 0, 0);
+                    ctx.drawImage(punchArray[m], 0, 100);
+                    
+                    var hRatio = tempCanvas.width / faceImage.width;
+                    var vRatio = tempCanvas.height / faceImage.height;
+                    var ratio  = Math.min ( hRatio, vRatio );
+                    
+                    var tempImage = new Image(); 
+                    tempImage.onload = function(){
+                        
+                    };
+                    tempImage.src = allMyFaces[m].src; 
+                    //5 ,116,334, 251 LEIA
+                    //-21 ,47,337, 253 HULK
+                    //71 ,50,337, 253 LUTHER
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+
+                    var imgData = tempCanvas.toDataURL('image/jpeg');
+                    var oneImage = new Image();
+                    oneImage.src = imgData;
+                    // gifFrames.length = 0; 
+                    gifFrames.push(oneImage);
+                    if(i == 3){
+                        console.log("ALLFACES: " + allMyFaces); 
+                        Giffyfy();   
+                    } 
+                }
+            
+        }    
           
         //Make the Summary GIF
           
