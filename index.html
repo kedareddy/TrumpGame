@@ -68,7 +68,7 @@
           <h1 class="playerhelptext">Tap To Play</h1>
         </div>
         <div class="playerdiv">
-          <h1 class="playertext">NOT MY PRESIDENT</h1>
+          <h1 class="playertext"> NOT MY PRESIDENT</h1>
           <div class="animation1div">
                 <img class="loadingBar" src="images/Flipbook-LOADING_600.gif">          
           </div>
@@ -153,7 +153,7 @@
            words = text2.split(" ");
            heroname = "leia";
         
-           var head_urls = ['assets/FinalArt/FakeHead/head_0004_Layer-1.png','assets/FinalArt/FakeHead/head_0003_Layer-2.png','assets/FinalArt/FakeHead/head_0001_Layer-4.png','assets/FinalArt/FakeHead/head_0000_Layer-5.png'];
+           var head_urls = ['assets/FinalArt/FakeHead/head_0000_Layer-4.png','assets/FinalArt/FakeHead/head_0001_Layer-3.png','assets/FinalArt/FakeHead/head_0002_Layer-2.png','assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
            for (i = 0; i < head_urls.length; i++) {
             allMyFaces[i] = new Image();
             allMyFaces[i].src = head_urls[i];
@@ -302,7 +302,7 @@
                     var ctx= tempCanvas.getContext("2d");
                     
                     //ctx.drawImage(hcan, 0, 0);
-                    ctx.drawImage(idleArray[i], 0, 0);
+                    ctx.drawImage(idleArray[0], 0, 0);
                     
                     
                     var tempImage = new Image(); 
@@ -451,6 +451,7 @@
     var frames1; 
     var timer1; 
     function startAnimation1() { 
+        $(".playertext").css('visibility','hidden');
        // $(".playertext").html(text1);
         if(frames1 == null){
             var frames1 = $(".animation1div").children();
@@ -468,6 +469,7 @@
     var frames2;
     var timer2; 
     function startAnimation2() { 
+        $(".playertext").css('visibility','visible');
         if(frames2 == null){
             frames2 = $(".animation2div").children();
         }
@@ -505,6 +507,7 @@
     var frames3; 
     var timer3; 
     function startAnimation3() { 
+        $(".playertext").css('visibility','visible');
         if(frames3 == null)
         {
             frames3 = $(".animation3div").children();
