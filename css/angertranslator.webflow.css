@@ -1021,20 +1021,14 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
   .twitterdiv {
     width: 15%;
   }
-  .playerwrapperdiv{
-    max-width: 100%;
-    height: auto;
-  }
+
      .titleheading {
     font-size: 10px;
   }
 }
 
 @media (max-width: 479px) {
-  .playerwrapperdiv{
-    max-width: 100%;
-    height: auto;
-  }
+
   .stepnumdiv {
     font-size: 35px;
   }
