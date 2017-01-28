@@ -23,6 +23,10 @@
   background-color: #000;
 }
 
+.hiddensection{
+    display: none;
+}
+
 .mostcontainers {
   display: block;
   padding-right: 0px;
@@ -207,7 +211,7 @@
 .logoheading {
   margin-top: 0px;
   margin-bottom: 0px;
-  margin-left: 8%;
+  margin-left: 3%;
   font-family: 'Bodoniflf bold', sans-serif;
   color: #fff;
 }
@@ -597,7 +601,7 @@
 }
 
 .sharediv {
-  padding-bottom: 13em;
+  padding-bottom: .5em;
   background-color: #f8e71c;
 }
 
@@ -635,7 +639,8 @@
 .titleheading {
   margin-top: 0.1em;
   margin-bottom: 0.1em;
-  margin-left: 0.25em;
+  margin-left: 18%;
+  /*margin-left: 0.25em;*/
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -667,7 +672,7 @@
   -ms-flex-item-align: end;
   align-self: flex-end;
   font-family: 'Oswald medium', sans-serif;
-  color: #fff;
+  color: #000;
   font-size: 25px;
   font-weight: 400;
   text-align: right;
@@ -731,7 +736,7 @@
   -ms-flex-item-align: end;
   align-self: flex-end;
   font-family: 'Oswald medium', sans-serif;
-  color: #fff;
+  color: #000;
   font-size: 20px;
   font-weight: 400;
 }
@@ -777,6 +782,9 @@
     position: absolute; 
 }
 .animation3div{
+    position: absolute;     
+}
+.animation4div{
     position: absolute;     
 }
 .playerhelptext {

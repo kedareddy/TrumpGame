@@ -54,7 +54,8 @@
     <div class="w-container">
       <div class="parenttitlediv">
         <div class="titleheadingdiv">
-          <h1 class="titleheading">Play Loops</h1>
+            <img class="titleheading" src="images/yellowlogo.svg">          
+         <!-- <h1 class="titleheading">Play Loops</h1>-->
         </div>
         <div class="editdiv"><a class="editbutton w-button" href="old-home.html">EDIT</a>
         </div>
@@ -77,7 +78,10 @@
           </div>
           <div class="animation3div">
                       
-          </div>    
+          </div>
+          <div class="animation4div">
+                      
+          </div>
         </div>
       </div>
     </div>
@@ -151,7 +155,7 @@
            words.length = 0;
           // text2 = text2.toUpperCase();
            words = text2.split(" ");
-           heroname = "leia";
+           heroname = "hulk";
         
            var head_urls = ['assets/FinalArt/FakeHead/head_0000_Layer-4.png','assets/FinalArt/FakeHead/head_0001_Layer-3.png','assets/FinalArt/FakeHead/head_0002_Layer-2.png','assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
            for (i = 0; i < head_urls.length; i++) {
@@ -235,6 +239,11 @@
                     leiapunch_images[k] = new Image();
                     leiapunch_images[k].src = leiapunch_urls[k];
                 }
+                var leiaaltpunch_images = [];
+                for (l = 0; l < lutherpunch_urls.length; l++) {
+                    leiaaltpunch_images[l] = new Image();
+                    leiaaltpunch_images[l].src = lutherpunch_urls[l];
+                }
             }
             else if(heroname == "luther"){
 
@@ -251,7 +260,12 @@
                 for (n = 0; n < lutherpunch_urls.length; n++) {
                     lutherpunch_images[n] = new Image();
                     lutherpunch_images[n].src = lutherpunch_urls[n];
-                }  
+                } 
+                var lutheraltpunch_images = [];
+                for (p = 0; p < leiapunch_urls.length; p++) {
+                    lutheraltpunch_images[p] = new Image();
+                    lutheraltpunch_images[p].src = leiapunch_urls[p];
+                } 
             }
             else if(heroname == "hulk"){
 
@@ -269,6 +283,11 @@
                     hulkpunch_images[v] = new Image();
                     hulkpunch_images[v].src = hulkpunch_urls[v];
                 } 
+                var hulkaltpunch_images = [];
+                for (l = 0; l < leiapunch_urls.length; l++) {
+                    hulkaltpunch_images[l] = new Image();
+                    hulkaltpunch_images[l].src = leiapunch_urls[l];
+                }
             }
             
             setTimeout(function(){ 
@@ -283,13 +302,13 @@
             var idleArray; 
             var headPos = { x:5, y: 116};
             if(heroname == "leia"){
-                idleArray = leiaidle_images.concat();
+                idleArray = leiaidle_images.slice();
                 headPos = { x:5, y: 0};
             }else if(heroname == "luther"){
-                idleArray = lutheridle_images.concat();
+                idleArray = lutheridle_images.slice();
                 headPos = { x:71, y: -51};
             }else if(heroname == "hulk"){
-                idleArray = hulkidle_images.concat();
+                idleArray = hulkidle_images.slice();
                 headPos = { x:-21, y: -40};
             } 
             
@@ -302,7 +321,7 @@
                     var ctx= tempCanvas.getContext("2d");
                     
                     //ctx.drawImage(hcan, 0, 0);
-                    ctx.drawImage(idleArray[0], 0, 0);
+                    ctx.drawImage(idleArray[i], 0, 0);
                     
                     
                     var tempImage = new Image(); 
@@ -332,13 +351,13 @@
             var jabArray; 
             var headPos = { x:5, y: 116};
             if(heroname == "leia"){
-                jabArray = leiajab_images.concat();
+                jabArray = leiajab_images.slice();
                 headPos = { x:5, y: 0};
             }else if(heroname == "luther"){
-                jabArray = lutherjab_images.concat();
+                jabArray = lutherjab_images.slice();
                 headPos = { x:71, y: -51};
             }else if(heroname == "hulk"){
-                jabArray = hulkjab_images.concat();
+                jabArray = hulkjab_images.slice();
                 headPos = { x:-21, y: -40};
             } 
             
@@ -380,15 +399,15 @@
             var punchArray; 
             var headPos = { x:5, y: 116};
             if(heroname == "leia"){
-                punchArray = leiapunch_images.concat();
+                punchArray = leiapunch_images.slice();
                 headPos = { x:5, y: 0};
             }else if(heroname == "luther"){
-                punchArray = lutherpunch_images.concat();
+                punchArray = lutherpunch_images.slice();
                 //123, -74
                 //147, -56
                 headPos = { x:71, y: -50};
             }else if(heroname == "hulk"){
-                punchArray = hulkpunch_images.concat();
+                punchArray = hulkpunch_images.slice();
                 headPos = { x:-21, y: -40};
             } 
             
@@ -440,13 +459,88 @@
                     $(".animation3div").append(DOM_img);
                     j++; 
             }
+        MakeGif4(); 
+    }
+    
+    
+        function MakeGif4(){
+            var punchArray; 
+            var headPos = { x:5, y: 116};
+            if(heroname == "leia"){
+                punchArray = leiaaltpunch_images.slice();
+                headPos = { x:5, y: 0};
+            }else if(heroname == "luther"){
+                punchArray = lutheraltpunch_images.slice();
+                //123, -74
+                //147, -56
+                headPos = { x:5, y: 0};
+            }else if(heroname == "hulk"){
+                punchArray = hulkaltpunch_images.slice();
+                headPos = { x:5, y: 0};
+            } 
+            
+            var j = 0; 
+            for (i = 0; i < punchArray.length; i++) { 
+                    
+                    var tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = 600;
+                    tempCanvas.height = 450;
+                    var ctx= tempCanvas.getContext("2d");
+                    
+                    //ctx.drawImage(hcan, 0, 0);
+                    ctx.drawImage(punchArray[i], 0, 0);
+                    
+                    
+                    var tempImage = new Image(); 
+                    tempImage.onload = function(){
+                        
+                    };
+                    if(j == 4){
+                        j = 0; 
+                    }
+                    tempImage.src = allMyFaces[j].src; 
+                    //5 ,116,334, 251 LEIA
+                    //-21 ,47,337, 253 HULK
+                    //71 ,50,337, 253 LUTHER
+                    if(heroname == "leia"){
+                        if(i == 0){
+                            headPos = { x:123, y: -74};
+                        }else if(i == 1){
+                            headPos = { x:147, y: -56};
+                        }else if(i == 2){
+                            headPos = { x:123, y: -74};
+                        }
+                        else{
+                          headPos = { x:71, y: -50};  
+                        }
+                        
+                    }
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+
+                    var imgData = tempCanvas.toDataURL('image/jpeg');
+                    var oneImage = new Image();
+                    oneImage.src = imgData;
+                    var DOM_img = document.createElement("img");
+                    //DOM_img.style="position:absolute;";
+                    DOM_img.src = imgData;
+
+                    $(".animation4div").append(DOM_img);
+                    j++; 
+            }
         allGifsMade = true;
         $(".loadingBar").remove(); 
         $('.animation1div').show();
         $('.animation2div').hide();
         $('.animation3div').hide();
+        $('.animation4div').hide();
         startAnimation1(); 
     }
+    
+    
+    
+    
+    
+    
     
     var frames1; 
     var timer1; 
@@ -465,9 +559,12 @@
         }, 150); 
     }
     
+    
+    
     var wordCounter = 0; 
     var frames2;
     var timer2; 
+    var altFinalAnim = false; 
     function startAnimation2() { 
         $(".playertext").css('visibility','visible');
         if(frames2 == null){
@@ -476,25 +573,38 @@
         var frameCount = frames2.length;
         console.log();
         if(wordCounter == (words.length-1)){
+            startTimer = true; 
             clearInterval(timer2);
             clearInterval(timer1);
-            startAnimation3();
+            
             $('.animation1div').hide();
             $('.animation2div').hide();
-            $('.animation3div').show();
+            var timenow = new Date().getTime();
+            var rate = (timenow - startTime) / words.length; 
+            console.log("rate: " + rate);
+            if(rate < 500){
+                $('.animation4div').show();
+                altFinalAnim = true; 
+            }else{
+                console.log("should play");
+                $('.animation3div').show();  
+                altFinalAnim  = false; 
+            }
+            startAnimation3();
             return;
         }
         $(".playertext").html(words[wordCounter]);
         wordCounter++; 
         var i = 0;
         timer2  = setInterval(function () { 
-            if (i >= frames2.length) {
+            if (i >= frames2.length-1) {
                 clearInterval(timer2);
                 clearInterval(timer1);
                 startAnimation1(); 
                 $('.animation1div').show();
                 $('.animation2div').hide();
                 $('.animation3div').hide();
+                $('.animation4div').hide();
                 return; 
             }
             else{
@@ -504,19 +614,26 @@
         }, 150); 
     }
     
+    
+    
+    
     var frames3; 
     var timer3; 
     function startAnimation3() { 
         $(".playertext").css('visibility','visible');
-        if(frames3 == null)
-        {
-            frames3 = $(".animation3div").children();
-        }
+        //if(frames3 == null)
+        //{
+            if(altFinalAnim == false){
+                frames3 = $(".animation3div").children();   
+            }else{
+                frames3 = $(".animation4div").children();
+            }
+        //}
         var frameCount = frames3.length;
         $(".playertext").html(words[words.length-1]);
         var i = 0;
         timer3 = setInterval(function () { 
-            if (i >= frames3.length) {
+            if (i >= frames3.length-1) {
                 clearInterval(timer3);
                 clearInterval(timer1);
                 clearInterval(timer2);
@@ -525,6 +642,7 @@
                 $('.animation1div').show();
                 $('.animation2div').hide();
                 $('.animation3div').hide();
+                $('.animation4div').hide();
                 return;
             }
             else{
@@ -535,7 +653,8 @@
     }
     
     
-    
+    var startTime; 
+    var startTimer = true; 
     $(document).ready(function(){
         
         
@@ -546,10 +665,15 @@
             if(allGifsMade == true)
             {
                 if($('.animation1div').is(':visible')) {
+                    if(startTimer == true){
+                        startTime = new Date().getTime();
+                        startTimer = false; 
+                    }
                     clearInterval(timer1);
                     clearInterval(timer2);
                     $('.animation1div').hide();
                     $('.animation3div').hide();
+                    $('.animation4div').hide();
                     //start the animation from the start. 
                     startAnimation2(); 
                     $('.animation2div').show();
@@ -559,10 +683,16 @@
                     clearInterval(timer3);
                     $('.animation1div').hide();
                     $('.animation3div').hide();
+                    $('.animation4div').hide();
                     //start the animation from the start.
                     startAnimation2(); 
                     $('.animation2div').show();
                 }else if($('.animation3div').is(':visible')) {
+                    clearInterval(timer1);
+                    clearInterval(timer2);
+                    //don't do anything. should cycle back to animation 1 after it ends. 
+                } 
+                else if($('.animation4div').is(':visible')) {
                     clearInterval(timer1);
                     clearInterval(timer2);
                     //don't do anything. should cycle back to animation 1 after it ends. 
