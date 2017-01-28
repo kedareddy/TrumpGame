@@ -575,8 +575,7 @@
   display: block;
   width: 600px;
   height: 450px;
-  max-height: 100%;
-  max-width: 100%;
+
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -588,9 +587,14 @@
     overflow: hidden;
 }
 
-html, body {
+.playerwrapperdiv{
+ /* width: 100%;
+  padding-bottom: 75%;*/
+}
+
+/*html, body {
   overflow:hidden 
-} 
+}*/
 .socialmediadiv {
   display: -webkit-box;
   display: -webkit-flex;
@@ -643,8 +647,8 @@ html, body {
   margin-top: 0.1em;
   margin-bottom: 0.1em;
   margin-left: 18%;
-  width: 15em;
-  /*margin-left: 0.25em;*/
+  /*width: 10em;
+*/  /*margin-left: 0.25em;*/
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -1014,9 +1018,17 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
   .twitterdiv {
     width: 15%;
   }
+  .playerwrapperdiv{
+    width: 100%;
+    padding-bottom: 75%;
+  }
 }
 
 @media (max-width: 479px) {
+  .playerwrapperdiv{
+    width: 100%;
+    padding-bottom: 75%;
+  }
   .stepnumdiv {
     font-size: 35px;
   }
@@ -1051,7 +1063,7 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
     width: 18%;
   }
   .titleheading {
-    font-size: 30px;
+    font-size: 15px;
   }
   .stats {
     margin-top: 0.1em;
