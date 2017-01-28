@@ -212,7 +212,7 @@
   margin-top: 0px;
   margin-bottom: 0px;
   margin-left: 3%;
-  width: 20em;
+  width: 15em;
   font-family: 'Bodoniflf bold', sans-serif;
   color: #fff;
 }
@@ -588,7 +588,9 @@
     overflow: hidden;
 }
 
-
+html, body {
+  overflow:hidden 
+} 
 .socialmediadiv {
   display: -webkit-box;
   display: -webkit-flex;
@@ -641,7 +643,7 @@
   margin-top: 0.1em;
   margin-bottom: 0.1em;
   margin-left: 18%;
-  width: 20em;
+  width: 15em;
   /*margin-left: 0.25em;*/
   -webkit-align-self: center;
   -ms-flex-item-align: center;
