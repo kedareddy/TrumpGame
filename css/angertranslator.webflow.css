@@ -37,7 +37,7 @@
 .mosteditordivs {
   display: block;
   height: 100%;
-  padding-top: 3em;
+  padding-top: 7em;
   -webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
   justify-content: space-around;
@@ -212,6 +212,7 @@
   margin-top: 0px;
   margin-bottom: 0px;
   margin-left: 3%;
+  width: 20em;
   font-family: 'Bodoniflf bold', sans-serif;
   color: #fff;
 }
@@ -640,6 +641,7 @@
   margin-top: 0.1em;
   margin-bottom: 0.1em;
   margin-left: 18%;
+  width: 20em;
   /*margin-left: 0.25em;*/
   -webkit-align-self: center;
   -ms-flex-item-align: center;
@@ -765,14 +767,20 @@
   font-size: 25px;
 }
 
-.playerdelptxtdiv {
+.playerhelptxtdiv {
+  display: none; 
   position: absolute;
-  left: 0px;
-  right: 0px;
+  
+  /*left: 0px;
+  right: 0px;*/
+    width: 600px; 
   bottom: 0px;
-  -webkit-align-self: flex-end;
-  -ms-flex-item-align: end;
-  align-self: flex-end;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+    
+    
+    z-index: 5; 
 }
 
 .animation1div{
@@ -788,11 +796,21 @@
     position: absolute;     
 }
 .playerhelptext {
-  display: none;
-  background-color: hsla(0, 0%, 40%, .5);
+    
+  background-color: hsla(0, 0%, 40%, .6);
   font-family: 'Oswald medium', sans-serif;
-  color: hsla(0, 0%, 100%, .7);
+  color:hsla(0, 0%, 100%, .7);
   text-align: center;
+  /*z-index: 50; 
+      margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  background-color: #fff;
+  font-family: 'Oswald bold', sans-serif;
+  color: #000;
+  font-size: 70px;
+  text-align: left;*/
 }
 
 .utility-page-wrap {

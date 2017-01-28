@@ -65,8 +65,8 @@
   <div class="playersection">
     <div class="w-container">
       <div class="playerbkg">
-        <div class="playerdelptxtdiv">
-          <h1 class="playerhelptext">Tap To Play</h1>
+        <div class="playerhelptxtdiv">
+          <h1 class="playerhelptext">Click To Play</h1>
         </div>
         <div class="playerdiv">
           <h1 class="playertext"> NOT MY PRESIDENT</h1>
@@ -120,7 +120,7 @@
 <script>
     var everythingDownloaded = false; 
     var allGifsMade = false; 
-    
+    var isMobile; 
 
     var text1, text2; 
     var words = []; 
@@ -534,6 +534,7 @@
         $('.animation3div').hide();
         $('.animation4div').hide();
         startAnimation1(); 
+        $(".playerhelptxtdiv").show();
     }
     
     
@@ -657,7 +658,15 @@
     var startTimer = true; 
     $(document).ready(function(){
         
-        
+        /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
+        function isMobile() {
+          try{ document.createEvent("TouchEvent"); return true; }
+          catch(e){ return false; }
+        }
+        if(isMobile() == true){
+            //console.log("should say click"); 
+            $(".playerhelptext").text("Tap To Play");
+        }
         //getPlayloop(id); 
         
         $( ".playerdiv" ).on('touchend click', function(){
@@ -667,6 +676,7 @@
                 if($('.animation1div').is(':visible')) {
                     if(startTimer == true){
                         startTime = new Date().getTime();
+                        $(".playerhelptxtdiv").hide();
                         startTimer = false; 
                     }
                     clearInterval(timer1);
