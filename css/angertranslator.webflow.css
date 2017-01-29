@@ -779,13 +779,11 @@
   
   /*left: 0px;
   right: 0px;*/
-    width: 600px; 
+/*    width: 600px; */
   bottom: 0px;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
-    
-    
     z-index: 5; 
 }
 
