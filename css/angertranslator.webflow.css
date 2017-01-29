@@ -587,10 +587,10 @@
     overflow: hidden;
 }
 
-  /*.playerwrapperdiv{
+  .playerwrapperdiv{
     max-width: 100%;
     height: auto;
-  }*/
+  }
 
 /*html, body {
   overflow:hidden 
@@ -647,7 +647,7 @@
   margin-top: 0.1em;
   margin-bottom: 0.1em;
   margin-left: 18%;
-  /*width: 10em;
+  width: 10em;
 */  /*margin-left: 0.25em;*/
   -webkit-align-self: center;
   -ms-flex-item-align: center;
@@ -1005,7 +1005,7 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
     width: 12%;
   }
      .titleheading {
-    font-size: 10px;
+    font-size: 10em;
   }
 }
 
@@ -1021,7 +1021,7 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
   }
 
      .titleheading {
-    font-size: 10px;
+    font-size: 10em;
   }
 }
 
@@ -1061,7 +1061,7 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
     width: 18%;
   }
   .titleheading {
-    font-size: 10px;
+    font-size: 10em;
   }
   .stats {
     margin-top: 0.1em;
