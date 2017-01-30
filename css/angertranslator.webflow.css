@@ -588,14 +588,14 @@
     /*width: 100%;
     padding-bottom: 75%;
    */
-    text-align: center;
-  /*-webkit-align-self: center;
+    
+  -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
   -webkit-box-flex: 0;
   -webkit-flex: 0 auto;
   -ms-flex: 0 auto;
-  flex: 0 auto;*/
+  flex: 0 auto;
   background-color: green;
     overflow: hidden;
 }
