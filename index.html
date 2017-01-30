@@ -69,7 +69,7 @@
         <div class="playerhelptxtdiv">
           <h1 class="playerhelptext">Click To Play</h1>
         </div>
-        <div class="playerwrapperdiv">
+        <!--<div class="playerwrapperdiv">-->
             <div class="playerdiv">
               <h1 class="playertext"> NOT MY PRESIDENT</h1>
               <div class="animation1div">
@@ -82,7 +82,7 @@
               <div class="animation4div">
               </div>
             </div>
-       </div>
+      <!-- </div>-->
       </div>
     </div>
   </div>
@@ -598,7 +598,7 @@
         wordCounter++; 
         var i = 0;
         timer2  = setInterval(function () { 
-            if (i >= frames2.length-1) {
+            if (i > frames2.length) {
                 clearInterval(timer2);
                 clearInterval(timer1);
                 startAnimation1(); 
@@ -634,7 +634,7 @@
         $(".playertext").html(words[words.length-1]);
         var i = 0;
         timer3 = setInterval(function () { 
-            if (i >= frames3.length-1) {
+            if (i > frames3.length) {
                 clearInterval(timer3);
                 clearInterval(timer1);
                 clearInterval(timer2);
@@ -655,8 +655,23 @@
     
     
     var startTime; 
-    var startTimer = true; 
+    var startTimer = true;
+    var desiredHeight; 
     $(document).ready(function(){
+        //fill the entire page
+        desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
+        //console.log("coorect height: "+ desiredHeight);
+        $(".sharediv").height(desiredHeight); 
+        
+        $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
+        window.onresize = function(event) {
+            //change playerdiv to size of image(s)
+           $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
+            
+           //fill rest of page with last div
+            desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
+            $(".sharediv").height(desiredHeight); 
+        };
         
         /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
         function isMobile() {
@@ -685,8 +700,8 @@
                     $('.animation3div').hide();
                     $('.animation4div').hide();
                     //start the animation from the start. 
-                    startAnimation2(); 
                     $('.animation2div').show();
+                    startAnimation2(); 
                 }else if($('.animation2div').is(':visible')) {
                     clearInterval(timer2);
                     clearInterval(timer1);
@@ -695,8 +710,8 @@
                     $('.animation3div').hide();
                     $('.animation4div').hide();
                     //start the animation from the start.
-                    startAnimation2(); 
                     $('.animation2div').show();
+                    startAnimation2(); 
                 }else if($('.animation3div').is(':visible')) {
                     clearInterval(timer1);
                     clearInterval(timer2);

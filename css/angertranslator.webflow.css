@@ -556,6 +556,7 @@
 
 .playerbkg {
   position: relative;
+    display: block;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -575,22 +576,35 @@
   display: block;
   width: 600px;
   height: 450px;
-
-  -webkit-align-self: center;
+   /* max-width: 600px; 
+    max-height: 450px;
+    height: auto; 
+    */
+    /*max-width: 100%;
+    width: 600px; 
+    height: 450px; 
+    padding-bottom: 75%*/
+    
+    /*width: 100%;
+    padding-bottom: 75%;
+   */
+    text-align: center;
+  /*-webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
   -webkit-box-flex: 0;
   -webkit-flex: 0 auto;
   -ms-flex: 0 auto;
-  flex: 0 auto;
-  background-color: #000;
+  flex: 0 auto;*/
+  background-color: green;
     overflow: hidden;
 }
 
-  .playerwrapperdiv{
+  /*.playerwrapperdiv{
     max-width: 100%;
+      
     height: auto;
-  }
+  }*/
 
 /*html, body {
   overflow:hidden 
@@ -608,7 +622,7 @@
 }
 
 .sharediv {
-  padding-bottom: .5em;
+  /*padding-bottom: .5em;*/
   background-color: #f8e71c;
 }
 
@@ -708,8 +722,8 @@
 .editbutton {
   display: inline-block;
   margin-right: 0.25em;
-  padding-top: 0.35em;
-  padding-bottom: 0.4em;
+  padding-top: 0.3em;
+  padding-bottom: 0.35em;
   background-color: #f8e71c;
   font-family: Oswald, sans-serif;
   color: #000;
@@ -789,15 +803,20 @@
 
 .animation1div{
     position: absolute; 
+    overflow: hidden;
+    
 }
 .animation2div{
     position: absolute; 
+    overflow: hidden;
 }
 .animation3div{
     position: absolute;     
+    overflow: hidden;
 }
 .animation4div{
-    position: absolute;     
+    position: absolute;    
+    overflow: hidden;
 }
 .playerhelptext {
     
@@ -972,7 +991,10 @@
 }
 
 .loadingBar{
-    padding-top: 55px; 
+    /*padding-top: 55px; 
+ 	width: 600px; height: 450px;
+	object-fit: fill;
+    text-align: center;*/
 }
 
 .playertext {
@@ -1004,9 +1026,7 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
   .twitterdiv {
     width: 12%;
   }
-     .titleheading {
-    font-size: 10em;
-  }
+
 }
 
 @media (max-width: 767px) {
@@ -1019,10 +1039,13 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
   .twitterdiv {
     width: 15%;
   }
+    
 
-     .titleheading {
+    
+
+ /*    .titleheading {
     font-size: 10em;
-  }
+  }*/
 }
 
 @media (max-width: 479px) {
@@ -1060,9 +1083,9 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
   .twitterdiv {
     width: 18%;
   }
-  .titleheading {
+  /*.titleheading {
     font-size: 10em;
-  }
+  }*/
   .stats {
     margin-top: 0.1em;
     margin-bottom: 0.1em;
