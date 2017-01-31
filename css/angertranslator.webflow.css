@@ -212,7 +212,7 @@
   margin-top: 0px;
   margin-bottom: 0px;
   margin-left: 3%;
-  width: 15em;
+  width: 13em;
   font-family: 'Bodoniflf bold', sans-serif;
   color: #fff;
 }
@@ -661,7 +661,7 @@
   margin-top: 0.1em;
   margin-bottom: 0.1em;
   margin-left: 18%;
-  width: 10em;
+  width: 13em;
 */  /*margin-left: 0.25em;*/
   -webkit-align-self: center;
   -ms-flex-item-align: center;
@@ -977,6 +977,9 @@
 
 .closeicon {
   width: 3em;
+    position: absolute; 
+    top: 2%;
+    left: 2%;
 }
 
 .footertext {
@@ -1001,7 +1004,7 @@
   position: absolute; 
   top: 0px;
   right: 0px; 
-  width: 400px; 
+  width: 66%; 
   margin-top: 0px;
   margin-bottom: 0px;
   padding-top: 0.2em;
@@ -1009,7 +1012,7 @@
   /*background-color: #000;*/
   font-family: 'Oswald bold', sans-serif;
   color: #fff;
-  font-size: 70px;
+  font-size: 4em;
   text-align: center;
   visibility: hidden; 
   z-index: 5;

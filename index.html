@@ -660,22 +660,7 @@
     var mobileTime; 
     var mobileTimer = true; 
     $(document).ready(function(){
-        //fill the entire page
-        desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
-        //console.log("coorect height: "+ desiredHeight);
-        $(".sharediv").height(desiredHeight); 
-        
-        $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
-        window.onresize = function(event) {
-            //change playerdiv to size of image(s)
-           $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
-            
-           //fill rest of page with last div
-            desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
-            $(".sharediv").height(desiredHeight); 
-        };
-        
-        /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
+                /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
         function isMobile() {
           try{ document.createEvent("TouchEvent"); return true; }
           catch(e){ return false; }
@@ -684,47 +669,73 @@
             //console.log("should say click"); 
             $(".playerhelptext").text("Tap To Play");
         }
-        //getPlayloop(id); 
         
+        
+        if(!isMobile()){
+            //fill the entire page
+            desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
+            $(".sharediv").height(desiredHeight); 
+        }
+        
+        $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
+        window.onresize = function(event) {
+            //change playerdiv to size of image(s)
+           $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
+            
+            if(!isMobile()){
+                //fill rest of page with last div
+                desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
+                $(".sharediv").height(desiredHeight);
+            }
+        };
+    
+        
+        var timenow; 
+        var lastTime = 0;  
         $( ".playerdiv" ).on('touchend click', function(){
             
-            if(allGifsMade == true)
-            {
-                if($('.animation1div').is(':visible')) {
-                    if(startTimer == true){
-                        startTime = new Date().getTime();
-                        $(".playerhelptxtdiv").hide();
-                        startTimer = false; 
-                    }
-                    clearInterval(timer1);
-                    clearInterval(timer2);
-                    $('.animation1div').hide();
-                    $('.animation3div').hide();
-                    $('.animation4div').hide();
-                    //start the animation from the start. 
-                    $('.animation2div').show();
-                    startAnimation2(); 
-                }else if($('.animation2div').is(':visible')) {
-                    clearInterval(timer2);
-                    clearInterval(timer1);
-                    clearInterval(timer3);
-                    $('.animation1div').hide();
-                    $('.animation3div').hide();
-                    $('.animation4div').hide();
-                    //start the animation from the start.
-                    $('.animation2div').show();
-                    startAnimation2(); 
-                }else if($('.animation3div').is(':visible')) {
-                    clearInterval(timer1);
-                    clearInterval(timer2);
-                    //don't do anything. should cycle back to animation 1 after it ends. 
+            timenow = new Date().getTime();
+            //console.log("time since last click: " + (timenow - lastTime));
+            if((timenow - lastTime) > 50){
+                lastTime = new Date().getTime();
+                if(allGifsMade == true)
+                {
+                    if($('.animation1div').is(':visible')) {
+                        if(startTimer == true){
+                            startTime = new Date().getTime();
+                            $(".playerhelptxtdiv").hide();
+                            startTimer = false; 
+                        }
+                        clearInterval(timer1);
+                        clearInterval(timer2);
+                        $('.animation1div').hide();
+                        $('.animation3div').hide();
+                        $('.animation4div').hide();
+                        //start the animation from the start. 
+                        $('.animation2div').show();
+                        startAnimation2(); 
+                    }else if($('.animation2div').is(':visible')) {
+                        clearInterval(timer2);
+                        clearInterval(timer1);
+                        clearInterval(timer3);
+                        $('.animation1div').hide();
+                        $('.animation3div').hide();
+                        $('.animation4div').hide();
+                        //start the animation from the start.
+                        $('.animation2div').show();
+                        startAnimation2(); 
+                    }else if($('.animation3div').is(':visible')) {
+                        clearInterval(timer1);
+                        clearInterval(timer2);
+                        //don't do anything. should cycle back to animation 1 after it ends. 
+                    } 
+                    else if($('.animation4div').is(':visible')) {
+                        clearInterval(timer1);
+                        clearInterval(timer2);
+                        //don't do anything. should cycle back to animation 1 after it ends. 
+                    } 
                 } 
-                else if($('.animation4div').is(':visible')) {
-                    clearInterval(timer1);
-                    clearInterval(timer2);
-                    //don't do anything. should cycle back to animation 1 after it ends. 
-                } 
-            } 
+            }
         });
         
         
