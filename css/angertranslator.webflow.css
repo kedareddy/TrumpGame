@@ -446,6 +446,8 @@
   width: 600px;
   height: 100%;
   max-width: 100%;
+    margin-left:auto;
+margin-right:auto;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
