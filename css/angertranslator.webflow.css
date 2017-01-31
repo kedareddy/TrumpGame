@@ -465,6 +465,8 @@
 .modalclosediv {
   width: 10%;
   padding-top: 0.5em;
+    position: absolute;
+    z-index: 5;
 }
 
 .modalcanvasdiv {
@@ -497,6 +499,8 @@
   -ms-flex-item-align: center;
   align-self: center;
   z-index: 5; 
+    position: absolute;
+    bottom: 0px;
 }
 
 .modalapprovecontent {

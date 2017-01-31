@@ -155,7 +155,7 @@
            words.length = 0;
           // text2 = text2.toUpperCase();
            words = text2.split(" ");
-           heroname = "hulk";
+           heroname = "leia";
         
            var head_urls = ['assets/FinalArt/FakeHead/head_0000_Layer-4.png','assets/FinalArt/FakeHead/head_0001_Layer-3.png','assets/FinalArt/FakeHead/head_0002_Layer-2.png','assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
            for (i = 0; i < head_urls.length; i++) {
@@ -170,10 +170,8 @@
     
     
         var hulkidle_urls = ['assets/FinalArt/HulkIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/HulkIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/HulkIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/HulkIdle/Idle_0000_Layer 4.jpg'];
-        var hulkjab_urls = ['assets/FinalArt/HulkJab/Jab_0003_Layer 1.jpg','assets/FinalArt/HulkJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/HulkJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/HulkJab/Jab_0000_Layer 4.jpg'];
-        var hulkpunch_urls = ['assets/FinalArt/HulkPunch/Punch_0009_Layer 1.jpg',
-                                  'assets/FinalArt/HulkPunch/Punch_0008_Layer 2.jpg', 
-                                  'assets/FinalArt/HulkPunch/Punch_0007_Layer 3.jpg', 
+        var hulkjab_urls = ['assets/FinalArt/HulkJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/HulkJab/Jab_0000_Layer 4.jpg'];
+        var hulkpunch_urls = ['assets/FinalArt/HulkPunch/Punch_0007_Layer 3.jpg', 
                                   'assets/FinalArt/HulkPunch/Punch_0006_Layer 4.jpg',
                                   'assets/FinalArt/HulkPunch/Punch_0005_Layer 5.jpg',
                                   'assets/FinalArt/HulkPunch/Punch_0004_Layer 6.jpg',
@@ -185,9 +183,8 @@
         var hulkidle_images = [];
     
         var leiaidle_urls = ['assets/FinalArt/LeiaIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LeiaIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LeiaIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LeiaIdle/Idle_0000_Layer 4.jpg'];
-        var leiajab_urls = ['assets/FinalArt/LeiaJab/Jab_0003_Layer 1.jpg','assets/FinalArt/LeiaJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LeiaJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LeiaJab/Jab_0000_Layer 4.jpg'];
-        var leiapunch_urls = ['assets/FinalArt/LeiaPunch/Punch_0014_Layer 1.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0013_Layer 2.jpg', 
+        var leiajab_urls = ['assets/FinalArt/LeiaJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LeiaJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LeiaJab/Jab_0000_Layer 4.jpg'];
+        var leiapunch_urls = [    'assets/FinalArt/LeiaPunch/Punch_0013_Layer 2.jpg', 
                                   'assets/FinalArt/LeiaPunch/Punch_0012_Layer 3.jpg', 
                                   'assets/FinalArt/LeiaPunch/Punch_0011_Layer 4.jpg',
                                   'assets/FinalArt/LeiaPunch/Punch_0010_Layer 5.jpg',
@@ -598,7 +595,7 @@
         wordCounter++; 
         var i = 0;
         timer2  = setInterval(function () { 
-            if (i > frames2.length) {
+            if (i > (frames2.length-2)) {
                 clearInterval(timer2);
                 clearInterval(timer1);
                 startAnimation1(); 
@@ -632,9 +629,11 @@
         //}
         var frameCount = frames3.length;
         $(".playertext").html(words[words.length-1]);
+        //console.log("frameCount" + frameCount);
         var i = 0;
         timer3 = setInterval(function () { 
-            if (i > frames3.length) {
+            //console.log("i: "+ i); 
+            if (i > (frameCount-2)) {
                 clearInterval(timer3);
                 clearInterval(timer1);
                 clearInterval(timer2);
@@ -671,22 +670,22 @@
         }
         
         
-        if(!isMobile()){
+        //if(!isMobile()){
             //fill the entire page
             desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
             $(".sharediv").height(desiredHeight); 
-        }
+        //}
         
         $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
         window.onresize = function(event) {
             //change playerdiv to size of image(s)
            $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
             
-            if(!isMobile()){
+            //if(!isMobile()){
                 //fill rest of page with last div
                 desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
                 $(".sharediv").height(desiredHeight);
-            }
+            //}
         };
     
         
