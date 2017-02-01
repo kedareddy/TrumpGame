@@ -146,7 +146,7 @@
  
            
 
-    assignTestValues(); 
+     
     function assignTestValues(){
                 
            text1 = "I am American"; 
@@ -163,7 +163,8 @@
             allMyFaces[i].src = head_urls[i];
            }
         
-        everythingDownloaded = true;
+        loadAllImages();
+       // everythingDownloaded = true;
            //allMyFaces = data.face_imgArray;
           // $('.sharelinktext').text( data.playloopurl);    
     }
@@ -181,6 +182,9 @@
                                   'assets/FinalArt/HulkPunch/Punch_0000_Layer 10.jpg',
                                  ];
         var hulkidle_images = [];
+        var hulkjab_images = [];
+        var hulkpunch_images = [];
+        var hulkaltpunch_images = [];
     
         var leiaidle_urls = ['assets/FinalArt/LeiaIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LeiaIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LeiaIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LeiaIdle/Idle_0000_Layer 4.jpg'];
         var leiajab_urls = ['assets/FinalArt/LeiaJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LeiaJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LeiaJab/Jab_0000_Layer 4.jpg'];
@@ -199,6 +203,9 @@
                                   'assets/FinalArt/LeiaPunch/Punch_0001_Layer 14.jpg',
                                  ];
         var leiaidle_images = [];
+        var leiajab_images = [];
+        var leiapunch_images = [];
+        var leiaaltpunch_images = [];
     
         var lutheridle_urls = ['assets/FinalArt/LutherIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LutherIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LutherIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LutherIdle/Idle_0000_Layer 4.jpg'];
         var lutherjab_urls = ['assets/FinalArt/LutherJab/Jab_0003_Layer 1.jpg','assets/FinalArt/LutherJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LutherJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LutherJab/Jab_0000_Layer 4.jpg'];
@@ -218,27 +225,61 @@
                                   'assets/FinalArt/LutherPunch/Punch_0001_Layer 14.jpg',
                                  ];
         var lutheridle_images = [];
-         
-        if(everythingDownloaded == true){
+        var lutherjab_images = [];
+        var lutherpunch_images = [];
+        var lutheraltpunch_images = [];
+    
+        var loadCounter = 0;
+        var totalImagesToLoad = 0; 
+        function incrementLoadCounter(){
+            loadCounter++; 
+            
             if(heroname == "leia"){
-                    console.log("leia"); 
+                totalImagesToLoad = leiaidle_urls.length + leiajab_urls.length + leiapunch_urls.length + lutherpunch_urls.length;
+            }else if(heroname == "luther"){
+                totalImagesToLoad = lutheridle_urls.length + lutherjab_urls.length + lutherpunch_urls.length + leiapunch_urls.length;
+            }else if(heroname == "hulk"){
+                totalImagesToLoad = hulkidle_urls.length + hulkjab_urls.length + hulkpunch_urls.length + leiapunch_urls.length;
+            }
+            
+           // console.log("loadCounter: " + loadCounter + "toatol: " + totalImagesToLoad);
+            if(loadCounter >= totalImagesToLoad){
+                MakeGif1(); 
+            }            
+        }
+    
+    
+        function loadAllImages(){
+            if(heroname == "leia"){
                 for (i = 0; i < leiaidle_urls.length; i++) {
                     leiaidle_images[i] = new Image();
+                    leiaidle_images[i].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     leiaidle_images[i].src = leiaidle_urls[i];
                 }
-                var leiajab_images = [];
+                
                 for (j = 0; j < leiajab_urls.length; j++) {
                     leiajab_images[j] = new Image();
+                    leiajab_images[j].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     leiajab_images[j].src = leiajab_urls[j];
                 }
-                var leiapunch_images = [];
+                
                 for (k = 0; k < leiapunch_urls.length; k++) {
                     leiapunch_images[k] = new Image();
+                    leiapunch_images[k].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     leiapunch_images[k].src = leiapunch_urls[k];
                 }
-                var leiaaltpunch_images = [];
+                
                 for (l = 0; l < lutherpunch_urls.length; l++) {
                     leiaaltpunch_images[l] = new Image();
+                    leiaaltpunch_images[l].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     leiaaltpunch_images[l].src = lutherpunch_urls[l];
                 }
             }
@@ -246,21 +287,33 @@
 
                 for (l = 0; l < lutheridle_urls.length; l++) {
                     lutheridle_images[l] = new Image();
+                    lutheridle_images[l].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     lutheridle_images[l].src = lutheridle_urls[l];
                 }
-                var lutherjab_images = [];
+               
                 for (m = 0; m < leiajab_urls.length; m++) {
                     lutherjab_images[m] = new Image();
+                    lutherjab_images[m].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     lutherjab_images[m].src = lutherjab_urls[m];
                 }
-                var lutherpunch_images = [];
+                
                 for (n = 0; n < lutherpunch_urls.length; n++) {
                     lutherpunch_images[n] = new Image();
+                    lutherpunch_images[n].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     lutherpunch_images[n].src = lutherpunch_urls[n];
                 } 
-                var lutheraltpunch_images = [];
+                
                 for (p = 0; p < leiapunch_urls.length; p++) {
                     lutheraltpunch_images[p] = new Image();
+                    lutheraltpunch_images[p].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     lutheraltpunch_images[p].src = leiapunch_urls[p];
                 } 
             }
@@ -268,31 +321,40 @@
 
                 for (t = 0; t < hulkidle_urls.length; t++) {
                     hulkidle_images[t] = new Image();
+                    hulkidle_images[t].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     hulkidle_images[t].src = hulkidle_urls[t];
                 }
-                var hulkjab_images = [];
+                
                 for (u = 0; u < hulkjab_urls.length; u++) {
                     hulkjab_images[u] = new Image();
+                    hulkjab_images[u].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     hulkjab_images[u].src = hulkjab_urls[u];
                 }
-                var hulkpunch_images = [];
+                
                 for (v = 0; v < hulkpunch_urls.length; v++) {
                     hulkpunch_images[v] = new Image();
+                    hulkpunch_images[v].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     hulkpunch_images[v].src = hulkpunch_urls[v];
                 } 
-                var hulkaltpunch_images = [];
+                
                 for (l = 0; l < leiapunch_urls.length; l++) {
                     hulkaltpunch_images[l] = new Image();
+                    hulkaltpunch_images[l].onload = function(){
+                        incrementLoadCounter(); 
+                    };
                     hulkaltpunch_images[l].src = leiapunch_urls[l];
                 }
             }
             
-            setTimeout(function(){ 
+            /*setTimeout(function(){ 
                 MakeGif1(); 
-            }, 3000);
-            
-           // MakeGif2();
-            //MakeGif3(); 
+            }, 3000);*/
         }
     
     function MakeGif1(){
@@ -659,7 +721,9 @@
     var mobileTime; 
     var mobileTimer = true; 
     $(document).ready(function(){
-                /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
+        assignTestValues();
+        
+        /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
         function isMobile() {
           try{ document.createEvent("TouchEvent"); return true; }
           catch(e){ return false; }

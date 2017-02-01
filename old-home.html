@@ -47,6 +47,7 @@
     
     <!-- load that lib -->
     <script src="js/playloops.js"></script>
+    <script src="js/close-pixelate.js"></script>
     
 
     
@@ -70,7 +71,7 @@
       </div>
       <div class="modalcanvasdiv">
         <h1 class="approvehelpertext">Tap To Change Filter</h1>
-        <img class="approveimage" src="assets/FinalArt/LeiaHead.gif">
+        <img class="approveimage" id="approveimg" src="assets/FinalArt/LeiaHead.gif">
       </div>
       <div class="modalyesno">
         <div class="modalyes"><img class="yesbutton" src="images/choices-01.svg">
@@ -669,12 +670,16 @@
             clip_image.src = faces[currentface]["clipurl"];           
             imageLeia.src = faces[currentface]["pngurl"][0];
             
+             var pixelOpts = [ { resolution: 32 } ];
+            
+            
             wCanvas.width = $( "#videoElement" ).width();
             wCanvas.height = $( "#videoElement" ).height();
             //console.log("VIDEO ELEMENTWWW: " + wCanvas.width + "VIDEO ELEMENTHH: " + wCanvas.height); 
             var fctx = wCanvas.getContext('2d');
             
             imageLeia.onload = function(){
+               
                  //  console.log("webcamoverlayimaWIDTH: "+ $( ".webcamoverlayimage" ).width() + "webcamoverlayimaHEIGHT: " + $( ".webcamoverlayimage" //).height() + "x: " + $(".webcamoverlayimage").position().left + "y: " + $(".webcamoverlayimage").position().top );
                 xOffset = $(".webcamoverlayimage").position().left;
                 yOffset = $(".webcamoverlayimage").position().top;
@@ -710,6 +715,15 @@
                 
                 $('.modalcontent').hide();
                 $(".approveimage").attr('src', faceSrcData); 
+             
+                var img = document.getElementById('approveimg');
+                var myPixelation = new ClosePixelation( img, [
+                  { shape: 'circle', resolution: 32, size: 6, offset: 8 },
+{ shape: 'circle', resolution: 32, size: 9, offset: 16 },
+{ shape: 'circle', resolution: 32, size: 12, offset: 24 },
+{ shape: 'circle', resolution: 32, size: 9, offset: 0 }
+                ]);
+
             };
         });
           
