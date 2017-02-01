@@ -244,6 +244,9 @@
             
            // console.log("loadCounter: " + loadCounter + "toatol: " + totalImagesToLoad);
             if(loadCounter >= totalImagesToLoad){
+                                //fill the entire page
+                desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
+                $(".sharediv").height(desiredHeight);  
                 MakeGif1(); 
             }            
         }
@@ -735,9 +738,7 @@
         
         
         //if(!isMobile()){
-            //fill the entire page
-            desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
-            $(".sharediv").height(desiredHeight); 
+     
         //}
         
         $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
