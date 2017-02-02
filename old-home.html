@@ -53,21 +53,25 @@
     
 </head>
 <body class="body">
+    <!-- -->
   <div class="modaldiv" data-ix="displaynoneonload">
-    <div class="modalcontent">
-      <div class="modalclosediv" data-ix="closemodal"><img class="closeicon" id="closeiconwebcam" src="images/VisualEditor_-_Icon_-_Close-01.svg">
-      </div>
-      <div class="modalcanvasdiv">
-        <h1 class="webcamhelpertext">Tap To Change Filter</h1>
-        <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
-        <video autoplay="true" class="webcamvideo" id="videoElement"></video> 
-        <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
-      </div>
-      <div class="modalcameradiv"><img class="photobutton" src="images/cricle.png">
-      </div>
-    </div>
+    <!--<div class="modalcontentwrapper">-->
+        <div class="modalcontent">
+            <!-- data-ix="closemodal" -->
+          <div class="modalclosediv"  data-ix="closemodal" ><img class="closeicon" id="closeiconwebcam" src="images/VisualEditor_-_Icon_-_Close-01.svg">
+          </div>
+          <div class="modalcanvasdiv">
+            <h1 class="webcamhelpertext">Tap To Change Filter</h1>
+            <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
+            <video autoplay="true" class="webcamvideo" id="videoElement"></video> 
+            <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
+          </div>
+          <div class="modalcameradiv"><img class="photobutton" src="images/cricle.png">
+          </div>
+        </div>
+   <!-- </div>  -->
     <div class="modalapprovecontent">
-      <div class="modalclosediv" data-ix="closemodal"><img class="closeicon" id="closeiconapprove" src="images/VisualEditor_-_Icon_-_Close-01.svg">
+      <div class="modalclosediv"  data-ix="closemodal" ><img class="closeicon" id="closeiconapprove" src="images/VisualEditor_-_Icon_-_Close-01.svg">
       </div>
       <div class="modalcanvasdiv">
         <h1 class="approvehelpertext">Tap To Change Filter</h1>
@@ -480,8 +484,10 @@
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 
         $( ".step2icon" ).on('touchend click', function(){
-            $(".modaldiv").show(); 
-            $('.modalcontent').show(); 
+            //$(".modaldiv").show(); 
+            $('.modaldiv').css('display', 'inline-block');
+            $('.modalcontent').css('display', 'inline-block');
+            //$('.modalcontent').show(); 
             if (navigator.getUserMedia) {       
                 navigator.getUserMedia({video: true}, handleVideo, videoError);
             }
