@@ -505,9 +505,9 @@
             
              var maskH = $("#videoElement").height();
              var maskW = maskH * aspectOImage; 
-              console.log("width: " + maskW + "height: " + maskH ); 
-             $( ".webcamoverlayimage" ).width(maskW);
-             $( ".webcamoverlayimage" ).height(maskH);
+              console.log("width: " + $("#videoElement").width() + "height: " + maskH ); 
+            // $( ".webcamoverlayimage" ).width(maskW);
+             //$( ".webcamoverlayimage" ).height(maskH);
               $(".approveimage").width(maskW);
             $(".approveimage").height(maskH);
             

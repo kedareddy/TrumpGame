@@ -495,10 +495,13 @@ margin-right:auto;
 
 
 .modalclosediv {
-  width: 10%;
-  padding-top: 0.5em;
     position: absolute;
     z-index: 5;
+    background-color: rgba(0,0,0,0.3);
+    min-width: 20px;
+    min-height: 20px;
+    padding: 13px;
+    display:inline-block;
 }
 
 .modalcanvasdiv {
@@ -1014,6 +1017,10 @@ margin-right:auto;
   width: 100%;
   height: auto;*/
   z-index: 4;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
 }
 
 .webcamvideo{
@@ -1062,9 +1069,7 @@ margin-right:auto;
 
 .closeicon {
   width: 3em;
-    position: absolute; 
-    top: 2%;
-    left: 2%;
+  vertical-align: top;
 }
 
 .footertext {
