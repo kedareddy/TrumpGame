@@ -527,7 +527,7 @@ margin-right:auto;
   -webkit-align-items: center;
   -ms-flex-align: center;*/
   align-items: center;
-  background-color: #01afd1;
+  background-color: #ffffff;
 }
 
 .modalcameradiv {
@@ -1032,6 +1032,7 @@ margin-right:auto;
   max-width: 100%; 
   width: 100%;
   height: auto;
+  vertical-align: bottom;
 }
 
 .webcamcanvas {

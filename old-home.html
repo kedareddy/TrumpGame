@@ -364,6 +364,7 @@
         if(isMobile() == true){
             //console.log("should say click"); 
             $(".webcamhelpertext").text("Tap To Change Filter");
+            $(".approvehelpertext").text("Tap To Change Filter");
         }
           
         var webvideo = document.getElementById('videoElement');
@@ -518,8 +519,10 @@
               console.log("width: " + $("#videoElement").width() + "height: " + maskH ); 
             // $( ".webcamoverlayimage" ).width(maskW);
              //$( ".webcamoverlayimage" ).height(maskH);
-              $(".approveimage").width(maskW);
-            $(".approveimage").height(maskH);
+              //$(".approveimage").width(maskW);
+            //$(".approveimage").height(maskH);
+            $(".approveimage").width($( ".webcamoverlayimage" ).width());
+            $(".approveimage").height($( ".webcamoverlayimage" ).height());
             
             assignCurrentFace(overlayindex);
             
@@ -681,12 +684,37 @@
             baseImage.src = bareFaceSrc; 
         }  
           
+        function changeImageSrc(domImg,srcImage)
+        {
+            var img = new Image();
+            img.onload = function()
+            {
+                // Load completed
+                domImg.src = this.src;
+                faceImagesLoaded();
+            };
+            img.src = srcImage;
+        }  
+          
         //clip the face and show on the approve window
         $( ".photobutton" ).on('touchend click', function(){
-            clip_image.src = faces[currentface]["clipurl"];           
-            imageLeia.src = faces[currentface]["pngurl"][0];
+            changeImageSrc(clip_image,faces[currentface]["clipurl"]);
+            changeImageSrc(imageLeia,faces[currentface]["pngurl"][0]);
+            //clip_image.src = faces[currentface]["clipurl"];           
+            //imageLeia.src = faces[currentface]["pngurl"][0];
+        });  
+          
+        var faceImageLoadCounter = 0;   
+        function faceImagesLoaded(){
+            faceImageLoadCounter++;
+            if(faceImageLoadCounter >= 2){
+                compileFace();
+            }
+        }
+         
+        function compileFace(){  
             
-             var pixelOpts = [ { resolution: 32 } ];
+            var pixelOpts = [ { resolution: 32 } ];
             
             
             wCanvas.width = $( "#videoElement" ).width();
@@ -726,11 +754,21 @@
                 fctx.drawImage(imageLeia, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
                 faceSrcData = wCanvas.toDataURL('image/png');
-                faceImage.src = faceSrcData; 
-                faceImage.onload = faceImageLoaded;
                 
-                $('.modalcontent').hide();
-                $(".approveimage").attr('src', faceSrcData); 
+                //faceImage.onload = faceImageLoaded;
+               /* faceImage.onload = function(){
+                    $('.modalcontent').hide();
+                    $(".approveimage").attr('src', faceSrcData); 
+                };*/
+                var apImage = $(".approveimage");
+                apImage.load(function(){
+                     $('.modalcontent').hide();
+                });
+                apImage.attr("src", faceSrcData);
+                faceImageLoadCounter = 0;   
+        
+                faceImage.src = faceSrcData; 
+                
              
                 /*var img = document.getElementById('approveimg');
                 var myPixelation = new ClosePixelation( img, [
@@ -741,7 +779,7 @@
                 ]);*/
 
             };
-        });
+        }
           
         function faceImageLoaded() {
            //GenerateGIF();

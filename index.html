@@ -161,10 +161,13 @@
            var head_urls = ['assets/FinalArt/FakeHead/head_0000_Layer-4.png','assets/FinalArt/FakeHead/head_0001_Layer-3.png','assets/FinalArt/FakeHead/head_0002_Layer-2.png','assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
            for (i = 0; i < head_urls.length; i++) {
             allMyFaces[i] = new Image();
+            allMyFaces[i].onload = function(){
+                incrementLoadCounter(); 
+            };
             allMyFaces[i].src = head_urls[i];
            }
         
-        loadAllImages();
+          loadAllImages();
        // everythingDownloaded = true;
            //allMyFaces = data.face_imgArray;
           // $('.sharelinktext').text( data.playloopurl);    
@@ -242,6 +245,8 @@
             }else if(heroname == "hulk"){
                 totalImagesToLoad = hulkidle_urls.length + hulkjab_urls.length + hulkpunch_urls.length + leiapunch_urls.length;
             }
+            
+            totalImagesToLoad += allMyFaces.length; 
             
            // console.log("loadCounter: " + loadCounter + "toatol: " + totalImagesToLoad);
             if(loadCounter >= totalImagesToLoad){
@@ -736,12 +741,8 @@
         if(isMobile() == true){
             //console.log("should say click"); 
             $(".playerhelptext").text("Tap To Play");
+            resizeAndFillPage();
         }
-        
-        
-        //if(!isMobile()){
-     
-        //}
         
         function resizeAndFillPage(){
             $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
