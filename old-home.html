@@ -61,7 +61,7 @@
           <div class="modalclosediv"  data-ix="closemodal" ><img class="closeicon" id="closeiconwebcam" src="images/VisualEditor_-_Icon_-_Close-01.svg">
           </div>
           <div class="modalcanvasdiv">
-            <h1 class="webcamhelpertext">Tap To Change Filter</h1>
+            <h1 class="webcamhelpertext">Click To Change Filter</h1>
             <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
             <video autoplay="true" class="webcamvideo" id="videoElement"></video> 
             <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
@@ -356,6 +356,16 @@
     
     
       $(document).ready(function(){
+        /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
+        function isMobile() {
+          try{ document.createEvent("TouchEvent"); return true; }
+          catch(e){ return false; }
+        }
+        if(isMobile() == true){
+            //console.log("should say click"); 
+            $(".webcamhelpertext").text("Tap To Change Filter");
+        }
+          
         var webvideo = document.getElementById('videoElement');
         var wCanvas = document.getElementById('webcamcanvas');  
         var selectedBody = "hulk";  
