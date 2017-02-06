@@ -1123,6 +1123,11 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
     width: 12%;
   }
 
+    .closeicon {
+  width: 1.5em;
+  vertical-align: top;
+}
+
 }
 
 @media (max-width: 767px) {

@@ -419,7 +419,6 @@
         var currentface = "leia";
           
           
-        var aspectOImage = $(".webcamoverlayimage").width()/ $(".webcamoverlayimage").height();   
           
           
         fullpage.initialize('#fullpage', {
@@ -428,43 +427,6 @@
             css3:true
         });
           
-          
-        
-        /*********HIDE PREVIW ON MOBILE WHEN ENTERING TEXT****/  
-        isMobile = window.matchMedia("only screen and (max-width: 760px)");
-
-        $( ".stepinputdiv" ).on('touchend click', function(){
-            if (isMobile.matches) {
-                $('.previewfootersection').hide();
-            } 
-        });  
-          
-        $( "#step4inputdiv" ).on('touchend click', function(){
-            if (isMobile.matches) {
-                $('.previewfootersection').hide();
-            } 
-        });    
-        
-
-        /*$('.step1input1 w-input').keypress(function(event) {
-            if (isMobile.matches) {
-                if (event.keyCode == 13 || event.which == 13) {
-                   $('.previewfootersection').show(); 
-                }
-            } 
-        });
-        $(".step4input w-input").keypress(function(event) {
-            if (isMobile.matches) {
-                if (event.keyCode == 13 || event.which == 13) {
-                   $('.previewfootersection').show(); 
-                }
-            } 
-        }); */
-          
-        
-        /*************************************************/
-          
-        
         /**********UPDATE PREVIEW TEXT1**********/  
         /*var step1Input = document.getElementsByClassName("step1input1 w-input")[0];
         
@@ -515,11 +477,19 @@
             video.src = window.URL.createObjectURL(stream);
             track = stream.getTracks()[0];
             
-             var maskH = $("#videoElement").height();
-             var maskW = maskH * aspectOImage; 
-              console.log("width: " + $("#videoElement").width() + "height: " + maskH ); 
-            // $( ".webcamoverlayimage" ).width(maskW);
-             //$( ".webcamoverlayimage" ).height(maskH);
+             var aspectOImage = $(".webcamoverlayimage").width()/$(".webcamoverlayimage").height();
+             //var aspectOImage = $(".webcamoverlayimage").height()/$(".webcamoverlayimage").width();
+
+            
+            /*/ var maskH = $("#videoElement").height();
+             var maskW = maskH * aspectOImage; */
+             //var maskW = $("#videoElement").width();
+             //var maskH = maskW * aspectOImage;
+              
+             // console.log("video width: " + $("#videoElement").width() + "overlayh: " + maskH + " aspect: " + aspectOImage ); 
+          /*  console.log("video h: " + $("#videoElement").height() + "overlayw: " + maskW + " aspect: " + aspectOImage ); 
+             $( ".webcamoverlayimage" ).width(maskW);
+             $( ".webcamoverlayimage" ).height(maskH);*/
               //$(".approveimage").width(maskW);
             //$(".approveimage").height(maskH);
            // $(".approveimage").width($( ".webcamoverlayimage" ).width());
@@ -527,7 +497,31 @@
             
             assignCurrentFace(overlayindex);
             
-            $(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
+            var img = new Image();
+            img.onload = function()
+            {
+                // Load completed
+                $(".webcamoverlayimage").attr('src', this.src);
+            };
+            img.src = overlayImageUrls[overlayindex];
+            
+            //$(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
+            
+            setTimeout(function() {
+             var maskH = $("#videoElement").height();
+                 var maskW = maskH * aspectOImage; 
+                 //var maskW = $("#videoElement").width();
+                 //var maskH = maskW * aspectOImage;
+
+                 // console.log("video width: " + $("#videoElement").width() + "overlayh: " + maskH + " aspect: " + aspectOImage ); 
+                console.log("video h: " + $("#videoElement").height() + "overlayw: " + maskW + " aspect: " + aspectOImage ); 
+                 $( ".webcamoverlayimage" ).width(maskW);
+                 $( ".webcamoverlayimage" ).height(maskH);
+                 $(".approveimage").width($( ".webcamoverlayimage" ).width());
+                $(".approveimage").height($( ".webcamoverlayimage" ).height());
+            }, 2000);
+            
+            
            // $(".webcamoverlayimage").css('z-index',  $('#videoElement').zIndex()+1);
            
         }
@@ -741,7 +735,7 @@
                 //extract bare face to use later. 
                 bareFaceSrc = wCanvas.toDataURL('image/png');  
 
-                fctx.drawImage(imageLeia, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top);// $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
+                fctx.drawImage(imageLeia, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
                 faceSrcData = wCanvas.toDataURL('image/png');
                 
