@@ -258,8 +258,7 @@
     
     var leiaidle_urls = ['assets/FinalArt/LeiaIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LeiaIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LeiaIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LeiaIdle/Idle_0000_Layer 4.jpg'];
     var leiajab_urls = ['assets/FinalArt/LeiaJab/Jab_0003_Layer 1.jpg','assets/FinalArt/LeiaJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LeiaJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LeiaJab/Jab_0000_Layer 4.jpg'];
-    var leiapunch_urls = ['assets/FinalArt/LeiaPunch/Punch_0014_Layer 1.jpg',
-                          'assets/FinalArt/LeiaPunch/Punch_0013_Layer 2.jpg', 
+    var leiapunch_urls = [ 
                           'assets/FinalArt/LeiaPunch/Punch_0012_Layer 3.jpg', 
                           'assets/FinalArt/LeiaPunch/Punch_0011_Layer 4.jpg',
                           'assets/FinalArt/LeiaPunch/Punch_0010_Layer 5.jpg',
@@ -523,8 +522,8 @@
              //$( ".webcamoverlayimage" ).height(maskH);
               //$(".approveimage").width(maskW);
             //$(".approveimage").height(maskH);
-            $(".approveimage").width($( ".webcamoverlayimage" ).width());
-            $(".approveimage").height($( ".webcamoverlayimage" ).height());
+           // $(".approveimage").width($( ".webcamoverlayimage" ).width());
+            //$(".approveimage").height($( ".webcamoverlayimage" ).height());
             
             assignCurrentFace(overlayindex);
             
@@ -574,7 +573,9 @@
         //photo approved  
         $( ".yesbutton" ).on('touchend click', function(){  
             track.stop();
-            CreateFacePNGs(); 
+            
+                CreateFacePNGs();     
+            
             $(".modaldiv").hide(); 
         });   
         
@@ -643,7 +644,6 @@
             //setup
             var faceCanvas = document.createElement('canvas');
             
-
             var baseImage = new Image(); 
             baseImage.onload= function(){
                 faceCanvas.width = baseImage.width;
@@ -667,21 +667,8 @@
                         console.log("allmyfaces x:" + tImage.width + " h: " + tImage.height);
                         allMyFaces.push(tImage); 
                         if(i == 3){
-                            //console.log("before calling Generete GIF"); 
                             GenerateGIF(); 
-                        }
-                        /* tempImages[i] = new Image();
-                        console.log("PNG iteration drawn");
-                        tempImages[i].onload = function(){
-                            console.log("tempimage onload: " + i);
-                            allMyFaces[i] = tempImages[i]; 
-                            if(i == 4){
-                                console.log("before calling Generete GIF"); 
-                                GenerateGIF(); 
-                            }
-                        };
-                        tempImages[i].src = srcData; */
-                   // };    
+                        }  
                 }   
             };
             baseImage.src = bareFaceSrc; 
@@ -727,13 +714,13 @@
             
             imageLeia.onload = function(){
                
-                 //  console.log("webcamoverlayimaWIDTH: "+ $( ".webcamoverlayimage" ).width() + "webcamoverlayimaHEIGHT: " + $( ".webcamoverlayimage" //).height() + "x: " + $(".webcamoverlayimage").position().left + "y: " + $(".webcamoverlayimage").position().top );
-                xOffset = $(".webcamoverlayimage").position().left;
-                yOffset = $(".webcamoverlayimage").position().top;
+                   console.log("webcamoverlayimaWIDTH: "+ $( ".webcamoverlayimage" ).width() + "webcamoverlayimaHEIGHT: " + $( ".webcamoverlayimage" ).height() + "x: " + ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) + "y: " + $(".webcamoverlayimage").offset().top );
+                xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
+                yOffset = $(".webcamoverlayimage").offset().top;
                 widthAvailable = $( ".webcamoverlayimage" ).width();
                 heightAvailable = $( ".webcamoverlayimage" ).height();
                 
-                fctx.drawImage(clip_image, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
+                fctx.drawImage(clip_image, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
                 /// change composite mode to use that shape
                 fctx.globalCompositeOperation = 'source-in';
@@ -754,7 +741,7 @@
                 //extract bare face to use later. 
                 bareFaceSrc = wCanvas.toDataURL('image/png');  
 
-                fctx.drawImage(imageLeia, $(".webcamoverlayimage").position().left ,  $(".webcamoverlayimage").position().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
+                fctx.drawImage(imageLeia, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top);// $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
                 faceSrcData = wCanvas.toDataURL('image/png');
                 
@@ -855,6 +842,7 @@
         }  */
         var words = []; 
         function GenerateGIF(){
+            gifFrames = [];
             var idleArray;
             var jabArray; 
             var punchArray; 
@@ -863,17 +851,17 @@
                 idleArray = leiaidle_images.concat(); 
                 jabArray = leiajab_images.concat();
                 punchArray = leiapunch_images.concat();
-                headPos = { x:5, y: 116};
+                headPos = { x:42, y: 60};
             }else if(selectedBody == "luther"){
                 idleArray = lutheridle_images.concat(); 
                 jabArray = lutherjab_images.concat();
                 punchArray = lutherpunch_images.concat();
-                headPos = { x:71, y: 50};
+                headPos = { x:108, y: -6};
             }else if(selectedBody == "hulk"){
                 idleArray = hulkidle_images.concat(); 
                 jabArray = hulkjab_images.concat();
                 punchArray = hulkpunch_images.concat();
-                headPos = { x:-21, y: 47};
+                headPos = { x:16, y: -9};
             } 
             
             
@@ -883,6 +871,7 @@
                     tempCanvas.width = 600;
                     tempCanvas.height = 450;
                     var ctx= tempCanvas.getContext("2d");
+                    ctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
                     
                     var hcan = document.createElement('canvas');
                     hcan.width = tempCanvas.width;
@@ -914,8 +903,8 @@
                     //71 ,50,337, 253 LUTHER
                     ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);  
                     
-                    hctx.drawImage(click_images[j], 0,0);
-                    ctx.drawImage(hcan, 0,0);
+                    //hctx.drawImage(click_images[j], 0,0);
+                    //ctx.drawImage(hcan, 0,0);
                  
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -942,6 +931,7 @@
                     tempCanvas.width = 600;
                     tempCanvas.height = 450;
                     var ctx= tempCanvas.getContext("2d");
+                    ctx.clearRect(0, 0, tempCanvas.width, hcan.height);
                     
                     var hcan = document.createElement('canvas');
                     hcan.width = tempCanvas.width;
@@ -957,7 +947,13 @@
                     hctx.fillText(words[k],.68*hcan.width,hcan.height/2);
                     
                     
-
+                    //Pointer canvas
+                    var pcan = document.createElement('canvas');
+                    pcan.width = tempCanvas.width;
+                    pcan.height = tempCanvas.height;
+                    var pctx = pcan.getContext('2d');
+                    pctx.clearRect(0, 0, tempCanvas.width, hcan.height);
+                    
                    
                     ctx.drawImage(punchArray[i], 0, 0);
                     
@@ -977,8 +973,34 @@
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
+                    if(selectedBody == "luther"){
+                        if(i == 0){
+                            headPos = { x:123, y: -74};
+                        }else if(i == 1){
+                            headPos = { x:147, y: -56};
+                        }else if(i == 2){
+                            headPos = { x:123, y: -74};
+                        }
+                        else{
+                          headPos = { x:71, y: -50};  
+                        }
+                    }
                     ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
-                    ctx.drawImage(hcan, 0,0);
+                    if(i != 0){
+                        ctx.drawImage(hcan, 0,0);
+                    }
+                        //clear the heading canvas
+                    pctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+                    pctx = pcan.getContext("2d");
+                    if(faceCounter == 0 && k != (words.length-1)){
+                        //click
+                        pctx.drawImage(click_images[2], 0,0);
+                    }else{
+                        //no click
+                        pctx.drawImage(click_images[1], 0,0);
+                    }
+                    
+                    //ctx.drawImage(pcan, 0,0);
                     
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -1095,7 +1117,7 @@
                     images: gifFrames,
                     gifWidth: 600, 
                     gifHeight: 450, 
-                    interval: 0.15
+                    interval: 0.17
                 }, function(obj) {
                     if(!obj.error) {
                         console.log("making hte GIF"); 
