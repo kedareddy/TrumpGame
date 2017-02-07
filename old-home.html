@@ -44,6 +44,9 @@
     <script src="js/playloops.js"></script>
     <script src="js/close-pixelate.js"></script>
     
+    <!--webcamjs libraries -->
+    <script src="js/webcam.min.js"></script>
+    <script src="js/webcam.swf"></script>
 
     
 </head>
@@ -58,7 +61,8 @@
           <div class="modalcanvasdiv">
             <h1 class="webcamhelpertext">Click To Change Filter</h1>
             <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
-            <video autoplay="true" class="webcamvideo" id="videoElement"></video> 
+              <!-- <div autoplay="true" class="webcamvideo" id="videoElement"></div> -->
+            <div class="webcamvideo" id="videoElement"></div> 
             <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
           </div>
           <div class="modalcameradiv"><img class="photobutton" src="images/cricle.png">
@@ -455,16 +459,33 @@
         var overlayImageUrls = ["assets/FinalArt/hat.gif", "assets/FinalArt/pussyhat.gif", "assets/FinalArt/LeiaHead2.gif"]; 
         var overlayindex = 0; 
           
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+        /*navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;*/
 
         $( ".step2icon" ).on('touchend click', function(){
             //$(".modaldiv").show(); 
             $('.modaldiv').css('display', 'inline-block');
             $('.modalcontent').css('display', 'inline-block');
+            $(".webcamoverlayimage").hide(); 
             //$('.modalcontent').show(); 
-            if (navigator.getUserMedia) {       
+            
+            //Webcam.set('flip_horiz', true);
+            Webcam.set({
+                width: 600,
+                height: 450,
+                flip_horiz: true
+            });
+            Webcam.attach( '#videoElement' );
+            
+            Webcam.on( 'live', function() {
+                // camera is live, showing preview image
+                // (and user has allowed access)
+                  $(".webcamoverlayimage").show(); 
+            } );
+            handleVideo();
+            
+            /*if (navigator.getUserMedia) {       
                 navigator.getUserMedia({video: true}, handleVideo, videoError);
-            }
+            }*/
         });
         
         function preloadImage(url)
@@ -474,8 +495,8 @@
         }  
 
         function handleVideo(stream) {
-            video.src = window.URL.createObjectURL(stream);
-            track = stream.getTracks()[0];
+           /* video.src = window.URL.createObjectURL(stream);
+            track = stream.getTracks()[0];*/
             
              var aspectOImage = $(".webcamoverlayimage").width()/$(".webcamoverlayimage").height();
              //var aspectOImage = $(".webcamoverlayimage").height()/$(".webcamoverlayimage").width();
@@ -566,8 +587,9 @@
           
         //photo approved  
         $( ".yesbutton" ).on('touchend click', function(){  
-            track.stop();
-            
+            //track.stop();
+            //Webcam.off();
+            Webcam.reset();
                 CreateFacePNGs();     
             
             $(".modaldiv").hide(); 
@@ -575,7 +597,8 @@
         
         //id name
         $( "#closeiconwebcam", "#closeiconapprove" ).on('touchend click', function(){
-            track.stop();
+            //track.stop();
+            Webcam.reset();
         });
 
         function videoError(e) {
@@ -589,7 +612,8 @@
             console.log("what I clicked: "+$(event.target).attr('class'));
             //close webcam stream
             if ($(event.target).attr('class') == "modaldiv") {
-                track.stop();
+               // track.stop();
+                Webcam.reset();
                 $(".modaldiv").hide();
             }
             
@@ -706,21 +730,20 @@
             //console.log("VIDEO ELEMENTWWW: " + wCanvas.width + "VIDEO ELEMENTHH: " + wCanvas.height); 
             var fctx = wCanvas.getContext('2d');
             
-            imageLeia.onload = function(){
-               
-                   console.log("webcamoverlayimaWIDTH: "+ $( ".webcamoverlayimage" ).width() + "webcamoverlayimaHEIGHT: " + $( ".webcamoverlayimage" ).height() + "x: " + ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) + "y: " + $(".webcamoverlayimage").offset().top );
-                xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
-                yOffset = $(".webcamoverlayimage").offset().top;
-                widthAvailable = $( ".webcamoverlayimage" ).width();
-                heightAvailable = $( ".webcamoverlayimage" ).height();
+            console.log("webcamoverlayimaWIDTH: "+ $( ".webcamoverlayimage" ).width() + "webcamoverlayimaHEIGHT: " + $( ".webcamoverlayimage" ).height() + "x: " + ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) + "y: " + $(".webcamoverlayimage").offset().top );
+            xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
+            yOffset = $(".webcamoverlayimage").offset().top;
+            widthAvailable = $( ".webcamoverlayimage" ).width();
+            heightAvailable = $( ".webcamoverlayimage" ).height();
                 
-                fctx.drawImage(clip_image, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
+            fctx.drawImage(clip_image, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
-                /// change composite mode to use that shape
-                fctx.globalCompositeOperation = 'source-in';
-
+            /// change composite mode to use that shape
+            fctx.globalCompositeOperation = 'source-in';
+            
+            Webcam.snap( function() {    
                 /// draw the image to be clipped
-                fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
+               // fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
                 fctx.globalCompositeOperation = 'source-over';
                 /*Filters.brightness = function(pixels, adjustment) {
                       var d = pixels.data;
@@ -762,7 +785,10 @@
                     { shape: 'circle', resolution: 32, size: 9, offset: 0 }
                 ]);*/
 
-            };
+            }, wCanvas );
+            
+            /*imageLeia.onload = function(){
+            };*/
         }
           
         function faceImageLoaded() {
