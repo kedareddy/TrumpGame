@@ -1,3 +1,18 @@
+.spinner{
+    position: relative;
+    background: #333;
+    color: #fff;
+    float: center;
+    width: 375px;
+    height: 375px;
+    margin: 0 20px 20px 0;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    
+    
+}
+
 .previewfootersection {
   position: fixed;
   left: 0px;
