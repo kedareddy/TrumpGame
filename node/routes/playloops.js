@@ -61,7 +61,7 @@ exports.signS3 = function(req, res) {
     const s3Params = {
         Bucket: S3_BUCKET,
         Key: fileName,
-        Expires: 600,
+        Expires: 86400,
         ContentType: fileType,
         ContentEncoding: contentEncoding,
         //ContentLength: contentLength,
