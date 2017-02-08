@@ -1,25 +1,27 @@
     const PLAYLOOPS_SERVER_URL = 'https://www.playloops.io';
     const PLAYLOOPS_SIGN_URL = PLAYLOOPS_SERVER_URL + '/playloops-img/sign-s3';
    
-    function addPlayloop (playloop_dict, success_callback, error_callback) {
-        const PLAYLOOPS_ADD_URL = PLAYLOOPS_SERVER_URL + "/playloops/";
+    function addPlayloop (playloop_dict) {
+        return new Promise( function(resolve, reject) {
+            const PLAYLOOPS_ADD_URL = PLAYLOOPS_SERVER_URL + "/playloops/";
         
-        alert(JSON.stringify(playloop_dict));
+            alert(JSON.stringify(playloop_dict));
         
-        $.ajax({
-            type: 'POST',
-            //contentType: "application/json; charset=UTF-8",
-            //data: JSON.stringify(playloop_dict),
-            data: playloop_dict,
-            url: PLAYLOOPS_ADD_URL,
-            success : function(data) {
-                    alert ("saved at " + playloop_dict['playloop_url']);
-                },//success_callback,
-            error : function(jqXHR, textStatus, errorThrown) { alert("Error: Status: "+textStatus+" Message: "+errorThrown); }//error_callback 
+            $.ajax({
+                type: 'POST',
+                //dataType: 'jsonp',
+                data: playloop_dict,
+                url: PLAYLOOPS_ADD_URL,
+                success : function(data) { resolve(playloop_dict) },
+                error : function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error: Status: "+textStatus+" Message: "+errorThrown);
+                    reject("Error: Status:"+textStatus+" Message: "+errorThrown);
+                } 
             
+            });
         });
         
-        return true;
+        
     }
 
     function getPlayloop (id) {
@@ -34,18 +36,79 @@
     
 
     //generates a 26 byte long low-ascii string 
-    function generatePlayloopID() {
+    function generateUUID() {
         return Math.random().toString(36).substring(2, 15) +
             Math.random().toString(36).substring(2, 15);
+    }
+
+
+
+    //img_name => name of 
+    function getS3SignedResponse(img_name, img_type) {
+        
+        //return new Promise( function(resolve, reject) {
+        return  $.ajax({
+                dataType: 'jsonp',
+                data: `file-name=${img_name}&file-type=${img_type}&content-encoding=base64`,
+                url: PLAYLOOPS_SIGN_URL,
+            });
+        /*
+                success: function(signed_response){
+                        alert ("have a response");
+                        resolve(signed_response);
+                    },
+                error:  function(err) { 
+                    alert("Could not get signed signature for " + filename + " because " + err);
+                    reject("Could not get signed signature for " + filename + " because " + err);}
+            });
+            
+        });*/
+    }
+
+    function uploadFileToS3(file, contentType, signedRequest){
+        
+        return new Promise( function (resolve, reject) {
+            
+            var buffer = dataUri2Buffer(file);
+            //console.log("buffer; " + buffer);
+            //console.log("buffer.log: " + file);
+            const xhr = new XMLHttpRequest();
+            
+
+            xhr.open('PUT', signedRequest);
+            xhr.setRequestHeader('content-type', contentType);
+            xhr.setRequestHeader('content-encoding', 'base64');
+
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState === 4){
+                    if(xhr.status === 200){
+
+                        resolve(xhr.status);
+
+                    }         
+                        else{
+                            console.log("yoyo: " + xhr.statusText);
+                            console.log("yoyo2: " + xhr.response);
+                            //console.log("yoyoy3: " + file );
+                            reject(xhr.statusText);
+
+                        }
+                    }
+                };
+
+            xhr.send(buffer);
+        });
     }
 
 
     //img_name => foobar.gif
     //img_type => MIME type like "image/gif" or "image/jpeg"
     //img_src => base64 encoded image data
+
+    /*
     function uploadImage(img_name, img_type, img_src, playloop_dict){
         
-             var img_data = img_src.replace('data:'+img_type+';base64,','');
+             var img_data = dataUri2Buffer( img_src );
         
              alert(img_data);
              
@@ -77,9 +140,9 @@
              });
 
         }
-             
+        */       
 
-        function uploadFileToS3(file, contentType, signedRequest, url, playloop_dict){
+/*        function uploadFileToS3(file, contentType, signedRequest, url, playloop_dict){
             
             playloop_dict['summary_img'] = url;
             playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/' + playloop_dict['_id'];
@@ -110,13 +173,14 @@
                 
                 xhr.send(file);
         }
-        
+  */      
         
         
         function dataUri2Buffer(dataURI) {
             // from http://stackoverflow.com/questions/12883871/how-to-upload-base64-encoded-image-data-to-s3-using-javascript-only]
             
             var u = dataURI.split(',')[1];
+            //console.log(u);
             var b = atob(u);
             var arr = [];
 
@@ -130,6 +194,7 @@
             
             return typedArray.buffer;
         }
+        
         
     
     
