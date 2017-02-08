@@ -655,12 +655,12 @@ margin-right:auto;
   display: -ms-flexbox;
   display: flex;
   height: auto;
-  padding-top: 0.2em;
-  padding-bottom: 0.2em;
+  /*padding-top: 0.2em;
+  padding-bottom: 0.2em;*/
   -webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
   justify-content: space-around;
-  border: 7px none #01afd1;
+  /*border: 7px none #01afd1;*/
   background-color: #000;
   background: -webkit-radial-gradient( #666, #333, black); /* Safari 5.1 to 6.0 */
   background: -o-radial-gradient(#666, #333, black); /* For Opera 11.6 to 12.0 */
@@ -668,6 +668,8 @@ margin-right:auto;
   background: radial-gradient(#666, #333, black); /* Standard syntax */
     border-style: solid;
     border-color: lightgrey;
+     border-bottom: none;
+     border-top: none;
     
 }
 
@@ -746,6 +748,7 @@ html, body{
     background: transparent; 
     border-style: solid;
     border-color: lightgrey;
+     border-top: none;
     
 }
 
@@ -854,7 +857,7 @@ html, body{
   margin-right: 0.25em;
   padding-top: 0.3em;
   padding-bottom: 0.35em;
-  background-color: #f8e71c;
+  background-color: lightgrey;
   font-family: Oswald, sans-serif;
   color: #000;
   font-size: 45px;
