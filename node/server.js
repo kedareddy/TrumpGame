@@ -4,7 +4,7 @@ var aws = require('aws-sdk');
 
 console.log("got through all the requires");
 
-const S3_BUCKET = 'playloops'; //process.env.S3_BUCKET;
+const S3_BUCKET = 'playloops' || process.env.S3_BUCKET;
 var APP_PORT = process.env.PORT || CONFIG.port;
 
 var app = express();
@@ -16,6 +16,12 @@ app.configure(function () {
 });
 
 console.log("app configured with " + __dirname);
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 //app.get('/playloops', wine.findAll);
 app.get("/hello", function(req, res) { res.send("hello world"); });
