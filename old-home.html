@@ -31,9 +31,9 @@
     
     <script type="text/javascript" src="js/libgif.js"></script>
     <script src='js/gifshot.min.js'></script>
-   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
     
     <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -42,8 +42,8 @@
     
     
     
-    <link rel="stylesheet" type="text/css" href="javascript.fullPage.css" />
-    <script type="text/javascript" src="javascript.fullPage.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/javascript.fullPage.css" />
+    <script type="text/javascript" src="js/javascript.fullPage.min.js"></script>
     
     <!-- load that lib -->
     <script src="js/playloops.js"></script>
@@ -128,7 +128,7 @@
       </div>
     </div>
   </div> -->
-<section class="section mostsections" id="SectionStep3">
+<section class="section mostsections" id="SectionStep1">
     <div class="w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
@@ -203,7 +203,7 @@
     </div>
   </section>
   
-  <section class="section mostsections" id="SectionStep4">
+  <section class="section mostsections" id="SectionStep3">
     <div class="w-container">
       <div class="mosteditordivs">
         <div class="stepformwrapper w-form">
@@ -509,22 +509,6 @@
             track = stream.getTracks()[0];*/
             
              var aspectOImage = $(".webcamoverlayimage").width()/$(".webcamoverlayimage").height();
-             //var aspectOImage = $(".webcamoverlayimage").height()/$(".webcamoverlayimage").width();
-
-            
-            /*/ var maskH = $("#videoElement").height();
-             var maskW = maskH * aspectOImage; */
-             //var maskW = $("#videoElement").width();
-             //var maskH = maskW * aspectOImage;
-              
-             // console.log("video width: " + $("#videoElement").width() + "overlayh: " + maskH + " aspect: " + aspectOImage ); 
-          /*  console.log("video h: " + $("#videoElement").height() + "overlayw: " + maskW + " aspect: " + aspectOImage ); 
-             $( ".webcamoverlayimage" ).width(maskW);
-             $( ".webcamoverlayimage" ).height(maskH);*/
-              //$(".approveimage").width(maskW);
-            //$(".approveimage").height(maskH);
-           // $(".approveimage").width($( ".webcamoverlayimage" ).width());
-            //$(".approveimage").height($( ".webcamoverlayimage" ).height());
             
             assignCurrentFace(overlayindex);
             
@@ -599,25 +583,9 @@
         //photo approved  
         $( ".yesbutton" ).on('touchend click', function(){  
             //track.stop();
-            //Webcam.off();
             Webcam.reset();
             CreateFacePNGs(); 
-            //$.mobile.loading('show');
-            
-            /*var $this = $(this), 
-                theme = $this.jqmData("theme")||$.mobile.loader.prototype.options.theme, msgText = $this.jqmData("msgtext")||$.mobile.loader.prototype.options.text,
-                textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible, 
-                textonly = !!$this.jqmData("textonly");
-                html = $this.jqmData("html")||"";
-            
-            $.mobile.loading("show", {
-                text:msgText, 
-                textVisible: textVisible, 
-                theme: theme, 
-                textonly: textonly,
-                html:html
-            });
-            */
+
             var opts = {
               lines: 13 // The number of lines to draw
             , length: 28 // The length of each line
@@ -657,6 +625,7 @@
         function videoError(e) {
             console.log(e);
         }
+                        
         /*********************************************/
           
         /************DETECT CLICK ANYWHERE********************/  
@@ -671,11 +640,11 @@
             }
             
             //show preview after input entered
-            if ($(event.target).attr('class') != "step1input1 w-input") {
+            /*if ($(event.target).attr('class') != "step1input1 w-input") {
                 if (isMobile.matches) {
                     $('.previewfootersection').show();
                 }
-            }
+            }*/
             
             if ($(event.target).attr('class') == "hr1") {
                 selectedBody = "leia";
@@ -846,73 +815,8 @@
           
         function faceImageLoaded() {
            //GenerateGIF();
-        }  
+        }        
         
-        //combine face with overlay gif  
-       /* function GenerateGIF(){
-            var idleArray; 
-            var headPos = { x:5, y: 116};
-            if(selectedBody == "leia"){
-                idleArray = leiaidle_images.concat();
-                headPos = { x:5, y: 116};
-            }else if(selectedBody == "luther"){
-                idleArray = lutheridle_images.concat();
-                headPos = { x:71, y: 50};
-            }else if(selectedBody == "hulk"){
-                idleArray = hulkidle_images.concat();
-                headPos = { x:-21, y: 47};
-            } 
-            
-            
-                for (i = 0; i < idleArray.length; i++) { 
-                    
-                    var tempCanvas = document.createElement('canvas');
-                    tempCanvas.width = 600;
-                    tempCanvas.height = 550;
-                    var ctx= tempCanvas.getContext("2d");
-                    //var imgData = tempCanvas.toDataURL('image/png');
-                    //var imgNewData= ctx.getImageData(0,0, tempCanvas.width, tempCanvas.height);
-                    var hcan = document.createElement('canvas');
-                    hcan.width = tempCanvas.width;
-                    hcan.height = 60;
-                    var hctx = hcan.getContext('2d');
-                    //clear the heading canvas
-                    hctx.clearRect(0, 0, tempCanvas.width, hcan.height);
-                    hctx = hcan.getContext("2d");
-                    hctx.font = "60px Oswald";
-                    hctx.fillStyle = "white";
-                    hctx.textAlign = "center";
-                    hctx.fillText(inputText1,hcan.width/2,hcan.height/2);
-
-                    ctx.drawImage(hcan, 0, 0);
-                    ctx.drawImage(idleArray[i], 0, 100);
-                    
-                    var hRatio = tempCanvas.width / faceImage.width;
-                    var vRatio = tempCanvas.height / faceImage.height;
-                    var ratio  = Math.min ( hRatio, vRatio );
-                    
-                    var tempImage = new Image(); 
-                    tempImage.onload = function(){
-                        
-                    };
-                    tempImage.src = allMyFaces[i].src; 
-                    //5 ,116,334, 251 LEIA
-                    //-21 ,47,337, 253 HULK
-                    //71 ,50,337, 253 LUTHER
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
-
-                        var imgData = tempCanvas.toDataURL('image/jpeg');
-                        var oneImage = new Image();
-                        oneImage.src = imgData;
-                       // gifFrames.length = 0; 
-                        gifFrames.push(oneImage);
-                        if(i == 3){
-                            console.log("ALLFACES: " + allMyFaces); 
-                            Giffyfy();   
-                        } 
-                }
-            //}
-        }  */
         var words = []; 
         function GenerateGIF(){
             gifFrames = [];
@@ -1087,61 +991,10 @@
                 }
             }
             
-             /*var faceCounter = 0; 
-             for (m = 0; m < punchArray.length; m++) { 
-                    
-                    var tempCanvas = document.createElement('canvas');
-                    tempCanvas.width = 600;
-                    tempCanvas.height = 450;
-                    var ctx= tempCanvas.getContext("2d");
-                    
-                    var hcan = document.createElement('canvas');
-                    hcan.width = tempCanvas.width;
-                    hcan.height = 150;
-                    var hctx = hcan.getContext('2d');
-                    
-                    //clear the heading canvas
-                    hctx.clearRect(0, 0, tempCanvas.width, hcan.height);
-                    hctx = hcan.getContext("2d");
-                    hctx.font = "60px Oswald";
-                    hctx.fillStyle = "white";
-                    hctx.textAlign = "center";
-                    hctx.fillText(words[words.length-1],hcan.width*0.7,hcan.height/2);
-
-                    
-                    ctx.drawImage(punchArray[m], 0, 0);
-                    
-                    var hRatio = tempCanvas.width / faceImage.width;
-                    var vRatio = tempCanvas.height / faceImage.height;
-                    var ratio  = Math.min ( hRatio, vRatio );
-                    
-                    var tempImage = new Image(); 
-                    tempImage.onload = function(){
-                        
-                    };
-                    faceCounter++;
-                    if(faceCounter == 4){
-                        faceCounter = 0; 
-                    }
-                    tempImage.src = allMyFaces[faceCounter].src; 
-                    //5 ,116,334, 251 LEIA
-                    //-21 ,47,337, 253 HULK
-                    //71 ,50,337, 253 LUTHER
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
-                     ctx.drawImage(hcan, 0,0);
-                    var imgData = tempCanvas.toDataURL('image/jpeg');
-                    var oneImage = new Image();
-                    oneImage.src = imgData;
-                    // gifFrames.length = 0; 
-                    gifFrames.push(oneImage);
-                    if(m == (punchArray.length-1)){
-                        console.log("ALLFACES: " + allMyFaces); 
-                        Giffyfy();   
-                    } 
-                }*/
-            
-        }    
-          
+        } 
+    
+    
+    });   
         //Make the Summary GIF
           
         //PRAVEEN's stuff starts here
@@ -1268,7 +1121,7 @@
      }
     
     
-      function step1Submit(){
+      /*function step1Submit(){
         //console.log("heeyyyyy it was submitted!!");
         if (isMobile.matches) {      
             $('.previewfootersection').show(); 
@@ -1280,7 +1133,7 @@
         if (isMobile.matches) {      
             $('.previewfootersection').show(); 
         } 
-      } 
+      } */
     
       //$('.previewfooterimage').attr('src', 'assets/Test/LEIA_IDLE_INK.gif');
   </script>    
