@@ -183,7 +183,7 @@
               </div>
               <div class="step2uploaddiv">
                 <label class="step2title" for="name-2">Upload</label>
-                <a class="w-inline-block" href="#"><img class="step2icon upload" src="images/camera.svg">
+                <a class="w-inline-block" ><img class="step2icon upload" src="images/camera.svg">
                 </a>
               </div>
             </div>
@@ -245,7 +245,7 @@
   <script src="js/webflow.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-        //var testImage = new Image();
+    //var testImage = new Image();
     var spinner;   
     var heightAvailable; 
     var widthAvailable;
@@ -489,8 +489,9 @@
                 // camera is live, showing preview image
                 // (and user has allowed access)
                   $(".webcamoverlayimage").show(); 
+                    handleVideo();
             } );
-            handleVideo();
+            
             
             /*if (navigator.getUserMedia) {       
                 navigator.getUserMedia({video: true}, handleVideo, videoError);
@@ -537,8 +538,8 @@
             
             //$(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
             
-            setTimeout(function() {
-             var maskH = $("#videoElement").height();
+            //setTimeout(function() {
+                 var maskH = $("#videoElement").height();
                  var maskW = maskH * aspectOImage; 
                  //var maskW = $("#videoElement").width();
                  //var maskH = maskW * aspectOImage;
@@ -546,10 +547,10 @@
                  // console.log("video width: " + $("#videoElement").width() + "overlayh: " + maskH + " aspect: " + aspectOImage ); 
                 console.log("video h: " + $("#videoElement").height() + "overlayw: " + maskW + " aspect: " + aspectOImage ); 
                  $( ".webcamoverlayimage" ).width(maskW);
-                 $( ".webcamoverlayimage" ).height(maskH);
+                 $( ".webcamoverlayimage" ).height("auto");
                  $(".approveimage").width($( ".webcamoverlayimage" ).width());
                 $(".approveimage").height($( ".webcamoverlayimage" ).height());
-            }, 2000);
+           // }, 2000);
             
             
            // $(".webcamoverlayimage").css('z-index',  $('#videoElement').zIndex()+1);
