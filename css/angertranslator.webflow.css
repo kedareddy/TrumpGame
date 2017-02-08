@@ -1,3 +1,5 @@
+
+
 .previewfootersection {
   position: fixed;
   left: 0px;
@@ -636,6 +638,13 @@ margin-right:auto;
   -ms-flex-pack: justify;
   justify-content: space-between;
   background-color: #01afd1;
+      background: -webkit-linear-gradient(left top, #01afd1,#000 ); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #01afd1,#000); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #01afd1,#000); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right,#01afd1,#000); /* Standard syntax */
+    background: transparent; 
+    border-style: solid;
+    border-color: lightgrey;
 }
 
 .playerbkg {
@@ -653,6 +662,13 @@ margin-right:auto;
   justify-content: space-around;
   border: 7px none #01afd1;
   background-color: #000;
+  background: -webkit-radial-gradient( #666, #333, black); /* Safari 5.1 to 6.0 */
+  background: -o-radial-gradient(#666, #333, black); /* For Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(#666, #333, black); /* For Firefox 3.6 to 15 */
+  background: radial-gradient(#666, #333, black); /* Standard syntax */
+    border-style: solid;
+    border-color: lightgrey;
+    
 }
 
 .playerdiv {
@@ -693,6 +709,16 @@ margin-right:auto;
 /*html, body {
   overflow:hidden 
 }*/
+html, body{
+  background-color: #000;
+  /*background: #01afd1;  For browsers that do not support gradients */
+ background: -webkit-linear-gradient(left top, #01afd1, #000); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #01afd1, #000); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right,#01afd1, #000); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #01afd1, #000); /* Standard syntax */
+    
+}
+
 .socialmediadiv {
   display: -webkit-box;
   display: -webkit-flex;
@@ -708,6 +734,19 @@ margin-right:auto;
 .sharediv {
   /*padding-bottom: .5em;*/
   background-color: #f8e71c;
+  /*background: -webkit-radial-gradient(#fff, #f8e71c, #f8e71c); /* Safari 5.1 to 6.0 */
+  /*background: -o-radial-gradient(#fff, #f8e71c, #f8e71c); /* For Opera 11.6 to 12.0 */
+  /*background: -moz-radial-gradient(#fff, #f8e71c, #f8e71c); /* For Firefox 3.6 to 15 */
+  /*background: radial-gradient(#fff, #f8e71c, #f8e71c); /* Standard syntax */
+    
+  background: -webkit-linear-gradient( #01afd1,#f8e71c); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient( #01afd1,#f8e71c); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient( #01afd1,#f8e71c); /* For Firefox 3.6 to 15 */
+  background: linear-gradient( #01afd1,#f8e71c); /* Standard syntax */
+    background: transparent; 
+    border-style: solid;
+    border-color: lightgrey;
+    
 }
 
 .sharelinkdiv {
@@ -768,6 +807,13 @@ margin-right:auto;
   -ms-flex-align: end;
   align-items: flex-end;
   background-color: #01afd1;
+  background: -webkit-linear-gradient(left top,#000, #01afd1 ); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #000, #01afd1); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right,#000, #01afd1); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right,#000, #01afd1); /* Standard syntax */
+  background: transparent; 
+    border-style: solid;
+    border-color: lightgrey;
 }
 
 .stats {
@@ -778,7 +824,7 @@ margin-right:auto;
   -ms-flex-item-align: end;
   align-self: flex-end;
   font-family: 'Oswald medium', sans-serif;
-  color: #000;
+  color: lightgrey;
   font-size: 25px;
   font-weight: 400;
   text-align: right;
@@ -842,7 +888,7 @@ margin-right:auto;
   -ms-flex-item-align: end;
   align-self: flex-end;
   font-family: 'Oswald medium', sans-serif;
-  color: #000;
+  color: lightgrey;
   font-size: 20px;
   font-weight: 400;
 }
@@ -852,6 +898,7 @@ margin-right:auto;
   margin-bottom: 0.2em;
   font-family: 'Oswald bold', sans-serif;
   font-size: 35px;
+    color:  lightgrey;
 }
 
 .sharelinktext {
@@ -864,10 +911,10 @@ margin-right:auto;
   -webkit-flex: 0 auto;
   -ms-flex: 0 auto;
   flex: 0 auto;
-  border: 5px none #000;
-  background-color: #666;
+  border: 10px none #000;
+  background-color: #333;
   font-family: Oswald, sans-serif;
-  color: #fff;
+  color: lightgrey;
   font-size: 25px;
 }
 
@@ -1036,9 +1083,9 @@ margin-right:auto;
 }
 
 .webcamcanvas {
-      position: relative;
+  position: relative;
   display: none;
-    left: 0px;
+  left: 0px;
   top: 0px;
   right: 0px;
   max-width: 100%; 
@@ -1048,7 +1095,7 @@ margin-right:auto;
 
 .approveimage {
   position: relative;
-      -webkit-align-self: center;
+  -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
   /*max-width: 100%; 
@@ -1122,6 +1169,11 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
   .twitterdiv {
     width: 12%;
   }
+
+    .closeicon {
+  width: 1.5em;
+  vertical-align: top;
+}
 
 }
 
