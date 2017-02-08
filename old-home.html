@@ -736,7 +736,7 @@
                         var tImage = new Image(); 
                         tImage.src = srcData; 
                         console.log("allmyfaces x:" + tImage.width + " h: " + tImage.height);
-                        allMyFaces.push(tImage); 
+                        allMyFaces.push(tImage.src); 
                         if(i == 3){
                             GenerateGIF(); 
                         }  
@@ -970,7 +970,7 @@
                     if(faceCounter == 4){
                         faceCounter = 0; 
                     }*/
-                    tempImage.src = allMyFaces[j].src; 
+                    tempImage.src = allMyFaces[j]; 
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
@@ -1042,7 +1042,7 @@
                     if(faceCounter == 4){
                         faceCounter = 0; 
                     }
-                    tempImage.src = allMyFaces[faceCounter].src; 
+                    tempImage.src = allMyFaces[faceCounter]; 
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
@@ -1081,7 +1081,7 @@
                     // gifFrames.length = 0; 
                     gifFrames.push(oneImage);
                     if(i == (punchArray.length-1)){
-                        console.log("ALLFACES: " + allMyFaces); 
+                        //console.log("ALLFACES: " + allMyFaces); 
                         Giffyfy();   
                     } 
                 }
@@ -1147,38 +1147,96 @@
         //PRAVEEN's stuff starts here
         $('#createButton').click(function(){
           
-            
-            
+
             //First make the data structure to pass to mongo
             var playloop_dict = {};
-            //playloop_dict['face_img'] = allMyFaces;
+
+            playloop_id = generateUUID();
+            playloop_dict['_id'] = playloop_id;
+            playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/' + playloop_id;
+
             playloop_dict['text1'] = inputText1;
             playloop_dict['text2'] = inputText4;
-            
-            
-            //then upload the image
-            playloop_id = generatePlayloopID();
-            playloop_dict['_id'] = playloop_id;
-            
-            /*sign_success_callback = function (signed_response) {
-                    uploadFileToS3(img_data, img_type, signed_response.signedRequest, signed_response.url);
-            }
-            
-            sign_fail_callback = function(error) { 
-                alert("Playloop save failed, couldn't make signature: " + error);
-            }*/
-            uploadImage(    playloop_id + ".gif", 
-                            "image/gif",
-                            $(".previewimage").attr("src"),
-                            playloop_dict
-                        );
-            
-      
-        
+
+
+            var faces_arr = [];
+            var promise_arr = [];
+            var blah = [];
+
+            //getall signed requests -> upload to s3 -> get signed request summary -> upload s3 summary -> add playloop
+
+            imageType = "png";
+            contentType = "image/" + imageType;
+            var faces_s3_promises = allMyFaces.map(
+                (currElement, index) => {
+                    img_id = generateUUID();
+                    img_name = img_id + '.' + imageType;
+                    return getS3SignedResponse(img_name, contentType);
+                 }
+            );
+
+            //first get s3 signatures for PNGs
+            Promise.all( faces_s3_promises
+            ).then( function (s3_signs) {
+
+                //index all the urls and then
+                //upload all the face PNGs
+                for (var i=0; i< s3_signs.length; i++){
+                    faces_arr[i] = s3_signs[i].url;
+                }
+
+                alert(faces_arr);
+                playloop_dict['face_img'] = faces_arr;
+
+                alert(" then 1 ");
+                return Promise.all(
+                        allMyFaces.map(
+                            (currElement, index) => {
+                                uploadFileToS3( allMyFaces[index],
+                                        contentType,
+                                        s3_signs[index].signedRequest );
+                            }
+                        )
+                    );
+                }
+            ).then( function ( s3_results ) {
+                    //get the summary image signature
+                    alert(" then 2 ");
+                    imageType = "gif";
+                    contentType = "image/" + imageType;           
+                          img_name = playloop_id + ".gif";
+                    return getS3SignedResponse(img_name, contentType);
+                }
+            ).then( function( signed_response ) {
+                    alert(" then 3 ");
+                    //upload the summary image
+                    var signedRequest = signed_response.signedRequest;
+                    var summary_url = signed_response.url;
+
+                    imageType = "gif";
+                    contentType = "image/" + imageType;
+
+                    console.log("summary_url" + summary_url);
+                    playloop_dict['summary_img'] = summary_url;
+
+                    var file = $(".previewimage").attr("src");
+
+                    return uploadFileToS3( file , contentType, signedRequest );
+
+                }
+            ).then ( function( s3_results) {
+                    alert(" then 4 ");
+                    //save the playloop datastructure
+
+                    return  addPlayloop (playloop_dict);
+
+                }
+            ).then ( function (data ) {
+                    //finally redirect here
+                    alert("finished all the thens!");
+                }
+            );        
              
-            
-        });
-          
           
         //PRAVEEN's stuff ends here
           
