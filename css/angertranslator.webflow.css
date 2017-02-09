@@ -541,8 +541,9 @@ margin-right:auto;
   align-self: center;
   z-index: 5; 
     position: absolute;
-    bottom: 0px;
+    bottom: 12%;
     text-align: center;
+    background-color:#01afd1; 
     
 }
 
@@ -596,7 +597,7 @@ margin-right:auto;
   margin-top: 2em;
   margin-bottom: 2em;
     position: absolute;
-    bottom: 0px;
+    bottom: 12%;
     text-align: center;
   /*-webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
@@ -604,6 +605,7 @@ margin-right:auto;
  z-index: 5; 
         display: table;
     table-layout: fixed;
+    background-color:#01afd1;
 }
 
 .modalyes {
@@ -1046,7 +1048,9 @@ html, body{
   position: absolute;
   left: 0px;
   right: 0px;
-  bottom: 0px;
+  bottom: 30%;
+  /*height: 12%;
+    line-height: 12%;*/
   z-index: 5;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
@@ -1083,6 +1087,7 @@ html, body{
   width: 100%;
   height: auto;
   vertical-align: bottom;
+    background-color:#01afd1;
 }
 
 .webcamcanvas {
@@ -1110,7 +1115,7 @@ html, body{
   position: absolute;
   left: 0px;
   right: 0px;
-  bottom: 0px;
+  bottom:30%;
   z-index: 1;
   background-color: rgba(0, 0, 0, .5);
   font-family: 'Oswald medium', sans-serif;
