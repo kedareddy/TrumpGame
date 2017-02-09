@@ -148,15 +148,18 @@ var Webcam = {
 			// setup webcam video container
 			var video = document.createElement('video');
 			video.setAttribute('autoplay', 'autoplay');
-			video.style.width = '' + this.params.dest_width + 'px';
-			video.style.height = '' + this.params.dest_height + 'px';
+			//video.style.width = '' + this.params.dest_width + 'px';
+			//video.style.height = '' + this.params.dest_height + 'px';
+            //video.style.width = 100%; 
+            //video.style.height = "auto";
             video.style.left = "0px";
             video.style.right = "0px";
             video.style.marginLeft = "auto";
             video.style.marginRight = "auto";
+            
 			
 			if ((scaleX != 1.0) || (scaleY != 1.0)) {
-				elem.style.overflow = 'hidden';
+				/*elem.style.overflow = 'hidden';
 				video.style.webkitTransformOrigin = '0px 0px';
 				video.style.mozTransformOrigin = '0px 0px';
 				video.style.msTransformOrigin = '0px 0px';
@@ -166,7 +169,7 @@ var Webcam = {
 				video.style.mozTransform = 'scaleX('+scaleX+') scaleY('+scaleY+')';
 				video.style.msTransform = 'scaleX('+scaleX+') scaleY('+scaleY+')';
 				video.style.oTransform = 'scaleX('+scaleX+') scaleY('+scaleY+')';
-				video.style.transform = 'scaleX('+scaleX+') scaleY('+scaleY+')';
+				video.style.transform = 'scaleX('+scaleX+') scaleY('+scaleY+')';*/
 			}
 			
 			// add video element to dom
