@@ -50,7 +50,7 @@
     <script src="js/close-pixelate.js"></script>
     
     <!--webcamjs libraries -->
-    <script src="js/webcam.min.js"></script>
+    <script src="js/webcam.js"></script>
     <script src="js/webcam.swf"></script>
     
     <script src="js/spin.min.js"></script>
@@ -381,7 +381,7 @@
             $(".approvehelpertext").text("Tap To Change Filter");
         }
           
-        var webvideo = document.getElementById('videoElement');
+       // var webvideo = document.getElementById('videoElement');
         var wCanvas = document.getElementById('webcamcanvas');  
         var selectedBody = "hulk";  
         var clip_image = new Image();
@@ -622,9 +622,9 @@
             Webcam.reset();
         });
 
-        function videoError(e) {
-            console.log(e);
-        }
+        //function videoError(e) {
+          //  console.log(e);
+        //}
                         
         /*********************************************/
           
