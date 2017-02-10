@@ -176,10 +176,20 @@ exports.renderPlayLoop = function(req,res) {
             //res.send(item);
             playloop = item;
             console.log("got item: " + item);
+            console.log("scene name is : " + item['scene_name']);
+            
+            if (item['scene_name'] == 'AngerTranslator'){
+                res.render('AngerTranslator', {
+                    heroname: item['heroname'],
+                    summary_img: item['summary_img'],
+                    face_imgs: item['face_imgs'],
+                    text2: item['text2']
+            });
+                
         });
     });
     
-    console.log ("playloop is  " + playloop);
+    /*console.log ("playloop is  " + playloop);
     if (playloop['scene_name'] == 'AngerTranslator'){
         res.render('AngerTranslator', {
             heroname: playloop['heroname'],
@@ -187,5 +197,5 @@ exports.renderPlayLoop = function(req,res) {
             face_imgs: playloop['face_imgs'],
             text2: playloop['text2']
         });
-    }
+    }*/
 }
