@@ -175,9 +175,11 @@ exports.renderPlayLoop = function(req,res) {
             function(err, item) {
             //res.send(item);
             playloop = item;
+            console.log("got item: " + item);
         });
     });
     
+    console.log ("playloop is  " + playloop);
     if (playloop['scene_name'] == 'AngerTranslator'){
         res.render('AngerTranslator', {
             heroname: playloop['heroname'],
