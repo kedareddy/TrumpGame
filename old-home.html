@@ -497,7 +497,7 @@
             img.src = overlayImageUrls[overlayindex];
             
             //setTimeout(function() {
-                 var maskH = $("#videoElement").height();
+                 var maskH = $( "#videoElement" ).find("video").height();
                  var maskW = maskH * aspectOImage; 
                 console.log("video h: " + $("#videoElement").height() + "overlayw: " + maskW + " aspect: " + aspectOImage ); 
                  $( ".webcamoverlayimage" ).width(maskW);
