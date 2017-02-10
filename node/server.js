@@ -1,4 +1,5 @@
 var express = require('express');
+var cons = require('consolidate');
 var playloops = require('./routes/playloops');
 var aws = require('aws-sdk');
 
@@ -8,6 +9,13 @@ const S3_BUCKET = 'playloops' || process.env.S3_BUCKET;
 var APP_PORT = process.env.PORT || CONFIG.port;
 
 var app = express();
+
+// assign the swig engine to .html files
+app.engine('html', cons.swig);
+
+// set .html as the default extension
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
 
 app.configure(function () {
     app.use(express.logger('dev'));     /* 'default', 'short', 'tiny', 'dev' */
@@ -32,6 +40,7 @@ app.delete('/playloops/:id', playloops.deletePlayloop);
 app.get('/playloops-all/', playloops.findAll);
 
 
+app.get('/view/:id', playloops.renderPlayLoop);
 
 app.get('/playloops-img/sign-s3', playloops.signS3);
 

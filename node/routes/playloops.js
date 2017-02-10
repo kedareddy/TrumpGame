@@ -48,8 +48,6 @@ exports.signS3 = function(req, res) {
     });
 
 
-  
-
     
     const s3 = new aws.S3();
     const fileName = req.query['file-name'];
@@ -163,35 +161,29 @@ exports.deletePlayloop = function(req, res) {
     });
 }
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-// Populate database with sample data -- Only used once: the first time the application is started.
-// You'd typically not find this code in a real-life app, since the database would already exist.
 
-/*
-var populateDB = function() {
+exports.renderPlayLoop = function(req,res) {
 
-    var wines = [
-    {
-        name: "CHATEAU DE SAINT COSME",
-        year: "2009",
-        grapes: "Grenache / Syrah",
-        country: "France",
-        region: "Southern Rhone",
-        description: "The aromas of fruit and spice...",
-        picture: "saint_cosme.jpg"
-    },
-    {
-        name: "LAN RIOJA CRIANZA",
-        year: "2006",
-        grapes: "Tempranillo",
-        country: "Spain",
-        region: "Rioja",
-        description: "A resurgence of interest in boutique vineyards...",
-        picture: "lan_rioja.jpg"
-    }];
-
+    var id = req.params.id;
+    
+    var playloop;
+    
+    console.log('Retrieving playloop: ' + id);
     db.collection('playloops', function(err, collection) {
-        collection.insert(playloops, {safe:true}, function(err, result) {});
+        //collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
+        collection.find({'_id': id}).limit(1).next( 
+            function(err, item) {
+            //res.send(item);
+            playloop = item;
+        });
     });
-
-};*/
+    
+    if (playloop['scene_name'] == 'AngerTranslator'){
+        res.render('AngerTranslator', {
+            heroname: playloop['heroname'],
+            summary_img: playloop['summary_img'],
+            face_imgs: playloop['face_imgs'],
+            text2: playloop['text2']
+        });
+    }
+}

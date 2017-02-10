@@ -14,7 +14,7 @@
  
     
 <!-- updte with summary gif-->     
-  <meta property="og:url" content="http://www.playloops.io/assets/TrumpPunchPussy.gif"> 
+  <meta property="og:url" content="{{summary_url}}"> 
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@Playloops">
@@ -129,7 +129,7 @@
     var words = []; 
     var allMyFaces = [];
     var heroname; 
-    function getPlayloop (id) {
+    /*function getPlayloop (id) {
        const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/playloops/" + id;
     
        $.get( PLAYLOOPS_GET_URL, function( data ) {
@@ -145,7 +145,7 @@
            allMyFaces = data.face_imgArray;
            $('.sharelinktext').text( data.playloopurl);    
         });       
-    }
+    }*/
  
            
 
@@ -155,16 +155,17 @@
            //text1 = "I am American"; 
            
            //update this
-           text2 = "NoBAN NoWALL NoTrump!"; 
+           text2 = {{text2 | safe |json}}; 
            
                words.length = 0;
               // text2 = text2.toUpperCase();
                words = text2.split(" ");
         
            //update this
-           heroname = "leia";
+           heroname = {{heroname | safe | json}}; //"leia";
            //update this
-           var head_urls = ['assets/FinalArt/FakeHead/head_0000_Layer-4.png','assets/FinalArt/FakeHead/head_0001_Layer-3.png','assets/FinalArt/FakeHead/head_0002_Layer-2.png','assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
+           var head_urls = {{face_imgs | safe | json }};
+               //['assets/FinalArt/FakeHead/head_0000_Layer-4.png','assets/FinalArt/FakeHead/head_0001_Layer-3.png','assets/FinalArt/FakeHead/head_0002_Layer-2.png','assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
            for (i = 0; i < head_urls.length; i++) {
             allMyFaces[i] = new Image();
             allMyFaces[i].onload = function(){
