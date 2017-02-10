@@ -130,7 +130,7 @@
     var allMyFaces = [];
     var heroname; 
     function getPlayloop (id) {
-       const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/playloops/" + id;
+       const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/playloops/views/" + id;
     
        $.get( PLAYLOOPS_GET_URL, function( data ) {
            alert( "Data Loaded: " + data );
