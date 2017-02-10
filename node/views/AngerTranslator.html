@@ -168,6 +168,7 @@
                //['/assets/FinalArt/FakeHead/head_0000_Layer-4.png','/assets/FinalArt/FakeHead/head_0001_Layer-3.png','/assets/FinalArt/FakeHead/head_0002_Layer-2.png','/assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
            for (i = 0; i < head_urls.length; i++) {
             allMyFaces[i] = new Image();
+            allMyFaces[i].setAttribute('crossOrigin', 'anonymous');
             allMyFaces[i].onload = function(){
                 incrementLoadCounter(); 
             };
