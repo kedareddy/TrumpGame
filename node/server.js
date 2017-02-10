@@ -41,7 +41,7 @@ app.get('/playloops-all/', playloops.findAll);
 
 app.get('/playloops-img/sign-s3', playloops.signS3);
 
-app.get('/:id', playloops.renderPlayLoop);
+app.get('/play/:id', playloops.renderPlayLoop);
 
 console.log("routes set");
 
