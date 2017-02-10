@@ -747,8 +747,8 @@
             var pixelOpts = [ { resolution: 32 } ];
             
             
-            wCanvas.width = $( "#videoElement" ).width();
-            wCanvas.height = $( "#videoElement" ).height();
+            wCanvas.width = $( "#videoElement" ).find("video").width();
+            wCanvas.height = $( "#videoElement" ).find("video").height();
             //console.log("VIDEO ELEMENTWWW: " + wCanvas.width + "VIDEO ELEMENTHH: " + wCanvas.height); 
             var fctx = wCanvas.getContext('2d');
             
