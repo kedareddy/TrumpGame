@@ -184,7 +184,8 @@ exports.renderPlayLoop = function(req,res) {
                     summary_img: item['summary_img'],
                     face_imgs: item['face_imgs'],
                     text2: item['text2']
-            });
+                });
+            }
                 
         });
     });

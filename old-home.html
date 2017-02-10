@@ -994,7 +994,7 @@
         } 
     
     
-    });   
+   // });   
         //Make the Summary GIF
           
         //PRAVEEN's stuff starts here
@@ -1005,12 +1005,13 @@
             var playloop_dict = {};
 
             playloop_id = generateUUID();
+            playloop_dict['scene_name'] = 'AngerTranslator';
             playloop_dict['_id'] = playloop_id;
-            playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/' + playloop_id;
+            playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/view/' + playloop_id;
 
             playloop_dict['text1'] = inputText1;
             playloop_dict['text2'] = inputText4;
-
+            playloop_dict['heroname'] = selectedBody;
 
             var faces_arr = [];
             var promise_arr = [];
@@ -1038,10 +1039,9 @@
                     faces_arr[i] = s3_signs[i].url;
                 }
 
-                alert(faces_arr);
-                playloop_dict['face_img'] = faces_arr;
+                console.log(faces_arr);
+                playloop_dict['face_imgs'] = faces_arr;
 
-                alert(" then 1 ");
                 return Promise.all(
                         allMyFaces.map(
                             (currElement, index) => {
@@ -1054,14 +1054,12 @@
                 }
             ).then( function ( s3_results ) {
                     //get the summary image signature
-                    alert(" then 2 ");
                     imageType = "gif";
                     contentType = "image/" + imageType;           
                           img_name = playloop_id + ".gif";
                     return getS3SignedResponse(img_name, contentType);
                 }
             ).then( function( signed_response ) {
-                    alert(" then 3 ");
                     //upload the summary image
                     var signedRequest = signed_response.signedRequest;
                     var summary_url = signed_response.url;
@@ -1078,22 +1076,22 @@
 
                 }
             ).then ( function( s3_results) {
-                    alert(" then 4 ");
                     //save the playloop datastructure
-
                     return  addPlayloop (playloop_dict);
 
                 }
-            ).then ( function (data ) {
+            ).then ( function ( data ) {
                     //finally redirect here
-                    alert("finished all the thens!");
+                    
+                    console.log("*** Finished image uploads: " + playloop_dict['playloop_url'])
+                    //return $.get(playloop_dict['playloop_url']);
+                    window.location.href = playloop_dict['playloop_url'];
                 }
-            );        
-             
+            );
           
         //PRAVEEN's stuff ends here
           
-      });
+      });  
     
      function Giffyfy(){
          
@@ -1118,7 +1116,7 @@
                         //$('#resultgif').show();
                     }
                 });
-     }
+      }
     
     
       /*function step1Submit(){
@@ -1134,7 +1132,11 @@
             $('.previewfootersection').show(); 
         } 
       } */
-    
+
+       
+    });
+                        
+
       //$('.previewfooterimage').attr('src', 'assets/Test/LEIA_IDLE_INK.gif');
   </script>    
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
