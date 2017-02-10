@@ -543,6 +543,7 @@ margin-right:auto;
     position: absolute;
     bottom: 0px;
     padding-bottom: 12%;
+    padding-top: 1%; 
     text-align: center;
     background-color:#01afd1; 
     
@@ -600,6 +601,7 @@ margin-right:auto;
     position: absolute;
     bottom: 0px;
     padding-bottom: 12%;
+    padding-top: 1%;
     text-align: center;
   /*-webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
@@ -1115,6 +1117,7 @@ html, body{
 
 .approvehelpertext {
   position: absolute;
+    display: none;
   left: 0px;
   right: 0px;
   bottom:30%;
