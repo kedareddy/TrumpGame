@@ -21,6 +21,9 @@ app.configure(function () {
     app.use(express.logger('dev'));     /* 'default', 'short', 'tiny', 'dev' */
     app.use(express.bodyParser());
     app.use(express.static(__dirname + '/../'));
+    app.use("/view/images", express.static(__dirname + '/images'));
+    app.use("/view/js", express.static(__dirname + '/images'));
+    app.use("/view/assets", express.static(__dirname + '/images'));
 });
 
 console.log("app configured with " + __dirname);
@@ -41,7 +44,7 @@ app.get('/playloops-all/', playloops.findAll);
 
 app.get('/playloops-img/sign-s3', playloops.signS3);
 
-app.get('/play/:id', playloops.renderPlayLoop);
+app.get('/view/:id', playloops.renderPlayLoop);
 
 console.log("routes set");
 
