@@ -440,19 +440,6 @@
             css3:true
         });
           
-        /**********UPDATE PREVIEW TEXT1**********/  
-        /*var step1Input = document.getElementsByClassName("step1input1 w-input")[0];
-        
-        step1Input.addEventListener("input", function(e) {
-            inputText1 = step1Input.value;
-            console.log("what I wrote: " + inputText1);
-            $(".footertext").html("I am" + "<br>" + inputText1);
-                     //if (isMobile.matches) {
-                //$('.previewfootersection').hide();
-            //} 
-        }, false);*/
-        /****************************************/
-          
         /**********CAPTURE STEP 4**********/  
         var step4Input = document.getElementsByClassName("step4input w-input")[0];
         
@@ -467,8 +454,6 @@
         var track; 
         var overlayImageUrls = ["assets/FinalArt/hat.gif", "assets/FinalArt/pussyhat.gif", "assets/FinalArt/LeiaHead2.gif"]; 
         var overlayindex = 0; 
-          
-        /*navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;*/
 
         $( ".step2icon" ).on('touchend click', function(){
             //$(".modaldiv").show(); 
@@ -476,7 +461,6 @@
             $('.modalcontent').css('display', 'inline-block');
             $(".webcamoverlayimage").hide(); 
             //$('.modalcontent').show(); 
-            
             //Webcam.set('flip_horiz', true);
             Webcam.set({
                 width: 600,
@@ -491,11 +475,6 @@
                   $(".webcamoverlayimage").show(); 
                     handleVideo();
             } );
-            
-            
-            /*if (navigator.getUserMedia) {       
-                navigator.getUserMedia({video: true}, handleVideo, videoError);
-            }*/
         });
         
         function preloadImage(url)
@@ -504,10 +483,7 @@
             img.src=url;
         }  
 
-        function handleVideo(stream) {
-           /* video.src = window.URL.createObjectURL(stream);
-            track = stream.getTracks()[0];*/
-            
+        function handleVideo() {
              var aspectOImage = $(".webcamoverlayimage").width()/$(".webcamoverlayimage").height();
             
             assignCurrentFace(overlayindex);
@@ -520,25 +496,15 @@
             };
             img.src = overlayImageUrls[overlayindex];
             
-            //$(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
-            
             //setTimeout(function() {
                  var maskH = $("#videoElement").height();
                  var maskW = maskH * aspectOImage; 
-                 //var maskW = $("#videoElement").width();
-                 //var maskH = maskW * aspectOImage;
-
-                 // console.log("video width: " + $("#videoElement").width() + "overlayh: " + maskH + " aspect: " + aspectOImage ); 
                 console.log("video h: " + $("#videoElement").height() + "overlayw: " + maskW + " aspect: " + aspectOImage ); 
                  $( ".webcamoverlayimage" ).width(maskW);
                  $( ".webcamoverlayimage" ).height("auto");
                  $(".approveimage").width($( ".webcamoverlayimage" ).width());
                 $(".approveimage").height("auto");
            // }, 2000);
-            
-            
-           // $(".webcamoverlayimage").css('z-index',  $('#videoElement').zIndex()+1);
-           
         }
           
         function assignCurrentFace(indexNum){
@@ -553,7 +519,7 @@
             }
         }
             
-        //cycle overlay images //, .webcamhelpertext
+        //cycle overlay images 
         $( ".modalcanvasdiv" ).on('touchend click', function(){
               if (x) clearTimeout(x);
               x = setTimeout(function() {
@@ -571,7 +537,6 @@
                  console.log(y);
                  // ----------------
               }, 100);
-            
         });  
           
         //retake photo  
@@ -612,7 +577,6 @@
            $("#spinnerParent").show();
            spinner = new Spinner(opts).spin(target);
             
-            
             $(".modaldiv").hide(); 
         });   
         
@@ -621,12 +585,6 @@
             //track.stop();
             Webcam.reset();
         });
-
-        //function videoError(e) {
-          //  console.log(e);
-        //}
-                        
-        /*********************************************/
           
         /************DETECT CLICK ANYWHERE********************/  
         $(document).on('touchend click', function(){    
@@ -638,13 +596,6 @@
                 Webcam.reset();
                 $(".modaldiv").hide();
             }
-            
-            //show preview after input entered
-            /*if ($(event.target).attr('class') != "step1input1 w-input") {
-                if (isMobile.matches) {
-                    $('.previewfootersection').show();
-                }
-            }*/
             
             if ($(event.target).attr('class') == "hr1") {
                 selectedBody = "leia";
@@ -670,6 +621,7 @@
 
         });   
         /***********************************************/
+          
         var tempImages = [];   
         function CreateFacePNGs(){
             var headArray; 
@@ -689,11 +641,7 @@
                 faceCanvas.width = baseImage.width;
                 faceCanvas.height = baseImage.height;
                 var fctx = faceCanvas.getContext('2d');
-                var myW = xOffset + widthAvailable;
-                var myH = yOffset + heightAvailable;
-                console.log("baseimage w: "+ baseImage.width +" H: " + baseImage.height + "myW: " + myW+ "myH: "  + myH); 
-                fctx.drawImage(baseImage,0 ,0, baseImage.width,baseImage.height);
-                
+            
                 //iterate through and add png to bare face
                 for (i = 0; i < headArray.length; i++) { 
                     //leiahead_images[i].onload = function(){
@@ -808,14 +756,7 @@
                 ]);*/
 
             }, wCanvas );
-            
-            /*imageLeia.onload = function(){
-            };*/
         }
-          
-        function faceImageLoaded() {
-           //GenerateGIF();
-        }        
         
         var words = []; 
         function GenerateGIF(){
@@ -1104,40 +1045,21 @@
                     if(!obj.error) {
                         console.log("making hte GIF"); 
                         var image = obj.image;
-                        //animatedImage = document.createElement('img');
-                        //animatedImage.src = image;
-                        //document.getElementById('resultgif').appendChild(animatedImage);
-                        // $(".previewimage").attr('src', image)
-                        //$.mobile.loading('hide');
                         $('.previewfootersection').show(); 
                         $("#spinnerParent").hide();
                         spinner.stop(); 
                         document.getElementById('previewimage').src = image;
-                        //$('#resultgif').show();
                     }
                 });
+
       }
     
     
-      /*function step1Submit(){
-        //console.log("heeyyyyy it was submitted!!");
-        if (isMobile.matches) {      
-            $('.previewfootersection').show(); 
-        } 
-      } 
-    
-      function step4Submit(){
-        //console.log("heeyyyyy 4454 it was submitted!!");
-        if (isMobile.matches) {      
-            $('.previewfootersection').show(); 
-        } 
-      } */
 
        
     });
                         
-
-      //$('.previewfooterimage').attr('src', 'assets/Test/LEIA_IDLE_INK.gif');
+     //}
   </script>    
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
