@@ -26,9 +26,9 @@
     
 <div id="parentcontainer" style="display:block; left: 30%; margin:0 auto; position:relative;">
     <!--<p id="p1" style="position:absolute;top:0px;left:0px;color:white;">0000</p>-->
-    <div id = 'parentgifDiv'> <img id = 'parentgif' src="assets/HulkPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
+    <div id = 'parentgifDiv'> <img id = 'parentgif' src="/assets/HulkPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-3;">
     </div>
-    <div id = 'punchgifDiv'> <img id='punchgif' src="assets/TrumpPunchPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
+    <div id = 'punchgifDiv'> <img id='punchgif' src="/assets/TrumpPunchPussy.gif" alt="HTML5 Icon" style="position:absolute;top:0px;left:0px;width:600px;height:338px;z-index:-2;">
     </div>
     
     <div id="phasergame" style="position:absolute;top:0px;left:0px;z-index:2;"></div>
@@ -156,14 +156,14 @@ function numberWithCommas(x) {
 var game = new Phaser.Game(600, 338, Phaser.CANVAS, 'phasergame', { preload: preload, create: create, update: update}, true);
 
 function preload() {
-    //game.load.atlas('speech', 'assets/mouth.png', 'assets/mouth.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
-    game.load.atlas('blood', 'assets/blood.png', 'assets/blood.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
-    game.load.image('head1', 'assets/head1.png');
-    game.load.image('head2', 'assets/head2.png');
-    game.load.image('head3', 'assets/head3.png');
-   // game.load.image('head4', 'assets/TrumpSprite.png');
-    game.load.image('podium', 'assets/podium.jpg');
-    game.load.image('hillary', 'assets/pussy4.png');
+    //game.load.atlas('speech', '/assets/mouth.png', '/assets/mouth.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.atlas('blood', '/assets/blood.png', '/assets/blood.json', Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
+    game.load.image('head1', '/assets/head1.png');
+    game.load.image('head2', '/assets/head2.png');
+    game.load.image('head3', '/assets/head3.png');
+   // game.load.image('head4', '/assets/TrumpSprite.png');
+    game.load.image('podium', '/assets/podium.jpg');
+    game.load.image('hillary', '/assets/pussy4.png');
 }
 
 var head1, head2, head3, head4, podium, hillary;

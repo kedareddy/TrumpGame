@@ -30,9 +30,9 @@
     
     
     
-  <link href="css/normalize.css" rel="stylesheet" type="text/css">
-  <link href="css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="css/angertranslator.webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="/css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="/css/angertranslator.webflow.css" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
   <script type="text/javascript">
     WebFont.load({
@@ -41,12 +41,12 @@
       }
     });
   </script>
-  <script src="js/modernizr.js" type="text/javascript"></script>
+  <script src="/js/modernizr.js" type="text/javascript"></script>
   <link href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <link href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png" rel="apple-touch-icon">
     
-    <script type="text/javascript" src="js/libgif.js"></script>
-    <script src='js/gifshot.min.js'></script>
+    <script type="text/javascript" src="/js/libgif.js"></script>
+    <script src='/js/gifshot.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>      
@@ -58,7 +58,7 @@
     <div class="w-container">
       <div class="parenttitlediv">
         <div class="titleheadingdiv">
-            <img class="titleheading" src="images/yellowlogo.svg">          
+            <img class="titleheading" src="/images/yellowlogo.svg">          
          <!-- <h1 class="titleheading">Play Loops</h1>-->
         </div>
         <div class="editdiv"><a class="editbutton w-button" href="old-home.html">EDIT</a>
@@ -76,7 +76,7 @@
             <div class="playerdiv">
               <h1 class="playertext"> NOT MY PRESIDENT</h1>
               <div class="animation1div">
-                    <img class="loadingBar" src="images/Flipbook-LOADING_600.gif">          
+                    <img class="loadingBar" src="/images/Flipbook-LOADING_600.gif">          
               </div>
               <div class="animation2div">       
               </div>
@@ -103,9 +103,9 @@
         <div class="socialmediadiv">
             <div class="facebookdiv"><a href="http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/index.html&title=Not My President!" 
                                     target="_blank">
-              <img sizes="(max-width: 479px) 18vw, (max-width: 767px) 15vw, (max-width: 991px) 87.359375px, 94px" src="images/facebook-2.png" srcset="images/facebook-2-p-500x500.png 500w, images/facebook-2.png 512w"></a>
+              <img sizes="(max-width: 479px) 18vw, (max-width: 767px) 15vw, (max-width: 991px) 87.359375px, 94px" src="/images/facebook-2.png" srcset="/images/facebook-2-p-500x500.png 500w, /images/facebook-2.png 512w"></a>
           </div>
-          <div class="twitter-share-button"><a href="https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url=https://www.playloops.io/index.html" target="_blank"><img sizes="(max-width: 479px) 18vw, (max-width: 767px) 15vw, (max-width: 991px) 87.359375px, 94px" src="images/twitter.png" srcset="images/twitter-p-500x500.png 500w, images/twitter.png 512w"> </a>
+          <div class="twitter-share-button"><a href="https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url=https://www.playloops.io/index.html" target="_blank"><img sizes="(max-width: 479px) 18vw, (max-width: 767px) 15vw, (max-width: 991px) 87.359375px, 94px" src="/images/twitter.png" srcset="/images/twitter-p-500x500.png 500w, /images/twitter.png 512w"> </a>
           </div>
         </div>
         <div class="sharelinkdiv">
@@ -116,7 +116,7 @@
     </div>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script>
-  <script src="js/webflow.js" type="text/javascript"></script>
+  <script src="/js/webflow.js" type="text/javascript"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
     
@@ -165,7 +165,7 @@
            heroname = {{heroname | safe | json}}; //"leia";
            //update this
            var head_urls = {{face_imgs | safe | json }};
-               //['assets/FinalArt/FakeHead/head_0000_Layer-4.png','assets/FinalArt/FakeHead/head_0001_Layer-3.png','assets/FinalArt/FakeHead/head_0002_Layer-2.png','assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
+               //["/assets/FinalArt/FakeHead/head_0000_Layer-4.png',"/assets/FinalArt/FakeHead/head_0001_Layer-3.png',"/assets/FinalArt/FakeHead/head_0002_Layer-2.png',"/assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
            for (i = 0; i < head_urls.length; i++) {
             allMyFaces[i] = new Image();
             allMyFaces[i].onload = function(){
@@ -181,59 +181,59 @@
     }
     
     
-        var hulkidle_urls = ['assets/FinalArt/HulkIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/HulkIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/HulkIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/HulkIdle/Idle_0000_Layer 4.jpg'];
-        var hulkjab_urls = ['assets/FinalArt/HulkJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/HulkJab/Jab_0000_Layer 4.jpg'];
-        var hulkpunch_urls = ['assets/FinalArt/HulkPunch/Punch_0007_Layer 3.jpg', 
-                                  'assets/FinalArt/HulkPunch/Punch_0006_Layer 4.jpg',
-                                  'assets/FinalArt/HulkPunch/Punch_0005_Layer 5.jpg',
-                                  'assets/FinalArt/HulkPunch/Punch_0004_Layer 6.jpg',
-                                  'assets/FinalArt/HulkPunch/Punch_0003_Layer 7.jpg',
-                                  'assets/FinalArt/HulkPunch/Punch_0002_Layer 8.jpg',
-                                  'assets/FinalArt/HulkPunch/Punch_0001_Layer 9.jpg',
-                                  'assets/FinalArt/HulkPunch/Punch_0000_Layer 10.jpg',
+        var hulkidle_urls = ["/assets/FinalArt/HulkIdle/Idle_0003_Layer 1.jpg',"/assets/FinalArt/HulkIdle/Idle_0002_Layer 2.jpg', "/assets/FinalArt/HulkIdle/Idle_0001_Layer 3.jpg', "/assets/FinalArt/HulkIdle/Idle_0000_Layer 4.jpg'];
+        var hulkjab_urls = ["/assets/FinalArt/HulkJab/Jab_0001_Layer 3.jpg', "/assets/FinalArt/HulkJab/Jab_0000_Layer 4.jpg'];
+        var hulkpunch_urls = ["/assets/FinalArt/HulkPunch/Punch_0007_Layer 3.jpg', 
+                                  "/assets/FinalArt/HulkPunch/Punch_0006_Layer 4.jpg',
+                                  "/assets/FinalArt/HulkPunch/Punch_0005_Layer 5.jpg',
+                                  "/assets/FinalArt/HulkPunch/Punch_0004_Layer 6.jpg',
+                                  "/assets/FinalArt/HulkPunch/Punch_0003_Layer 7.jpg',
+                                  "/assets/FinalArt/HulkPunch/Punch_0002_Layer 8.jpg',
+                                  "/assets/FinalArt/HulkPunch/Punch_0001_Layer 9.jpg',
+                                  "/assets/FinalArt/HulkPunch/Punch_0000_Layer 10.jpg',
                                  ];
         var hulkidle_images = [];
         var hulkjab_images = [];
         var hulkpunch_images = [];
         var hulkaltpunch_images = [];
     
-        var leiaidle_urls = ['assets/FinalArt/LeiaIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LeiaIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LeiaIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LeiaIdle/Idle_0000_Layer 4.jpg'];
-        var leiajab_urls = ['assets/FinalArt/LeiaJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LeiaJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LeiaJab/Jab_0000_Layer 4.jpg'];
-        var leiapunch_urls = [    'assets/FinalArt/LeiaPunch/Punch_0013_Layer 2.jpg', 
-                                  'assets/FinalArt/LeiaPunch/Punch_0012_Layer 3.jpg', 
-                                  'assets/FinalArt/LeiaPunch/Punch_0011_Layer 4.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0010_Layer 5.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0009_Layer 6.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0008_Layer 7.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0007_Layer 8.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0006_Layer 9.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0005_Layer 10.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0004_Layer 11.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0003_Layer 12.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0002_Layer 13.jpg',
-                                  'assets/FinalArt/LeiaPunch/Punch_0001_Layer 14.jpg',
+        var leiaidle_urls = ["/assets/FinalArt/LeiaIdle/Idle_0003_Layer 1.jpg',"/assets/FinalArt/LeiaIdle/Idle_0002_Layer 2.jpg', "/assets/FinalArt/LeiaIdle/Idle_0001_Layer 3.jpg', "/assets/FinalArt/LeiaIdle/Idle_0000_Layer 4.jpg'];
+        var leiajab_urls = ["/assets/FinalArt/LeiaJab/Jab_0002_Layer 2.jpg', "/assets/FinalArt/LeiaJab/Jab_0001_Layer 3.jpg', "/assets/FinalArt/LeiaJab/Jab_0000_Layer 4.jpg'];
+        var leiapunch_urls = [    "/assets/FinalArt/LeiaPunch/Punch_0013_Layer 2.jpg', 
+                                  "/assets/FinalArt/LeiaPunch/Punch_0012_Layer 3.jpg', 
+                                  "/assets/FinalArt/LeiaPunch/Punch_0011_Layer 4.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0010_Layer 5.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0009_Layer 6.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0008_Layer 7.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0007_Layer 8.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0006_Layer 9.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0005_Layer 10.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0004_Layer 11.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0003_Layer 12.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0002_Layer 13.jpg',
+                                  "/assets/FinalArt/LeiaPunch/Punch_0001_Layer 14.jpg',
                                  ];
         var leiaidle_images = [];
         var leiajab_images = [];
         var leiapunch_images = [];
         var leiaaltpunch_images = [];
     
-        var lutheridle_urls = ['assets/FinalArt/LutherIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LutherIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LutherIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LutherIdle/Idle_0000_Layer 4.jpg'];
-        var lutherjab_urls = ['assets/FinalArt/LutherJab/Jab_0003_Layer 1.jpg','assets/FinalArt/LutherJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LutherJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LutherJab/Jab_0000_Layer 4.jpg'];
-        var lutherpunch_urls = ['assets/FinalArt/LutherPunch/Punch_0014_Layer 1.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0013_Layer 2.jpg', 
-                                  'assets/FinalArt/LutherPunch/Punch_0012_Layer 3.jpg', 
-                                  'assets/FinalArt/LutherPunch/Punch_0011_Layer 4.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0010_Layer 5.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0009_Layer 6.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0008_Layer 7.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0007_Layer 8.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0006_Layer 9.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0005_Layer 10.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0004_Layer 11.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0003_Layer 12.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0002_Layer 13.jpg',
-                                  'assets/FinalArt/LutherPunch/Punch_0001_Layer 14.jpg',
+        var lutheridle_urls = ["/assets/FinalArt/LutherIdle/Idle_0003_Layer 1.jpg',"/assets/FinalArt/LutherIdle/Idle_0002_Layer 2.jpg', "/assets/FinalArt/LutherIdle/Idle_0001_Layer 3.jpg', "/assets/FinalArt/LutherIdle/Idle_0000_Layer 4.jpg'];
+        var lutherjab_urls = ["/assets/FinalArt/LutherJab/Jab_0003_Layer 1.jpg',"/assets/FinalArt/LutherJab/Jab_0002_Layer 2.jpg', "/assets/FinalArt/LutherJab/Jab_0001_Layer 3.jpg', "/assets/FinalArt/LutherJab/Jab_0000_Layer 4.jpg'];
+        var lutherpunch_urls = ["/assets/FinalArt/LutherPunch/Punch_0014_Layer 1.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0013_Layer 2.jpg', 
+                                  "/assets/FinalArt/LutherPunch/Punch_0012_Layer 3.jpg', 
+                                  "/assets/FinalArt/LutherPunch/Punch_0011_Layer 4.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0010_Layer 5.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0009_Layer 6.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0008_Layer 7.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0007_Layer 8.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0006_Layer 9.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0005_Layer 10.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0004_Layer 11.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0003_Layer 12.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0002_Layer 13.jpg',
+                                  "/assets/FinalArt/LutherPunch/Punch_0001_Layer 14.jpg',
                                  ];
         var lutheridle_images = [];
         var lutherjab_images = [];
