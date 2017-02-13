@@ -217,7 +217,7 @@
 .logoheading {
   margin-top: 1em;
   margin-bottom: 1em;
-  margin-left: 2.5%;
+  margin-left: 2.1%;
   width: 13.26em;
   font-family: 'Bodoniflf bold', sans-serif;
   color: #fff;
@@ -228,8 +228,8 @@
 }
 
 .headerdiv {
-  padding-top: .5em;
-  padding-bottom: .5em;
+  /*padding-top: .5em;
+  padding-bottom: .5em;*/
   background-color: transparent; /*#01afd1;*/
   color: #fff;
   border-style: solid;
@@ -817,8 +817,8 @@ margin-right:auto;
 }
 
 .titleheading {
-  margin-top: 0.1em;
-  margin-bottom: 0.1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   margin-left: 18%;
   width: 13em;
 */  /*margin-left: 0.25em;*/

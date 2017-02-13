@@ -47,9 +47,9 @@
     
     <script type="text/javascript" src="js/libgif.js"></script>
     <script src='js/gifshot.min.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>   -->   
     
     
 </head>
@@ -61,7 +61,7 @@
             <img class="titleheading" src="images/yellowlogo.svg">          
          <!-- <h1 class="titleheading">Play Loops</h1>-->
         </div>
-        <div class="editdiv"><a class="editbutton w-button" href="old-home.html">EDIT</a>
+        <div class="editdiv"><a class="editbutton w-button" >EDIT</a>
         </div>
       </div>
     </div>
@@ -73,11 +73,11 @@
           <h1 class="playerhelptext">Click To Play</h1>
         </div>
         <!--<div class="playerwrapperdiv">-->
-          <div id="spinnerParent" style="position:absolute;z-index:500;display:none; height:450px; width:600px; background-color:rgba(0, 0, 0, 0.8);"></div>  
+          <div id="spinnerParent" style="position:absolute;z-index:500;display:none; height:450px; width:600px; background-color:rgba(0, 0, 0, 0.8); overflow:hidden;"></div>  
             <div class="playerdiv">
               <h1 class="playertext"> NOT MY PRESIDENT</h1>
               <div class="animation1div">
-                    <img class="loadingBar" src="">          
+                    <img class="loadingBar" src="images/EmptyLoading.png">          
               </div>
               <div class="animation2div">       
               </div>
@@ -102,11 +102,11 @@
     <div class="w-container">
       <div class="sharediv">
         <div class="socialmediadiv">
-            <div class="facebookdiv"><a href="http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/index.html&title=Not My President!" 
+            <div class="facebookdiv"><a 
                                     target="_blank">
               <img sizes="(max-width: 479px) 18vw, (max-width: 767px) 15vw, (max-width: 991px) 87.359375px, 94px" src="images/facebook-2.png" srcset="images/facebook-2-p-500x500.png 500w, images/facebook-2.png 512w"></a>
           </div>
-          <div class="twitter-share-button"><a href="https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url=https://www.playloops.io/index.html" target="_blank"><img sizes="(max-width: 479px) 18vw, (max-width: 767px) 15vw, (max-width: 991px) 87.359375px, 94px" src="images/twitter.png" srcset="images/twitter-p-500x500.png 500w, images/twitter.png 512w"> </a>
+          <div class="twitter-share-button"><a target="_blank"><img sizes="(max-width: 479px) 18vw, (max-width: 767px) 15vw, (max-width: 991px) 87.359375px, 94px" src="images/twitter.png" srcset="images/twitter-p-500x500.png 500w, images/twitter.png 512w"> </a>
           </div>
         </div>
         <div class="sharelinkdiv">
@@ -120,6 +120,7 @@
   <script src="js/webflow.js" type="text/javascript"></script>
     
     <script src="js/spin.min.js"></script>
+    <script src="js/jquery.transit.js"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
     
@@ -184,10 +185,10 @@
     
      var opts = {
               lines: 10 // The number of lines to draw
-            , length: 22 // The length of each line
+            , length: 12 // The length of each line
             , width: 12 // The line thickness
             , radius: 35 // The radius of the inner circle
-            , scale: 1 // Scales overall size of the spinner
+            , scale: .4 // Scales overall size of the spinner
             , corners: 1 // Corner roundness (0..1)
             , color: '#ffffff' // #rgb or #rrggbb or array of colors
             , opacity: 0.25 // Opacity of the lines
@@ -634,7 +635,7 @@
         $(".loadingBar").remove(); 
         //hide spinner    
         $("#spinnerParent").hide();
-        spinner.stop(); 
+        spinner.stop();
         
         $('.animation1div').show();
         $('.animation2div').hide();
@@ -771,6 +772,7 @@
     var mobileTime; 
     var mobileTimer = true; 
     $(document).ready(function(){
+        resizeAndFillPage();
         assignTestValues();
         
         /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
@@ -781,19 +783,19 @@
         if(isMobile() == true){
             //console.log("should say click"); 
             $(".playerhelptext").text("Tap To Play");
-           // resizeAndFillPage();
         }
+        
         
         function resizeAndFillPage(){
             $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
         
-            desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
-            $(".sharediv").height(desiredHeight);
+            /*desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
+            $(".sharediv").height(desiredHeight);*/
         }
         
         window.onresize = function(event) {
             //change playerdiv to size of image(s)
-            //resizeAndFillPage();
+            resizeAndFillPage();
            //$(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
             
             //if(!isMobile()){
@@ -802,6 +804,74 @@
                 //$(".sharediv").height(desiredHeight);
             //}
         };
+        
+        $( ".editbutton" ).hover( 
+            function(){  
+                $(".editbutton").transition({opacity: 0.4 }, 100, 'in'); 
+            },
+            function(){  
+                $(".editbutton").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );
+        $(".editbutton").on('touchend click', function(){
+            
+            $(".editbutton").transition({scale: 1.1 }, 100, 'out', function() {
+                $(".editbutton").transition({scale: 1.0 }, 100, 'in', function() {   
+                    window.location.href = "old-home.html";
+                }); 
+            }); 
+        });
+        
+        $( ".twitter-share-button" ).hover( 
+            function(){  
+                $(".twitter-share-button").transition({opacity: 0.4 }, 100, 'in'); 
+            },
+            function(){  
+                $(".twitter-share-button").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );
+        $(".twitter-share-button").on('touchend click', function(){
+            
+            $(".twitter-share-button").transition({scale: 1.1 }, 100, 'out', function() {
+                $(".twitter-share-button").transition({scale: 1.0 }, 100, 'in', function() { 
+                    var win = window.open("https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url=https://www.playloops.io/index.html", "_blank");
+                    if (win) {
+                        //Browser has allowed it to be opened
+                        win.focus();
+                    } else {
+                        //Browser has blocked it
+                        alert('Please allow popups for this website');
+                    }
+                    //window.location.href = "https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url=https://www.playloops.io/index.html";
+                }); 
+            }); 
+        });
+        
+        $( ".facebookdiv" ).hover( 
+            function(){  
+                $(".facebookdiv").transition({opacity: 0.4 }, 100, 'in'); 
+            },
+            function(){  
+                $(".facebookdiv").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );
+        $(".facebookdiv").on('touchend click', function(){
+            
+            $(".facebookdiv").transition({scale: 1.1 }, 100, 'out', function() {
+                $(".facebookdiv").transition({scale: 1.0 }, 100, 'in', function() { 
+                    var win = window.open("http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/index.html&title=Not My President!", "_blank");
+                    if (win) {
+                        //Browser has allowed it to be opened
+                        win.focus();
+                    } else {
+                        //Browser has blocked it
+                        alert('Please allow popups for this website');
+                    }
+                    //window.location.href = "http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/index.html&title=Not My President!";
+                }); 
+            }); 
+        });
+        
     
         var timenow; 
         var lastTime = 0;  
