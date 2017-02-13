@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com -->
 <!--  Last Published: Sun Jan 15 2017 09:20:59 GMT+0000 (UTC)  -->
-<html data-wf-page="5875327699546d416a201491" data-wf-site="5875327699546d416a201490">
+<html class="oldhomehtml" data-wf-page="5875327699546d416a201491" data-wf-site="5875327699546d416a201490">
 <head>
   <meta charset="utf-8">
   <title>AngerTranslator</title>
@@ -57,7 +57,7 @@
 
     
 </head>
-<body class="body" id="thebody">
+<body class="oldhomebody" id="thebody">
     <!-- -->
 <div id="spinnerParent" style="position:absolute;z-index:500;display:none; height:100%; width:100%; background-color:rgba(0, 0, 0, 0.8);"></div>    
   <div class="modaldiv" data-ix="displaynoneonload">
@@ -96,7 +96,7 @@
     <div class="w-container">
       <div class="headerdiv">
         <!--<h1 class="logoheading">Play Loops</h1>-->
-           <img class="logoheading" src="images/yellowlogo.svg">  
+           <img class="logoheading" src="images/bluelogo.svg">  
       </div>
     </div>
   </div>
@@ -175,7 +175,7 @@
             <div class="step2 stepinputdiv">
               <div class="step2selfiediv">
                 <label class="step2title" for="name-2">Add Your Face!</label>
-                <a class="w-inline-block" data-ix="showselfiemodal" href="#"><img class="step2icon" src="images/camera.svg">
+                <a class="w-inline-block" ><img class="step2icon" src="images/camera.svg">
                 </a>
               </div>
               <div class="step2or">
@@ -243,6 +243,9 @@
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script>
   <script src="js/webflow.js" type="text/javascript"></script>
+
+    <script src='js/jquery.transit.js'></script>
+    
 
 <script type="text/javascript">
     //var testImage = new Image();
@@ -456,26 +459,37 @@
         var overlayindex = 0; 
 
         $( ".step2icon" ).on('touchend click', function(){
-            //$(".modaldiv").show(); 
-            $('.modaldiv').css('display', 'inline-block');
-            $('.modalcontent').css('display', 'inline-block');
-            $(".webcamoverlayimage").hide(); 
-            //$('.modalcontent').show(); 
-            //Webcam.set('flip_horiz', true);
-            Webcam.set({
-                width: 600,
-                height: 450,
-                flip_horiz: true
-            });
-            Webcam.attach( '#videoElement' );
             
-            Webcam.on( 'live', function() {
-                // camera is live, showing preview image
-                // (and user has allowed access)
-                  $(".webcamoverlayimage").show(); 
-                    handleVideo();
-            } );
+            $(".step2icon").transition({scale: 1.1 }, 100, 'in', function() {
+                 
+                $(".step2icon").transition({scale: 1.0 }, 350, 'in', function() {   
+                $('.modaldiv').css('display', 'inline-block');
+                    $('.modalcontent').css('display', 'inline-block');
+                    $(".webcamoverlayimage").hide(); 
+                    Webcam.set({
+                        width: 600,
+                        height: 450,
+                        flip_horiz: true
+                    });
+                    Webcam.attach( '#videoElement' );
+
+                    Webcam.on( 'live', function() {
+                          $(".webcamoverlayimage").show(); 
+                            handleVideo();
+                    } );
+                }); 
+            }); 
         });
+        
+        $( ".step2icon" ).hover( 
+            function(){  
+                $(".step2icon").transition({opacity: 0.4 }, 250, 'in'); 
+            },
+            function(){  
+                $(".step2icon").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );    
+          
         
         function preloadImage(url)
         {
@@ -540,27 +554,61 @@
         });  
           
         //retake photo  
-        $( ".nobutton" ).on('touchend click', function(){  
-            $('.modalcontent').show(); 
+        $( ".nobutton" ).on('touchend click', function(){ 
+            $(".nobutton").transition({scale: 1.15 }, 100, 'in', function() {     
+                $(".nobutton").transition({scale: 1.0 }, 250, 'in', function() {    
+                    $('.modalcontent').show(); 
+                });
+            });
         });
+        $( ".nobutton" ).hover( 
+            function(){  
+                $(".nobutton").transition({opacity: .6 }, 100, 'in'); 
+            },
+            function(){  
+                $(".nobutton").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );
           
         
         //photo approved  
         $( ".yesbutton" ).on('touchend click', function(){  
-            //track.stop();
-            Webcam.reset();
-            $(".modaldiv").hide();
-            setTimeout(function() {
-                fullpage.moveSectionDown();
-            }, 500);
+            $(".yesbutton").transition({scale: 1.15 }, 100, 'in', function() {     
+                $(".yesbutton").transition({scale: 1.0 }, 250, 'in', function() {    
+                    Webcam.reset();
+                    $(".modaldiv").hide();
+                    setTimeout(function() {
+                        fullpage.moveSectionDown();
+                    }, 500);
+                });
+            }); 
             
-        });   
+        });
+        $( ".yesbutton" ).hover( 
+            function(){  
+                $(".yesbutton").transition({opacity: 0.6 }, 100, 'in'); 
+            },
+            function(){  
+                $(".yesbutton").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );
         
         //id name
         $( "#closeiconwebcam", "#closeiconapprove" ).on('touchend click', function(){
             //track.stop();
             Webcam.reset();
         });
+          
+          
+        //down arrow hovered
+        $( ".nextlinkblock" ).hover( 
+            function(){  
+                $(".nextlinkblock").transition({scale: 1.1 }, 100, 'in'); 
+            },
+            function(){  
+                $(".nextlinkblock").transition({scale: 1.0 }, 100, 'in'); 
+            }
+        );  
           
         /************DETECT CLICK ANYWHERE********************/  
         $(document).on('touchend click', function(){    
@@ -575,27 +623,65 @@
             
             if ($(event.target).attr('class') == "hr1") {
                 selectedBody = "leia";
-                $('.hero1link').css('background-color','#666666');
-                $('.hero2link').css('background-color','transparent');
-                $('.hero3link').css('background-color','transparent');
+                
+                $(".hero1link").transition({scale: 1.1 }, 100, 'in', function() {
+                    $(".hero1link").transition({ scale: 1.0 }, 350, 'in');
+                    $('.hero1link').css('background-color','#666666');
+                    $('.hero2link').css('background-color','transparent');
+                    $('.hero3link').css('background-color','transparent');
+                }); 
+                
                 console.log("Selected Body: " + selectedBody);
             }
             else if ($(event.target).attr('class') == "hr2") {
                 selectedBody = "luther";
-                $('.hero2link').css('background-color','#666666');
-                $('.hero3link').css('background-color','transparent');
-                $('.hero1link').css('background-color','transparent');
+                $(".hero2link").transition({scale: 1.1 }, 100, 'in', function() {
+                    $(".hero2link").transition({ scale: 1.0 }, 350, 'in');
+                    $('.hero2link').css('background-color','#666666');
+                    $('.hero1link').css('background-color','transparent');
+                    $('.hero3link').css('background-color','transparent');
+                }); 
                 console.log("Selected Body: " + selectedBody);
             }
             else if ($(event.target).attr('class') == "hr3") {
                 selectedBody = "hulk";
-                $('.hero3link').css('background-color','#666666');
-                $('.hero2link').css('background-color','transparent');
-                $('.hero1link').css('background-color','transparent');
+                $(".hero3link").transition({scale: 1.1 }, 100, 'in', function() {
+                    $(".hero3link").transition({ scale: 1.0 }, 350, 'in');
+                    $('.hero3link').css('background-color','#666666');
+                    $('.hero2link').css('background-color','transparent');
+                    $('.hero1link').css('background-color','transparent');
+                }); 
                 console.log("Selected Body: " + selectedBody);
             }
 
-        });   
+        }); 
+          
+        $( ".hero1link" ).hover( 
+            function(){  
+                $(".hero1link").transition({opacity: 0.4 }, 200, 'in'); 
+            },
+            function(){  
+                $(".hero1link").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );  
+        $( ".hero2link" ).hover( 
+            function(){  
+                $(".hero2link").transition({opacity: 0.4 }, 200, 'in'); 
+            },
+            function(){  
+                $(".hero2link").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );  
+        $( ".hero3link" ).hover( 
+            function(){  
+                $(".hero3link").transition({opacity: 0.4 }, 200, 'in'); 
+            },
+            function(){  
+                $(".hero3link").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );  
+          
+          
         /***********************************************/
           
         var tempImages = [];   
@@ -652,11 +738,24 @@
           
         //clip the face and show on the approve window
         $( ".photobutton" ).on('touchend click', function(){
-            changeImageSrc(clip_image,faces[currentface]["clipurl"]);
-            changeImageSrc(imageLeia,faces[currentface]["pngurl"][0]);
-            //clip_image.src = faces[currentface]["clipurl"];           
-            //imageLeia.src = faces[currentface]["pngurl"][0];
-        });  
+            $(".photobutton").transition({scale: 1.15 }, 100, 'in', function() {     
+                $(".photobutton").transition({scale: 1.0 }, 250, 'in', function() {    
+                    changeImageSrc(clip_image,faces[currentface]["clipurl"]);
+                    changeImageSrc(imageLeia,faces[currentface]["pngurl"][0]);
+                    //clip_image.src = faces[currentface]["clipurl"];           
+                    //imageLeia.src = faces[currentface]["pngurl"][0];
+                });
+            }); 
+        
+        });
+        $( ".photobutton" ).hover( 
+            function(){  
+                $(".photobutton").transition({opacity: .6 }, 100, 'in'); 
+            },
+            function(){  
+                $(".photobutton").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );
           
         var faceImageLoadCounter = 0;   
         function faceImagesLoaded(){
@@ -915,35 +1014,49 @@
    // });   
         //Make the Summary GIF
           
-        
-        $('#createButton').on('touchend click' , function(){
-            CreateFacePNGs(); 
-
-            var opts = {
-              lines: 10 // The number of lines to draw
-            , length: 28 // The length of each line
-            , width: 16 // The line thickness
-            , radius: 42 // The radius of the inner circle
-            , scale: 1 // Scales overall size of the spinner
-            , corners: 1 // Corner roundness (0..1)
-            , color: '#ffffff' // #rgb or #rrggbb or array of colors
-            , opacity: 0.25 // Opacity of the lines
-            , rotate: 0 // The rotation offset
-            , direction: 1 // 1: clockwise, -1: counterclockwise
-            , speed: 1 // Rounds per second
-            , trail: 60 // Afterglow percentage
-            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-            , zIndex: 2e9 // The z-index (defaults to 2000000000)
-            , className: 'spinner' // The CSS class to assign to the spinner
-            , top: '50%' // Top position relative to parent
-            , left: '50%' // Left position relative to parent
-            , shadow: false // Whether to render a shadow
-            , hwaccel: false // Whether to use hardware acceleration
-            , position: 'absolute' // Element positioning
+        $( "#createButton" ).hover( 
+            function(){  
+                $("#createButton").transition({opacity: 0.4 }, 250, 'in'); 
+            },
+            function(){  
+                $("#createButton").transition({opacity: 1.0 }, 100, 'in'); 
             }
-           var target = document.getElementById('spinnerParent');
-           $("#spinnerParent").show();
-           spinner = new Spinner(opts).spin(target);    
+        );
+        $('#createButton').on('touchend click' , function(){
+            
+            $("#createButton").transition({scale: 1.15 }, 100, 'in', function() {     
+                $("#createButton").transition({scale: 1.0 }, 350, 'in', function() {    
+                    CreateFacePNGs(); 
+
+                    var opts = {
+                      lines: 10 // The number of lines to draw
+                    , length: 28 // The length of each line
+                    , width: 16 // The line thickness
+                    , radius: 42 // The radius of the inner circle
+                    , scale: 1 // Scales overall size of the spinner
+                    , corners: 1 // Corner roundness (0..1)
+                    , color: '#ffffff' // #rgb or #rrggbb or array of colors
+                    , opacity: 0.25 // Opacity of the lines
+                    , rotate: 0 // The rotation offset
+                    , direction: 1 // 1: clockwise, -1: counterclockwise
+                    , speed: 1 // Rounds per second
+                    , trail: 60 // Afterglow percentage
+                    , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+                    , zIndex: 2e9 // The z-index (defaults to 2000000000)
+                    , className: 'spinner' // The CSS class to assign to the spinner
+                    , top: '50%' // Top position relative to parent
+                    , left: '50%' // Left position relative to parent
+                    , shadow: false // Whether to render a shadow
+                    , hwaccel: false // Whether to use hardware acceleration
+                    , position: 'absolute' // Element positioning
+                    }
+                   var target = document.getElementById('spinnerParent');
+                   $("#spinnerParent").show();
+                   spinner = new Spinner(opts).spin(target);    
+                });
+            }); 
+            
+            
         });  
     
           

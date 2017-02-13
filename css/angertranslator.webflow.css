@@ -22,7 +22,7 @@
 }
 
 .mostsections {
-  background-color: #000;
+  background-color: transparent;
 }
 
 .hiddensection{
@@ -50,7 +50,10 @@
   -webkit-align-content: stretch;
   -ms-flex-line-pack: stretch;
   align-content: stretch;
-  background-color: #f8e71c;
+  background-color: transparent;/*#f8e71c;*/
+  border-style: solid;
+  border-color: lightgrey;
+    
 }
 
 .mosteditordivs.last {
@@ -75,7 +78,7 @@
 
 .stepformwrapper {
   display: block;
-  margin-bottom: 30%;
+  /*margin-bottom: 30%;*/
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -212,10 +215,10 @@
 }
 
 .logoheading {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 3%;
-  width: 13em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 2.5%;
+  width: 13.26em;
   font-family: 'Bodoniflf bold', sans-serif;
   color: #fff;
 }
@@ -225,17 +228,20 @@
 }
 
 .headerdiv {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  background-color: #01afd1;
+  padding-top: .5em;
+  padding-bottom: .5em;
+  background-color: transparent; /*#01afd1;*/
   color: #fff;
+  border-style: solid;
+  border-color: lightgrey;
+  
 }
 
 .step2title {
   margin-top: 1em;
   margin-bottom: 1em;
   font-family: 'Oswald medium', sans-serif;
-  color: #666;
+  color: black;
   text-align: center;
 }
 
@@ -247,6 +253,12 @@
 
 .nextlinkblock {
   width: 2em;
+    fill: black; 
+    stroke: white; 
+}
+
+svg{
+    fill: black;
 }
 
 .previewfootercontainer {
@@ -267,6 +279,7 @@
   font-family: 'Oswald medium', sans-serif;
   font-size: 100px;
   text-align: left;
+  color: black;
 }
 
 .headersection {
@@ -275,7 +288,7 @@
   top: 0px;
   right: 0px;
   z-index: 1;
-  background-color: #000;
+  background-color: transparent;
   color: #000;
 }
 
@@ -332,7 +345,7 @@
   margin-bottom: 1em;
   margin-left: 4%;
   font-family: 'Oswald medium', sans-serif;
-  color: #666;
+  color: black;
   text-align: left;
 }
 
@@ -386,7 +399,7 @@
   margin-top: 1em;
   margin-bottom: 1em;
   font-family: 'Oswald medium', sans-serif;
-  color: #666;
+  color: black;
   text-align: left;
 }
 
@@ -555,6 +568,7 @@ margin-right:auto;
     vertical-align: middle;
     display: inline-block;
     text-align: center;
+    padding-top: 1em;
 }
 
 
@@ -618,6 +632,7 @@ margin-right:auto;
     vertical-align: middle;
     display: table-cell;
     text-align: center;
+    padding-top: 1em;
 }
 
 .modalno {
@@ -626,6 +641,7 @@ margin-right:auto;
     vertical-align: middle;
     display: table-cell;
     text-align: center;
+    padding-top: 1em;
 }
 
 .yesbutton{
@@ -717,14 +733,22 @@ margin-right:auto;
 /*html, body {
   overflow:hidden 
 }*/
-html, body{
+.oldhomehtml, .oldhomebody{
+  background-color: #000;
+  /*background: #01afd1;  For browsers that do not support gradients */
+ background: -webkit-linear-gradient(left top, #f8e71c, #000); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #f8e71c, #000); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right,#f8e71c, #000); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #f8e71c, #000); /* Standard syntax */
+}
+
+.indexhtml, .indexbody{
   background-color: #000;
   /*background: #01afd1;  For browsers that do not support gradients */
  background: -webkit-linear-gradient(left top, #01afd1, #000); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(bottom right, #01afd1, #000); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(bottom right,#01afd1, #000); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to bottom right, #01afd1, #000); /* Standard syntax */
-    
 }
 
 .socialmediadiv {
@@ -737,6 +761,7 @@ html, body{
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+    padding-top: 1%;
 }
 
 .sharediv {
@@ -774,6 +799,7 @@ html, body{
   -ms-flex-line-pack: start;
   align-content: flex-start;
   text-align: left;
+    padding-top: 1%;
 }
 
 .giflinkdiv {
