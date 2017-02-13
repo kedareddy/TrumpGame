@@ -549,35 +549,11 @@
         $( ".yesbutton" ).on('touchend click', function(){  
             //track.stop();
             Webcam.reset();
-            CreateFacePNGs(); 
-
-            var opts = {
-              lines: 13 // The number of lines to draw
-            , length: 28 // The length of each line
-            , width: 14 // The line thickness
-            , radius: 42 // The radius of the inner circle
-            , scale: 1 // Scales overall size of the spinner
-            , corners: 1 // Corner roundness (0..1)
-            , color: '#ffffff' // #rgb or #rrggbb or array of colors
-            , opacity: 0.25 // Opacity of the lines
-            , rotate: 0 // The rotation offset
-            , direction: 1 // 1: clockwise, -1: counterclockwise
-            , speed: 1 // Rounds per second
-            , trail: 60 // Afterglow percentage
-            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-            , zIndex: 2e9 // The z-index (defaults to 2000000000)
-            , className: 'spinner' // The CSS class to assign to the spinner
-            , top: '50%' // Top position relative to parent
-            , left: '50%' // Left position relative to parent
-            , shadow: false // Whether to render a shadow
-            , hwaccel: false // Whether to use hardware acceleration
-            , position: 'absolute' // Element positioning
-            }
-           var target = document.getElementById('spinnerParent');
-           $("#spinnerParent").show();
-           spinner = new Spinner(opts).spin(target);
+            $(".modaldiv").hide();
+            setTimeout(function() {
+                fullpage.moveSectionDown();
+            }, 500);
             
-            $(".modaldiv").hide(); 
         });   
         
         //id name
@@ -645,7 +621,7 @@
                 //iterate through and add png to bare face
                 for (i = 0; i < headArray.length; i++) { 
                     //leiahead_images[i].onload = function(){
-                  //  console.log("leiaheadimage w: "+ leiahead_images[i].width +" H: " + leiahead_images[i].height);
+                   // console.log("leiaheadimage w: "+ leiahead_images[i].width +" H: " + leiahead_images[i].height);
                         fctx.clearRect(0, 0, baseImage.width,baseImage.height);
                         fctx.drawImage(baseImage,0 ,0, baseImage.width,baseImage.height);
                         fctx.drawImage(headArray[i],xOffset ,yOffset, widthAvailable,heightAvailable);
@@ -654,7 +630,7 @@
                         tImage.src = srcData; 
                         console.log("allmyfaces x:" + tImage.width + " h: " + tImage.height);
                         allMyFaces.push(tImage.src); 
-                        if(i == 3){
+                        if(i == 3){ 
                             GenerateGIF(); 
                         }  
                 }   
@@ -760,6 +736,7 @@
         
         var words = []; 
         function GenerateGIF(){
+            console.log("great in g g");
             gifFrames = [];
             var idleArray;
             var jabArray; 
@@ -938,9 +915,40 @@
    // });   
         //Make the Summary GIF
           
-        //PRAVEEN's stuff starts here
-        $('#createButton').click(function(){
+        
+        $('#createButton').on('touchend click' , function(){
+            CreateFacePNGs(); 
+
+            var opts = {
+              lines: 10 // The number of lines to draw
+            , length: 28 // The length of each line
+            , width: 16 // The line thickness
+            , radius: 42 // The radius of the inner circle
+            , scale: 1 // Scales overall size of the spinner
+            , corners: 1 // Corner roundness (0..1)
+            , color: '#ffffff' // #rgb or #rrggbb or array of colors
+            , opacity: 0.25 // Opacity of the lines
+            , rotate: 0 // The rotation offset
+            , direction: 1 // 1: clockwise, -1: counterclockwise
+            , speed: 1 // Rounds per second
+            , trail: 60 // Afterglow percentage
+            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+            , zIndex: 2e9 // The z-index (defaults to 2000000000)
+            , className: 'spinner' // The CSS class to assign to the spinner
+            , top: '50%' // Top position relative to parent
+            , left: '50%' // Left position relative to parent
+            , shadow: false // Whether to render a shadow
+            , hwaccel: false // Whether to use hardware acceleration
+            , position: 'absolute' // Element positioning
+            }
+           var target = document.getElementById('spinnerParent');
+           $("#spinnerParent").show();
+           spinner = new Spinner(opts).spin(target);    
+        });  
+    
           
+          //PRAVEEN's stuff starts here
+        function uploadContent(){
 
             //First make the data structure to pass to mongo
             var playloop_dict = {};
@@ -997,7 +1005,7 @@
                     //get the summary image signature
                     imageType = "gif";
                     contentType = "image/" + imageType;           
-                          img_name = playloop_id + ".gif";
+                    img_name = playloop_id + ".gif";
                     return getS3SignedResponse(img_name, contentType);
                 }
             ).then( function( signed_response ) {
@@ -1023,17 +1031,16 @@
                 }
             ).then ( function ( data ) {
                     //finally redirect here
-                    
+                    $("#spinnerParent").hide();
+                    spinner.stop(); 
                     console.log("*** Finished image uploads: " + playloop_dict['playloop_url'])
                     //return $.get(playloop_dict['playloop_url']);
                     window.location.href = playloop_dict['playloop_url'];
                 }
             );
-          
-        //PRAVEEN's stuff ends here
-          
-      });  
-    
+    }
+        //PRAVEEN's stuff ends here  
+  
      function Giffyfy(){
          
                 gifshot.createGIF({
@@ -1046,9 +1053,8 @@
                         console.log("making hte GIF"); 
                         var image = obj.image;
                         $('.previewfootersection').show(); 
-                        $("#spinnerParent").hide();
-                        spinner.stop(); 
                         document.getElementById('previewimage').src = image;
+                        uploadContent(); 
                     }
                 });
 

@@ -5,7 +5,7 @@
   left: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 1;
+  z-index: -100;
   background-color: transparent;
 }
 
@@ -704,7 +704,7 @@ margin-right:auto;
   -webkit-flex: 0 auto;
   -ms-flex: 0 auto;
   flex: 0 auto;
-  background-color: green;
+  background-color: transparent;
     overflow: hidden;
 }
 
@@ -742,6 +742,7 @@ html, body{
 .sharediv {
   /*padding-bottom: .5em;*/
   background-color: #f8e71c;
+  height: auto; 
   /*background: -webkit-radial-gradient(#fff, #f8e71c, #f8e71c); /* Safari 5.1 to 6.0 */
   /*background: -o-radial-gradient(#fff, #f8e71c, #f8e71c); /* For Opera 11.6 to 12.0 */
   /*background: -moz-radial-gradient(#fff, #f8e71c, #f8e71c); /* For Firefox 3.6 to 15 */
@@ -939,6 +940,7 @@ html, body{
   right: 0px;*/
 /*    width: 600px; */
   bottom: 0px;
+    
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -964,10 +966,12 @@ html, body{
 }
 .playerhelptext {
     
-  background-color: hsla(0, 0%, 40%, .6);
+  background-color: rgba(1, 1, 1, .75);
   font-family: 'Oswald medium', sans-serif;
   color:hsla(0, 0%, 100%, .7);
   display: inline-block;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
      
   /*z-index: 50; 
       margin-top: 0px;
@@ -1147,6 +1151,7 @@ html, body{
 }
 
 .loadingBar{
+    background-color: transparent; 
     /*padding-top: 55px; 
  	width: 600px; height: 450px;
 	object-fit: fill;
