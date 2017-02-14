@@ -186,7 +186,7 @@
               <h1 class="stepnumber">3.</h1><img class="stepnumicon" src="images/symbols-1.svg">
             </div>
             <div class="stepinputdiv 4" id="step4inputdiv">
-              <label class="step4title" for="name-4">Your Message To Trump</label>
+              <label class="step4title" for="name-4">Your Message</label>
               <input class="step4input w-input" data-name="Name 4" id="name-4" maxlength="256" name="name-4" placeholder="NOT MY PRESIDENT" type="text">
             </div>
             <div class="four stepbutton"><a class="submitbutton w-button" href="index.html"  id="createButton" onclick='return false;'>CREATE</a>
@@ -671,14 +671,19 @@
         /***********************************************/
           
         $("#name-4").focusin(function() {
-
+            console.log("in focusin");
             if(isMobile() == true){
                $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});
             }
-            fullpage.moveTo(3);
+            window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+            //fullpage.moveTo(2);
         });
         $("#name-4").focus(function() {
-            fullpage.moveTo(3);
+            console.log("in focus");
+            window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+            //fullpage.moveTo(2);
         });
         $("#name-4").focusout(function() {
 
@@ -687,6 +692,7 @@
             }
             
         });
+       
           
      
           
