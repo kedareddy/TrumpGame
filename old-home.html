@@ -101,33 +101,7 @@
     </div>
   </div>
   <div id="fullpage">
- <!-- <div class="section mostsections hiddensection">
-    <div class="w-container">
-      <div class="mosteditordivs">
-        <div class="stepformwrapper w-form">
-          <form class="formdiv" onsubmit="step1Submit()" data-name="Email Form" data-redirect="javascript:void(0);" id="email-form" name="email-form" redirect="javascript:void(0);">
-            <div class="stepnumdiv">
-              <h1 class="stepnumber">1.</h1><img class="stepnumicon" src="images/symbols-1.svg">
-            </div>
-            <div class="stepinputdiv">
-              <label class="step1title" for="name">I am...</label>
-              <input class="step1input1 w-input" data-name="Name" id="name" maxlength="20" name="name" placeholder="Who are you? " type="text">
-            </div>
-            <div class="stepbutton">
-              <a class="w-inline-block" href="#Step2"><img class="nextlinkblock" src="images/25243.svg">
-              </a>
-            </div>
-          </form>
-          <div class="w-form-done">
-            <div>Thank you! Your submission has been received!</div>
-          </div>
-          <div class="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
+ 
 <section class="section mostsections" id="SectionStep1">
     <div class="w-container">
       <div class="mosteditordivs">
@@ -155,10 +129,10 @@
             </div>
           </form>
           <div class="w-form-done">
-            <div>Thank you! Your submission has been received!</div>
+            <div></div>
           </div>
           <div class="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form</div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -193,10 +167,10 @@
             </div>
           </form>
           <div class="w-form-done">
-            <div>Thank you! Your submission has been received!</div>
+            <div></div>
           </div>
           <div class="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form</div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -219,10 +193,10 @@
             </div>
           </form>
           <div class="w-form-done">
-            <div>Thank you! Your submission has been received!</div>
+            <div></div>
           </div>
           <div class="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form</div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -373,6 +347,13 @@
             $(".step4input").css({"position": "", "top": "", "max-width": ""});
         }
     }
+    
+    jQuery('body').bind('focusin focus', function(e){
+          e.preventDefault();
+    });  
+    jQuery('input.your-input-class').bind('focusin focus', function(e){
+            e.preventDefault();
+    });
     
     
     
@@ -694,6 +675,10 @@
             if(isMobile() == true){
                $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});
             }
+            fullpage.moveTo(3);
+        });
+        $("#name-4").focus(function() {
+            fullpage.moveTo(3);
         });
         $("#name-4").focusout(function() {
 
@@ -703,9 +688,7 @@
             
         });
           
-        jQuery('body').bind('focusin focus', function(e){
-          e.preventDefault();
-        })  
+     
           
        /* $(document).keypress(function(e) {
             if(e.which == 13) {
