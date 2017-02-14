@@ -367,7 +367,12 @@
         hulkpunch_images[v].src = hulkpunch_urls[v];
     }
     
-    
+    function step4Submit(){
+        console.log("form submitted!");
+        if($("#name-4").is(":focus")){
+            $(".step4input").css({"position": "", "top": "", "max-width": ""});
+        }
+    }
     
     
     
@@ -683,6 +688,31 @@
           
           
         /***********************************************/
+          
+        $("#name-4").focusin(function() {
+
+            if(isMobile() == true){
+               $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});
+            }
+        });
+        $("#name-4").focusout(function() {
+
+            if(isMobile() == true){
+                $(".step4input").css({"position": "", "top": "", "max-width": ""}); 
+            }
+            
+        });
+          
+       /* $(document).keypress(function(e) {
+            if(e.which == 13) {
+                alert('You pressed enter!');
+                if($("#name-4").is(":focus")){
+                    $(".step4input").css({"position": "", "top": "", "max-width": ""});
+                }
+            }
+        });*/
+          
+          
           
         var tempImages = [];   
         function CreateFacePNGs(){
@@ -1152,7 +1182,7 @@
                 }
             );
     }
-        //PRAVEEN's stuff ends here  
+    //PRAVEEN's stuff ends here  
   
      function Giffyfy(){
          
