@@ -703,6 +703,10 @@
             
         });
           
+        jQuery('body').bind('focusin focus', function(e){
+          e.preventDefault();
+        })  
+          
        /* $(document).keypress(function(e) {
             if(e.which == 13) {
                 alert('You pressed enter!');

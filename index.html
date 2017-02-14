@@ -77,7 +77,7 @@
             <div class="playerdiv">
               <h1 class="playertext"> NOT MY PRESIDENT</h1>
               <div class="animation1div">
-                    <img class="loadingBar" src="images/EmptyLoading.png">          
+                    <img class="loadingBar" id="loadingBarID" src="images/EmptyLoading.png">          
               </div>
               <div class="animation2div">       
               </div>
@@ -772,7 +772,7 @@
     var mobileTime; 
     var mobileTimer = true; 
     $(document).ready(function(){
-        resizeAndFillPage();
+        
         assignTestValues();
         
         /*********CHANGE HELP TEXT TO TAP WHEN ON MOBILE****/  
@@ -784,6 +784,12 @@
             //console.log("should say click"); 
             $(".playerhelptext").text("Tap To Play");
         }
+        
+        var loadingImage = document.getElementById('loadingBarID');
+
+        loadingImage.onload = function () {
+            resizeAndFillPage();
+        };
         
         
         function resizeAndFillPage(){
