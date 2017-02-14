@@ -675,12 +675,12 @@
             if(isMobile() == true){
                $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});
             }
-            
-            setInterval(function(){
+            toggleModal();
+            /*setInterval(function(){
                 console.log("in focusin");
                 window.scrollTo(0, 0);
                 document.body.scrollTop = 0;
-            }, 50);
+            }, 50);*/
             
             //fullpage.moveTo(2);
         });
@@ -695,11 +695,22 @@
             if(isMobile() == true){
                 $(".step4input").css({"position": "", "top": "", "max-width": ""}); 
             }
-            
+            toggleModal();
         });
        
           
-     
+     function toggleModal() {
+    var offset;
+    if (document.body.classList.contains('modal--opened')) {
+        offset = parseInt(document.body.style.top, 10);
+        document.body.classList.remove('modal--opened');
+        document.body.scrollTop = (offset * -1);
+    } else {
+        offset = document.body.scrollTop;
+        document.body.style.top = (offset * -1) + 'px';
+        document.body.classList.add('modal--opened');
+    }
+}
           
        /* $(document).keypress(function(e) {
             if(e.which == 13) {
@@ -767,9 +778,23 @@
         //clip the face and show on the approve window
         $( ".photobutton" ).on('touchend click', function(){
             $(".photobutton").transition({scale: 1.15 }, 100, 'out', function() {     
-                $(".photobutton").transition({scale: 1.0 }, 100, 'in', function() {    
-                    changeImageSrc(clip_image,faces[currentface]["clipurl"]);
-                    changeImageSrc(imageLeia,faces[currentface]["pngurl"][0]);
+                $(".photobutton").transition({scale: 1.0 }, 100, 'in', function() { 
+                    
+                    clip_image = new Image();
+            clip_image.onload = function()
+            {
+                faceImagesLoaded();
+            };
+            clip_image.src = faces[currentface]["clipurl"];
+                    
+                                      imageLeia = new Image();
+            imageLeia.onload = function()
+            {
+                faceImagesLoaded();
+            };
+            imageLeia.src = faces[currentface]["pngurl"][0];
+                    //changeImageSrc(clip_image,faces[currentface]["clipurl"]);
+                    //changeImageSrc(imageLeia,faces[currentface]["pngurl"][0]);
                     //clip_image.src = faces[currentface]["clipurl"];           
                     //imageLeia.src = faces[currentface]["pngurl"][0];
                 });
@@ -840,11 +865,15 @@
                     $('.modalcontent').hide();
                     $(".approveimage").attr('src', faceSrcData); 
                 };*/
-                var apImage = $(".approveimage");
-                apImage.load(function(){
+               // var apImage = $(".approveimage");
+                var apImage = document.getElementById('approveimg');
+                 apImage.onload = function()
+                 {
                      $('.modalcontent').hide();
-                });
-                apImage.attr("src", faceSrcData);
+                 };
+                
+                apImage.src = faceSrcData;
+               // apImage.attr("src", faceSrcData);
                 faceImageLoadCounter = 0;   
         
                 faceImage.src = faceSrcData; 
