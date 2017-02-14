@@ -671,18 +671,23 @@
         /***********************************************/
           
         $("#name-4").focusin(function() {
-            console.log("in focusin");
+            
             if(isMobile() == true){
                $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});
             }
-            window.scrollTo(0, 0);
-        document.body.scrollTop = 0;
+            
+            setInterval(function(){
+                console.log("in focusin");
+                window.scrollTo(0, 0);
+                document.body.scrollTop = 0;
+            }, 50);
+            
             //fullpage.moveTo(2);
         });
         $("#name-4").focus(function() {
             console.log("in focus");
             window.scrollTo(0, 0);
-        document.body.scrollTop = 0;
+            document.body.scrollTop = 0;
             //fullpage.moveTo(2);
         });
         $("#name-4").focusout(function() {
