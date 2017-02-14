@@ -775,30 +775,36 @@
             img.src = src1;
         }  
           
+        var timenow; 
+        var lastTime = 0;  
         //clip the face and show on the approve window
         $( ".photobutton" ).on('touchend click', function(){
-            $(".photobutton").transition({scale: 1.15 }, 100, 'out', function() {     
-                $(".photobutton").transition({scale: 1.0 }, 100, 'in', function() { 
-                    
-                    clip_image = new Image();
-            clip_image.onload = function()
-            {
-                faceImagesLoaded();
-            };
-            clip_image.src = faces[currentface]["clipurl"];
-                    
-                                      imageLeia = new Image();
-            imageLeia.onload = function()
-            {
-                faceImagesLoaded();
-            };
-            imageLeia.src = faces[currentface]["pngurl"][0];
-                    //changeImageSrc(clip_image,faces[currentface]["clipurl"]);
-                    //changeImageSrc(imageLeia,faces[currentface]["pngurl"][0]);
-                    //clip_image.src = faces[currentface]["clipurl"];           
-                    //imageLeia.src = faces[currentface]["pngurl"][0];
+            timenow = new Date().getTime();
+            if((timenow - lastTime) > 70){
+                lastTime = new Date().getTime();
+                $(".photobutton").transition({scale: 1.15 }, 100, 'out', function() {     
+                    $(".photobutton").transition({scale: 1.0 }, 100, 'in', function() { 
+
+                        clip_image = new Image();
+                        clip_image.onload = function()
+                        {
+                            faceImagesLoaded();
+                        };
+                        clip_image.src = faces[currentface]["clipurl"];
+
+                                                  imageLeia = new Image();
+                        imageLeia.onload = function()
+                        {
+                            faceImagesLoaded();
+                        };
+                        imageLeia.src = faces[currentface]["pngurl"][0];
+                                //changeImageSrc(clip_image,faces[currentface]["clipurl"]);
+                                //changeImageSrc(imageLeia,faces[currentface]["pngurl"][0]);
+                                //clip_image.src = faces[currentface]["clipurl"];           
+                                //imageLeia.src = faces[currentface]["pngurl"][0];
+                    });
                 });
-            }); 
+            }
         
         });
         $( ".photobutton" ).hover( 
@@ -866,6 +872,7 @@
                     $(".approveimage").attr('src', faceSrcData); 
                 };*/
                // var apImage = $(".approveimage");
+                //if(faceSrcData.length > 100){}
                 var apImage = document.getElementById('approveimg');
                  apImage.onload = function()
                  {
