@@ -867,8 +867,8 @@
             
             //alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
             //alert("clipW: " + clip_image.width + " clipH: " + clip_image.height)
-            alert(wcWidth +" w:h: "+wcHeight);
-            fctx.drawImage(clip_image, xCoord,  yCoord, wcWidth, wcHeight);
+            alert(wcWidth +" w:h: "+wcHeight + " clipH: " + clip_image.height);
+            fctx.drawImage(clip_image, xCoord,  yCoord, wcWidth, clip_image.height);
 
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
@@ -890,7 +890,7 @@
                 //extract bare face to use later. 
                 bareFaceSrc = wCanvas.toDataURL('image/png');  
 
-                fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, wcHeight);
+                fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, imageLeia.height);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
                 //alert(faceSrcData);
