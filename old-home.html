@@ -461,13 +461,9 @@
                         mHeight = mWidth/(600/450);
                         Webcam.set({
                             width: mWidth,
-                            height: mHeight,
-                            dest_width: mWidth, // device capture size
-                            dest_height: mHeight,
-                            crop_width: mWidth, // final cropped size
-                            crop_height: mHeight,
-                            flip_horiz: true
+                            height: mHeight
                         });
+                //flip_horiz: true
                         Webcam.attach( '#videoElement' );
 
                         Webcam.on( 'live', function() {
@@ -856,15 +852,17 @@
             //wCanvas.height = $( ".webcamoverlayimage" ).height();
             var fctx = wCanvas.getContext('2d');
             
+            //var webvideo  = $( "#videoElement" ).find("video");
+            var webvideo  = document.getElementsByTagName("video")[0];
             xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
             yOffset = $(".webcamoverlayimage").offset().top;
             widthAvailable = $( ".webcamoverlayimage" ).width();
             heightAvailable = $( ".webcamoverlayimage" ).height();
                 
-            var xCoord = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left);
-            var yCoord = $(".webcamoverlayimage").offset().top;
-            var wcWidth = $( ".webcamoverlayimage" ).width();
-            var wcHeight = $( ".webcamoverlayimage" ).height();
+            var xCoord = xOffset; //($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left);
+            var yCoord = yOffset;//$(".webcamoverlayimage").offset().top;
+            var wcWidth = widthAvailable; //$( ".webcamoverlayimage" ).width();
+            var wcHeight = heightAvailable; //$( ".webcamoverlayimage" ).height();
             
             //alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
             
@@ -876,10 +874,10 @@
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
             
-            Webcam.snap( function() {   
+            //Webcam.snap( function() {   
                 alert("wCanvasW: " + wCanvas.width + "wCanvasH: " + wCanvas.height);
                 /// draw the image to be clipped
-               // fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
+                fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
                 fctx.globalCompositeOperation = 'source-over';
                 /*Filters.brightness = function(pixels, adjustment) {
                       var d = pixels.data;
@@ -926,7 +924,7 @@
                     { shape: 'circle', resolution: 32, size: 9, offset: 0 }
                 ]);*/
 
-            }, wCanvas );
+           // }, wCanvas );
         }
         
         var words = []; 
