@@ -853,7 +853,8 @@
             var fctx = wCanvas.getContext('2d');
             
             //var webvideo  = $( "#videoElement" ).find("video");
-            var webvideo  = document.getElementsByTagName("video")[0];
+            //var webvideo  = document.getElementsByTagName("video")[0];
+            var webvideo = document.getElementById("faceVideo");
             xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
             yOffset = $(".webcamoverlayimage").offset().top;
             widthAvailable = $( ".webcamoverlayimage" ).width();
@@ -875,7 +876,7 @@
             fctx.globalCompositeOperation = 'source-in';
             
             //Webcam.snap( function() {   
-                alert("wCanvasW: " + wCanvas.width + "wCanvasH: " + wCanvas.height);
+               // alert("wCanvasW: " + wCanvas.width + "wCanvasH: " + wCanvas.height);
                 /// draw the image to be clipped
                 fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
                 fctx.globalCompositeOperation = 'source-over';
@@ -895,7 +896,7 @@
                 fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, wcHeight);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
-                //alert(faceSrcData);
+                alert(faceSrcData);
                 //faceImage.onload = faceImageLoaded;
                /* faceImage.onload = function(){
                     $('.modalcontent').hide();
