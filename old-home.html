@@ -844,21 +844,26 @@
         }
          
         function compileFace(){  
-            wCanvas.width = mWidth; 
-            wCanvas.height = mHeight; 
-            //wCanvas.width = $( "#videoElement" ).find("video").width();
-            //wCanvas.width = $( ".webcamoverlayimage" ).width();
-            //wCanvas.height = $( "#videoElement" ).find("video").height();
-            //wCanvas.height = $( ".webcamoverlayimage" ).height();
-            var fctx = wCanvas.getContext('2d');
-            
-            //var webvideo  = $( "#videoElement" ).find("video");
-            //var webvideo  = document.getElementsByTagName("video")[0];
             var webvideo = document.getElementById("faceVideo");
             xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
             yOffset = $(".webcamoverlayimage").offset().top;
             widthAvailable = $( ".webcamoverlayimage" ).width();
             heightAvailable = $( ".webcamoverlayimage" ).height();
+            
+            
+            wCanvas.width = mWidth; 
+            wCanvas.height = mHeight; 
+           // wCanvas.width = webvideo.width; 
+            //wCanvas.height = webvideo.height; 
+            //wCanvas.width = $( "#videoElement" ).find("video").width();
+           // wCanvas.width = widthAvailable;
+            //wCanvas.height = $( "#videoElement" ).find("video").height();
+            //wCanvas.height = heightAvailable;
+            var fctx = wCanvas.getContext('2d');
+            
+            //var webvideo  = $( "#videoElement" ).find("video");
+            //var webvideo  = document.getElementsByTagName("video")[0];
+            
                 
             var xCoord = xOffset; //($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left);
             var yCoord = yOffset;//$(".webcamoverlayimage").offset().top;
@@ -870,7 +875,8 @@
             //alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
             //alert("clipW: " + clip_image.width + " clipH: " + clip_image.height)
             //alert(wcWidth +" w:h: "+wcHeight + " clipH: " + click_image.height);
-            fctx.drawImage(clip_image, xCoord,  yCoord, wcWidth, wcHeight/3);
+            fctx.drawImage(clip_image, 0, 0, clip_image.width, clip_image.height, xCoord, yCoord, clip_image.width, clip_image.height);
+            //fctx.drawImage(clip_image, xCoord,  yCoord, wCanvas.width, wCanvas.height);
 
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
@@ -878,6 +884,7 @@
             //Webcam.snap( function() {   
                // alert("wCanvasW: " + wCanvas.width + "wCanvasH: " + wCanvas.height);
                 /// draw the image to be clipped
+                //fctx.drawImage(webvideo, 0, 0, webvideo.width, webvideo.height, 0, 0, wCanvas.width, wCanvas.height);   
                 fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
                 fctx.globalCompositeOperation = 'source-over';
                 /*Filters.brightness = function(pixels, adjustment) {
@@ -893,7 +900,8 @@
                 //extract bare face to use later. 
                 bareFaceSrc = wCanvas.toDataURL('image/png');  
 
-                fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, wcHeight/3);
+            fctx.drawImage(imageLeia, 0, 0, imageLeia.width, imageLeia.height, xCoord, yCoord, wcWidth, wcHeight);
+                //fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, wcHeight);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
                 alert(faceSrcData);
