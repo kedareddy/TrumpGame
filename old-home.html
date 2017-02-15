@@ -462,6 +462,10 @@
                         Webcam.set({
                             width: mWidth,
                             height: mHeight,
+                            dest_width: mWidth, // device capture size
+                            dest_height: mHeight,
+                            crop_width: mWidth, // final cropped size
+                            crop_height: mHeight,
                             flip_horiz: true
                         });
                         Webcam.attach( '#videoElement' );
