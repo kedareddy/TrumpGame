@@ -462,6 +462,8 @@
                         Webcam.set({
                             width: w,
                             height: h,
+                            crop_width: w,
+                            crop_height: h,
                             flip_horiz: true
                         });
                         Webcam.attach( '#videoElement' );
@@ -865,7 +867,7 @@
             
             //alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
             //alert("clipW: " + clip_image.width + " clipH: " + clip_image.height)
-            //alert(yCoord);
+            alert(wcWidth +" w:h: "+wcHeight);
             fctx.drawImage(clip_image, xCoord,  yCoord, wcWidth, wcHeight);
 
             /// change composite mode to use that shape
