@@ -443,28 +443,32 @@
         var track; 
         var overlayImageUrls = ["assets/FinalArt/hat.gif", "assets/FinalArt/pussyhat.gif", "assets/FinalArt/LeiaHead2.gif"]; 
         var overlayindex = 0; 
-
+        var timeSelfieNow; 
+        var lastSelfieTime = 0;  
         $( ".step2icon" ).on('touchend click', function(){
+            timeSelfieNow = new Date().getTime();
+            if((timeSelfieNow - lastSelfieTime) > 50){
+                lastSelfieTime = new Date().getTime();
             
-            $(".step2icon").transition({scale: 1.1 }, 150, 'out', function() {
-                 
-                $(".step2icon").transition({scale: 1.0 }, 500, 'in', function() {   
-                    $('.modaldiv').css('display', 'inline-block');
-                    $('.modalcontent').css('display', 'inline-block');
-                    $(".webcamoverlayimage").hide(); 
-                    Webcam.set({
-                        width: 600,
-                        height: 450,
-                        flip_horiz: true
-                    });
-                    Webcam.attach( '#videoElement' );
+                $(".step2icon").transition({filter: 'invert(100%)' }, 150, 'out', function() {
+                    $(".step2icon").transition({filter: 'invert(0%)' }, 500, 'in', function() {   
+                        $('.modaldiv').css('display', 'inline-block');
+                        $('.modalcontent').css('display', 'inline-block');
+                        $(".webcamoverlayimage").hide(); 
+                        Webcam.set({
+                            width: 600,
+                            height: 450,
+                            flip_horiz: true
+                        });
+                        Webcam.attach( '#videoElement' );
 
-                    Webcam.on( 'live', function() {
-                          $(".webcamoverlayimage").show(); 
-                            handleVideo();
-                    } );
-                }); 
-            }); 
+                        Webcam.on( 'live', function() {
+                              $(".webcamoverlayimage").show(); 
+                                handleVideo();
+                        } );
+                    }); 
+                });
+            }
         });
         
         $( ".step2icon" ).hover( 
@@ -541,8 +545,8 @@
           
         //retake photo  
         $( ".nobutton" ).on('touchend click', function(){ 
-            $(".nobutton").transition({scale: 1.15 }, 100, 'out', function() {     
-                $(".nobutton").transition({scale: 1.0 }, 100, 'in', function() {    
+            $(".nobutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
+                $(".nobutton").transition({filter: 'invert(0%)' }, 100, 'in', function() {    
                     $('.modalcontent').show(); 
                 });
             });
@@ -559,8 +563,8 @@
         
         //photo approved  
         $( ".yesbutton" ).on('touchend click', function(){  
-            $(".yesbutton").transition({scale: 1.15 }, 100, 'out', function() {     
-                $(".yesbutton").transition({scale: 1.0 }, 100, 'in', function() {    
+            $(".yesbutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
+                $(".yesbutton").transition({filter: 'invert(0%)' }, 100, 'in', function() {    
                     Webcam.reset();
                     $(".modaldiv").hide();
                     setTimeout(function() {
@@ -597,47 +601,54 @@
         );  
           
         /************DETECT CLICK ANYWHERE********************/  
-        $(document).on('touchend click', function(){    
-            // When the user clicks anywhere on the document
-            console.log("what I clicked: "+$(event.target).attr('class'));
-            //close webcam stream
-            if ($(event.target).attr('class') == "modaldiv") {
-               // track.stop();
-                Webcam.reset();
-                $(".modaldiv").hide();
-            }
-            
-            if ($(event.target).attr('class') == "hr1") {
-                selectedBody = "leia";
-                
-                $(".hero1link").transition({scale: 1.1 }, 100, 'in', function() {
-                    $(".hero1link").transition({ scale: 1.0 }, 150, 'in');
-                    $('.hero1link').css('background-color','#666666');
-                    $('.hero2link').css('background-color','transparent');
-                    $('.hero3link').css('background-color','transparent');
-                }); 
-                
-                console.log("Selected Body: " + selectedBody);
-            }
-            else if ($(event.target).attr('class') == "hr2") {
-                selectedBody = "luther";
-                $(".hero2link").transition({scale: 1.1 }, 100, 'in', function() {
-                    $(".hero2link").transition({ scale: 1.0 }, 150, 'in');
-                    $('.hero2link').css('background-color','#666666');
-                    $('.hero1link').css('background-color','transparent');
-                    $('.hero3link').css('background-color','transparent');
-                }); 
-                console.log("Selected Body: " + selectedBody);
-            }
-            else if ($(event.target).attr('class') == "hr3") {
-                selectedBody = "hulk";
-                $(".hero3link").transition({scale: 1.1 }, 100, 'in', function() {
-                    $(".hero3link").transition({ scale: 1.0 }, 150, 'in');
-                    $('.hero3link').css('background-color','#666666');
-                    $('.hero2link').css('background-color','transparent');
-                    $('.hero1link').css('background-color','transparent');
-                }); 
-                console.log("Selected Body: " + selectedBody);
+        var timeDocClick; 
+        var lastTimeDocClick = 0;
+        $(document).on('touchend click', function(){  
+            timeDocClick = new Date().getTime();
+            //console.log("time since last click: " + (timenow - lastTime));
+            if((timeDocClick - lastTimeDocClick) > 50){
+                lastTimeDocClick = new Date().getTime();
+                // When the user clicks anywhere on the document
+                //console.log("what I clicked: "+$(event.target).attr('class'));
+                //close webcam stream
+                if ($(event.target).attr('class') == "modaldiv") {
+                   // track.stop();
+                    Webcam.reset();
+                    $(".modaldiv").hide();
+                }
+
+                if ($(event.target).attr('class') == "hr1") {
+                    selectedBody = "leia";
+
+                    $(".hero1link").transition({scale: 1.1 }, 100, 'in', function() {
+                        $(".hero1link").transition({ scale: 1.0 }, 150, 'in');
+                        $('.hero1link').css('background-color','#666666');
+                        $('.hero2link').css('background-color','transparent');
+                        $('.hero3link').css('background-color','transparent');
+                    }); 
+
+                    console.log("Selected Body: " + selectedBody);
+                }
+                else if ($(event.target).attr('class') == "hr2") {
+                    selectedBody = "luther";
+                    $(".hero2link").transition({scale: 1.1 }, 100, 'in', function() {
+                        $(".hero2link").transition({ scale: 1.0 }, 150, 'in');
+                        $('.hero2link').css('background-color','#666666');
+                        $('.hero1link').css('background-color','transparent');
+                        $('.hero3link').css('background-color','transparent');
+                    }); 
+                    console.log("Selected Body: " + selectedBody);
+                }
+                else if ($(event.target).attr('class') == "hr3") {
+                    selectedBody = "hulk";
+                    $(".hero3link").transition({scale: 1.1 }, 100, 'in', function() {
+                        $(".hero3link").transition({ scale: 1.0 }, 150, 'in');
+                        $('.hero3link').css('background-color','#666666');
+                        $('.hero2link').css('background-color','transparent');
+                        $('.hero1link').css('background-color','transparent');
+                    }); 
+                    console.log("Selected Body: " + selectedBody);
+                }
             }
 
         }); 
@@ -782,8 +793,8 @@
             timenow = new Date().getTime();
             if((timenow - lastTime) > 70){
                 lastTime = new Date().getTime();
-                $(".photobutton").transition({scale: 1.15 }, 100, 'out', function() {     
-                    $(".photobutton").transition({scale: 1.0 }, 100, 'in', function() { 
+                $(".photobutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
+                    $(".photobutton").transition({filter: 'invert(0%)' }, 100, 'in', function() { 
 
                         clip_image = new Image();
                         clip_image.onload = function()
@@ -792,7 +803,7 @@
                         };
                         clip_image.src = faces[currentface]["clipurl"];
 
-                                                  imageLeia = new Image();
+                        imageLeia = new Image();
                         imageLeia.onload = function()
                         {
                             faceImagesLoaded();
@@ -865,7 +876,7 @@
                 fctx.drawImage(imageLeia, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
 
                 faceSrcData = wCanvas.toDataURL('image/png');
-                alert(faceSrcData);
+                //alert(faceSrcData);
                 //faceImage.onload = faceImageLoaded;
                /* faceImage.onload = function(){
                     $('.modalcontent').hide();
@@ -1086,40 +1097,47 @@
                 $("#createButton").transition({opacity: 1.0 }, 100, 'in'); 
             }
         );
+        var timeCreateClick; 
+        var lastTimeCreateClick = 0;  
         $('#createButton').on('touchend click' , function(){
             
-            $("#createButton").transition({scale: 1.15 }, 100, 'out', function() {     
-                $("#createButton").transition({scale: 1.0 }, 350, 'in', function() {    
-                    CreateFacePNGs(); 
+            timeCreateClick = new Date().getTime();
+            //console.log("time since last click: " + (timenow - lastTime));
+            if((timeCreateClick - lastTimeCreateClick) > 50){
+                lastTimeCreateClick = new Date().getTime();
+                $("#createButton").transition({scale: 1.15 }, 100, 'out', function() {     
+                    $("#createButton").transition({scale: 1.0 }, 200, 'in', function() {    
+                        CreateFacePNGs(); 
 
-                    var opts = {
-                      lines: 10 // The number of lines to draw
-                    , length: 28 // The length of each line
-                    , width: 16 // The line thickness
-                    , radius: 42 // The radius of the inner circle
-                    , scale: 1 // Scales overall size of the spinner
-                    , corners: 1 // Corner roundness (0..1)
-                    , color: '#ffffff' // #rgb or #rrggbb or array of colors
-                    , opacity: 0.25 // Opacity of the lines
-                    , rotate: 0 // The rotation offset
-                    , direction: 1 // 1: clockwise, -1: counterclockwise
-                    , speed: 1 // Rounds per second
-                    , trail: 60 // Afterglow percentage
-                    , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-                    , zIndex: 2e9 // The z-index (defaults to 2000000000)
-                    , className: 'spinner' // The CSS class to assign to the spinner
-                    , top: '50%' // Top position relative to parent
-                    , left: '50%' // Left position relative to parent
-                    , shadow: false // Whether to render a shadow
-                    , hwaccel: false // Whether to use hardware acceleration
-                    , position: 'absolute' // Element positioning
-                    }
-                   var target = document.getElementById('spinnerParent');
-                   $("#spinnerParent").show();
-                   spinner = new Spinner(opts).spin(target);    
-                });
-            }); 
-            
+                        var opts = {
+                          lines: 10 // The number of lines to draw
+                        , length: 28 // The length of each line
+                        , width: 16 // The line thickness
+                        , radius: 42 // The radius of the inner circle
+                        , scale: 1 // Scales overall size of the spinner
+                        , corners: 1 // Corner roundness (0..1)
+                        , color: '#ffffff' // #rgb or #rrggbb or array of colors
+                        , opacity: 0.25 // Opacity of the lines
+                        , rotate: 0 // The rotation offset
+                        , direction: 1 // 1: clockwise, -1: counterclockwise
+                        , speed: 1 // Rounds per second
+                        , trail: 60 // Afterglow percentage
+                        , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+                        , zIndex: 2e9 // The z-index (defaults to 2000000000)
+                        , className: 'spinner' // The CSS class to assign to the spinner
+                        , top: '50%' // Top position relative to parent
+                        , left: '50%' // Left position relative to parent
+                        , shadow: false // Whether to render a shadow
+                        , hwaccel: false // Whether to use hardware acceleration
+                        , position: 'absolute' // Element positioning
+                        }
+                       var target = document.getElementById('spinnerParent');
+                       $("#spinnerParent").show();
+                       spinner = new Spinner(opts).spin(target);    
+                    });
+                }); 
+           
+            }
             
         });  
     
