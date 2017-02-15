@@ -837,21 +837,23 @@
          
         function compileFace(){  
             
-            var pixelOpts = [ { resolution: 32 } ];
-            
-            
             wCanvas.width = $( "#videoElement" ).find("video").width();
             wCanvas.height = $( "#videoElement" ).find("video").height();
-            //console.log("VIDEO ELEMENTWWW: " + wCanvas.width + "VIDEO ELEMENTHH: " + wCanvas.height); 
             var fctx = wCanvas.getContext('2d');
             
-            console.log("webcamoverlayimaWIDTH: "+ $( ".webcamoverlayimage" ).width() + "webcamoverlayimaHEIGHT: " + $( ".webcamoverlayimage" ).height() + "x: " + ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) + "y: " + $(".webcamoverlayimage").offset().top );
             xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
             yOffset = $(".webcamoverlayimage").offset().top;
             widthAvailable = $( ".webcamoverlayimage" ).width();
             heightAvailable = $( ".webcamoverlayimage" ).height();
                 
-            fctx.drawImage(clip_image, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
+            var xCoord = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left);
+            var yCoord = $(".webcamoverlayimage").offset().top;
+            var wcWidth = $( ".webcamoverlayimage" ).width();
+            var wcHeight = $( ".webcamoverlayimage" ).height();
+            
+            console.log("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
+            
+            fctx.drawImage(clip_image, xCoord,  yCoord, wcWidth, wcHeight);
 
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
@@ -873,7 +875,7 @@
                 //extract bare face to use later. 
                 bareFaceSrc = wCanvas.toDataURL('image/png');  
 
-                fctx.drawImage(imageLeia, ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left) ,  $(".webcamoverlayimage").offset().top, $( ".webcamoverlayimage" ).width(), $( ".webcamoverlayimage" ).height());
+                fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, wcHeight);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
                 //alert(faceSrcData);
