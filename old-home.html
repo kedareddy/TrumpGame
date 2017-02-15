@@ -449,15 +449,19 @@
             timeSelfieNow = new Date().getTime();
             if((timeSelfieNow - lastSelfieTime) > 50){
                 lastSelfieTime = new Date().getTime();
-            
-                $(".step2icon").transition({filter: 'invert(100%)' }, 150, 'out', function() {
-                    $(".step2icon").transition({filter: 'invert(0%)' }, 500, 'in', function() {   
+           
+                //$(".step2icon").transition({filter: 'invert(100%)' }, 150, 'out', function() {
+                    //$(".step2icon").transition({filter: 'invert(0%)' }, 500, 'in', function() { 
+                        // alert("getting clickghjg");
                         $('.modaldiv').css('display', 'inline-block');
                         $('.modalcontent').css('display', 'inline-block');
                         $(".webcamoverlayimage").hide(); 
+                        var w =  $('.modalcontent').width();
+                        
+                        var h = w/(600/450);
                         Webcam.set({
-                            width: 600,
-                            height: 450,
+                            width: w,
+                            height: h,
                             flip_horiz: true
                         });
                         Webcam.attach( '#videoElement' );
@@ -466,8 +470,8 @@
                               $(".webcamoverlayimage").show(); 
                                 handleVideo();
                         } );
-                    }); 
-                });
+                    //}); 
+                //});
             }
         });
         
@@ -564,7 +568,7 @@
         //photo approved  
         $( ".yesbutton" ).on('touchend click', function(){  
             $(".yesbutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
-                $(".yesbutton").transition({filter: 'invert(0%)' }, 100, 'in', function() {    
+                $(".yesbutton").transition({filter: 'invert(0%)' }, 100, 'in', function() { 
                     Webcam.reset();
                     $(".modaldiv").hide();
                     setTimeout(function() {
@@ -799,6 +803,8 @@
                         clip_image = new Image();
                         clip_image.onload = function()
                         {
+                            clip_image.width = $( ".webcamoverlayimage" ).width();
+                            clip_image.height = $( ".webcamoverlayimage" ).height();
                             faceImagesLoaded();
                         };
                         clip_image.src = faces[currentface]["clipurl"];
@@ -806,6 +812,8 @@
                         imageLeia = new Image();
                         imageLeia.onload = function()
                         {
+                            imageLeia.width = $( ".webcamoverlayimage" ).width();
+                            imageLeia.height = $( ".webcamoverlayimage" ).height();
                             faceImagesLoaded();
                         };
                         imageLeia.src = faces[currentface]["pngurl"][0];
@@ -838,8 +846,9 @@
         function compileFace(){  
             
             wCanvas.width = $( "#videoElement" ).find("video").width();
-            //wCanvas.height = $( "#videoElement" ).find("video").height();
-            wCanvas.height = $( ".webcamoverlayimage" ).height();
+            //wCanvas.width = $( ".webcamoverlayimage" ).width();
+            wCanvas.height = $( "#videoElement" ).find("video").height();
+            //wCanvas.height = $( ".webcamoverlayimage" ).height();
             var fctx = wCanvas.getContext('2d');
             
             xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
@@ -852,9 +861,10 @@
             var wcWidth = $( ".webcamoverlayimage" ).width();
             var wcHeight = $( ".webcamoverlayimage" ).height();
             
-           // alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
+            //alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
             
-        //    alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
+            //alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
+            //alert("clipW: " + clip_image.width + " clipH: " + clip_image.height)
             
             fctx.drawImage(clip_image, xCoord,  yCoord, wcWidth, wcHeight);
 
@@ -895,7 +905,7 @@
                      $('.modalcontent').hide();
                  };
                 
-                apImage.src = faceSrcData;
+                apImage.src =faceSrcData;
                // apImage.attr("src", faceSrcData);
                 faceImageLoadCounter = 0;   
         
