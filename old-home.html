@@ -838,7 +838,8 @@
         function compileFace(){  
             
             wCanvas.width = $( "#videoElement" ).find("video").width();
-            wCanvas.height = $( "#videoElement" ).find("video").height();
+            //wCanvas.height = $( "#videoElement" ).find("video").height();
+            wCanvas.height = $( ".webcamoverlayimage" ).height();
             var fctx = wCanvas.getContext('2d');
             
             xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
@@ -851,9 +852,9 @@
             var wcWidth = $( ".webcamoverlayimage" ).width();
             var wcHeight = $( ".webcamoverlayimage" ).height();
             
-            alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
+           // alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
             
-            alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
+        //    alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
             
             fctx.drawImage(clip_image, xCoord,  yCoord, wcWidth, wcHeight);
 
