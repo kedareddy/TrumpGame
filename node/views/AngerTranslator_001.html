@@ -858,7 +858,7 @@
                         //Browser has blocked it
                         alert('Please allow popups for this website');
                     }
-                    //window.location.href = "https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url=https://www.playloops.io/index.html";
+                    //window.location.href = "https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url={{summary_img}}";
                 }); 
             }); 
         });
@@ -875,7 +875,7 @@
             
             $(".facebookdiv").transition({scale: 1.1 }, 100, 'out', function() {
                 $(".facebookdiv").transition({scale: 1.0 }, 100, 'in', function() { 
-                    var win = window.open("http://www.facebook.com/sharer/sharer.php?u=http://www.playloops.io/index.html&title=Not My President!", "_blank");
+                    var win = window.open("http://www.facebook.com/sharer/sharer.php?u={{summary_img}}&title=Not My President!", "_blank");
                     if (win) {
                         //Browser has allowed it to be opened
                         win.focus();
