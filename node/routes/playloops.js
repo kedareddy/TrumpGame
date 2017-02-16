@@ -178,8 +178,8 @@ exports.renderPlayLoop = function(req,res) {
             console.log("got item: " + item);
             console.log("scene name is : " + item['scene_name']);
             
-            if (item['scene_name'] == 'AngerTranslator'){
-                res.render('AngerTranslator', {
+            if (item['scene_name'] == 'AngerTranslator_001'){
+                res.render('AngerTranslator_001', {
                     heroname: item['heroname'],
                     summary_img: item['summary_img'],
                     face_imgs: item['face_imgs'],
