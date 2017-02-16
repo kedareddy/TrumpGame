@@ -892,8 +892,8 @@
             heightAvailable = $( ".webcamoverlayimage" ).height();
             
             
-            wCanvas.width = mWidth; 
-            wCanvas.height = mHeight; 
+            wCanvas.width = webvideo.clientWidth; // mWidth; 
+            wCanvas.height = webvideo.clientHeight;// mHeight; 
            // wCanvas.width = webvideo.width; 
             //wCanvas.height = webvideo.height; 
             //wCanvas.width = $( "#videoElement" ).find("video").width();
