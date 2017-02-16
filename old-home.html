@@ -69,8 +69,8 @@
           <div class="modalcanvasdiv">
             <h1 class="webcamhelpertext">Click To Change Filter</h1>
             <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
-              <!-- <div autoplay="true" class="webcamvideo" id="videoElement"></div> -->
-            <div class="webcamvideo" id="videoElement"></div> 
+               <video autoplay="true" class="webcamvideo" id="videoElement" width="100%" height="auto"></video> 
+            <!--<div class="webcamvideo" id="videoElement"></div> -->
             <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
           </div>
           <div class="modalcameradiv"><img class="photobutton" src="images/cricle.png">
@@ -219,6 +219,7 @@
   <script src="js/webflow.js" type="text/javascript"></script>
 
     <script src='js/jquery.transit.js'></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     
 
 <script type="text/javascript">
@@ -444,7 +445,8 @@
         var overlayImageUrls = ["assets/FinalArt/hat.gif", "assets/FinalArt/pussyhat.gif", "assets/FinalArt/LeiaHead2.gif"]; 
         var overlayindex = 0; 
         var timeSelfieNow; 
-        var lastSelfieTime = 0;  
+        var lastSelfieTime = 0; 
+        var orgVideo;  
         $( ".step2icon" ).on('touchend click', function(){
             timeSelfieNow = new Date().getTime();
             if((timeSelfieNow - lastSelfieTime) > 50){
@@ -455,13 +457,38 @@
                         // alert("getting clickghjg");
                         $('.modaldiv').css('display', 'inline-block');
                         $('.modalcontent').css('display', 'inline-block');
-                        $(".webcamoverlayimage").hide(); 
-                        mWidth =  $('.modalcontent').width();
+                        //$(".webcamoverlayimage").hide(); 
+                
+                      /*  navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                      .then(function (stream) { 
+                            videoElement.srcObject = stream;
+                            handleVideo(); 
+                            //stream => videoElement.srcObject = stream;
+                           
+                        }) 
+                      .catch(e => log(e.name + ": "+ e.message));
+                        */
+                
+                      navigator.mediaDevices.getUserMedia({video: true, audio:false})
+                      .then(stream => videoElement.srcObject = stream)
+                      .then(() => new Promise(resolve => video.onloadedmetadata = resolve))
+                      .then(() => handleVideo())
+                      .catch(e => console.log(e));
+                
+                        /*orgVideo = document.querySelector("#videoElement");
+
+                        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+ 
+                        if (navigator.getUserMedia) {       
+                            navigator.getUserMedia({audio: false, video: true}, handleVideo, videoError);
+                        }*/
+                
+                       /* mWidth =  $('.modalcontent').width();
                         
                         mHeight = mWidth/(600/450);
                         Webcam.set({
-                            width: 360,
-                            height: 270
+                            width: mWidth,
+                            height: mHeight
                         });
                 //flip_horiz: true
                         Webcam.attach( '#videoElement' );
@@ -469,12 +496,12 @@
                         Webcam.on( 'live', function() {
                               $(".webcamoverlayimage").show(); 
                                 handleVideo();
-                        } );
+                        } );*/
                     //}); 
                 //});
             }
-        });
-        
+        });  
+    
         $( ".step2icon" ).hover( 
             function(){  
                 $(".step2icon").transition({opacity: 0.4 }, 200, 'in'); 
@@ -482,7 +509,15 @@
             function(){  
                 $(".step2icon").transition({opacity: 1.0 }, 100, 'in'); 
             }
-        );    
+        ); 
+          
+       /* function handleVideo(stream) {
+            orgVideo.src = window.URL.createObjectURL(stream);
+        }
+
+        function videoError(e) {
+            // do something
+        }  */
           
         
         function preloadImage(url)
@@ -492,8 +527,12 @@
         }  
 
         function handleVideo() {
-             var aspectOImage = $(".webcamoverlayimage").width()/$(".webcamoverlayimage").height();
+             mWidth =  $('.modalcontent').width();
+             mHeight = mWidth/(600/450);
             
+             var aspectOImage = $(".webcamoverlayimage").width()/$(".webcamoverlayimage").height();
+            //console.log("dasfd");
+            var videoElement = document.getElementById("videoElement");
             assignCurrentFace(overlayindex);
             
             var img = new Image();
@@ -501,18 +540,20 @@
             {
                 // Load completed
                 $(".webcamoverlayimage").attr('src', this.src);
+                
             };
             img.src = overlayImageUrls[overlayindex];
             
             //setTimeout(function() {
-                 var maskH = $( "#videoElement" ).find("video").height();
+                // var maskH = $( "#videoElement" ).find("video").height();
+                var maskH = videoElement.clientHeight;
                  var maskW = maskH * aspectOImage; 
-                console.log("video h: " + $("#videoElement").height() + "overlayw: " + maskW + " aspect: " + aspectOImage ); 
+                console.log("video h: " + maskH + "overlayw: " + maskW + " aspect: " + aspectOImage ); 
                  $( ".webcamoverlayimage" ).width(maskW);
                  $( ".webcamoverlayimage" ).height("auto");
                  $(".approveimage").width($( ".webcamoverlayimage" ).width());
                 $(".approveimage").height("auto");
-           // }, 2000);
+            //}, 2000);
         }
           
         function assignCurrentFace(indexNum){
@@ -844,7 +885,7 @@
         }
          
         function compileFace(){  
-            var webvideo = document.getElementById("faceVideo");
+            var webvideo = document.getElementById("videoElement");
             xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
             yOffset = $(".webcamoverlayimage").offset().top;
             widthAvailable = $( ".webcamoverlayimage" ).width();
@@ -871,7 +912,7 @@
             var wcWidth = widthAvailable; //$( ".webcamoverlayimage" ).width();
             var wcHeight = heightAvailable; //$( ".webcamoverlayimage" ).height();
             
-            //alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
+            alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
             
             //alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
             //alert("clipW: " + clip_image.width + " clipH: " + clip_image.height)
