@@ -170,7 +170,6 @@ exports.renderPlayLoop = function(req,res) {
     
     console.log('Retrieving playloop: ' + id);
     db.collection('playloops', function(err, collection) {
-        //collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
         collection.find({'_id': id}).limit(1).next( 
             function(err, item) {
             //res.send(item);
@@ -178,25 +177,17 @@ exports.renderPlayLoop = function(req,res) {
             console.log("got item: " + item);
             console.log("scene name is : " + item['scene_name']);
             
-            if (item['scene_name'] == 'AngerTranslator_001'){
-                res.render('AngerTranslator_001', {
+                res.render(item['scene_name'], item ); 
+
+		 /*{
                     heroname: item['heroname'],
                     summary_img: item['summary_img'],
                     face_imgs: item['face_imgs'],
                     text2: item['text2']
-                });
+                   } */
+		);
             }
                 
-        });
     });
-    
-    /*console.log ("playloop is  " + playloop);
-    if (playloop['scene_name'] == 'AngerTranslator'){
-        res.render('AngerTranslator', {
-            heroname: playloop['heroname'],
-            summary_img: playloop['summary_img'],
-            face_imgs: playloop['face_imgs'],
-            text2: playloop['text2']
-        });
-    }*/
+
 }
