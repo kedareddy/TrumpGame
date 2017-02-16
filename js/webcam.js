@@ -153,11 +153,11 @@ var Webcam = {
 			//video.style.height = '' + this.params.dest_height + 'px';
             video.style.width = "100%"; 
             video.style.height = "100%";
-            video.style.left = "0px";
+            /*video.style.left = "0px";
             video.style.right = "0px";
             video.style.marginLeft = "auto";
             video.style.marginRight = "auto";
-            video.style.alignSelf = "center";
+            video.style.alignSelf = "center";*/
             
 			
 			if ((scaleX != 1.0) || (scaleY != 1.0)) {
