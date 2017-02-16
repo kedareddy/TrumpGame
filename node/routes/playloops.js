@@ -172,21 +172,11 @@ exports.renderPlayLoop = function(req,res) {
     db.collection('playloops', function(err, collection) {
         collection.find({'_id': id}).limit(1).next( 
             function(err, item) {
-            //res.send(item);
-            playloop = item;
-            console.log("got item: " + item);
-            console.log("scene name is : " + item['scene_name']);
-            
-                res.render(item['scene_name'], item ); 
-
-		 /*{
-                    heroname: item['heroname'],
-                    summary_img: item['summary_img'],
-                    face_imgs: item['face_imgs'],
-                    text2: item['text2']
-                   } */
-		);
-            }
+            	console.log("got item: " + item);
+            	console.log("scene name is : " + item['scene_name']);
+            	res.render(item['scene_name'], item ); 
+ 	    }
+   	);
                 
     });
 
