@@ -912,7 +912,7 @@
             var wcWidth = widthAvailable; //$( ".webcamoverlayimage" ).width();
             var wcHeight = heightAvailable; //$( ".webcamoverlayimage" ).height();
             
-            alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
+            //alert("webcamoverlayimaWIDTH: "+ wcWidth + " webcamoverlayimaHEIGHT: " + wcHeight + " wCanvasWidth: " + wCanvas.width + " wCanvasHeight: " + wCanvas.height );
             
             //alert("xCoord: "+ xCoord + " yCoord: " + yCoord + " wOverlayOffsetLeft: " + $(".webcamoverlayimage").offset().left + " modalContentOffsetLeft: " + $(".modalcontent").offset().left );
             //alert("clipW: " + clip_image.width + " clipH: " + clip_image.height)
@@ -946,7 +946,7 @@
                 fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, wcHeight);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
-                alert(faceSrcData);
+                //alert(faceSrcData);
                 //faceImage.onload = faceImageLoaded;
                /* faceImage.onload = function(){
                     $('.modalcontent').hide();
