@@ -805,7 +805,9 @@
                    // console.log("leiaheadimage w: "+ leiahead_images[i].width +" H: " + leiahead_images[i].height);
                         fctx.clearRect(0, 0, baseImage.width,baseImage.height);
                         fctx.drawImage(baseImage,0 ,0, baseImage.width,baseImage.height);
-                        fctx.drawImage(headArray[i],xOffset ,yOffset, widthAvailable,heightAvailable);
+                        //fctx.drawImage(headArray[i],xOffset ,yOffset, widthAvailable,heightAvailable);
+                        fctx.drawImage(headArray[i],0 ,0, baseImage.width,baseImage.height);
+    
                         var srcData = faceCanvas.toDataURL('image/png');
                         var tImage = new Image(); 
                         tImage.src = srcData; 
