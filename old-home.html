@@ -928,8 +928,8 @@
             //Webcam.snap( function() {   
                // alert("wCanvasW: " + wCanvas.width + "wCanvasH: " + wCanvas.height);
                 /// draw the image to be clipped
-                //fctx.drawImage(webvideo, 0, 0, webvideo.width, webvideo.height, 0, 0, wCanvas.width, wCanvas.height);   
-                fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
+                //fctx.drawImage(webvideo, 0, 0, webvideo.clientWidth, heightAvailable, 0, 0, webvideo.clientWidth, heightAvailable);   
+                fctx.drawImage(webvideo, 0, 0, wCanvas.width, heightAvailable);   
                 fctx.globalCompositeOperation = 'source-over';
                 /*Filters.brightness = function(pixels, adjustment) {
                       var d = pixels.data;
