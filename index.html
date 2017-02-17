@@ -783,25 +783,29 @@
         if(isMobile() == true){
             //console.log("should say click"); 
             $(".playerhelptext").text("Tap To Play");
-            resizeAndFillPage();
+            //resizeAndFillPage();
             /*desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
             $(".sharediv").height(desiredHeight);*/
         }
         
         var loadingImage = document.getElementById('loadingBarID');
-
         loadingImage.onload = function () {
             resizeAndFillPage();
         };
+        if(loadingImage.complete == true){
+            resizeAndFillPage();    
+        }
         
         
         function resizeAndFillPage(){
+            //$(".playerdiv").height(loadingImage.clientHeight);
             $(".playerdiv").height($('.playerdiv').find('img:visible').css("height"));
         
             /*desiredHeight = $(window).height() - ($(".titlesection").height() + $(".playersection").height()+ $(".statssection").height());
             $(".sharediv").height(desiredHeight);*/
         }
-        
+
+
         window.onresize = function(event) {
             //change playerdiv to size of image(s)
             resizeAndFillPage();
