@@ -69,7 +69,7 @@
           <div class="modalcanvasdiv">
             <h1 class="webcamhelpertext">Click To Change Filter</h1>
             <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
-               <video autoplay="true" class="webcamvideo" id="videoElement" width="100%" height="auto"></video> 
+               <video autoplay="true" class="webcamvideo" id="videoElement" width="100%" height="75%"></video> 
             <!--<div class="webcamvideo" id="videoElement"></div> -->
             <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
           </div>
@@ -811,7 +811,7 @@
                         var srcData = faceCanvas.toDataURL('image/png');
                         var tImage = new Image(); 
                         tImage.src = srcData; 
-                        console.log("allmyfaces x:" + tImage.width + " h: " + tImage.height);
+                        alert("baseImage w:" + baseImage.width + " h: " + baseImage.height);
                         allMyFaces.push(tImage.src); 
                         if(i == 3){ 
                             GenerateGIF(); 
@@ -895,7 +895,7 @@
             
             
             wCanvas.width = webvideo.clientWidth; // mWidth; 
-            wCanvas.height = heightAvailable;// webvideo.clientHeight;// mHeight; 
+            wCanvas.height =  webvideo.clientHeight;// mHeight; 
            // wCanvas.width = webvideo.width; 
             //wCanvas.height = webvideo.height; 
             //wCanvas.width = $( "#videoElement" ).find("video").width();
@@ -928,8 +928,8 @@
             //Webcam.snap( function() {   
                // alert("wCanvasW: " + wCanvas.width + "wCanvasH: " + wCanvas.height);
                 /// draw the image to be clipped
-                fctx.drawImage(webvideo, 0, 0, webvideo.clientWidth, heightAvailable, 0, 0, webvideo.clientWidth, heightAvailable);   
-                //fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.width);   
+               // fctx.drawImage(webvideo, 0, 0, webvideo.clientWidth, heightAvailable, 0, 0, webvideo.clientWidth, heightAvailable);   
+                fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
                 fctx.globalCompositeOperation = 'source-over';
                 /*Filters.brightness = function(pixels, adjustment) {
                       var d = pixels.data;
