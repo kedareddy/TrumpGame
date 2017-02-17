@@ -795,23 +795,29 @@
             
             var baseImage = new Image(); 
             baseImage.onload= function(){
-                faceCanvas.width = baseImage.width;
-                faceCanvas.height = baseImage.height;
+                //faceCanvas.width = baseImage.width;
+                //faceCanvas.height = baseImage.height;
+                faceCanvas.width = widthAvailable;
+                faceCanvas.height = heightAvailable;
                 var fctx = faceCanvas.getContext('2d');
             
                 //iterate through and add png to bare face
                 for (i = 0; i < headArray.length; i++) { 
                     //leiahead_images[i].onload = function(){
                    // console.log("leiaheadimage w: "+ leiahead_images[i].width +" H: " + leiahead_images[i].height);
-                        fctx.clearRect(0, 0, baseImage.width,baseImage.height);
-                        fctx.drawImage(baseImage,0 ,0, baseImage.width,baseImage.height);
+                    //fctx.clearRect(0, 0, baseImage.width,baseImage.height);
+                    //fctx.drawImage(baseImage,0 ,0, baseImage.width,baseImage.height);
+                    fctx.clearRect(0, 0, faceCanvas.width,faceCanvas.height);
+                    fctx.drawImage(baseImage,0 ,0, faceCanvas.width,faceCanvas.height);
                         //fctx.drawImage(headArray[i],xOffset ,yOffset, widthAvailable,heightAvailable);
-                        fctx.drawImage(headArray[i],0 ,0, baseImage.width,baseImage.height);
+                        
+                    //fctx.drawImage(headArray[i],0 ,0, baseImage.width,baseImage.height);
+                    fctx.drawImage(headArray[i],0 ,0, faceCanvas.width,faceCanvas.height);
     
                         var srcData = faceCanvas.toDataURL('image/png');
                         var tImage = new Image(); 
                         tImage.src = srcData; 
-                        alert("baseImage w:" + baseImage.width + " h: " + baseImage.height);
+                        //alert("baseImage w:" + baseImage.width + " h: " + baseImage.height);
                         allMyFaces.push(tImage.src); 
                         if(i == 3){ 
                             GenerateGIF(); 
