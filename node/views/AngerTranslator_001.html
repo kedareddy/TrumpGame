@@ -281,6 +281,7 @@
                 totalImagesToLoad = leiaidle_urls.length + leiajab_urls.length + leiapunch_urls.length + lutherpunch_urls.length;
             }else if(heroname == "luther"){
                 totalImagesToLoad = lutheridle_urls.length + lutherjab_urls.length + lutherpunch_urls.length + leiapunch_urls.length;
+                //alert("total luther pics: " + totalImagesToLoad);
             }else if(heroname == "hulk"){
                 totalImagesToLoad = hulkidle_urls.length + hulkjab_urls.length + hulkpunch_urls.length + leiapunch_urls.length;
             }
@@ -342,7 +343,7 @@
                     lutheridle_images[l].src = lutheridle_urls[l];
                 }
                
-                for (m = 0; m < leiajab_urls.length; m++) {
+                for (m = 0; m < lutherjab_urls.length; m++) {
                     lutherjab_images[m] = new Image();
                     lutherjab_images[m].onload = function(){
                         incrementLoadCounter(); 
@@ -435,7 +436,7 @@
                     tempImage.onload = function(){
                         
                     };
-		    tempImage.setAttribute('crossOrigin', 'anonymous');
+		            tempImage.setAttribute('crossOrigin', 'anonymous');
                     tempImage.src = allMyFaces[i].src; 
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
@@ -485,7 +486,7 @@
                     tempImage.onload = function(){
                         
                     };
-		    tempImage.setAttribute('crossOrigin', 'anonymous');
+		            tempImage.setAttribute('crossOrigin', 'anonymous');
                     tempImage.src = allMyFaces[i].src; 
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
