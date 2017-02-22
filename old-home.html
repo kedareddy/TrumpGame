@@ -48,11 +48,7 @@
     <!-- load that lib -->
     <script src="js/playloops.js"></script>
     <script src="js/close-pixelate.js"></script>
-    
-    <!--webcamjs libraries -->
-    <script src="js/webcam.js"></script>
-    <script src="js/webcam.swf"></script>
-    
+
     <script src="js/spin.min.js"></script>
 
     
@@ -610,7 +606,7 @@
         $( ".yesbutton" ).on('touchend click', function(){  
             $(".yesbutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
                 $(".yesbutton").transition({filter: 'invert(0%)' }, 100, 'in', function() { 
-                    Webcam.reset();
+                    //Webcam.reset();
                     $(".modaldiv").hide();
                     setTimeout(function() {
                         fullpage.moveSectionDown();
@@ -913,6 +909,9 @@
             //wCanvas.height = heightAvailable;
             var fctx = wCanvas.getContext('2d');
              fctx.clearRect(0, 0, wCanvas.width, wCanvas.height);
+            fctx.translate(wCanvas.width, 0);
+            fctx.scale(-1, 1);
+
             
             //var webvideo  = $( "#videoElement" ).find("video");
             //var webvideo  = document.getElementsByTagName("video")[0];
@@ -938,8 +937,15 @@
                // alert("wCanvasW: " + wCanvas.width + "wCanvasH: " + wCanvas.height);
                 /// draw the image to be clipped
                // fctx.drawImage(webvideo, 0, 0, webvideo.clientWidth, heightAvailable, 0, 0, webvideo.clientWidth, heightAvailable);   
-                fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
-                fctx.globalCompositeOperation = 'source-over';
+             if (typeof fctx.filter !== "undefined") {
+                //fctx.filter = "saturate(800%)";
+                 //fctx.filter = "brightness(300%)"; 
+             }else{
+                 
+             }
+             
+             fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
+             fctx.globalCompositeOperation = 'source-over';
                 /*Filters.brightness = function(pixels, adjustment) {
                       var d = pixels.data;
                       for (var i=0; i<d.length; i+=4) {
@@ -951,9 +957,17 @@
                 };*/
                 
                 //extract bare face to use later. 
+                var resultCanvas = new ClosePixelation( wCanvas, fctx, [
+                    { resolution: 24 },
+                    { shape: 'diamond', resolution: 24, offset: 12, alpha: 0.5  },
+                    { shape: 'diamond', resolution: 24, offset: 36, alpha: 0.5  },
+                    { shape: 'circle', resolution: 8, size: 8, offset: 4, alpha: 0.5 }
+                ]);
+                fctx.drawImage(resultCanvas, 0,0);
                 bareFaceSrc = wCanvas.toDataURL('image/png');  
 
             //fctx.drawImage(imageLeia, 0, 0, imageLeia.width, imageLeia.height, xCoord, yCoord, wcWidth, wcHeight);
+                fctx.filter = "none";
                 fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, wcHeight);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
@@ -978,13 +992,8 @@
                 faceImage.src = faceSrcData; 
                 
              
-                /*var img = document.getElementById('approveimg');
-                var myPixelation = new ClosePixelation( img, [
-                    { shape: 'circle', resolution: 32, size: 6, offset: 8 },
-                    { shape: 'circle', resolution: 32, size: 9, offset: 16 },
-                    { shape: 'circle', resolution: 32, size: 12, offset: 24 },
-                    { shape: 'circle', resolution: 32, size: 9, offset: 0 }
-                ]);*/
+                //var img = document.getElementById('approveimg');
+
 
            // }, wCanvas );
         }

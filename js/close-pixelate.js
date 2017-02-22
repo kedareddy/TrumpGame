@@ -41,29 +41,32 @@ if ( !isCanvasSupported ) {
 }
 
 
-function ClosePixelation( img, options ) {
-  this.img = img
+function ClosePixelation( can, ctx, options ) {
+  //this.img = img
   // creat canvas
-  var canvas = this.canvas = document.createElement('canvas')
-  this.ctx = canvas.getContext('2d')
+  this.canvas = can
+  this.ctx = ctx
+  this.ctx.translate(this.canvas.width, 0);
+  this.ctx.scale(-1, 1);
   // copy attributes from img to canvas
-  canvas.className = img.className
-  canvas.id = img.id
+  //canvas.className = img.className
+  //canvas.id = img.id
 
   this.render( options )
 
   // replace image with canvas
-  img.parentNode.replaceChild( canvas, img )
+  //img.parentNode.replaceChild( canvas, img );
+  return canvas; 
 
 }
 
 ClosePixelation.prototype.render = function( options ) {
   this.options = options
   // set size
-  var w = this.width = this.canvas.width = this.img.width
-  var h = this.height = this.canvas.height = this.img.height
+  var w = this.width = this.canvas.width;// = this.img.width
+  var h = this.height = this.canvas.height;// = this.img.height
   // draw image on canvas
-  this.ctx.drawImage( this.img, 0, 0 )
+  //this.ctx.drawImage( this.img, 0, 0 )
   // get imageData
 
   try {

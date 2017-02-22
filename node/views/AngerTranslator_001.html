@@ -111,7 +111,7 @@
         </div>
         <div class="sharelinkdiv">
           <h1 class="sharelink">Share Link:</h1>
-          <div class="sharelinktext">https://www.playloops.io/notmypresident.html</div>
+          <div class="sharelinktext">{{playloop_url}}</div>
         </div>
       </div>
     </div>
@@ -852,7 +852,7 @@
             
             $(".twitter-share-button").transition({scale: 1.1 }, 100, 'out', function() {
                 $(".twitter-share-button").transition({scale: 1.0 }, 100, 'in', function() { 
-                    var win = window.open("https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url=https://www.playloops.io/index.html", "_blank");
+                    var win = window.open("https://www.twitter.com/intent/tweet?text=Trump+Is+Not+My+President&url={{summary_img}}", "_blank");
                     if (win) {
                         //Browser has allowed it to be opened
                         win.focus();
