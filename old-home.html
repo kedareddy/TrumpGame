@@ -55,7 +55,10 @@
 </head>
 <body class="oldhomebody" id="thebody">
     <!-- -->
-<div id="spinnerParent" style="position:absolute;z-index:500;display:none; height:100%; width:100%; background-color:rgba(0, 0, 0, 0.8);"></div>    
+<div id="spinnerParent" style="position:absolute;z-index:500;display:none; height:100%; width:100%; background-color:rgba(0, 0, 0, 0.8);"></div>  
+<div id="fakeInputDiv" style="position:absolute; z-index: 100; display:none; height:21%;width:100%; background-color:rgba(0, 0, 0, 0.8); top:0px; text-align: center; padding-top: 6%;">
+    <input id="fakeInput" type="text" name="country" value="NOT MY PRESIDENT" class="step4input" style="height: 28%;" readonly>
+</div>    
   <div class="modaldiv" data-ix="displaynoneonload">
     <!--<div class="modalcontentwrapper">-->
         <div class="modalcontent">
@@ -341,6 +344,7 @@
     function step4Submit(){
         console.log("form submitted!");
         if($("#name-4").is(":focus")){
+            $("#fakeInputDiv").hide();
             $(".step4input").css({"position": "", "top": "", "max-width": ""});
         }
     }
@@ -431,6 +435,7 @@
         
         step4Input.addEventListener("input", function(e) {
             inputText4 = step4Input.value;
+            $("#fakeInput").val(inputText4);
             console.log("Trump Message: " + inputText4);
         }, false);
         /****************************************/  
@@ -724,8 +729,13 @@
           
         $("#name-4").focusin(function() {
             
+            
             if(isMobile() == true){
-               $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});
+               if(window.innerWidth >200 && window.innerWidth <=600) { /*change the numbers as you see fit*/
+		          $("#fakeInputDiv").show();   
+	           }else{
+                   $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});   
+               }
             }
             toggleModal();
             /*setInterval(function(){
@@ -743,9 +753,14 @@
             //fullpage.moveTo(2);
         });
         $("#name-4").focusout(function() {
-
+           
             if(isMobile() == true){
-                $(".step4input").css({"position": "", "top": "", "max-width": ""}); 
+               if(window.innerWidth >200 && window.innerWidth <=600) { /*change the numbers as you see fit*/
+                     $("#fakeInputDiv").hide();   
+	           }
+               else{
+                    $(".step4input").css({"position": "", "top": "", "max-width": ""}); 
+               }
             }
             toggleModal();
         });
