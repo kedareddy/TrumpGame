@@ -56,9 +56,20 @@
 <body class="oldhomebody" id="thebody">
     <!-- -->
 <div id="spinnerParent" style="position:absolute;z-index:500;display:none; height:100%; width:100%; background-color:rgba(0, 0, 0, 0.8);"></div>  
-<div id="fakeInputDiv" style="position:absolute; z-index: 100; display:none; height:21%;width:100%; background-color:rgba(0, 0, 0, 0.8); top:0px; text-align: center; padding-top: 6%;">
+<div id="fakeInputDiv" style="position:absolute; z-index: 100; display:none; height:30%;width:100%; background-color:rgba(0, 0, 0, 0.8); top:0px; text-align: center; padding-top: 6%;">
     <input id="fakeInput" type="text" name="country" value="NOT MY PRESIDENT" class="step4input" style="height: 28%;" readonly>
-</div>    
+</div>
+<div id="warningDiv" style="position:absolute;z-index:500;display:none; height:100%; width:100%; background-color:rgba(0, 0, 0, 0.8);text-align:center; color: #666; vertical-align: middle;">
+<div id="warningContentDiv" style="height:auto; width:85%; background-color:rgba(250, 250, 250, 0.8);font-family: 'Oswald medium', sans-serif; font-size: 35px; margin-left: auto; margin-right: auto; left:0; right:0; padding-top: 2%; padding-bottom: 2%;">
+    <h1>
+        Please switch to Chrome for the best experience! 
+    </h1>
+    <br>
+    <button id="warningButton" style="padding:2%;">
+        OKAY
+    </button>
+    </div>
+</div>
   <div class="modaldiv" data-ix="displaynoneonload">
     <!--<div class="modalcontentwrapper">-->
         <div class="modalcontent">
@@ -370,6 +381,27 @@
             $(".webcamhelpertext").text("Tap To Change Filter");
             $(".approvehelpertext").text("Tap To Change Filter");
         }
+        var isChrome = !!window.chrome && !!window.chrome.webstore;
+        if(isChrome == false){
+            $("#warningDiv").show(); 
+        }
+        //retake photo  
+        $( "#warningButton" ).on('touchend click', function(){ 
+            $("#warningButton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
+                $("#warningButton").transition({filter: 'invert(0%)' }, 100, 'in', function() {    
+                    $('#warningDiv').hide(); 
+                });
+            });
+        });
+        $( "#warningButton" ).hover( 
+            function(){  
+                $("#warningButton").transition({opacity: .6 }, 100, 'in'); 
+            },
+            function(){  
+                $("#warningButton").transition({opacity: 1.0 }, 100, 'in'); 
+            }
+        );  
+          
           
        // var webvideo = document.getElementById('videoElement');
         var wCanvas = document.getElementById('webcamcanvas');  
