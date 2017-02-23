@@ -381,10 +381,27 @@
             $(".webcamhelpertext").text("Tap To Change Filter");
             $(".approvehelpertext").text("Tap To Change Filter");
         }
-        var isChrome = !!window.chrome && !!window.chrome.webstore;
-        if(isChrome == false){
+        //var isChrome = !!window.chrome && !!window.chrome.webstore;
+       // if(isChrome == false){
+         //   $("#warningDiv").show(); 
+        //}
+        var isChromium = window.chrome,
+        winNav = window.navigator,
+        vendorName = winNav.vendor,
+        isOpera = winNav.userAgent.indexOf("OPR") > -1,
+        isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+        isIOSChrome = winNav.userAgent.match("CriOS");
+
+        if(isIOSChrome){
+           // is Google Chrome on IOS
+        } else if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false) {
+           // is Google Chrome
+        } else { 
+           // not Google Chrome 
             $("#warningDiv").show(); 
         }
+  
+          
         //retake photo  
         $( "#warningButton" ).on('touchend click', function(){ 
             $("#warningButton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
