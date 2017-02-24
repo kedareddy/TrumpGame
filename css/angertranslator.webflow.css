@@ -1097,6 +1097,20 @@ margin-right:auto;
   font-weight: 400;
 }
 
+.webcampreviewdiv{
+  position:absolute;
+  display: block;
+    height: auto;
+  bottom: -20%;
+  z-index: 6;
+  background-color: rgba(0, 0, 0, .5);  
+}
+.webcampreviewimages{
+  position:relative;
+  width: 20%;
+  height: auto; 
+}
+
 .webcamoverlayimage {
   position: absolute;
   

@@ -78,6 +78,12 @@
           </div>
           <div class="modalcanvasdiv">
             <h1 class="webcamhelpertext">Click To Change Filter</h1>
+            <div class="webcampreviewdiv">
+              <img class="webcampreviewimages" id="p1" src="images/Blank.png">
+              <img class="webcampreviewimages" id="p2" src="images/Blank.png">
+              <img class="webcampreviewimages" id="p3" src="images/Blank.png">
+              <img class="webcampreviewimages" id="p4" src="images/Blank.png">
+            </div>  
             <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
                <video autoplay="true" class="webcamvideo" id="videoElement" width="100%" height="75%"></video> 
             <!--<div class="webcamvideo" id="videoElement"></div> -->
@@ -239,7 +245,7 @@
     var widthAvailable;
     var xOffset; 
     var yOffset; 
-    var bareFaceSrc; 
+    var bareFaceSrc;// = []; 
     var gifFrames = []; 
     var allMyFaces = []; 
     var faceSrcData;
@@ -425,6 +431,7 @@
         var selectedBody = "hulk";  
         var clip_image = new Image();
         clip_image.src = 'assets/FinalArt/leia_facearea.png';
+        var faceOutlines = [];
         var imageLeia = new Image();
         imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png'; 
         var faces = { 
@@ -451,16 +458,25 @@
         var leiahead_images = [];
         for (p = 0; p < faces["leia"].pngurl.length; p++) { 
             leiahead_images[p] = new Image();
+            leiahead_images[p].onload= function(){
+                
+            };
             leiahead_images[p].src = faces["leia"].pngurl[p];
         }  
         var pussyhathead_images = [];
         for (q = 0; q < faces["pussyhat"].pngurl.length; q++) { 
             pussyhathead_images[q] = new Image();
+            pussyhathead_images[q].onload= function(){
+                
+            };
             pussyhathead_images[q].src = faces["pussyhat"].pngurl[q];
         }  
         var hathead_images = [];
         for (r = 0; r < faces["hat"].pngurl.length; r++) { 
             hathead_images[r] = new Image();
+            hathead_images[r].onload= function(){
+                
+            };
             hathead_images[r].src = faces["hat"].pngurl[r];
         }  
         for(var key in faces) {
@@ -708,7 +724,7 @@
                 //close webcam stream
                 if ($(event.target).attr('class') == "modaldiv") {
                    // track.stop();
-                    Webcam.reset();
+                    //Webcam.reset();
                     $(".modaldiv").hide();
                 }
 
@@ -849,45 +865,47 @@
             }else if(currentface == "hat"){
                 headArray = hathead_images.concat();
             } 
+            console.log("HEAD A length: "+ headArray.length);
+         
             
-            //setup
+            //var baseImage; 
             var faceCanvas = document.createElement('canvas');
-            
-            var baseImage = new Image(); 
-            baseImage.onload= function(){
-                //faceCanvas.width = baseImage.width;
-                //faceCanvas.height = baseImage.height;
-                faceCanvas.width = widthAvailable;
-                faceCanvas.height = heightAvailable;
-                var fctx = faceCanvas.getContext('2d');
-            
-                //iterate through and add png to bare face
-                for (i = 0; i < headArray.length; i++) { 
-                    fctx.clearRect(0, 0, faceCanvas.width,faceCanvas.height);
-                    fctx.drawImage(baseImage, 0 , 0 , baseImage.width, baseImage.height);
-                    //fctx.drawImage(headArray[i],xOffset ,yOffset, widthAvailable,heightAvailable);
+            faceCanvas.width = widthAvailable;
+            faceCanvas.height = heightAvailable;
+            var fctx = faceCanvas.getContext('2d');
+            for (k = 0; k < headArray.length; k++) { 
+                //alert("k: " + k)
+                /*baseImage = new Image(); 
+                baseImage.onload= function(){
+                    //iterate through and add png to bare face
+                           //setup*/
+ 
+                
+                        fctx.clearRect(0, 0, faceCanvas.width,faceCanvas.height);
+                        //fctx.drawImage(baseImage, 0 , 0 , baseImage.width, baseImage.height);
                         
-                    //desktop
-                    //fctx.drawImage(headArray[i],0 ,0, baseImage.width,baseImage.height);
-                    //mobile
-                    if(isMobile()){
-                        fctx.drawImage(headArray[i],0 ,0, faceCanvas.width,faceCanvas.height);    
-                    }else{
-                        fctx.drawImage(headArray[i],0 ,0, baseImage.width,baseImage.height);
-                    }
-                    
-    
+                        if(isMobile()){
+                            fctx.drawImage(previewFaceImages[k],0 ,0, faceCanvas.width,faceCanvas.height);    
+                        }else{
+                            //fctx.drawImage(baseImage,0 ,0, faceCanvas.width, faceCanvas.height);
+                            fctx.drawImage(previewFaceImages[k],0 ,0, previewFaceImages[k].width, previewFaceImages[k].height);
+                        }
+
                         var srcData = faceCanvas.toDataURL('image/png');
                         var tImage = new Image(); 
                         tImage.src = srcData; 
                         //alert("baseImage w:" + baseImage.width + " h: " + baseImage.height);
-                        allMyFaces.push(tImage.src); 
-                        if(i == 3){ 
+                        allMyFaces.push(tImage.src);
+                        //alert("made face png: " + k);
+                        if(k == 3){ 
+                             //console.log(" png last");
                             GenerateGIF(); 
                         }  
-                }   
-            };
-            baseImage.src = bareFaceSrc; 
+                //};
+                //console.log("barefacesrc: " + bareFaceSrc);
+                //baseImage.src = bareFaceSrc; 
+                //baseImage.src = previewFaceImages[i].src; */
+            }
         }  
           
         function changeImageSrc(domImg,src1)
@@ -921,18 +939,17 @@
                         };
                         clip_image.src = faces[currentface]["clipurl"];
 
-                        imageLeia = new Image();
-                        imageLeia.onload = function()
-                        {
-                            imageLeia.width = $( ".webcamoverlayimage" ).width();
-                            imageLeia.height = $( ".webcamoverlayimage" ).height();
-                            faceImagesLoaded();
-                        };
-                        imageLeia.src = faces[currentface]["pngurl"][0];
-                                //changeImageSrc(clip_image,faces[currentface]["clipurl"]);
-                                //changeImageSrc(imageLeia,faces[currentface]["pngurl"][0]);
-                                //clip_image.src = faces[currentface]["clipurl"];           
-                                //imageLeia.src = faces[currentface]["pngurl"][0];
+                        for (i = 0; i < faces[currentface]["pngurl"].length; i++) { 
+                            imageLeia = new Image();
+                            imageLeia.onload = function()
+                            {
+                                imageLeia.width = $( ".webcamoverlayimage" ).width();
+                                imageLeia.height = $( ".webcamoverlayimage" ).height();
+                                faceImagesLoaded();
+                            };
+                            imageLeia.src = faces[currentface]["pngurl"][i];
+                            faceOutlines.push(imageLeia);
+                        }
                     });
                 });
             }
@@ -950,12 +967,15 @@
         var faceImageLoadCounter = 0;   
         function faceImagesLoaded(){
             faceImageLoadCounter++;
-            if(faceImageLoadCounter >= 2){
+            if(faceImageLoadCounter >= 5){
                 compileFace();
             }
         }
          
-        function compileFace(){  
+        var faceCounter = 0;  
+        var previewFaceImages = [];
+        function compileFace(){ 
+             
             var webvideo = document.getElementById("videoElement");
             xOffset = ($(".webcamoverlayimage").offset().left -$(".modalcontent").offset().left)
             yOffset = $(".webcamoverlayimage").offset().top;
@@ -1003,7 +1023,7 @@
                // fctx.drawImage(webvideo, 0, 0, webvideo.clientWidth, heightAvailable, 0, 0, webvideo.clientWidth, heightAvailable);   
              if (typeof fctx.filter !== "undefined") {
                 //fctx.filter = "saturate(800%)";
-                 //fctx.filter = "brightness(300%)"; 
+                 fctx.filter = "brightness(300%)"; 
              }else{
                  
              }
@@ -1021,18 +1041,22 @@
                 };*/
                 
                 //extract bare face to use later. 
-                var resultCanvas = new ClosePixelation( wCanvas, fctx, [
+                /*var resultCanvas = new ClosePixelation( wCanvas, fctx, [
                     { resolution: 24 },
                     { shape: 'diamond', resolution: 24, offset: 12, alpha: 0.5  },
                     { shape: 'diamond', resolution: 24, offset: 36, alpha: 0.5  },
                     { shape: 'circle', resolution: 8, size: 8, offset: 4, alpha: 0.5 }
                 ]);
-                fctx.drawImage(resultCanvas, 0,0);
-                bareFaceSrc = wCanvas.toDataURL('image/png');  
+                fctx.drawImage(resultCanvas, 0,0);*/
+                bareFaceSrc = wCanvas.toDataURL('image/png');
+                //var tempSrc = wCanvas.toDataURL('image/png');
+                //bareFaceSrc.push(tempSrc);  
 
-            //fctx.drawImage(imageLeia, 0, 0, imageLeia.width, imageLeia.height, xCoord, yCoord, wcWidth, wcHeight);
+                if(faceCounter >= 4){
+                    faceCounter = 0; 
+                }
                 fctx.filter = "none";
-                fctx.drawImage(imageLeia, xCoord,  yCoord, wcWidth, wcHeight);
+                fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
                 //alert(faceSrcData);
@@ -1043,13 +1067,35 @@
                 };*/
                // var apImage = $(".approveimage");
                 //if(faceSrcData.length > 100){}
-                var apImage = document.getElementById('approveimg');
+                //var apImage = document.getElementById('approveimg');
+                var apImage; 
+                
+                
+                if(faceCounter == 0){
+                    apImage = document.getElementById('p1');    
+                }else if(faceCounter == 1){
+                    apImage = document.getElementById('p2');    
+                }else if(faceCounter == 2){
+                    apImage = document.getElementById('p3');    
+                }else if(faceCounter == 3){
+                    apImage = document.getElementById('p4');    
+                }
+                faceCounter++;
+                
                  apImage.onload = function()
                  {
-                     $('.modalcontent').hide();
+                     
+                     if(faceCounter >= 4){
+                         console.log("pfI: " + previewFaceImages.length);
+                         GiffyfyFaces(previewFaceImages); 
+                       
+                     }
                  };
                 
                 apImage.src =faceSrcData;
+                previewFaceImages.push(apImage);
+                
+                
                // apImage.attr("src", faceSrcData);
                 faceImageLoadCounter = 0;   
         
@@ -1061,6 +1107,25 @@
 
            // }, wCanvas );
         }
+          
+        function GiffyfyFaces(frames){
+         
+                gifshot.createGIF({
+                    images: frames,
+                    gifWidth: 463, 
+                    gifHeight: 369, 
+                    interval: 0.17
+                }, function(obj) {
+                    if(!obj.error) {
+                        console.log("making the face GIF"); 
+                        $('.modalcontent').hide();
+                        var image = obj.image;
+                        document.getElementById('approveimg').src = image;
+                    }
+                });
+
+        }  
+          
         
         var words = []; 
         function GenerateGIF(){
@@ -1167,9 +1232,178 @@
                     hctx.font = "60px Oswald";
                     hctx.fillStyle = "white";
                     hctx.textAlign = "center";
-                    hctx.fillText(words[k],.68*hcan.width,hcan.height/2);
+                    //hctx.fillText(words[k],.68*hcan.width,hcan.height/2);
+                    demoShadowEffects();
+                    /// Neon light text-effect
                     
+                    var shadowStyles = {	
+	"Neon": {
+		color: "#FFF",
+		background: "transparent",
+		shadow: "0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff00de, 0 0 70px #ff00de, 0 0 80px #ff00de, 0 0 100px #ff00de, 0 0 150px #ff00de"
+	}
+
+};
+function demoShadowEffects() {
+	function parseShadow(shadows) {
+		shadows = shadows.split(", ");
+		var ret = [];
+		for (var n = 0, length = shadows.length; n < length; n ++) {
+			var shadow = shadows[n].split(" ");
+			var type = shadow[0].replace(parseFloat(shadow[0]), "");
+			if (type == "em") {
+				var obj = {
+					x: metrics.em * parseFloat(shadow[0]),
+					y: metrics.em * parseFloat(shadow[1])
+				};
+			} else {
+				var obj = {
+					x: parseFloat(shadow[0]),
+					y: parseFloat(shadow[1])
+				};
+			}
+			if (shadow[3]) {
+				obj.blur = parseFloat(shadow[2]);
+				obj.color = shadow[3];
+			} else {
+				obj.blur = 0;
+				obj.color = shadow[2];		
+			}
+			ret.push(obj);
+		}
+		return ret;
+	};
+	hctx.save();
+	hctx.font = "80px Oswald";
+	// absolute position of the text (within a translation state)
+	var offsetX = .68*hcan.width;
+	var offsetY = hcan.height/2;
+	// gather information about the height of the font
+	var metrics = getMetrics("thequickbrownfox", hctx.font);
+	var textHeight = metrics.height * 1.20;
+	// loop through text-shadow based effects
+	for (var text in shadowStyles) {
+		var width = hctx.measureText(words[k]).width;
+		var style = shadowStyles[text];
+		// add a background to the current effect
+		//hctx.fillStyle = style.background;
+		//hctx.fillRect(0, offsetY, hctx.canvas.width, textHeight - 1)
+		// parse text-shadows from css
+		var shadows = parseShadow(style.shadow);
+		// loop through the shadow collection
+		var n = shadows.length; while(n--) {
+			var shadow = shadows[n];
+			var totalWidth = width + shadow.blur * 2;
+			hctx.save();
+			hctx.beginPath();
+            console.log("totalwidth: " + totalWidth);
+			hctx.rect(offsetX - (totalWidth/2), offsetY-75, offsetX + totalWidth-(totalWidth), textHeight);
+			hctx.clip();
+			if (shadow.blur) { // just run shadow (clip text)
+				hctx.shadowColor = shadow.color;
+				hctx.shadowOffsetX = shadow.x + totalWidth;
+				hctx.shadowOffsetY = shadow.y;
+				hctx.shadowBlur = shadow.blur;
+				hctx.fillText(words[k], -totalWidth + offsetX, offsetY + metrics.top);
+			} else { // just run pseudo-shadow
+				hctx.fillStyle = shadow.color;
+				//hctx.fillText(words[k], offsetX + (shadow.x||0), offsetY - (shadow.y||0) + metrics.top);
+			}
+			hctx.restore();
+		}
+		// drawing the text in the foreground
+		if (style.color) {
+            //if(drawOnce == false){
+			     hctx.fillStyle = style.color;
+                hctx.fillText(words[k], offsetX, offsetY + metrics.top);
+            //}
+		}
+		// jump to next em-line
+		hctx.translate(0, textHeight);
+	}
+	hctx.restore();
+};
                     
+                    function getBlurValue(blur) {
+	var userAgent = navigator.userAgent;
+	if (userAgent && userAgent.indexOf('Firefox/4') != -1) {
+		var kernelSize = (blur < 8 ? blur / 2 : Math.sqrt(blur * 2));
+		var blurRadius = Math.ceil(kernelSize);
+		return blurRadius * 2;
+	}
+	return blur;
+};
+              
+
+            function getMetrics(text, font) {
+                
+                function createInterlace (size, color1, color2) {
+	var proto = document.createElement("canvas").getContext("2d");
+	proto.canvas.width = size * 2;
+	proto.canvas.height = size * 2;
+	proto.fillStyle = color1; // top-left
+	proto.fillRect(0, 0, size, size);
+	proto.fillStyle = color2; // top-right
+	proto.fillRect(size, 0, size, size);
+	proto.fillStyle = color2; // bottom-left
+	proto.fillRect(0, size, size, size);
+	proto.fillStyle = color1; // bottom-right
+	proto.fillRect(size, size, size, size);
+	var pattern = proto.createPattern(proto.canvas, "repeat");
+	pattern.data = proto.canvas.toDataURL();
+	return pattern;
+};
+                var op_8x8 = createInterlace(8, "#FFF", "#eee");
+                                    var image = document.createElement("img");
+image.width = 42;
+image.height = 1;
+image.src = op_8x8.data;
+image.style.cssText = "display: inline";
+	var metrics = document.getElementById("metrics");
+	if (metrics) {	
+		metrics.style.cssText = "display: block";
+		var parent = metrics.firstChild;
+		parent.firstChild.textContent = text;
+	} else {
+		// setting up html used for measuring text-metrics
+		var parent = document.createElement("span");
+		parent.appendChild(document.createTextNode(text));
+		parent.appendChild(image);
+		var metrics = document.createElement("div");
+		metrics.id = "metrics";
+		metrics.appendChild(parent);
+		document.body.insertBefore(metrics, document.body.firstChild);
+	}
+	
+	// direction of the text
+	var direction = window.getComputedStyle(document.body, "")["direction"];
+
+	// getting css equivalent of ctx.measureText()
+	parent.style.cssText = "font: " + font + "; white-space: nowrap; display: inline;";
+	var width = parent.offsetWidth;
+	var height = parent.offsetHeight;
+
+	// capturing the "top" and "bottom" baseline
+	parent.style.cssText = "font: " + font + "; white-space: nowrap; display: block;";
+	var top = image.offsetTop;
+	var bottom = top - height;
+
+	// capturing the "middle" baseline
+	parent.style.cssText = "font: " + font + "; white-space: nowrap; line-height: 0; display: block;";
+	var middle = image.offsetTop + 1;
+	
+	// cleanup
+	metrics.style.display = "none";
+
+	return {
+		direction: direction,
+		top: top,
+		middle: middle,
+		bottom: bottom,
+		height: height,
+		width: width
+	};
+};
                     //Pointer canvas
                     var pcan = document.createElement('canvas');
                     pcan.width = tempCanvas.width;
