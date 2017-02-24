@@ -78,18 +78,20 @@
           </div>
           <div class="modalcanvasdiv">
             <h1 class="webcamhelpertext">Click To Change Filter</h1>
-            <div class="webcampreviewdiv">
-              <img class="webcampreviewimages" id="p1" src="images/Blank.png">
-              <img class="webcampreviewimages" id="p2" src="images/Blank.png">
-              <img class="webcampreviewimages" id="p3" src="images/Blank.png">
-              <img class="webcampreviewimages" id="p4" src="images/Blank.png">
-            </div>  
+ 
             <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
                <video autoplay="true" class="webcamvideo" id="videoElement" width="100%" height="75%"></video> 
             <!--<div class="webcamvideo" id="videoElement"></div> -->
             <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
           </div>
-          <div class="modalcameradiv"><img class="photobutton" src="images/cricle.png">
+          <div class="modalcameradiv">
+                          <div class="webcampreviewdiv">
+              <img class="webcampreviewimages" id="p1" src="images/Blank.png">
+              <img class="webcampreviewimages" id="p2" src="images/Blank.png">
+              <img class="webcampreviewimages" id="p3" src="images/Blank.png">
+              <img class="webcampreviewimages" id="p4" src="images/Blank.png">
+            </div> 
+              <img class="photobutton" src="images/cricle.png">
           </div>
         </div>
    <!-- </div>  -->
@@ -240,7 +242,8 @@
 
 <script type="text/javascript">
     //var testImage = new Image();
-    var spinner;   
+    var spinner; 
+    var opts;    
     var heightAvailable; 
     var widthAvailable;
     var xOffset; 
@@ -432,8 +435,8 @@
         var clip_image = new Image();
         clip_image.src = 'assets/FinalArt/leia_facearea.png';
         var faceOutlines = [];
-        var imageLeia = new Image();
-        imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png'; 
+        //var imageLeia = new Image();
+        //imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png'; 
         var faces = { 
             leia : {   clipurl:'assets/FinalArt/leia_facearea.png',
                        pngurl:['assets/FinalArt/LeiaHead/head_0006_Layer-1.png',
@@ -632,7 +635,7 @@
             else if(indexNum ==2){
                 currentface = "leia";
             }
-        }
+       }
             
         //cycle overlay images 
         $( ".modalcanvasdiv" ).on('touchend click', function(){
@@ -915,7 +918,7 @@
             {
                 // Load completed
                 domImg.src = this.src;
-                faceImagesLoaded();
+                //faceImagesLoaded();
             };
             img.src = src1;
         }  
@@ -929,7 +932,7 @@
                 lastTime = new Date().getTime();
                 $(".photobutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
                     $(".photobutton").transition({filter: 'invert(0%)' }, 100, 'in', function() { 
-
+                        faceOutlines = [];
                         clip_image = new Image();
                         clip_image.onload = function()
                         {
@@ -939,16 +942,16 @@
                         };
                         clip_image.src = faces[currentface]["clipurl"];
 
-                        for (i = 0; i < faces[currentface]["pngurl"].length; i++) { 
-                            imageLeia = new Image();
-                            imageLeia.onload = function()
+                        for (i = 0; i < faces[currentface].pngurl.length; i++) { 
+                            var outline = new Image();
+                            outline.onload = function()
                             {
-                                imageLeia.width = $( ".webcamoverlayimage" ).width();
-                                imageLeia.height = $( ".webcamoverlayimage" ).height();
+                                outline.width = $( ".webcamoverlayimage" ).width();
+                                outline.height = $( ".webcamoverlayimage" ).height();
                                 faceImagesLoaded();
                             };
-                            imageLeia.src = faces[currentface]["pngurl"][i];
-                            faceOutlines.push(imageLeia);
+                            outline.src = faces[currentface].pngurl[i];
+                            faceOutlines.push(outline);
                         }
                     });
                 });
@@ -1069,8 +1072,7 @@
                 //if(faceSrcData.length > 100){}
                 //var apImage = document.getElementById('approveimg');
                 var apImage; 
-                
-                
+
                 if(faceCounter == 0){
                     apImage = document.getElementById('p1');    
                 }else if(faceCounter == 1){
@@ -1086,13 +1088,37 @@
                  {
                      
                      if(faceCounter >= 4){
-                         console.log("pfI: " + previewFaceImages.length);
+                         var target = document.getElementById('spinnerParent');
+                        $("#spinnerParent").show();
+                        opts = {
+                                  lines: 10 // The number of lines to draw
+                                , length: 28 // The length of each line
+                                , width: 16 // The line thickness
+                                , radius: 42 // The radius of the inner circle
+                                , scale: 1 // Scales overall size of the spinner
+                                , corners: 1 // Corner roundness (0..1)
+                                , color: '#ffffff' // #rgb or #rrggbb or array of colors
+                                , opacity: 0.25 // Opacity of the lines
+                                , rotate: 0 // The rotation offset
+                                , direction: 1 // 1: clockwise, -1: counterclockwise
+                                , speed: 1 // Rounds per second
+                                , trail: 60 // Afterglow percentage
+                                , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+                                , zIndex: 2e9 // The z-index (defaults to 2000000000)
+                                , className: 'spinner' // The CSS class to assign to the spinner
+                                , top: '50%' // Top position relative to parent
+                                , left: '50%' // Left position relative to parent
+                                , shadow: false // Whether to render a shadow
+                                , hwaccel: false // Whether to use hardware acceleration
+                                , position: 'absolute' // Element positioning
+                                }
+                        spinner = new Spinner(opts).spin(target); 
                          GiffyfyFaces(previewFaceImages); 
                        
                      }
                  };
                 
-                apImage.src =faceSrcData;
+                apImage.src = faceSrcData;//wCanvas.toDataURL('image/jpeg');//faceSrcData;
                 previewFaceImages.push(apImage);
                 
                 
@@ -1121,6 +1147,8 @@
                         $('.modalcontent').hide();
                         var image = obj.image;
                         document.getElementById('approveimg').src = image;
+                        $("#spinnerParent").hide();
+                        spinner.stop(); 
                     }
                 });
 
@@ -1497,7 +1525,7 @@ image.style.cssText = "display: inline";
                     $("#createButton").transition({scale: 1.0 }, 200, 'in', function() {    
                         CreateFacePNGs(); 
 
-                        var opts = {
+                        opts = {
                           lines: 10 // The number of lines to draw
                         , length: 28 // The length of each line
                         , width: 16 // The line thickness

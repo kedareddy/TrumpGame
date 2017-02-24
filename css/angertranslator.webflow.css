@@ -1101,14 +1101,16 @@ margin-right:auto;
   position:absolute;
   display: block;
     height: auto;
-  bottom: -20%;
+  top: -40%;
   z-index: 6;
-  background-color: rgba(0, 0, 0, .5);  
+  background-color: #01afd1;  
 }
 .webcampreviewimages{
   position:relative;
   width: 20%;
   height: auto; 
+  /*border: 2px solid lightgrey;*/
+  background-color: lightgrey;
 }
 
 .webcamoverlayimage {
