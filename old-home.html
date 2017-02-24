@@ -884,12 +884,12 @@
                         fctx.clearRect(0, 0, faceCanvas.width,faceCanvas.height);
                         //fctx.drawImage(baseImage, 0 , 0 , baseImage.width, baseImage.height);
                         
-                        if(isMobile()){
-                            fctx.drawImage(previewFaceImages[k],0 ,0, faceCanvas.width,faceCanvas.height);    
-                        }else{
+                        //if(isMobile()){
+                        //    fctx.drawImage(previewFaceImages[k],0 ,0, faceCanvas.width,faceCanvas.height);    
+                        //}else{
                             //fctx.drawImage(baseImage,0 ,0, faceCanvas.width, faceCanvas.height);
                             fctx.drawImage(previewFaceImages[k],0 ,0, previewFaceImages[k].width, previewFaceImages[k].height);
-                        }
+                        //}
 
                         var srcData = faceCanvas.toDataURL('image/png');
                         var tImage = new Image(); 
