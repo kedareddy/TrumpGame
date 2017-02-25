@@ -637,7 +637,10 @@
             }
        }
             
-        //cycle overlay images 
+        //cycle overlay images
+        var filterChangeCounter = 0; 
+        var filterCap = 0; 
+        var filterVal; 
         $( ".modalcanvasdiv" ).on('touchend click', function(){
               if (x) clearTimeout(x);
               x = setTimeout(function() {
@@ -647,12 +650,34 @@
                     }
                     assignCurrentFace(overlayindex);
                     $(".webcamoverlayimage").attr('src', overlayImageUrls[overlayindex]);
-                    //changeImageSrc($(".webcamoverlayimage"),overlayImageUrls[overlayindex]);
                     if( $('.webcamhelpertext').is(':visible')){
                         $('.webcamhelpertext').hide(); 
                     }
-                 y++;
-                 console.log(y);
+                  
+                    if(filterCap > 2){
+                        filterChangeCounter++; 
+                        filterCap = 0; 
+                    }
+                  
+                    if((filterChangeCounter % 3) == 0){
+                        //normal brightness filter
+                        filterVal = "brightness(300%)";
+                        $('.webcamvideo').css('filter',filterVal).css('webkitFilter',filterVal);
+                    }
+                    else if((filterChangeCounter % 3) == 1){
+                        //hue rotate/green filter
+                        filterVal = "brightness(300%) hue-rotate(63deg)";
+                        $('.webcamvideo').css('filter',filterVal).css('webkitFilter',filterVal);
+                    }
+                    else if((filterChangeCounter % 3) == 2){
+                      //saturation filter
+                        filterVal = "brightness(300%) saturate(800%)";
+                        $('.webcamvideo').css('filter',filterVal).css('webkitFilter',filterVal);
+                    }
+                        
+                    filterCap++; 
+                    y++;
+                    //console.log("wtf is y: " + y);
                  // ----------------
               }, 100);
         });  
@@ -680,6 +705,8 @@
             $(".yesbutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
                 $(".yesbutton").transition({filter: 'invert(0%)' }, 100, 'in', function() { 
                     //Webcam.reset();
+                    //var track = stream.getTracks()[0];
+                    //track.stop();
                     $(".modaldiv").hide();
                     setTimeout(function() {
                         fullpage.moveSectionDown();
@@ -700,7 +727,9 @@
         //id name
         $( "#closeiconwebcam", "#closeiconapprove" ).on('touchend click', function(){
             //track.stop();
-            Webcam.reset();
+            //Webcam.reset();
+            var track = stream.getTracks()[0];
+            track.stop();
         });
           
           
@@ -728,6 +757,8 @@
                 if ($(event.target).attr('class') == "modaldiv") {
                    // track.stop();
                     //Webcam.reset();
+                    var track = stream.getTracks()[0];
+                    track.stop();
                     $(".modaldiv").hide();
                 }
 
@@ -891,7 +922,7 @@
                         //    fctx.drawImage(previewFaceImages[k],0 ,0, faceCanvas.width,faceCanvas.height);    
                         //}else{
                             //fctx.drawImage(baseImage,0 ,0, faceCanvas.width, faceCanvas.height);
-                            fctx.drawImage(previewFaceImages[k],0 ,0, previewFaceImages[k].width, previewFaceImages[k].height);
+                            fctx.drawImage(previewFaceImages[k],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
                         //}
 
                         var srcData = faceCanvas.toDataURL('image/png');
@@ -1026,7 +1057,19 @@
                // fctx.drawImage(webvideo, 0, 0, webvideo.clientWidth, heightAvailable, 0, 0, webvideo.clientWidth, heightAvailable);   
              if (typeof fctx.filter !== "undefined") {
                 //fctx.filter = "saturate(800%)";
-                 fctx.filter = "brightness(300%)"; 
+                 //fctx.filter = "brightness(300%)";
+                 if((filterChangeCounter % 3) == 0){
+                        //normal brightness filter
+                        fctx.filter = 'brightness(300%)';
+                    }
+                    else if((filterChangeCounter % 3) == 1){
+                        //hue rotate/green filter
+                        fctx.filter = 'brightness(300%) hue-rotate(63deg)';
+                    }
+                    else if((filterChangeCounter % 3) == 2){
+                      //saturation filter
+                        fctx.filter = 'brightness(300%) saturate(800%)';
+                    }
              }else{
                  
              }
@@ -1113,7 +1156,7 @@
                                 , position: 'absolute' // Element positioning
                                 }
                         spinner = new Spinner(opts).spin(target); 
-                         GiffyfyFaces(previewFaceImages); 
+                        GiffyfyFaces(previewFaceImages); 
                        
                      }
                  };

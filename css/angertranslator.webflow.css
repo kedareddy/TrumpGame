@@ -1144,9 +1144,11 @@ margin-right:auto;
   transform: scaleX(-1);
     
   /*-webkit-filter: saturate(800%);
-  filter: saturate(800%);*/
+  filter: saturate(800%);
+    filter: brightness(300%) hue-rotate(90deg) saturate(800%);*/
+    
   -webkit-filter: brightness(300%);
-  filter: brightness(300%);
+  filter: brightness(300%) ;
 }
 
 .webcamcanvas {
