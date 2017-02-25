@@ -924,18 +924,18 @@
                         //}else{
                             //fctx.drawImage(baseImage,0 ,0, faceCanvas.width, faceCanvas.height);
                             fctx.drawImage(previewFaceImages[k],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
-                        var tempCanvas = document.createElement("canvas"),
+                       /* var tempCanvas = document.createElement("canvas"),
                         tCtx = tempCanvas.getContext("2d");
 
                         tempCanvas.width = 463;
                         tempCanvas.height = 369;
 
-                        tCtx.drawImage(faceCanvas,0,0);
+                        tCtx.drawImage(faceCanvas,0,0);*/
                 
                 
                         //}
 
-                        var srcData = tempCanvas.toDataURL('image/png'); //faceCanvas.toDataURL('image/png');
+                        var srcData = faceCanvas.toDataURL('image/png');//tempCanvas.toDataURL('image/png'); //faceCanvas.toDataURL('image/png');
                         var tImage = new Image(); 
                         tImage.src = srcData; 
                         //alert("baseImage w:" + baseImage.width + " h: " + baseImage.height);
