@@ -1084,7 +1084,7 @@
                  
              }
              
-             fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
+             fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height,0,0,wcWidth,wcHeight);   
              fctx.globalCompositeOperation = 'source-over';
                 /*Filters.brightness = function(pixels, adjustment) {
                       var d = pixels.data;
@@ -1113,6 +1113,7 @@
                 }
                 fctx.filter = "none";
                 fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
+                //fctx.drawImage(faceOutlines[faceCounter],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
                 faceSrcDataJ = wCanvas.toDataURL('image/jpeg');
