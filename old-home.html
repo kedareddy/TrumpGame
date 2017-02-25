@@ -1084,7 +1084,7 @@
                  
              }
              
-             fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height,0,0,wcWidth,wcHeight);   
+             fctx.drawImage(webvideo, 0, 0, wCanvas.width, wCanvas.height);   
              fctx.globalCompositeOperation = 'source-over';
                 /*Filters.brightness = function(pixels, adjustment) {
                       var d = pixels.data;
@@ -1104,7 +1104,7 @@
                     { shape: 'circle', resolution: 8, size: 8, offset: 4, alpha: 0.5 }
                 ]);
                 fctx.drawImage(resultCanvas, 0,0);*/
-                bareFaceSrc = wCanvas.toDataURL('image/png');
+                //bareFaceSrc = wCanvas.toDataURL('image/png');
                 //var tempSrc = wCanvas.toDataURL('image/png');
                 //bareFaceSrc.push(tempSrc);  
 
@@ -1114,9 +1114,18 @@
                 fctx.filter = "none";
                 fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
                 //fctx.drawImage(faceOutlines[faceCounter],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
+                        var tempCanvas = document.createElement("canvas"),
+                        tCtx = tempCanvas.getContext("2d");
 
-                faceSrcData = wCanvas.toDataURL('image/png');
-                faceSrcDataJ = wCanvas.toDataURL('image/jpeg');
+                        tempCanvas.width = 600;
+                        tempCanvas.height = 450;
+
+                        tCtx.drawImage(wCanvas,0,0);
+            
+            
+
+                faceSrcData = tempCanvas.toDataURL('image/png');//wCanvas.toDataURL('image/png');
+                //faceSrcDataJ = wCanvas.toDataURL('image/jpeg');
                 //alert(faceSrcData);
                 //faceImage.onload = faceImageLoaded;
                /* faceImage.onload = function(){
