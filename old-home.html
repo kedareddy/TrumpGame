@@ -252,6 +252,7 @@
     var gifFrames = []; 
     var allMyFaces = []; 
     var faceSrcData;
+    var faceSrcDataJ;
     var faceImage = new Image(); 
     var inputText1 = "I am American";
     var inputText4 = "He is not my president"; 
@@ -923,9 +924,18 @@
                         //}else{
                             //fctx.drawImage(baseImage,0 ,0, faceCanvas.width, faceCanvas.height);
                             fctx.drawImage(previewFaceImages[k],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
+                        var tempCanvas = document.createElement("canvas"),
+                        tCtx = tempCanvas.getContext("2d");
+
+                        tempCanvas.width = 463;
+                        tempCanvas.height = 369;
+
+                        tCtx.drawImage(faceCanvas,0,0);
+                
+                
                         //}
 
-                        var srcData = faceCanvas.toDataURL('image/png');
+                        var srcData = tempCanvas.toDataURL('image/png'); //faceCanvas.toDataURL('image/png');
                         var tImage = new Image(); 
                         tImage.src = srcData; 
                         //alert("baseImage w:" + baseImage.width + " h: " + baseImage.height);
@@ -1105,6 +1115,7 @@
                 fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
 
                 faceSrcData = wCanvas.toDataURL('image/png');
+                faceSrcDataJ = wCanvas.toDataURL('image/jpeg');
                 //alert(faceSrcData);
                 //faceImage.onload = faceImageLoaded;
                /* faceImage.onload = function(){
@@ -1200,7 +1211,7 @@
         
         var words = []; 
         function GenerateGIF(){
-            console.log("great in g g");
+            //console.log("great in g g");
             gifFrames = [];
             var idleArray;
             var jabArray; 
