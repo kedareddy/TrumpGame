@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="sharelinkdiv">
-          <h1 class="sharelink">Share Link:</h1>
+          <h1 class="sharelink">GIF Link:</h1>
           <div class="sharelinktext">https://www.playloops.io/notmypresident.html</div>
         </div>
       </div>
@@ -121,6 +121,8 @@
     
     <script src="js/spin.min.js"></script>
     <script src="js/jquery.transit.js"></script>
+    <script src="/js/neon_text.js"></script>
+    
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
     
@@ -422,6 +424,7 @@
                     var tempCanvas = document.createElement('canvas');
                     tempCanvas.width = 600;
                     tempCanvas.height = 450;
+                
                     var ctx= tempCanvas.getContext("2d");
                     
                     //ctx.drawImage(hcan, 0, 0);
@@ -436,7 +439,9 @@
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253); 
+                    //oilPaintEffect(tempCanvas,ctx, 4, getRandomInt(85,255));
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -450,6 +455,104 @@
         MakeGif2(); 
         //startAnimation1(); 
     }
+    
+    function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+    
+    
+function oilPaintEffect(canvas, ctx,radius, intensity) {
+    var width = canvas.width,
+        height = canvas.height,
+        imgData = ctx.getImageData(0, 0, width, height),
+        pixData = imgData.data,
+        destCanvas = document.createElement("canvas"),
+        dCtx = destCanvas.getContext("2d"),
+        pixelIntensityCount = [];
+
+    destCanvas.width = width;
+    destCanvas.height = height;
+
+    // for demo purposes, remove this to modify the original canvas
+    //document.body.appendChild(destCanvas);
+
+    var destImageData = dCtx.createImageData(width, height),
+        destPixData = destImageData.data,
+        intensityLUT = [],
+        rgbLUT = [];
+
+    for (var y = 0; y < height; y++) {
+        intensityLUT[y] = [];
+        rgbLUT[y] = [];
+        for (var x = 0; x < width; x++) {
+            var idx = (y * width + x) * 4,
+                r = pixData[idx],
+                g = pixData[idx + 1],
+                b = pixData[idx + 2],
+                avg = (r + g + b) / 3;
+
+            intensityLUT[y][x] = Math.round((avg * intensity) / 255);
+            rgbLUT[y][x] = {
+                r: r,
+                g: g,
+                b: b
+            };
+        }
+    }
+
+
+    for (y = 0; y < height; y++) {
+        for (x = 0; x < width; x++) {
+
+            pixelIntensityCount = [];
+
+            // Find intensities of nearest pixels within radius.
+            for (var yy = -radius; yy <= radius; yy++) {
+                for (var xx = -radius; xx <= radius; xx++) {
+                    if (y + yy > 0 && y + yy < height && x + xx > 0 && x + xx < width) {
+                        var intensityVal = intensityLUT[y + yy][x + xx];
+
+                        if (!pixelIntensityCount[intensityVal]) {
+                            pixelIntensityCount[intensityVal] = {
+                                val: 1,
+                                r: rgbLUT[y + yy][x + xx].r,
+                                g: rgbLUT[y + yy][x + xx].g,
+                                b: rgbLUT[y + yy][x + xx].b
+                            }
+                        } else {
+                            pixelIntensityCount[intensityVal].val++;
+                            pixelIntensityCount[intensityVal].r += rgbLUT[y + yy][x + xx].r;
+                            pixelIntensityCount[intensityVal].g += rgbLUT[y + yy][x + xx].g;
+                            pixelIntensityCount[intensityVal].b += rgbLUT[y + yy][x + xx].b;
+                        }
+                    }
+                }
+            }
+
+            pixelIntensityCount.sort(function (a, b) {
+                return b.val - a.val;
+            });
+
+            var curMax = pixelIntensityCount[0].val,
+                dIdx = (y * width + x) * 4;
+
+            destPixData[dIdx] = ~~ (pixelIntensityCount[0].r / curMax);
+            destPixData[dIdx + 1] = ~~ (pixelIntensityCount[0].g / curMax);
+            destPixData[dIdx + 2] = ~~ (pixelIntensityCount[0].b / curMax);
+            destPixData[dIdx + 3] = 255;
+        }
+    }
+
+    // change this to ctx to instead put the data on the original canvas
+    ctx.putImageData(destImageData, 0, 0);
+}
+    
+    
+    
+    
+    
     
     function MakeGif2(){
             var jabArray; 
@@ -551,6 +654,7 @@
                         }
                         
                     }
+                
                     ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
@@ -817,6 +921,17 @@
                 //$(".sharediv").height(desiredHeight);
             //}
         };
+        
+        //neonize the text
+        $('.playertext').neonText({
+            textColor: '#EAEAEA',
+            textSize: '60pt', 
+            neonHighlight: '#EAEAEA',
+            neonHighlightColor: '#FF00DE',
+        });
+
+        
+        
         
         $( ".editbutton" ).hover( 
             function(){  

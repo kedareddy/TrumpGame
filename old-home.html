@@ -260,12 +260,27 @@
     var isMobile;
     //timeout variables
     var x, y = 1;
-    var click_urls = ['images/click/click_0003_Layer-1.png','images/click/click_0002_Layer-2.png', 'images/click/click_0001_Layer-3.png', 'images/click/click_0000_Layer-4.png'];
+    //webcam stream, used to stop later. 
+    var localStream; 
+    
+    var head_urls = ['/assets/FinalArt/FakeHead/head_0000_Layer-4.png','/assets/FinalArt/FakeHead/head_0001_Layer-3.png','/assets/FinalArt/FakeHead/head_0002_Layer-2.png','/assets/FinalArt/FakeHead/head_0003_Layer-1.png'];
+    var blank_heads = [];
+    var blankHeadCounter = 0; 
+    for (a = 0; a < head_urls.length; a++) {
+        blank_heads[a] = new Image();
+        blankHeadCounter++;
+        blank_heads[a].src = head_urls[a];
+    }    
+    
+
+    
+    
+    /*var click_urls = ['images/click/click_0003_Layer-1.png','images/click/click_0002_Layer-2.png', 'images/click/click_0001_Layer-3.png', 'images/click/click_0000_Layer-4.png'];
     var click_images = [];
     for (a = 0; a < click_urls.length; a++) {
         click_images[a] = new Image();
         click_images[a].src = click_urls[a];
-    }
+    }*/
     
     var leiaidle_urls = ['assets/FinalArt/LeiaIdle/Idle_0003_Layer 1.jpg','assets/FinalArt/LeiaIdle/Idle_0002_Layer 2.jpg', 'assets/FinalArt/LeiaIdle/Idle_0001_Layer 3.jpg', 'assets/FinalArt/LeiaIdle/Idle_0000_Layer 4.jpg'];
     var leiajab_urls = ['assets/FinalArt/LeiaJab/Jab_0003_Layer 1.jpg','assets/FinalArt/LeiaJab/Jab_0002_Layer 2.jpg', 'assets/FinalArt/LeiaJab/Jab_0001_Layer 3.jpg', 'assets/FinalArt/LeiaJab/Jab_0000_Layer 4.jpg'];
@@ -511,7 +526,7 @@
         
         /* CODE TO DISPLAY WEBCAM FEED ON MODAL WINDOW */ 
         var video = document.querySelector("#videoElement");
-        var track; 
+       // var track; 
         var overlayImageUrls = ["assets/FinalArt/hat.gif", "assets/FinalArt/pussyhat.gif", "assets/FinalArt/LeiaHead2.gif"]; 
         var overlayindex = 0; 
         var timeSelfieNow; 
@@ -539,8 +554,13 @@
                       .catch(e => log(e.name + ": "+ e.message));
                         */
                 
+                      if(localStream!= null){
+                          var track = localStream.getTracks()[0];
+                          track.stop();
+                      }
                       navigator.mediaDevices.getUserMedia({video: true, audio:false})
                       .then(stream => videoElement.srcObject = stream)
+                      .then(stream => localStream = stream)
                       .then(() => new Promise(resolve => video.onloadedmetadata = resolve))
                       .then(() => handleVideo())
                       .catch(e => console.log(e));
@@ -706,8 +726,8 @@
             $(".yesbutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
                 $(".yesbutton").transition({filter: 'invert(0%)' }, 100, 'in', function() { 
                     //Webcam.reset();
-                    //var track = stream.getTracks()[0];
-                    //track.stop();
+                    var track = localStream.getTracks()[0];
+                    track.stop();
                     $(".modaldiv").hide();
                     setTimeout(function() {
                         fullpage.moveSectionDown();
@@ -729,7 +749,8 @@
         $( "#closeiconwebcam", "#closeiconapprove" ).on('touchend click', function(){
             //track.stop();
             //Webcam.reset();
-            var track = stream.getTracks()[0];
+            previewFaceImages = []; 
+            var track = localStream.getTracks()[0];
             track.stop();
         });
           
@@ -758,8 +779,9 @@
                 if ($(event.target).attr('class') == "modaldiv") {
                    // track.stop();
                     //Webcam.reset();
-                    var track = stream.getTracks()[0];
+                    var track = localStream.getTracks()[0];
                     track.stop();
+                    previewFaceImages = []; 
                     $(".modaldiv").hide();
                 }
 
@@ -905,8 +927,14 @@
             
             //var baseImage; 
             var faceCanvas = document.createElement('canvas');
-            faceCanvas.width = widthAvailable;
-            faceCanvas.height = heightAvailable;
+            if(previewFaceImages.length == 0){
+                faceCanvas.width = blank_heads[0].width;
+                faceCanvas.height = blank_heads[0].height;    
+            }else{
+                faceCanvas.width = widthAvailable;
+                faceCanvas.height = heightAvailable;
+            }
+            
             var fctx = faceCanvas.getContext('2d');
             for (k = 0; k < headArray.length; k++) { 
                 //alert("k: " + k)
@@ -914,16 +942,24 @@
                 baseImage.onload= function(){
                     //iterate through and add png to bare face
                            //setup*/
- 
+               
                 
-                        fctx.clearRect(0, 0, faceCanvas.width,faceCanvas.height);
+                    fctx.clearRect(0, 0, faceCanvas.width,faceCanvas.height);
                         //fctx.drawImage(baseImage, 0 , 0 , baseImage.width, baseImage.height);
                         
                         //if(isMobile()){
                         //    fctx.drawImage(previewFaceImages[k],0 ,0, faceCanvas.width,faceCanvas.height);    
                         //}else{
                             //fctx.drawImage(baseImage,0 ,0, faceCanvas.width, faceCanvas.height);
-                            fctx.drawImage(previewFaceImages[k],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
+                //alert("pfi length: " + previewFaceImages.length);
+                
+                if(previewFaceImages.length == 0){     
+                    fctx.drawImage(blank_heads[k],0,0, blank_heads[k].width, blank_heads[k].height, 0,0,blank_heads[k].width, blank_heads[k].height);
+                }
+                else{
+                    fctx.drawImage(previewFaceImages[k],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
+                }
+                            
                        /* var tempCanvas = document.createElement("canvas"),
                         tCtx = tempCanvas.getContext("2d");
 
@@ -939,7 +975,10 @@
                         var tImage = new Image(); 
                         tImage.src = srcData; 
                         //alert("baseImage w:" + baseImage.width + " h: " + baseImage.height);
+                        
+                        //allMyFaces.push(blank_heads[k].src);
                         allMyFaces.push(tImage.src);
+                
                         //alert("made face png: " + k);
                         if(k == 3){ 
                              //console.log(" png last");
@@ -1231,20 +1270,24 @@
                 idleArray = leiaidle_images.concat(); 
                 jabArray = leiajab_images.concat();
                 punchArray = leiapunch_images.concat();
-                headPos = { x:42, y: 60};
+                 headPos = { x:5, y: 0};
+                //headPos = { x:42, y: 60};
             }else if(selectedBody == "luther"){
                 idleArray = lutheridle_images.concat(); 
                 jabArray = lutherjab_images.concat();
                 punchArray = lutherpunch_images.concat();
-                headPos = { x:108, y: -6};
+                 headPos = { x:71, y: -51};
+                //headPos = { x:108, y: -6};
             }else if(selectedBody == "hulk"){
                 idleArray = hulkidle_images.concat(); 
                 jabArray = hulkjab_images.concat();
                 punchArray = hulkpunch_images.concat();
-                headPos = { x:16, y: -9};
+                headPos = { x:-21, y: -40};
+                //headPos = { x:16, y: -9};
             } 
+                    
             
-            
+            /*
              for (j = 0; j < idleArray.length; j++) { 
                     
                     var tempCanvas = document.createElement('canvas');
@@ -1271,14 +1314,7 @@
                     
                     var tempImage = new Image(); 
                     tempImage.onload = function(){
-                        
-                    };
-                    /*faceCounter++;
-                    if(faceCounter == 4){
-                        faceCounter = 0; 
-                    }*/
-                    tempImage.src = allMyFaces[j]; 
-                    //5 ,116,334, 251 LEIA
+                               //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
                     ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);  
@@ -1291,7 +1327,16 @@
                     oneImage.src = imgData;
                     // gifFrames.length = 0; 
                     gifFrames.push(oneImage);
-            }
+                    };
+                 //alert("url: " + head_urls[j]);
+                    //if(allMyFaces.length === 0){
+                        tempImage.src = "assets/FinalArt/LeiaHead/head_0006_Layer-1.png";//blank_heads[j].src; 
+                    //}else{
+                    //    tempImage.src = allMyFaces[j];     
+                    //}
+                    
+             
+            }*/
             
             var faceCounter = 0; 
             words.length = 0;
@@ -1311,7 +1356,7 @@
                     tempCanvas.width = 600;
                     tempCanvas.height = 450;
                     var ctx= tempCanvas.getContext("2d");
-                    ctx.clearRect(0, 0, tempCanvas.width, hcan.height);
+                    ctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
                     
                     var hcan = document.createElement('canvas');
                     hcan.width = tempCanvas.width;
@@ -1388,7 +1433,7 @@ function demoShadowEffects() {
 			var totalWidth = width + shadow.blur * 2;
 			hctx.save();
 			hctx.beginPath();
-            console.log("totalwidth: " + totalWidth);
+            //console.log("totalwidth: " + totalWidth);
 			hctx.rect(offsetX - (totalWidth/2), offsetY-75, offsetX + totalWidth-(totalWidth), textHeight);
 			hctx.clip();
 			if (shadow.blur) { // just run shadow (clip text)
@@ -1497,11 +1542,11 @@ image.style.cssText = "display: inline";
 	};
 };
                     //Pointer canvas
-                    var pcan = document.createElement('canvas');
+                    /*var pcan = document.createElement('canvas');
                     pcan.width = tempCanvas.width;
                     pcan.height = tempCanvas.height;
                     var pctx = pcan.getContext('2d');
-                    pctx.clearRect(0, 0, tempCanvas.width, hcan.height);
+                    pctx.clearRect(0, 0, tempCanvas.width, hcan.height);*/
                     
                    
                     ctx.drawImage(punchArray[i], 0, 0);
@@ -1510,15 +1555,7 @@ image.style.cssText = "display: inline";
                     var vRatio = tempCanvas.height / faceImage.height;
                     var ratio  = Math.min ( hRatio, vRatio );
                     
-                    var tempImage = new Image(); 
-                    tempImage.onload = function(){
-                        
-                    };
-                    faceCounter++;
-                    if(faceCounter == 4){
-                        faceCounter = 0; 
-                    }
-                    tempImage.src = allMyFaces[faceCounter]; 
+                    
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
@@ -1534,20 +1571,41 @@ image.style.cssText = "display: inline";
                           headPos = { x:71, y: -50};  
                         }
                     }
+                    
+                    
+                    
+                    faceCounter++;
+                    if(faceCounter == 4){
+                        faceCounter = 0; 
+                    }
+                    
+                    var tempImage = new Image(); 
+                    tempImage.onload = function(){
+                        
+                    };
+                    //tempImage.src = head_urls[faceCounter]; 
+        //alert(allMyFaces.length);
+                    if(previewFaceImages.length == 0){
+                        tempImage.src = head_urls[faceCounter]; 
+                    }else{
+
+                        tempImage.src = allMyFaces[faceCounter];     
+                   }
+                    
                     ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
                     if(i != 0){
                         ctx.drawImage(hcan, 0,0);
                     }
                         //clear the heading canvas
-                    pctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+                   /* pctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
                     pctx = pcan.getContext("2d");
                     if(faceCounter == 0 && k != (words.length-1)){
                         //click
-                        pctx.drawImage(click_images[2], 0,0);
+                       // pctx.drawImage(click_images[2], 0,0);
                     }else{
                         //no click
-                        pctx.drawImage(click_images[1], 0,0);
-                    }
+                        //pctx.drawImage(click_images[1], 0,0);
+                    }*/
                     
                     //ctx.drawImage(pcan, 0,0);
                     
@@ -1729,6 +1787,7 @@ image.style.cssText = "display: inline";
                         var image = obj.image;
                         $('.previewfootersection').show(); 
                         document.getElementById('previewimage').src = image;
+    
                         uploadContent(); 
                     }
                 });

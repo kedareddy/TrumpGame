@@ -14,7 +14,7 @@
  
     
 <!-- updte with summary gif-->     
-  <meta property="og:url" content="{{summary_img}}"> 
+  <meta property="og:url" content="{{summary_url}}"> 
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@Playloops">
@@ -111,7 +111,7 @@
         </div>
         <div class="sharelinkdiv">
           <h1 class="sharelink">Share Link:</h1>
-          <div class="sharelinktext">{{playloop_url}}</div>
+          <div class="sharelinktext">{{summary_url}}</div>
         </div>
       </div>
     </div>
@@ -121,6 +121,7 @@
     
     <script src="/js/spin.min.js"></script>
     <script src="/js/jquery.transit.js"></script>
+    <script src="/js/neon_text.js"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
     
@@ -822,6 +823,15 @@
                 //$(".sharediv").height(desiredHeight);
             //}
         };
+        
+          //neonize the text
+        $('.playertext').neonText({
+            textColor: '#EAEAEA',
+            textSize: '60pt', 
+            neonHighlight: '#EAEAEA',
+            neonHighlightColor: '#FF00DE',
+        });
+
         
         $( ".editbutton" ).hover( 
             function(){  
