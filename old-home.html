@@ -681,18 +681,19 @@
                     }
                   
                     if((filterChangeCounter % 3) == 0){
-                        //normal brightness filter
-                        filterVal = "brightness(300%)";
+                                         //hue rotate/green filter
+                        filterVal = "brightness(250%) hue-rotate(63deg)";
                         $('.webcamvideo').css('filter',filterVal).css('webkitFilter',filterVal);
+                     
                     }
                     else if((filterChangeCounter % 3) == 1){
-                        //hue rotate/green filter
-                        filterVal = "brightness(300%) hue-rotate(63deg)";
+             //saturation filter
+                        filterVal = "brightness(250%) saturate(800%)";
                         $('.webcamvideo').css('filter',filterVal).css('webkitFilter',filterVal);
                     }
                     else if((filterChangeCounter % 3) == 2){
-                      //saturation filter
-                        filterVal = "brightness(300%) saturate(800%)";
+                   //normal brightness filter
+                        filterVal = "brightness(250%)";
                         $('.webcamvideo').css('filter',filterVal).css('webkitFilter',filterVal);
                     }
                         
@@ -1108,16 +1109,17 @@
                 //fctx.filter = "saturate(800%)";
                  //fctx.filter = "brightness(300%)";
                  if((filterChangeCounter % 3) == 0){
-                        //normal brightness filter
-                        fctx.filter = 'brightness(300%)';
+                        //hue rotate/green filter
+                        fctx.filter = 'brightness(250%) hue-rotate(63deg)';
                     }
                     else if((filterChangeCounter % 3) == 1){
-                        //hue rotate/green filter
-                        fctx.filter = 'brightness(300%) hue-rotate(63deg)';
+                          //saturation filter
+                        fctx.filter = 'brightness(250%) saturate(800%)';
                     }
                     else if((filterChangeCounter % 3) == 2){
-                      //saturation filter
-                        fctx.filter = 'brightness(300%) saturate(800%)';
+                    
+                        //normal brightness filter
+                        fctx.filter = 'brightness(250%)';
                     }
              }else{
                  

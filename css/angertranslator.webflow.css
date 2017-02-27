@@ -1221,7 +1221,10 @@ margin-right:auto;
   padding-top: 0.2em;
   padding-bottom: 0.2em;
   /*background-color: #000;*/
-  font-family: 'Oswald bold', sans-serif;
+  font-family: 'Oswald';
+    	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
   color: #fff;
   font-size: 4em;
   text-align: center;
