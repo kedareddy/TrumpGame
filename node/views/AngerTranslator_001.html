@@ -406,15 +406,23 @@
     function MakeGif1(){
             var idleArray; 
             var headPos = { x:5, y: 116};
+            var headSize = {w: 275, h: 206.45 };
             if(heroname == "leia"){
                 idleArray = leiaidle_images.slice();
+                //5, 0
+                //headPos = { x:32, y: 30};
                 headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
             }else if(heroname == "luther"){
                 idleArray = lutheridle_images.slice();
-                headPos = { x:71, y: -51};
+                //71, -51
+                headPos = { x:93, y: -21};
+                var headSize = {w: 275, h: 206.45 };
             }else if(heroname == "hulk"){
                 idleArray = hulkidle_images.slice();
-                headPos = { x:-21, y: -40};
+                //-21, -40
+                headPos = { x:8, y: -20};
+                var headSize = {w: 275, h: 206.45 };
             } 
             
             for (i = 0; i < idleArray.length; i++) { 
@@ -422,6 +430,7 @@
                     var tempCanvas = document.createElement('canvas');
                     tempCanvas.width = 600;
                     tempCanvas.height = 450;
+                
                     var ctx= tempCanvas.getContext("2d");
                     
                     //ctx.drawImage(hcan, 0, 0);
@@ -432,12 +441,14 @@
                     tempImage.onload = function(){
                         
                     };
-		            tempImage.setAttribute('crossOrigin', 'anonymous');
                     tempImage.src = allMyFaces[i].src; 
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                
+                    //337, 253    225.22      290,217.17   280,210.2
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y, headSize.w, headSize.h); 
+                    //oilPaintEffect(tempCanvas,ctx, 4, getRandomInt(85,255));
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -452,19 +463,123 @@
         //startAnimation1(); 
     }
     
+    function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+    
+    
+function oilPaintEffect(canvas, ctx,radius, intensity) {
+    var width = canvas.width,
+        height = canvas.height,
+        imgData = ctx.getImageData(0, 0, width, height),
+        pixData = imgData.data,
+        destCanvas = document.createElement("canvas"),
+        dCtx = destCanvas.getContext("2d"),
+        pixelIntensityCount = [];
+
+    destCanvas.width = width;
+    destCanvas.height = height;
+
+    // for demo purposes, remove this to modify the original canvas
+    //document.body.appendChild(destCanvas);
+
+    var destImageData = dCtx.createImageData(width, height),
+        destPixData = destImageData.data,
+        intensityLUT = [],
+        rgbLUT = [];
+
+    for (var y = 0; y < height; y++) {
+        intensityLUT[y] = [];
+        rgbLUT[y] = [];
+        for (var x = 0; x < width; x++) {
+            var idx = (y * width + x) * 4,
+                r = pixData[idx],
+                g = pixData[idx + 1],
+                b = pixData[idx + 2],
+                avg = (r + g + b) / 3;
+
+            intensityLUT[y][x] = Math.round((avg * intensity) / 255);
+            rgbLUT[y][x] = {
+                r: r,
+                g: g,
+                b: b
+            };
+        }
+    }
+
+
+    for (y = 0; y < height; y++) {
+        for (x = 0; x < width; x++) {
+
+            pixelIntensityCount = [];
+
+            // Find intensities of nearest pixels within radius.
+            for (var yy = -radius; yy <= radius; yy++) {
+                for (var xx = -radius; xx <= radius; xx++) {
+                    if (y + yy > 0 && y + yy < height && x + xx > 0 && x + xx < width) {
+                        var intensityVal = intensityLUT[y + yy][x + xx];
+
+                        if (!pixelIntensityCount[intensityVal]) {
+                            pixelIntensityCount[intensityVal] = {
+                                val: 1,
+                                r: rgbLUT[y + yy][x + xx].r,
+                                g: rgbLUT[y + yy][x + xx].g,
+                                b: rgbLUT[y + yy][x + xx].b
+                            }
+                        } else {
+                            pixelIntensityCount[intensityVal].val++;
+                            pixelIntensityCount[intensityVal].r += rgbLUT[y + yy][x + xx].r;
+                            pixelIntensityCount[intensityVal].g += rgbLUT[y + yy][x + xx].g;
+                            pixelIntensityCount[intensityVal].b += rgbLUT[y + yy][x + xx].b;
+                        }
+                    }
+                }
+            }
+
+            pixelIntensityCount.sort(function (a, b) {
+                return b.val - a.val;
+            });
+
+            var curMax = pixelIntensityCount[0].val,
+                dIdx = (y * width + x) * 4;
+
+            destPixData[dIdx] = ~~ (pixelIntensityCount[0].r / curMax);
+            destPixData[dIdx + 1] = ~~ (pixelIntensityCount[0].g / curMax);
+            destPixData[dIdx + 2] = ~~ (pixelIntensityCount[0].b / curMax);
+            destPixData[dIdx + 3] = 255;
+        }
+    }
+
+    // change this to ctx to instead put the data on the original canvas
+    ctx.putImageData(destImageData, 0, 0);
+}
+    
+    
+    
+    
+    
+    
     function MakeGif2(){
             var jabArray; 
             var headPos = { x:5, y: 116};
+            var headSize = {w: 275, h: 206.45 };
+        
             if(heroname == "leia"){
                 jabArray = leiajab_images.slice();
+                //5, 0
                 headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
             }else if(heroname == "luther"){
                 jabArray = lutherjab_images.slice();
-                headPos = { x:71, y: -51};
+                //71, -51
+                headPos = { x:93, y: -21};
             }else if(heroname == "hulk"){
                 jabArray = hulkjab_images.slice();
-                headPos = { x:-21, y: -40};
-            } 
+                //-21, -40
+                headPos = { x:8, y: -20};
+            }
             
             
             for (i = 0; i < jabArray.length; i++) { 
@@ -482,12 +597,11 @@
                     tempImage.onload = function(){
                         
                     };
-		            tempImage.setAttribute('crossOrigin', 'anonymous');
                     tempImage.src = allMyFaces[i].src; 
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y, headSize.w, headSize.h);    
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -504,19 +618,23 @@
     function MakeGif3(){
             var punchArray; 
             var headPos = { x:5, y: 116};
+            var headSize = {w: 275, h: 206.45 };
+
             if(heroname == "leia"){
                 punchArray = leiapunch_images.slice();
+                //5, 0
                 headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
             }else if(heroname == "luther"){
                 punchArray = lutherpunch_images.slice();
-                //123, -74
-                //147, -56
-                headPos = { x:71, y: -50};
+                //71, -51
+                headPos = { x:93, y: -21};
             }else if(heroname == "hulk"){
                 punchArray = hulkpunch_images.slice();
-                headPos = { x:-21, y: -40};
-            } 
-            
+                //-21, -40
+                headPos = { x:8, y: -20};
+            }
+
             var j = 0; 
             for (i = 0; i < punchArray.length; i++) { 
                     
@@ -533,7 +651,6 @@
                     tempImage.onload = function(){
                         
                     };
-                    tempImage.setAttribute('crossOrigin', 'anonymous');
                     if(j == 4){
                         j = 0; 
                     }
@@ -542,19 +659,23 @@
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
                     if(heroname == "luther"){
-                        if(i == 0){
-                            headPos = { x:123, y: -74};
+                          if(i == 0){
+                            //headPos = { x:123, y: -74};
+                             headPos = { x:143, y: -54};
                         }else if(i == 1){
-                            headPos = { x:147, y: -56};
+                            //headPos = { x:147, y: -56};
+                            headPos = { x:167, y: -36};
                         }else if(i == 2){
-                            headPos = { x:123, y: -74};
+                            //headPos = { x:123, y: -74};
+                            headPos = { x:143, y: -54};
                         }
                         else{
-                          headPos = { x:71, y: -50};  
+                            //headPos = { x:71, y: -50};  
+                          headPos = { x:91, y: -30};  
                         }
-                        
                     }
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y, headSize.w, headSize.h);    
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -573,7 +694,10 @@
         function MakeGif4(){
             var punchArray; 
             var headPos = { x:5, y: 116};
-            if(heroname == "leia"){
+            var headSize = {w: 275, h: 206.45 };
+            
+            
+            /*if(heroname == "leia"){
                 punchArray = leiaaltpunch_images.slice();
                 headPos = { x:5, y: 0};
             }else if(heroname == "luther"){
@@ -584,7 +708,27 @@
             }else if(heroname == "hulk"){
                 punchArray = hulkaltpunch_images.slice();
                 headPos = { x:5, y: 0};
-            } 
+            } */
+            
+            if(heroname == "leia"){
+                punchArray = leiaaltpunch_images.slice();
+                            //5, 0
+                headPos = { x:32, y: 30};
+                
+            }else if(heroname == "luther"){
+                punchArray = lutheraltpunch_images.slice();
+                //71, -51
+               // headPos = { x:93, y: -21};
+                //5, 0
+                headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
+            }else if(heroname == "hulk"){
+                punchArray = hulkaltpunch_images.slice();
+                //-21, -40
+                    //5, 0
+               headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
+            }
             
             var j = 0; 
             for (i = 0; i < punchArray.length; i++) { 
@@ -602,7 +746,6 @@
                     tempImage.onload = function(){
                         
                     };
-                    tempImage.setAttribute('crossOrigin', 'anonymous');
                     if(j == 4){
                         j = 0; 
                     }
@@ -612,18 +755,22 @@
                     //71 ,50,337, 253 LUTHER
                     if(heroname == "leia"){
                         if(i == 0){
-                            headPos = { x:123, y: -74};
+                            //headPos = { x:123, y: -74};
+                             headPos = { x:143, y: -54};
                         }else if(i == 1){
-                            headPos = { x:147, y: -56};
+                            //headPos = { x:147, y: -56};
+                            headPos = { x:167, y: -36};
                         }else if(i == 2){
-                            headPos = { x:123, y: -74};
+                            //headPos = { x:123, y: -74};
+                            headPos = { x:143, y: -54};
                         }
                         else{
-                          headPos = { x:71, y: -50};  
+                            //headPos = { x:71, y: -50};  
+                          headPos = { x:91, y: -30};  
                         }
                         
                     }
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,headSize.w, headSize.h);    
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -650,6 +797,7 @@
             
 
     }
+    
     
     
     

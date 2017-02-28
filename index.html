@@ -403,15 +403,23 @@
     function MakeGif1(){
             var idleArray; 
             var headPos = { x:5, y: 116};
+            var headSize = {w: 275, h: 206.45 };
             if(heroname == "leia"){
                 idleArray = leiaidle_images.slice();
+                //5, 0
+                //headPos = { x:32, y: 30};
                 headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
             }else if(heroname == "luther"){
                 idleArray = lutheridle_images.slice();
-                headPos = { x:71, y: -51};
+                //71, -51
+                headPos = { x:93, y: -21};
+                var headSize = {w: 275, h: 206.45 };
             }else if(heroname == "hulk"){
                 idleArray = hulkidle_images.slice();
-                headPos = { x:-21, y: -40};
+                //-21, -40
+                headPos = { x:8, y: -20};
+                var headSize = {w: 275, h: 206.45 };
             } 
             
             for (i = 0; i < idleArray.length; i++) { 
@@ -435,7 +443,8 @@
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
                 
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253); 
+                    //337, 253    225.22      290,217.17   280,210.2
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y, headSize.w, headSize.h); 
                     //oilPaintEffect(tempCanvas,ctx, 4, getRandomInt(85,255));
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
@@ -552,16 +561,22 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
     function MakeGif2(){
             var jabArray; 
             var headPos = { x:5, y: 116};
+            var headSize = {w: 275, h: 206.45 };
+        
             if(heroname == "leia"){
                 jabArray = leiajab_images.slice();
+                //5, 0
                 headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
             }else if(heroname == "luther"){
                 jabArray = lutherjab_images.slice();
-                headPos = { x:71, y: -51};
+                //71, -51
+                headPos = { x:93, y: -21};
             }else if(heroname == "hulk"){
                 jabArray = hulkjab_images.slice();
-                headPos = { x:-21, y: -40};
-            } 
+                //-21, -40
+                headPos = { x:8, y: -20};
+            }
             
             
             for (i = 0; i < jabArray.length; i++) { 
@@ -583,7 +598,7 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y, headSize.w, headSize.h);    
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -600,19 +615,23 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
     function MakeGif3(){
             var punchArray; 
             var headPos = { x:5, y: 116};
+            var headSize = {w: 275, h: 206.45 };
+
             if(heroname == "leia"){
                 punchArray = leiapunch_images.slice();
+                //5, 0
                 headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
             }else if(heroname == "luther"){
                 punchArray = lutherpunch_images.slice();
-                //123, -74
-                //147, -56
-                headPos = { x:71, y: -50};
+                //71, -51
+                headPos = { x:93, y: -21};
             }else if(heroname == "hulk"){
                 punchArray = hulkpunch_images.slice();
-                headPos = { x:-21, y: -40};
-            } 
-            
+                //-21, -40
+                headPos = { x:8, y: -20};
+            }
+
             var j = 0; 
             for (i = 0; i < punchArray.length; i++) { 
                     
@@ -637,20 +656,23 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
                     if(heroname == "luther"){
-                        if(i == 0){
-                            headPos = { x:123, y: -74};
+                          if(i == 0){
+                            //headPos = { x:123, y: -74};
+                             headPos = { x:143, y: -54};
                         }else if(i == 1){
-                            headPos = { x:147, y: -56};
+                            //headPos = { x:147, y: -56};
+                            headPos = { x:167, y: -36};
                         }else if(i == 2){
-                            headPos = { x:123, y: -74};
+                            //headPos = { x:123, y: -74};
+                            headPos = { x:143, y: -54};
                         }
                         else{
-                          headPos = { x:71, y: -50};  
+                            //headPos = { x:71, y: -50};  
+                          headPos = { x:91, y: -30};  
                         }
-                        
                     }
                 
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y, headSize.w, headSize.h);    
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -669,7 +691,10 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
         function MakeGif4(){
             var punchArray; 
             var headPos = { x:5, y: 116};
-            if(heroname == "leia"){
+            var headSize = {w: 275, h: 206.45 };
+            
+            
+            /*if(heroname == "leia"){
                 punchArray = leiaaltpunch_images.slice();
                 headPos = { x:5, y: 0};
             }else if(heroname == "luther"){
@@ -680,7 +705,27 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
             }else if(heroname == "hulk"){
                 punchArray = hulkaltpunch_images.slice();
                 headPos = { x:5, y: 0};
-            } 
+            } */
+            
+            if(heroname == "leia"){
+                punchArray = leiaaltpunch_images.slice();
+                            //5, 0
+                headPos = { x:32, y: 30};
+                
+            }else if(heroname == "luther"){
+                punchArray = lutheraltpunch_images.slice();
+                //71, -51
+               // headPos = { x:93, y: -21};
+                //5, 0
+                headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
+            }else if(heroname == "hulk"){
+                punchArray = hulkaltpunch_images.slice();
+                //-21, -40
+                    //5, 0
+               headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
+            }
             
             var j = 0; 
             for (i = 0; i < punchArray.length; i++) { 
@@ -707,18 +752,22 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                     //71 ,50,337, 253 LUTHER
                     if(heroname == "leia"){
                         if(i == 0){
-                            headPos = { x:123, y: -74};
+                            //headPos = { x:123, y: -74};
+                             headPos = { x:143, y: -54};
                         }else if(i == 1){
-                            headPos = { x:147, y: -56};
+                            //headPos = { x:147, y: -56};
+                            headPos = { x:167, y: -36};
                         }else if(i == 2){
-                            headPos = { x:123, y: -74};
+                            //headPos = { x:123, y: -74};
+                            headPos = { x:143, y: -54};
                         }
                         else{
-                          headPos = { x:71, y: -50};  
+                            //headPos = { x:71, y: -50};  
+                          headPos = { x:91, y: -30};  
                         }
                         
                     }
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,headSize.w, headSize.h);    
 
                     var imgData = tempCanvas.toDataURL('image/jpeg');
                     var oneImage = new Image();
@@ -928,7 +977,7 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
         }else{
             $('.playertext').neonText({
                 textColor: 'rgba(255,255,255,.5)',
-                textSize: '7vw', 
+                textSize: '6vw', 
                 neonHighlight: '#dae878',
                 neonHighlightColor: '#335d02',
             });
