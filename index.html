@@ -918,15 +918,23 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
         };
         
         //neonize the text
-        $('.playertext').neonText({
-            textColor: 'rgba(255,255,255,.35)',
-            textSize: '80px', 
-            neonHighlight: '#dae878',
-            neonHighlightColor: '#335d02',
-        });
+        if(isMobile()){
+            $('.playertext').neonText({
+                textColor: 'rgba(255,255,255,.5)',
+                textSize: '12vw', 
+                neonHighlight: '#dae878',
+                neonHighlightColor: '#335d02',
+            });    
+        }else{
+            $('.playertext').neonText({
+                textColor: 'rgba(255,255,255,.5)',
+                textSize: '7vw', 
+                neonHighlight: '#dae878',
+                neonHighlightColor: '#335d02',
+            });
+        }
+        
 
-        
-        
         
         $( ".editbutton" ).hover( 
             function(){  
