@@ -1261,24 +1261,27 @@
             var jabArray; 
             var punchArray; 
             var headPos = { x:5, y: 116};
+                  var headSize = {w: 275, h: 206.45 };
+
             if(selectedBody == "leia"){
                 idleArray = leiaidle_images.concat(); 
                 jabArray = leiajab_images.concat();
                 punchArray = leiapunch_images.concat();
-                 headPos = { x:5, y: 0};
-                //headPos = { x:42, y: 60};
+                //5, 0
+                headPos = { x:5, y: 0};
+                headSize = {w: 337, h: 253 };
             }else if(selectedBody == "luther"){
                 idleArray = lutheridle_images.concat(); 
                 jabArray = lutherjab_images.concat();
                 punchArray = lutherpunch_images.concat();
-                 headPos = { x:71, y: -51};
-                //headPos = { x:108, y: -6};
+                  //71, -51
+                headPos = { x:93, y: -21};
             }else if(selectedBody == "hulk"){
                 idleArray = hulkidle_images.concat(); 
                 jabArray = hulkjab_images.concat();
                 punchArray = hulkpunch_images.concat();
-                headPos = { x:-21, y: -40};
-                //headPos = { x:16, y: -9};
+            //-21, -40
+                headPos = { x:8, y: -20};
             } 
                     
             
@@ -1555,15 +1558,19 @@ image.style.cssText = "display: inline";
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
                     if(selectedBody == "luther"){
-                        if(i == 0){
-                            headPos = { x:123, y: -74};
+                                      if(i == 0){
+                            //headPos = { x:123, y: -74};
+                             headPos = { x:143, y: -54};
                         }else if(i == 1){
-                            headPos = { x:147, y: -56};
+                            //headPos = { x:147, y: -56};
+                            headPos = { x:167, y: -36};
                         }else if(i == 2){
-                            headPos = { x:123, y: -74};
+                            //headPos = { x:123, y: -74};
+                            headPos = { x:143, y: -54};
                         }
                         else{
-                          headPos = { x:71, y: -50};  
+                            //headPos = { x:71, y: -50};  
+                          headPos = { x:91, y: -30};  
                         }
                     }
                     
@@ -1587,7 +1594,7 @@ image.style.cssText = "display: inline";
                         tempImage.src = allMyFaces[faceCounter];     
                    }
                     
-                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,337, 253);    
+                    ctx.drawImage(tempImage, 0,0, tempImage.width, tempImage.height, headPos.x ,headPos.y,headSize.w, headSize.h);    
                     if(i != 0){
                         ctx.drawImage(hcan, 0,0);
                     }
