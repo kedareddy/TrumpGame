@@ -685,10 +685,10 @@ margin-right:auto;
   justify-content: space-around;
   /*border: 7px none #01afd1;*/
   background-color: #000;
-  background: -webkit-radial-gradient( #666, #333, black); /* Safari 5.1 to 6.0 */
-  background: -o-radial-gradient(#666, #333, black); /* For Opera 11.6 to 12.0 */
-  background: -moz-radial-gradient(#666, #333, black); /* For Firefox 3.6 to 15 */
-  background: radial-gradient(#666, #333, black); /* Standard syntax */
+ /* background: -webkit-radial-gradient( #666, #333, black);
+  background: -o-radial-gradient(#666, #333, black); 
+  background: -moz-radial-gradient(#666, #333, black); 
+  background: radial-gradient(#666, #333, black);*/
     border-style: solid;
     border-color: lightgrey;
      border-bottom: none;
