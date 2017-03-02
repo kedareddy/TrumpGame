@@ -693,7 +693,7 @@
     
     
     
-    var frames1; 
+     var frames1; 
     var timer1; 
     function startAnimation1() { 
         $(".playertext").css('visibility','hidden');
@@ -705,8 +705,8 @@
         
         var i = 0;
         timer1 = setInterval(function () {
-            $(frames1[i % frameCount]).hide();
-            $(frames1[++i % frameCount]).show();
+            $(frames1[i % frameCount]).css({'display':'none'});
+            $(frames1[++i % frameCount]).css({'display':'block'});
         }, 200); 
     }
     
@@ -728,17 +728,17 @@
             clearInterval(timer2);
             clearInterval(timer1);
             
-            $('.animation1div').hide();
-            $('.animation2div').hide();
+            $('.animation1div').css({'display':'none'});
+            $('.animation2div').css({'display':'none'});
             var timenow = new Date().getTime();
             var rate = (timenow - startTime) / words.length; 
-            console.log("rate: " + rate);
+            //console.log("rate: " + rate);
             if(rate < 500){
-                $('.animation4div').show();
+                $('.animation4div').css({'display':'block'});
                 altFinalAnim = true; 
             }else{
                 console.log("should play");
-                $('.animation3div').show();  
+                $('.animation3div').css({'display':'block'});  
                 altFinalAnim  = false; 
             }
             startAnimation3();
@@ -752,15 +752,15 @@
                 clearInterval(timer2);
                 clearInterval(timer1);
                 startAnimation1(); 
-                $('.animation1div').show();
-                $('.animation2div').hide();
-                $('.animation3div').hide();
-                $('.animation4div').hide();
+                $('.animation1div').css({'display':'block'});
+                $('.animation2div').css({'display':'none'});
+                $('.animation3div').css({'display':'none'});
+                $('.animation4div').css({'display':'none'});
                 return; 
             }
             else{
-                $(frames2[i % frameCount]).hide();
-                $(frames2[++i % frameCount]).show();
+                $(frames2[i % frameCount]).css({'display':'none'});
+                $(frames2[++i % frameCount]).css({'display':'block'});
             }
         }, 200); 
     }
@@ -770,6 +770,7 @@
     
     var frames3; 
     var timer3; 
+    var animation3_i = 0; 
     function startAnimation3() { 
         $(".playertext").css('visibility','visible');
         //if(frames3 == null)
@@ -783,24 +784,24 @@
         var frameCount = frames3.length;
         $(".playertext").html(words[words.length-1]);
         //console.log("frameCount" + frameCount);
-        var i = 0;
+        animation3_i = 0;
         timer3 = setInterval(function () { 
-            //console.log("i: "+ i); 
-            if (i > (frameCount-2)) {
+            console.log("i: "+ animation3_i); 
+            if (animation3_i > (frameCount-2)) {
                 clearInterval(timer3);
                 clearInterval(timer1);
                 clearInterval(timer2);
                 wordCounter = 0; 
                 startAnimation1(); 
-                $('.animation1div').show();
-                $('.animation2div').hide();
-                $('.animation3div').hide();
-                $('.animation4div').hide();
+                $('.animation1div').css({'display':'block'});
+                $('.animation2div').css({'display':'none'});
+                $('.animation3div').css({'display':'none'});
+                $('.animation4div').css({'display':'none'});
                 return;
             }
             else{
-                $(frames3[i % frameCount]).hide();
-                $(frames3[++i % frameCount]).show();
+                $(frames3[animation3_i % frameCount]).css({'display':'none'});
+                $(frames3[++animation3_i % frameCount]).css({'display':'block'});
             }
         }, 200); 
     }
@@ -861,7 +862,7 @@
                 textColor: 'rgba(255,255,255,.5)',
                 textSize: '12vw', 
                 neonHighlight: '#dae878',
-                neonHighlightColor: '#335d02',
+                neonHighlightColor: '#FF00DE',
             });    
         }else{
             $('.playertext').neonText({
@@ -944,48 +945,66 @@
         var timenow; 
         var lastTime = 0;  
         $( ".playersection,.playerhelptext" ).on('touchend click', function(){
-            
+          
             timenow = new Date().getTime();
             //console.log("time since last click: " + (timenow - lastTime));
-            if((timenow - lastTime) > 50){
-                lastTime = new Date().getTime();
+            if((timenow - lastTime) > 100){
+                
                 if(allGifsMade == true)
                 {
                     if($('.animation1div').is(':visible')) {
                         if(startTimer == true){
                             startTime = new Date().getTime();
-                            $(".playerhelptxtdiv").hide();
+                            $(".playerhelptxtdiv").css({'display':'none'});
                             startTimer = false; 
                         }
-                        clearInterval(timer1);
+                        //clearInterval(timer1);
                         clearInterval(timer2);
-                        $('.animation1div').hide();
-                        $('.animation3div').hide();
-                        $('.animation4div').hide();
+                         
+                        $('.animation1div').css({'display':'none'});
+                        $('.animation3div').css({'display':'none'});
+                        $('.animation4div').css({'display':'none'});
                         //start the animation from the start. 
-                        $('.animation2div').show();
-                        startAnimation2(); 
+                        $('.animation2div').css({'display':'block'});
+                        startAnimation2();
+                        
                     }else if($('.animation2div').is(':visible')) {
                         clearInterval(timer2);
-                        clearInterval(timer1);
-                        clearInterval(timer3);
-                        $('.animation1div').hide();
-                        $('.animation3div').hide();
-                        $('.animation4div').hide();
+                        //clearInterval(timer1);
+                        //clearInterval(timer3);
+                        
+                        $('.animation1div').css({'display':'none'});
+                        $('.animation3div').css({'display':'none'});
+                        $('.animation4div').css({'display':'none'});
                         //start the animation from the start.
-                        $('.animation2div').show();
-                        startAnimation2(); 
+                        $('.animation2div').css({'display':'block'});
+                        startAnimation2();
+                         
                     }else if($('.animation3div').is(':visible')) {
-                        clearInterval(timer1);
-                        clearInterval(timer2);
+                        //clearInterval(timer1);
+                        //clearInterval(timer2);
+                        //clearInterval(timer3);
+                        if(animation3_i != 0 && animation3_i != 1){
+                            console.log("animation3 i: " + animation3_i);
+                            animation3_i = 0; 
+                        }
+                        //startAnimation3();
                         //don't do anything. should cycle back to animation 1 after it ends. 
                     } 
                     else if($('.animation4div').is(':visible')) {
-                        clearInterval(timer1);
-                        clearInterval(timer2);
+                        //clearInterval(timer1);
+                        //clearInterval(timer2);
+                        //clearInterval(timer3);
+                        if(animation3_i != 0 && animation3_i != 1){
+                            console.log("animation3 i: " + animation3_i);
+                            animation3_i = 0; 
+                        }
+                        //startAnimation3();
                         //don't do anything. should cycle back to animation 1 after it ends. 
                     } 
                 } 
+                
+               lastTime = new Date().getTime(); 
             }
         });
           

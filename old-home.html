@@ -1129,7 +1129,8 @@
                     faceCounter = 0; 
                 }
             
-            fctx.drawImage(faceAreas[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
+            //fctx.drawImage(faceAreas[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
+            fctx.drawImage(faceAreas[faceCounter], (wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
 
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
@@ -1184,7 +1185,8 @@
 
                
                 fctx.filter = "none";
-                fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
+                //fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
+            fctx.drawImage(faceOutlines[faceCounter],(wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
                 //fctx.drawImage(faceOutlines[faceCounter],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
                         var tempCanvas = document.createElement("canvas"),
                         tCtx = tempCanvas.getContext("2d");
