@@ -545,9 +545,9 @@
         step4Input.addEventListener("input", function(e) {
             inputText4 = step4Input.value;
             //$("#fakeInput").val(inputText4);
-            blinkingCursor.clearInterval();
+           // blinkingCursor.clearInterval();
                   //if(blinkingCursor != null){
-                      blinkingCursor =  setInterval(function(){
+                      setInterval(function(){
                           alert("hahah");
                           if((bCursorCounter % 2) == 0 ){ 
                               $("#fakeInput").val(inputText4 + "I");  
@@ -1224,7 +1224,7 @@
                         tempCanvas.width = 600;
                         tempCanvas.height = 450;
 
-                        tCtx.drawImage(wCanvas,0,0);
+                        tCtx.drawImage(wCanvas,(tempCanvas.width - wCanvas.width)/2,0);
             
             
 
@@ -1254,7 +1254,7 @@
                 
                  apImage.onload = function()
                  {
-                     
+                     //alert("pwidth: " + apImage.width);
                      if(faceCounter >= 4){
                          var target = document.getElementById('spinnerParent');
                         $("#spinnerParent").show();
@@ -1287,6 +1287,7 @@
                  };
                 
                 apImage.src = faceSrcData;//wCanvas.toDataURL('image/jpeg');//faceSrcData;
+            
                 previewFaceImages.push(apImage);
                 
                 
@@ -1316,7 +1317,7 @@
                         var image = obj.image;
                         var aimage = document.getElementById('approveimg');
                         aimage.src = image; 
-                        aimage.style.left = ($(".modalcontent").width() - aimage.clientWidth)/2; 
+                       // aimage.style.left = ($(".modalcontent").width() - aimage.clientWidth)/2; 
                         $("#spinnerParent").hide();
                         spinner.stop(); 
                     }
