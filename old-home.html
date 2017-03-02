@@ -545,6 +545,18 @@
         step4Input.addEventListener("input", function(e) {
             inputText4 = step4Input.value;
             $("#fakeInput").val(inputText4);
+            blinkingCursor.clearInterval();
+                  //if(blinkingCursor != null){
+                      blinkingCursor =  setInterval(function(){
+                          //alert("hahah");
+                          if((bCursorCounter % 2) == 0 ){ 
+                              $("#fakeInput").val(inputText4 + "I");  
+                          }else{
+                              $("#fakeInput").val(inputText4);  
+                          }
+                          bCursorCounter++; 
+                      }, 400);
+                  //}
             console.log("Trump Message: " + inputText4);
         }, false);
         /****************************************/  
@@ -893,17 +905,7 @@
             if(isMobile() == true){
                if(window.innerWidth >200 && window.innerWidth <=600) { /*change the numbers as you see fit*/
 		          $("#fakeInputDiv").show(); 
-                  blinkingCursor.clearInterval();
-                  //if(blinkingCursor != null){
-                      blinkingCursor =  setInterval(function(){
-                          if((bCursorCounter % 2) == 0 ){ 
-                              $("#fakeInput").val(inputText4 + "I");  
-                          }else{
-                              $("#fakeInput").val(inputText4);  
-                          }
-                          bCursorCounter++; 
-                      }, 400);
-                  //}
+                  
                    
 	           }else{
                    $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});   
@@ -1155,12 +1157,9 @@
             
             //fctx.drawImage(faceAreas[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
             //alert("webcam width: " + wCanvas.width + " widthAvail: " + wcWidth);
-            if(isMobile()){
-                fctx.drawImage(faceAreas[faceCounter], 60,  yCoord, wcWidth, wcHeight);    
-            }
-            else{
+            
                 fctx.drawImage(faceAreas[faceCounter], (wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
-            }
+            
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
             
@@ -1215,12 +1214,9 @@
                
                 fctx.filter = "none";
                 //fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
-            if(isMobile()){
-                fctx.drawImage(faceOutlines[faceCounter],60,  yCoord, wcWidth, wcHeight);
-            }
-            else{
+          
                 fctx.drawImage(faceOutlines[faceCounter],(wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
-            }
+          
                 //fctx.drawImage(faceOutlines[faceCounter],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
                         var tempCanvas = document.createElement("canvas"),
                         tCtx = tempCanvas.getContext("2d");
