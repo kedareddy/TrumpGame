@@ -820,6 +820,9 @@
                         $('.hero2link').css('background-color','transparent');
                         $('.hero3link').css('background-color','transparent');
                     }); 
+                    setTimeout(function() {
+                        fullpage.moveSectionDown();
+                    }, 500);
 
                     console.log("Selected Body: " + selectedBody);
                 }
@@ -832,6 +835,10 @@
                         $('.hero3link').css('background-color','transparent');
                     }); 
                     console.log("Selected Body: " + selectedBody);
+                                        setTimeout(function() {
+                        fullpage.moveSectionDown();
+                    }, 500);
+
                 }
                 else if ($(event.target).attr('class') == "hr3") {
                     selectedBody = "hulk";
@@ -842,6 +849,10 @@
                         $('.hero1link').css('background-color','transparent');
                     }); 
                     console.log("Selected Body: " + selectedBody);
+                                        setTimeout(function() {
+                        fullpage.moveSectionDown();
+                    }, 500);
+
                 }
             }
 
@@ -882,8 +893,8 @@
             if(isMobile() == true){
                if(window.innerWidth >200 && window.innerWidth <=600) { /*change the numbers as you see fit*/
 		          $("#fakeInputDiv").show(); 
-                  //blinkingCursor.clearInterval();
-                  if(blinkingCursor != null){
+                  blinkingCursor.clearInterval();
+                  //if(blinkingCursor != null){
                       blinkingCursor =  setInterval(function(){
                           if((bCursorCounter % 2) == 0 ){ 
                               $("#fakeInput").val(inputText4 + "I");  
@@ -892,7 +903,7 @@
                           }
                           bCursorCounter++; 
                       }, 400);
-                  }
+                  //}
                    
 	           }else{
                    $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});   
@@ -1144,8 +1155,12 @@
             
             //fctx.drawImage(faceAreas[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
             //alert("webcam width: " + wCanvas.width + " widthAvail: " + wcWidth);
-            fctx.drawImage(faceAreas[faceCounter], (wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
-
+            if(isMobile()){
+                fctx.drawImage(faceAreas[faceCounter], 60,  yCoord, wcWidth, wcHeight);    
+            }
+            else{
+                fctx.drawImage(faceAreas[faceCounter], (wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
+            }
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
             
@@ -1200,7 +1215,12 @@
                
                 fctx.filter = "none";
                 //fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
-            fctx.drawImage(faceOutlines[faceCounter],(wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
+            if(isMobile()){
+                fctx.drawImage(faceOutlines[faceCounter],60,  yCoord, wcWidth, wcHeight);
+            }
+            else{
+                fctx.drawImage(faceOutlines[faceCounter],(wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
+            }
                 //fctx.drawImage(faceOutlines[faceCounter],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);
                         var tempCanvas = document.createElement("canvas"),
                         tCtx = tempCanvas.getContext("2d");
