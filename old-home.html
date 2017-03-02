@@ -874,13 +874,26 @@
           
           
         /***********************************************/
-          
+        var blinkingCursor;
+        var bCursorCounter = 0; 
         $("#name-4").focusin(function() {
             
             
             if(isMobile() == true){
                if(window.innerWidth >200 && window.innerWidth <=600) { /*change the numbers as you see fit*/
-		          $("#fakeInputDiv").show();   
+		          $("#fakeInputDiv").show(); 
+                  //blinkingCursor.clearInterval();
+                  if(blinkingCursor != null){
+                      blinkingCursor =  setInterval(function(){
+                          if((bCursorCounter % 2) == 0 ){ 
+                              $("#fakeInput").val(inputText4 + "I");  
+                          }else{
+                              $("#fakeInput").val(inputText4);  
+                          }
+                          bCursorCounter++; 
+                      }, 400);
+                  }
+                   
 	           }else{
                    $(".step4input").css({"position": "absolute", "top": "16%", "max-width": "50%"});   
                }
@@ -1130,7 +1143,7 @@
                 }
             
             //fctx.drawImage(faceAreas[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
-            alert("webcam width: " + wCanvas.width + " widthAvail: " + wcWidth);
+            //alert("webcam width: " + wCanvas.width + " widthAvail: " + wcWidth);
             fctx.drawImage(faceAreas[faceCounter], (wCanvas.width - wcWidth)/2,  yCoord, wcWidth, wcHeight);
 
             /// change composite mode to use that shape
