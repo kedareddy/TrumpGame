@@ -540,14 +540,16 @@
         });
           
         /**********CAPTURE STEP 4**********/  
+          var startedBlinking = false;
         var step4Input = document.getElementsByClassName("step4input w-input")[0];
-        
         step4Input.addEventListener("input", function(e) {
             inputText4 = step4Input.value;
             //$("#fakeInput").val(inputText4);
            // blinkingCursor.clearInterval();
                   //if(blinkingCursor != null){
-                      setInterval(function(){
+            if(startedBlinking == false){
+                startedBlinking = true;
+                setInterval(function(){
                           alert("hahah");
                           if((bCursorCounter % 2) == 0 ){ 
                               $("#fakeInput").val(inputText4 + "I");  
@@ -556,6 +558,7 @@
                           }
                           bCursorCounter++; 
                       }, 400);
+            }
                   //}
             console.log("Trump Message: " + inputText4);
         }, false);
@@ -1223,8 +1226,10 @@
 
                         tempCanvas.width = 600;
                         tempCanvas.height = 450;
+            
+                        var calcHeight = (wCanvas.width* tempCanvas.height)/tempCanvas.width;
 
-                        tCtx.drawImage(wCanvas,(tempCanvas.width - wCanvas.width)/2,0);
+                        tCtx.drawImage(wCanvas,(tempCanvas.width - wCanvas.width)/2,(tempCanvas.height - calcHeight)/2);
             
             
 
