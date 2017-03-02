@@ -79,7 +79,7 @@
           <div class="modalcanvasdiv">
             <h1 class="webcamhelpertext">Click To Change Filter</h1>
  
-            <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead.gif">
+            <img class="webcamoverlayimage" src="assets/FinalArt/LeiaHead2.gif">
                <video autoplay="true" class="webcamvideo" id="videoElement" width="100%" height="75%"></video> 
             <!--<div class="webcamvideo" id="videoElement"></div> -->
             <canvas class="webcamcanvas" id="webcamcanvas"></canvas>
@@ -100,7 +100,7 @@
       </div>
       <div class="modalcanvasdiv">
         <h1 class="approvehelpertext">Click To Change Filter</h1>
-        <img class="approveimage" id="approveimg" src="assets/FinalArt/LeiaHead.gif">
+        <img class="approveimage" id="approveimg" src="assets/FinalArt/LeiaHead2.gif">
       </div>
       <div class="modalyesno">
         <div class="modalyes" ><img class="yesbutton" src="images/choices-01.svg" data-theme="b" data-textonly="false" data-textvisible="true" data-msgtext="Loading theme b" data-inline="true">
@@ -255,7 +255,7 @@
     var faceSrcDataJ;
     var faceImage = new Image(); 
     var inputText1 = "I am American";
-    var inputText4 = "He is not my president"; 
+    var inputText4 = "Not my president"; 
     //testImage.src = 'assets/Test/LEIA_IDLE_INK.gif'; 
     var isMobile;
     //timeout variables
@@ -444,58 +444,90 @@
         var clip_image = new Image();
         clip_image.src = 'assets/FinalArt/leia_facearea.png';
         var faceOutlines = [];
+        var faceAreas = []; 
         //var imageLeia = new Image();
         //imageLeia.src = 'assets/FinalArt/LeiaHeadSingle.png'; 
         var faces = { 
-            leia : {   clipurl:'assets/FinalArt/leia_facearea.png',
+            leia : {   clipurl:['assets/FinalArt/LeiaHead/leia_facearea_0006_Layer-1.png',
+                               'assets/FinalArt/LeiaHead/leia_facearea_0005_Layer-2.png',
+                               'assets/FinalArt/LeiaHead/leia_facearea_0004_Layer-3.png',
+                               'assets/FinalArt/LeiaHead/leia_facearea_0003_Layer-4.png'],
                        pngurl:['assets/FinalArt/LeiaHead/head_0006_Layer-1.png',
                               'assets/FinalArt/LeiaHead/head_0005_Layer-2.png',
                               'assets/FinalArt/LeiaHead/head_0004_Layer-3.png',
                               'assets/FinalArt/LeiaHead/head_0003_Layer-4.png']
                    },
-            pussyhat : {   clipurl:'assets/FinalArt/pussyhat_facearea.png',
-                           pngurl:['assets/FinalArt/PussyHatHead/head_0004_Layer-1.png',
-                              'assets/FinalArt/PussyHatHead/head_0003_Layer-2.png',
-                              'assets/FinalArt/PussyHatHead/head_0002_Layer-3.png',
-                              'assets/FinalArt/PussyHatHead/head_0001_Layer-4.png']
+            pussyhat : {   clipurl:['assets/FinalArt/PussyHatHead/pussyhat_facearea_0004_Layer-1.png',
+                               'assets/FinalArt/PussyHatHead/pussyhat_facearea_0003_Layer-2.png',
+                               'assets/FinalArt/PussyHatHead/pussyhat_facearea_0002_Layer-3.png',
+                               'assets/FinalArt/PussyHatHead/pussyhat_facearea_0001_Layer-4.png'],
+                           pngurl:['assets/FinalArt/PussyHatHead/pussyhat__0004_Layer-1.png',
+                              'assets/FinalArt/PussyHatHead/pussyhat__0003_Layer-2.png',
+                              'assets/FinalArt/PussyHatHead/pussyhat__0002_Layer-3.png',
+                              'assets/FinalArt/PussyHatHead/pussyhat__0001_Layer-4.png']
                        },
-            hat : {   clipurl:'assets/FinalArt/hat_facearea.png',
-                           pngurl:['assets/FinalArt/HatHead/head_0004_Layer-1.png',
-                              'assets/FinalArt/HatHead/head_0003_Layer-2.png',
-                              'assets/FinalArt/HatHead/head_0002_Layer-3.png',
-                              'assets/FinalArt/HatHead/head_0001_Layer-4.png']
+            hat : {   clipurl:['assets/FinalArt/HatHead/hat_facearea_0004_Layer-1.png',
+                               'assets/FinalArt/HatHead/hat_facearea_0003_Layer-2.png',
+                               'assets/FinalArt/HatHead/hat_facearea_0002_Layer-3.png',
+                               'assets/FinalArt/HatHead/hat_facearea_0001_Layer-4.png'],
+                           pngurl:['assets/FinalArt/HatHead/hat_0004_Layer-1.png',
+                              'assets/FinalArt/HatHead/hat_0003_Layer-2.png',
+                              'assets/FinalArt/HatHead/hat_0002_Layer-3.png',
+                              'assets/FinalArt/HatHead/hat_0001_Layer-4.png']
                        }
         };
         
         var leiahead_images = [];
+        var leiaclip_images = []; 
         for (p = 0; p < faces["leia"].pngurl.length; p++) { 
+            //overlay images
             leiahead_images[p] = new Image();
             leiahead_images[p].onload= function(){
                 
             };
             leiahead_images[p].src = faces["leia"].pngurl[p];
+            //face area images
+             leiaclip_images[p] = new Image();
+            leiaclip_images[p].onload= function(){
+                
+            };
+            leiaclip_images[p].src = faces["leia"].clipurl[p];
         }  
         var pussyhathead_images = [];
+        var pussyhatclip_images = []; 
         for (q = 0; q < faces["pussyhat"].pngurl.length; q++) { 
             pussyhathead_images[q] = new Image();
             pussyhathead_images[q].onload= function(){
                 
             };
             pussyhathead_images[q].src = faces["pussyhat"].pngurl[q];
+            
+            pussyhatclip_images[q] = new Image();
+            pussyhatclip_images[q].onload= function(){
+                
+            };
+            pussyhatclip_images[q].src = faces["pussyhat"].clipurl[q];
         }  
         var hathead_images = [];
+        var hatclip_images = []; 
         for (r = 0; r < faces["hat"].pngurl.length; r++) { 
             hathead_images[r] = new Image();
             hathead_images[r].onload= function(){
                 
             };
             hathead_images[r].src = faces["hat"].pngurl[r];
+            
+            hatclip_images[r] = new Image();
+            hatclip_images[r].onload= function(){
+                
+            };
+            hatclip_images[r].src = faces["hat"].clipurl[r];
         }  
-        for(var key in faces) {
+        /*for(var key in faces) {
             if (faces.hasOwnProperty(key)) {
                 preloadImage(faces[key].clipurl);
             }
-        }
+        }*/
         var currentface = "leia";
           
           
@@ -520,7 +552,7 @@
         /* CODE TO DISPLAY WEBCAM FEED ON MODAL WINDOW */ 
         var video = document.querySelector("#videoElement");
        // var track; 
-        var overlayImageUrls = ["assets/FinalArt/hat.gif", "assets/FinalArt/pussyhat.gif", "assets/FinalArt/LeiaHead2.gif"]; 
+        var overlayImageUrls = ["assets/FinalArt/hat.gif", "assets/FinalArt/pussyhatPINK.gif", "assets/FinalArt/LeiaHead2.gif"]; 
         var overlayindex = 0; 
         var timeSelfieNow; 
         var lastSelfieTime = 0; 
@@ -1007,16 +1039,20 @@
                 $(".photobutton").transition({filter: 'invert(100%)' }, 100, 'out', function() {     
                     $(".photobutton").transition({filter: 'invert(0%)' }, 100, 'in', function() { 
                         faceOutlines = [];
-                        clip_image = new Image();
-                        clip_image.onload = function()
-                        {
-                            clip_image.width = $( ".webcamoverlayimage" ).width();
-                            clip_image.height = $( ".webcamoverlayimage" ).height();
-                            faceImagesLoaded();
-                        };
-                        clip_image.src = faces[currentface]["clipurl"];
+                        faceAreas = []; 
+                        for (j = 0; j < faces[currentface].clipurl.length; j++) { 
+                            var area_image = new Image();
+                            area_image.onload = function()
+                            {
+                                area_image.width = $( ".webcamoverlayimage" ).width();
+                                area_image.height = $( ".webcamoverlayimage" ).height();
+                                faceImagesLoaded();
+                            };
+                            area_image.src = faces[currentface].clipurl[j];
+                            faceAreas.push(area_image);
+                        //}
 
-                        for (i = 0; i < faces[currentface].pngurl.length; i++) { 
+                        //for (i = 0; i < faces[currentface].pngurl.length; i++) { 
                             var outline = new Image();
                             outline.onload = function()
                             {
@@ -1024,7 +1060,7 @@
                                 outline.height = $( ".webcamoverlayimage" ).height();
                                 faceImagesLoaded();
                             };
-                            outline.src = faces[currentface].pngurl[i];
+                            outline.src = faces[currentface].pngurl[j];
                             faceOutlines.push(outline);
                         }
                     });
@@ -1044,7 +1080,7 @@
         var faceImageLoadCounter = 0;   
         function faceImagesLoaded(){
             faceImageLoadCounter++;
-            if(faceImageLoadCounter >= 5){
+            if(faceImageLoadCounter >= 8){
                 compileFace();
             }
         }
@@ -1089,7 +1125,11 @@
             //alert("clipW: " + clip_image.width + " clipH: " + clip_image.height)
             //alert(wcWidth +" w:h: "+wcHeight + " clipH: " + click_image.height);
             //fctx.drawImage(clip_image, 0, 0, clip_image.width, clip_image.height, xCoord, yCoord, clip_image.width, clip_image.height);
-            fctx.drawImage(clip_image, xCoord,  yCoord, wcWidth, wcHeight);
+             if(faceCounter >= 4){
+                    faceCounter = 0; 
+                }
+            
+            fctx.drawImage(faceAreas[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
 
             /// change composite mode to use that shape
             fctx.globalCompositeOperation = 'source-in';
@@ -1142,9 +1182,7 @@
                 //var tempSrc = wCanvas.toDataURL('image/png');
                 //bareFaceSrc.push(tempSrc);  
 
-                if(faceCounter >= 4){
-                    faceCounter = 0; 
-                }
+               
                 fctx.filter = "none";
                 fctx.drawImage(faceOutlines[faceCounter], xCoord,  yCoord, wcWidth, wcHeight);
                 //fctx.drawImage(faceOutlines[faceCounter],0,0, faceCanvas.width, faceCanvas.height, 0,0,faceCanvas.width, faceCanvas.height);

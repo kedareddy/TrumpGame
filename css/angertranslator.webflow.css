@@ -1,5 +1,4 @@
 
-
 .previewfootersection {
   position: fixed;
   left: 0px;
@@ -1221,10 +1220,10 @@ margin-right:auto;
   padding-top: 0.2em;
   padding-bottom: 0.2em;
   /*background-color: #000;*/
-  font-family: 'Oswald';
-    	font-style: normal;
+  font-family: 'CabinSketch bold';
+    	/*font-style: normal;
 	font-variant: normal;
-	font-weight: 500;
+	font-weight: 500;*/
   color: #fff;
   font-size: 6em;
   text-align: center;
@@ -1374,4 +1373,19 @@ html.w-mod-js *[data-ix="displaynoneonload"] {
   src: url('../fonts/Oswald-Stencil.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+}
+@font-face {
+    font-family: 'CabinSketch bold';
+    src: url(/fonts/CabinSketch-Bold.ttf) format('truetype');
+    font-style: bold;
+}
+@font-face {
+    font-family: 'CabinSketch';
+    src: url(/fonts/CabinSketch-Regular.ttf) format('truetype');
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Helvetidoodle';
+    src: url(/fonts/HelvetidoodlebyEdT.ttf) format('truetype');
+    font-style: normal;
 }

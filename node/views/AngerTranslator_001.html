@@ -855,13 +855,21 @@
         };
         
           //neonize the text
-        $('.playertext').neonText({
-            textColor: '#FFFFFF',
-            textSize: '80px', 
-            neonHighlight: '#FFFFFF',
-            neonHighlightColor: '#FF00DE',
-        });
-
+           if(isMobile()){
+            $('.playertext').neonText({
+                textColor: 'rgba(255,255,255,.5)',
+                textSize: '12vw', 
+                neonHighlight: '#dae878',
+                neonHighlightColor: '#335d02',
+            });    
+        }else{
+            $('.playertext').neonText({
+                textColor: 'rgba(255,255,255,.5)',
+                textSize: '6vw', 
+                neonHighlight: '#ffffff',
+                neonHighlightColor: '#FF00DE',
+            });
+        }
 
         
         $( ".editbutton" ).hover( 

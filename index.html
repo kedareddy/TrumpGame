@@ -651,7 +651,7 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                     if(j == 4){
                         j = 0; 
                     }
-                    tempImage.src = allMyFaces[j].src; 
+                    tempImage.src = allMyFaces[(allMyFaces.length - 1)].src; 
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
@@ -746,7 +746,7 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                     if(j == 4){
                         j = 0; 
                     }
-                    tempImage.src = allMyFaces[j].src; 
+                    tempImage.src = allMyFaces[(allMyFaces.length - 1)].src; 
                     //5 ,116,334, 251 LEIA
                     //-21 ,47,337, 253 HULK
                     //71 ,50,337, 253 LUTHER
@@ -978,8 +978,8 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
             $('.playertext').neonText({
                 textColor: 'rgba(255,255,255,.5)',
                 textSize: '6vw', 
-                neonHighlight: '#dae878',
-                neonHighlightColor: '#335d02',
+                neonHighlight: '#ffffff',
+                neonHighlightColor: '#FF00DE',
             });
         }
         
@@ -1058,8 +1058,8 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
         $( ".playersection,.playerhelptext" ).on('touchend click', function(){
             
             timenow = new Date().getTime();
-            //console.log("time since last click: " + (timenow - lastTime));
-            if((timenow - lastTime) > 50){
+            console.log("time since last click: " + (timenow - lastTime));
+            if((timenow - lastTime) > 100){
                 lastTime = new Date().getTime();
                 if(allGifsMade == true)
                 {
