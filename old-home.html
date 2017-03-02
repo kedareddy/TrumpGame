@@ -544,11 +544,11 @@
         
         step4Input.addEventListener("input", function(e) {
             inputText4 = step4Input.value;
-            $("#fakeInput").val(inputText4);
+            //$("#fakeInput").val(inputText4);
             blinkingCursor.clearInterval();
                   //if(blinkingCursor != null){
                       blinkingCursor =  setInterval(function(){
-                          //alert("hahah");
+                          alert("hahah");
                           if((bCursorCounter % 2) == 0 ){ 
                               $("#fakeInput").val(inputText4 + "I");  
                           }else{
@@ -1314,7 +1314,9 @@
                         console.log("making the face GIF"); 
                         $('.modalcontent').hide();
                         var image = obj.image;
-                        document.getElementById('approveimg').src = image;
+                        var aimage = document.getElementById('approveimg');
+                        aimage.src = image; 
+                        aimage.style.left = ($(".modalcontent").width() - aimage.clientWidth)/2; 
                         $("#spinnerParent").hide();
                         spinner.stop(); 
                     }
