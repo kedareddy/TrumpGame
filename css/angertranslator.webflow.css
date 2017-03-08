@@ -1219,7 +1219,7 @@ margin-right:auto;
 .playertext {
   position: absolute; 
   top: 0px;
-  right: 0px; 
+  left: 30%; 
   width: 66%; 
   margin-top: 0px;
   margin-bottom: 0px;
