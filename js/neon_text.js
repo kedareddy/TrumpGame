@@ -1,4 +1,4 @@
-﻿/*------------------------------------------------------------*/
+/*------------------------------------------------------------*/
 /*- textColor - Цвет текста ----------------------------------*/
 /*- textSize - Размер текста ---------------------------------*/
 /*- neonHighlight - цвет первой начала свечения --------------*/
@@ -22,8 +22,8 @@ jQuery.fn.neonText = function(options){
 			.hover(
 				function () {
 					jQuery(this)
-						.css('text-shadow','0 0 10px '+options.neonHighlight+',0 0 20px '+options.neonHighlight+',0 0 30px '+options.neonHighlight+',0 0 40px '+options.neonHighlightHover+',0 0 70px '+options.neonHighlightHover+',0 0 80px '+options.neonHighlightHover+',0 0 100px '+options.neonHighlightHover)
-						.css('color', options.neonFontHover);
+						/*.css('text-shadow','0 0 10px '+options.neonHighlight+',0 0 20px '+options.neonHighlight+',0 0 30px '+options.neonHighlight+',0 0 40px '+options.neonHighlightHover+',0 0 70px '+options.neonHighlightHover+',0 0 80px '+options.neonHighlightHover+',0 0 100px '+options.neonHighlightHover)
+						.css('color', options.neonFontHover);*/
 				},
 				function () {
 					jQuery(this)

@@ -131,6 +131,7 @@
     var everythingDownloaded = false; 
     var allGifsMade = false; 
     var isMobile; 
+    var punchCounter = 0; 
 
     var text1, text2; 
     var words = []; 
@@ -853,20 +854,24 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
             
             $('.animation1div').css({'display':'none'});
             $('.animation2div').css({'display':'none'});
-            var timenow = new Date().getTime();
-            var rate = (timenow - startTime) / words.length; 
+            //var timenow = new Date().getTime();
+            //var rate = (timenow - startTime) / words.length; 
             //console.log("rate: " + rate);
-            if(rate < 500){
+            /*if(rate < 500){
                 $('.animation4div').css({'display':'block'});
                 altFinalAnim = true; 
             }else{
                // console.log("should play");
                 $('.animation3div').css({'display':'block'});  
                 altFinalAnim  = false; 
-            }
+            }*/
+            $('.animation3div').css({'display':'block'});  
+            altFinalAnim  = false; 
+            punchCounter = 1; 
             //if(timer3 != null){
               //  animation3_i = 0;         
             //}else{
+                
                 startAnimation3();    
             //}
         
@@ -924,16 +929,23 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
         $(".playertext").css('visibility','visible');
         //if(frames3 == null)
         //{
-            if(altFinalAnim == false){
+        console.log("punchCounter: " + punchCounter);
+            if(punchCounter > 3){
+                frames3 = $(".animation4div").children();
+            }else{
+                frames3 = $(".animation3div").children();   
+            }
+            /*if(altFinalAnim == false){
                 frames3 = $(".animation3div").children();   
             }else{
                 frames3 = $(".animation4div").children();
-            }
+            }*/
         //}
         var frameCount = frames3.length;
         $(".playertext").html(words[words.length-1]);
         //console.log("frameCount" + frameCount);
         if(typeof timer3 != 'undefined'){
+            console.log("resetting");
              animation3_i = -1;
         }
         else{
@@ -941,9 +953,10 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
         }
        // startAnimation3();
         if(typeof timer3 == "undefined"){
+            console.log("redefined");
             timer3 = setInterval(function () { 
                // console.log("i: "+ animation3_i); 
-                if (animation3_i == (frameCount-1)) {
+                if (animation3_i == (frames3.length-1)) {
                    // clearInterval(timer3);
                     //clearInterval(timer1);
                     //clearInterval(timer2);
@@ -951,8 +964,10 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                     //if(timer1 != null){
                       //  animation1_i = 0;    
                     //}else{
+                        console.log("cutting out and going to anim1");
                         startAnimation1(); 
                     //}
+                    console.log("exiting the final animation");
                     $('.animation1div').css({'display':'block'});
                     $('.animation2div').css({'display':'none'});
                     $('.animation3div').css({'display':'none'});
@@ -960,8 +975,8 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                     //return;
                 }
                 //else{
-                    $(frames3[animation3_i % frameCount]).css({'display':'none'});
-                    $(frames3[++animation3_i % frameCount]).css({'display':'block'});
+                    $(frames3[animation3_i % frames3.length]).css({'display':'none'});
+                    $(frames3[++animation3_i % frames3.length]).css({'display':'block'});
                 //}
             }, 200); 
         }
@@ -1025,8 +1040,9 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
             $('.playertext').neonText({
                 textColor: 'rgba(255,255,255,.5)',
                 textSize: '12vw', 
-                neonHighlight: '#dae878',
+                neonHighlight: '#ffffff',
                 neonHighlightColor: '#FF00DE',
+                neonHighlightHover: '#FF00DE',
             });    
         }else{
             $('.playertext').neonText({
@@ -1034,6 +1050,7 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                 textSize: '6vw', 
                 neonHighlight: '#ffffff',
                 neonHighlightColor: '#FF00DE',
+                neonHighlightHover: '#FF00DE',
             });
         }
         
@@ -1109,6 +1126,7 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
     
         var timenow; 
         var lastTime = 0;  
+        
         $( ".playersection,.playerhelptext" ).on('touchend click', function(){
           
             timenow = new Date().getTime();
@@ -1158,9 +1176,27 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                         //clearInterval(timer1);
                         //clearInterval(timer2);
                         //clearInterval(timer3);
+                        punchCounter++; 
                         if(animation3_i != 0 && animation3_i != 1){
-                           // console.log("animation3 i: " + animation3_i);
-                            animation3_i = -1; 
+                            //console.log("punchCounter: " + punchCounter);
+                            
+                            if(punchCounter > 3){
+                                clearInterval(timer3);
+                                timer3 = undefined;
+                                $('.animation3div').css({'display':'none'});
+                                $('.animation4div').css({'display':'block'});
+                                startAnimation3();
+                                
+                                //frames3 = $(".animation4div").children();
+                            }else{
+                                //frames3 = $(".animation3div").children();
+                                //$('.animation3div').css({'display':'block'});
+                                //$('.animation4div').css({'display':'none'});
+                                animation3_i = -1; 
+                            }
+                                
+                            //}
+                            
                         }
                         //startAnimation3();
                         //don't do anything. should cycle back to animation 1 after it ends. 
@@ -1171,7 +1207,8 @@ function oilPaintEffect(canvas, ctx,radius, intensity) {
                         //clearInterval(timer3);
                         if(animation3_i != 0 && animation3_i != 1){
                             //console.log("animation3 i: " + animation3_i);
-                            animation3_i = -1; 
+                            animation3_i = -1;
+                           // punchCounter++; 
                         }
                         //startAnimation3();
                         //don't do anything. should cycle back to animation 1 after it ends. 
