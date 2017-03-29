@@ -57,15 +57,15 @@ var index = 0;
 var textInterval; 
 $(document).ready(function(){
 		var game_id = window.location.toString().split('?')[1];
-		if(game_id){
+    if(game_id){
 		var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
 		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( jsonData ) {
-			if(jsonData){
-        console.log('stored: ', jsonData);
-        console.log('templateURL: ', jsonData['scenes'][0]['url']);
-        $('#parentgif').attr("src", jsonData['scenes'][0]['url']);
-        $('#punchgif').attr("src", jsonData['scenes'][1]['url']);
-    }
+            if(jsonData){
+                console.log('stored: ', jsonData);
+                console.log('templateURL: ', jsonData['scenes'][0]['url']);
+                $('#parentgif').attr("src", jsonData['scenes'][0]['url']);
+                $('#punchgif').attr("src", jsonData['scenes'][1]['url']);
+            }
         
         
     $('#punchgifDiv').hide();
@@ -87,10 +87,7 @@ $(document).ready(function(){
             $('#parentgifDiv').hide();
             setTimeout((function() {
                 $('#punchgifDiv').hide();
-                
-                
-
-                looptext(); 
+                //looptext(); 
                 //textInterval = setInterval(looptext, 2500);
                 
                 $("#text").show();
@@ -111,7 +108,7 @@ $(document).ready(function(){
 	}
 }); 
     
-function looptext(){
+/*function looptext(){
     index = 0; 
     clearInterval(intervalID);
     $("#text").empty();
@@ -131,7 +128,7 @@ function animatetext(){
             clearInterval(intervalID);
         }
     }, 2500/words.length);
-}    
+}  */  
 
 </script>
 
