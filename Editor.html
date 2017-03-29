@@ -36,20 +36,21 @@
 </div>
     
 <div class = "gamediv"style=" position: relative; height: 400px; " >
-    <div class="text container" style="height: 50px;">
-        <h1 id="text" style="color:white; text-align: left;font-family: 'Exo', sans-serif;font-size: 200%; padding-left: 5px;margin:0 auto;">DON'T YOU DARE.</h1>
+    <div class="text container" style="width: 500px; height: 50px;">
+        <input type="text" id="Heading" value="DON'T YOU DATRE." oninput="changedHeading()" style="background-color:black; color: white; border:none;font-family: 'Exo', sans-serif;font-size: 200%; text-align: center; width: 100%;">
+        
     </div>    
     <div class="parent container" id="parentcontainer">
-        <div id = 'parentgifDiv' style="width: 498px;"> <img id = 'parentgif' src="assets/giphy.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto;position:absolute;top:0px;left:0px;z-index:0;">
+        <div id = 'parentgifDiv' style="width:500px; height:auto;"> <img id = 'parentgif' src="assets/giphy.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto;position:absolute;top:0px;left:0px;z-index:0;">
         </div>
-        <div id = 'punchgifDiv' style="width: 498px;" > <img id='punchgif' src="assets/raw.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto; position:absolute;top:0px;left:0px;z-index:0;">
+        <div id = 'punchgifDiv' style="width:500px; height:auto;" > <img id='punchgif' src="assets/raw.gif" alt="HTML5 Icon" style="max-width: 100%; height:auto; position:absolute;top:0px;left:0px;z-index:0;">
         </div>
     </div>    
 </div>    
     
 <div id="myForm">
 <form>
-  <input id="searchbox" type="text" name="search" placeholder="Search..">
+  <input class="search" id="searchbox" type="text" name="search" placeholder="Search..">
 </form>    
 </div>
     
@@ -94,7 +95,7 @@
    /* body { background-color: white; }*/
     .container{
         display:block; 
-        width: 498px;  
+        width: 500px;  
         margin:0 auto; 
         position:relative;
         background-color:black;
@@ -115,7 +116,7 @@
         cursor: pointer;
     }
     
-    input[type=text] {
+    .search {
         width: 100%;
         box-sizing: border-box;
         border: 2px solid #ccc;
@@ -214,8 +215,10 @@ var doOnce = false;
 //var words = []; 
 var index = 0; 
 var textInterval; 
-var stateIsSceneOne = true; 
+var stateIsSceneOne = false; 
 var searchData; 
+var textScene1; 
+var textScene2; 
 $(document).ready(function(){
     
     
@@ -238,6 +241,15 @@ $(document).ready(function(){
         }); 
     });
     
+    function changedHeading() {
+        if(stateIsSceneOne){
+            textScene1 = document.getElementById("Heading").value;    
+        }
+        else{
+            textScene2 = document.getElementById("Heading").value;    
+        }
+    }
+    
     $( ".button" ).on('touchend click', function(){
         $("#myModal").show(); 
         console.log("the URL: " + $('#parentgif').attr("src"));
@@ -251,7 +263,7 @@ $(document).ready(function(){
         var url1 = $('#parentgif').attr("src");
         var width1 = $('#parentgif').width();
         var height1 = $('#parentgif').height();
-        var text1 = "DON'T YOU DARE";
+        var text1 = textScene1;
         var scene1 = {
             "url": url1,
             "width": width1,
@@ -262,7 +274,7 @@ $(document).ready(function(){
         var url2 = $('#punchgif').attr("src");
         var width2 = $('#punchgif').width();
         var height2 = $('#punchgif').height();
-        var text2 = " ";
+        var text2 = textScene2;
         var scene2 = {
             "url": url2,
             "width": width2,
@@ -355,9 +367,13 @@ $(document).on('touchend click', function(){
         
         if(stateIsSceneOne){
             $('#parentgif').attr("src",$target.src); 
+            $('#parentgif').width("500px");
+            $('#parentgif').height("auto");
         }
         else{
             $('#punchgif').attr("src",$target.src); 
+            $('#punchgif').width("500px");
+            $('#punchgif').height("auto");
         }
        
     }

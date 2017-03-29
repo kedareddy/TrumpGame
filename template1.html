@@ -20,8 +20,8 @@
     
 <body style=" position: relative;">
      
-<div class="text container" style="height: 50px;">
-    <h1 id="text" style="color:white; text-align: left;font-family: 'Exo', sans-serif;font-size: 200%; padding-left: 5px;margin:0 auto;">DON'T YOU DARE.</h1>
+<div class="text container" style="width: 500px; height: 50px;">
+    <h1 id="text" style="color:white; text-align: left;font-family: 'Exo', sans-serif;font-size: 200%; text-align: center; width: 100%;">DON'T YOU DARE.</h1>
 </div>    
 <div class="parent container" id="parentcontainer">
     <div id ='parentgifDiv'> <img id = 'parentgif' src="assets/HulkPussy.gif" alt="HTML5 Icon" style="width:500px; height:auto; position:absolute;top:0px;left:0px;z-index:-3;">
@@ -55,8 +55,10 @@ var doOnce = false;
 //var words = []; 
 var index = 0; 
 var textInterval; 
+var textScene1; 
+var textScene2; 
 $(document).ready(function(){
-		var game_id = window.location.toString().split('?')[1];
+    var game_id = window.location.toString().split('?')[1];
     if(game_id){
 		var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
 		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( jsonData ) {
@@ -65,6 +67,8 @@ $(document).ready(function(){
                 console.log('templateURL: ', jsonData['scenes'][0]['url']);
                 $('#parentgif').attr("src", jsonData['scenes'][0]['url']);
                 $('#punchgif').attr("src", jsonData['scenes'][1]['url']);
+                textScene1 = jsonData['scenes'][0]['text'];
+                textScene2 = jsonData['scenes'][1]['text'];
             }
         
         
@@ -82,7 +86,8 @@ $(document).ready(function(){
             psrc = psrc.replace(/\?.*$/,"")+"?x="+Math.random();
             $('#punchgif').attr('src',psrc);
             
-            $("#text").hide();
+            //$("#text").hide();
+            $("#text").html(textScene1);
             clearInterval(textInterval);
             $('#parentgifDiv').hide();
             setTimeout((function() {
@@ -90,7 +95,8 @@ $(document).ready(function(){
                 //looptext(); 
                 //textInterval = setInterval(looptext, 2500);
                 
-                $("#text").show();
+                //$("#text").show();
+                $("#text").html(textScene2);
                 var imgsrc = $('#parentgif').attr('src');
                 imgsrc = imgsrc.replace(/\?.*$/,"")+"?x="+Math.random();
                 $('#parentgif').attr('src',imgsrc);
