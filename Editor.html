@@ -241,14 +241,7 @@ $(document).ready(function(){
         }); 
     });
     
-    function changedHeading() {
-        if(stateIsSceneOne){
-            textScene1 = document.getElementById("Heading").value;    
-        }
-        else{
-            textScene2 = document.getElementById("Heading").value;    
-        }
-    }
+    
     
     $( ".button" ).on('touchend click', function(){
         $("#myModal").show(); 
@@ -333,6 +326,15 @@ $(document).ready(function(){
     });*/
     
 });  
+    
+function changedHeading() {
+        if(stateIsSceneOne){
+            textScene1 = document.getElementById("Heading").value;    
+        }
+        else{
+            textScene2 = document.getElementById("Heading").value;    
+        }
+}
     
 function displayresults(data){
         searchData = data; 
