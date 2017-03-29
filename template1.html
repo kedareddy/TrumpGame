@@ -69,6 +69,7 @@ $(document).ready(function(){
                 $('#punchgif').attr("src", jsonData['scenes'][1]['url']);
                 textScene1 = jsonData['scenes'][0]['text'];
                 textScene2 = jsonData['scenes'][1]['text'];
+                $("#text").html(textScene1);
             }
         
         
@@ -87,7 +88,7 @@ $(document).ready(function(){
             $('#punchgif').attr('src',psrc);
             
             //$("#text").hide();
-            $("#text").html(textScene1);
+            $("#text").html(textScene2);
             clearInterval(textInterval);
             $('#parentgifDiv').hide();
             setTimeout((function() {
@@ -96,7 +97,7 @@ $(document).ready(function(){
                 //textInterval = setInterval(looptext, 2500);
                 
                 //$("#text").show();
-                $("#text").html(textScene2);
+                $("#text").html(textScene1);
                 var imgsrc = $('#parentgif').attr('src');
                 imgsrc = imgsrc.replace(/\?.*$/,"")+"?x="+Math.random();
                 $('#parentgif').attr('src',imgsrc);
