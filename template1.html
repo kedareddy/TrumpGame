@@ -69,7 +69,7 @@ $(document).ready(function(){
         
         
     $('#punchgifDiv').hide();
-    animatetext();
+    //animatetext();
     $("#text").empty();
     $("#text").append($("<span>").text(words[index] + " "));
     index++;
@@ -91,7 +91,7 @@ $(document).ready(function(){
                 
 
                 looptext(); 
-                textInterval = setInterval(looptext, 2500);
+                //textInterval = setInterval(looptext, 2500);
                 
                 $("#text").show();
                 var imgsrc = $('#parentgif').attr('src');
@@ -105,7 +105,7 @@ $(document).ready(function(){
     });
     
     
-    textInterval = setInterval(looptext, 2500);
+    //textInterval = setInterval(looptext, 2500);
   
 		});
 	}
