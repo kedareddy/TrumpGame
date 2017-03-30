@@ -227,7 +227,7 @@ $(document).ready(function(){
         changescene(); 
     });
   
-    var xhr = $.get("http://api.giphy.com/v1/gifs/search?q=tantrum&api_key=dc6zaTOxFJmzC&limit=5");
+    var xhr = $.get("https://api.giphy.com/v1/gifs/search?q=tantrum&api_key=dc6zaTOxFJmzC&limit=5");
     xhr.done(function(data) { 
         displayresults(data);
     }); 
@@ -235,7 +235,7 @@ $(document).ready(function(){
     $('#myForm').on('submit', function(e){
         e.preventDefault();
         var val = $('#searchbox').val();
-        var hr = $.get("http://api.giphy.com/v1/gifs/search?q="+val+"&api_key=dc6zaTOxFJmzC&limit=5");
+        var hr = $.get("https://api.giphy.com/v1/gifs/search?q="+val+"&api_key=dc6zaTOxFJmzC&limit=5");
         hr.done(function(data) { 
             displayresults(data);
         }); 
