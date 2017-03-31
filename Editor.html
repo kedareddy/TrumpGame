@@ -308,9 +308,10 @@ $(document).ready(function(){
               ]
 							};*/
 				var game_id = Date.now();
-				var game_url = 'https://playloops.io/template1.html?'+game_id;
+				var game_url = '/template1.html?'+game_id;
 				$('.modal-body a').attr('href', game_url);
                 console.log("URL:  "+ game_url);
+                game_url = 'https://www.playloops.io/template1.html?'+game_id;
 				$('.modal-body textarea').val(game_url);
 				myObj['_id'] = game_id;
 				var dataToStore = JSON.stringify(myObj);
