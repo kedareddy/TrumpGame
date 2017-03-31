@@ -113,8 +113,10 @@ $(document).ready(function(){
     
     //textInterval = setInterval(looptext, 2500);
   
-		}).fail(function()  {
-            console.log("Sorry. Server unavailable. ");
+		}).fail(function(jqXHR, textStatus, errorThrown )  {
+               console.log(jqXHR);
+    console.log(textStatus);
+    console.log(errorThrown);
         }); 
 	}
 }); 
