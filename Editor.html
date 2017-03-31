@@ -314,7 +314,9 @@ $(document).ready(function(){
 				myObj['_id'] = game_id;
 				var dataToStore = JSON.stringify(myObj);
 				console.log(dataToStore);
-				$.ajax({url:'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-',type: "POST",contentType: "application/json",data:dataToStore});
+				$.ajax({url:'http://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-',type: "POST",contentType: "application/json",data:dataToStore}).done(function() {
+                    console.log("done uploading orposting");
+                });
     });
     
     $( ".close" ).on('touchend click', function(){
