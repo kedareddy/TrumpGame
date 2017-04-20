@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--All your imports & meta tags-->
+    <meta charset="UTF-8" />
+    <title>Instance Branch Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Canvas Library --> 
+    <script type="text/javascript" src="/js/fabric.min.js"></script>
+    
+    <!-- import JQuery --> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    
+    <!-- spinner for loading --> 
+    <script src="/js/spin.min.js"></script>
+</head>
+<body>
+<section class="section main">
+    <div class="container left">
+        <!-- Logo & Nav options --> 
+        <div class="div header">
+           <img class="logo" src="/images/bluelogo.svg">  
+        </div>
+    </div>
+    <div class="container middle" id="middlecontainer">
+        <!--Canvas with editor--> 
+        <canvas class="canvas main" id="maincanvas"></canvas>
+    </div>
+    <div class="container right">
+        <!-- Edit Button --> 
+        <button class="button edit" id="editbutton">Edit</button>
+    </div>
+</section>
+    
+<style> 
+    .section.main{display: table; font-family: 'Oswald medium', sans-serif; color: gray;}
+    
+    .container.left{ display: table-cell; width: 20%; vertical-align: top;padding: 1%;}
+    .container.middle{display: table-cell; width: 60%; border-style: solid;}
+    .container.right{ display: table-cell; width:  20%; vertical-align: top; padding: 1%;}
+    
+    .div.header{margin: .5em;}
+    .logo{width: 100%; height: auto;}
+    
+    .nodecanvas{padding: 12% 20% 0% 10%;}
+    
+    .button {border-style: solid; border-radius: 0px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none;  }
+</style>       
+
+<script>
+    
+    
+$(document).ready(function(){
+    var game_id = window.location.toString().split('?')[1];
+    if(game_id){
+		var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
+		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( jsonData ) {
+            console.log("inside ajax callback *****");
+            if(jsonData){
+                console.log("inside jsonData *****");
+                console.log('stored: ', jsonData);
+                //console.log('templateURL: ', jsonData['scenes'][0]['url']);
+                //$('#parentgif').attr("src", jsonData['scenes'][0]['url']);
+                //$('#punchgif').attr("src", jsonData['scenes'][1]['url']);
+                //textScene1 = jsonData['scenes'][0]['text'];
+                //textScene2 = jsonData['scenes'][1]['text'];
+                //$("#text").html(textScene1);
+            }
+  
+		}).fail(function(jqXHR, textStatus, errorThrown )  {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }); 
+	}
+}); 
+
+</script>
+    
+</body>    
+</html>

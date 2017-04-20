@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--All your imports & meta tags-->
+    <meta charset="UTF-8" />
+    <title>PlayLoops Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Canvas Library --> 
+    <script type="text/javascript" src="/js/fabric.min.js"></script>
+    
+    <!-- import JQuery --> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    
+    <!-- spinner for loading --> 
+    <script src="/js/spin.min.js"></script>
+    
+    <!--jquery context menu library --> 
+    <link rel="stylesheet" href="js/contextMenu/jquery.contextMenu.min.css" />
+    <script src="/js/contextMenu/jquery.contextMenu.min.js"></script>
+    <script src="/js/contextMenu/jquery.ui.position.min.js"></script>
+    
+</head>
+
+<body>
+<!--All your html & css-->
+
+<section id="publishModal" class="section modal publish">
+  <div class="modal publish content">
+    <div class="modal publish header">
+      <h2>Your Play Loop!</h2>
+      <span class="modal close" id="exitPublishModal">&times;</span>
+    </div>
+    <div class="modal body">
+      <p>Loop Link</p>
+      <a href="" id="exportURL" target="_blank">
+        <img id = 'newtab' src="/assets/newtabicon.svg" alt="HTML5 Icon" style="opacity: 0.75; width:7%; height: auto; ">
+      </a>
+      <textarea id="exportTextArea" readonly style="width: 75%; padding-left:3px;">
+          http://www.playloops.io/template1.html
+      </textarea>
+    </div>
+    <div class="modal footer">
+      <h3></h3>
+    </div>
+  </div>
+</section>     
+    
+<section class="section modal nodeeditor" id="nodeeditormodal">
+    <div class="modal content" id="modalcontent">
+        <span class="modal close" id="closeNodeEditor">&times;</span>
+        <button class="button nodeeditor AddText">Text</button>
+        <button class="button nodeeditor AddImage">Image</button>
+        <button class="button nodeeditor AddRectangle">Rect</button>
+        <div class="div nodecanvas" id="nodecanvasdiv">
+            <canvas class="canvas node" id="nodecanvas"></canvas>
+        </div>
+        <div class="modal footer">
+            <div id="myForm">
+                <form>
+                  <input class="search" id="searchbox" type="text" name="search" placeholder="Search..">
+                </form>    
+            </div>
+            <div class = "container giphy" id = "giphydiv"></div> 
+        </div>
+    </div>
+</section>
+
+<section class="section main">
+    
+    <div class="container left">
+        <!-- Logo & Nav options --> 
+        <div class="div header">
+           <img class="logo" src="/images/bluelogo.svg">  
+        </div>
+    </div>
+    <div class="container middle" id="middlecontainer">
+        <!--Canvas with editor--> 
+        <video id="videoElement" width="150" height="75" poster="https://media.giphy.com/media/xUPGclaE8lP7ZvTRT2/giphy.gif" style="display:none;" loop>
+          <source src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <canvas class="canvas main" id="maincanvas"></canvas>
+    </div>
+    <div class="container right">
+        <!-- Export & Preview Buttons --> 
+        <button class="button publish" id="publishbutton">Publish</button>
+        <br>
+        <!--<button class="button preview">Preview</button>-->
+    </div>
+    
+</section>
+    
+<style> 
+    
+    .section.main{display: table; height: 100vh; font-family: 'Oswald medium', sans-serif; color: gray;}
+    
+    .container.left{ display: table-cell; width: 20%; vertical-align: top;padding: 1%;}
+    .container.middle{display: table-cell; width: 60%; border-style: solid;}
+    .container.right{ display: table-cell; width:  20%; vertical-align: top; padding: 1%;}
+    
+    .div.header{margin: .5em;}
+    .logo{width: 100%; height: auto;}
+    
+    .nodecanvas{padding: 12% 20% 0% 10%;}
+    
+    .button.nodeeditor{float: left; width: 15%; margin: 5%; left: 13%;top:1%}
+    .button {border-style: solid; border-radius: 0px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none;  }
+    
+    .section.modal {display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+    .modal.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 60%;}
+    .close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;}
+    .close:hover,
+    .close:focus {color: #000;text-decoration: none;cursor: pointer;}
+    .modal.footer{display: block; padding: 2px 16px; background-color: rgba(0,0,0,0.75); color: white;}
+    .container.giphy{text-align: center; display:inline-block; margin: 0 auto; position:relative; background-color:black;display: flex; overflow: auto;}
+    video { object-fit: contain;}
+    
+    .modal.publish.header{padding: 2px 16px; background-color: rgba(0,0,0,0.75);color: white;}
+    .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 40%;}
+    
+</style>    
+    
+<script>
+//All the js
+var lastClickPos = {x:0, y:0};   
+var allScenes = []; 
+var workingCanvas; 
+var currentSceneNumber = 0; 
+var creatingCanvas = false;
+var sceneCanvas; 
+
+
+$.contextMenu({
+    selector: '.canvas main', 
+        trigger: 'none',
+        callback: function(key, options) {
+        var m = "clicked: " + key;
+        window.console && console.log(m) || alert(m); 
+    },
+        position: function(opt, x, y){
+        opt.$menu.css({top: lastClickPos.y, left:lastClickPos.x });
+    }, 
+    items: {
+                "input": { 
+                    type: 'select', 
+                    options: {1: 'Click/Tap', 2: 'Click/Tap Hold'}, 
+                    selected: "1"
+                },
+                "order": {
+                    type: 'select', 
+                    options: {1: 'Randomized', 2: 'Ordered'}, 
+                    selected: "2"
+                }
+    }
+});
+    
+var SceneNode = fabric.util.createClass(fabric.Image, {
+    
+      type: 'sceneNode',
+
+      initialize: function (element, options) {
+        options = options || {};
+
+        this.callSuper('initialize', element, options);
+        this.set('label', options.label || '');
+      },
+
+      toObject: function() {
+        return fabric.util.object.extend(this.callSuper('toObject'), {
+          label: this.get('label')
+        });
+      },
+    
+      _render: function(ctx) {
+            this.callSuper('_render', ctx);
+
+          if(this.label.length > 0){
+            ctx.fillStyle = 'black';
+            ctx.fillRect(-this.width/1.5, -this.height/1.5 + 20, this.width/3, -this.height/3);  
+
+            ctx.font = '20px Helvetica';
+            ctx.fillStyle = 'white';
+            ctx.fillText(this.label, -this.width/1.5, -this.height/1.5 + 20);
+          }
+      }
+    
+});
+    
+var LabeledRect = fabric.util.createClass(fabric.Rect, {
+
+      type: 'labeledRect',
+
+      initialize: function(options) {
+        options || (options = { });
+
+        this.callSuper('initialize', options);
+        this.set('label', options.label || '');
+      },
+
+      toObject: function() {
+        return fabric.util.object.extend(this.callSuper('toObject'), {
+          label: this.get('label')
+        });
+      },
+
+      _render: function(ctx) {
+        this.callSuper('_render', ctx);
+
+        
+        ctx.font = '20px Helvetica';
+        ctx.fillStyle = '#333';
+        ctx.fillText(this.label, -this.width/9, this.height/6);
+      }
+    });    
+    
+$(document).ready(function(){
+    // create a wrapper around native canvas element (with id="c")
+    var canvas = new fabric.Canvas('maincanvas');
+    var video1El = document.getElementById('videoElement');
+    canvas.setHeight( $("#middlecontainer").innerHeight() );
+    canvas.setWidth( $("#middlecontainer").innerWidth() );
+    
+    
+    
+    function makeNode(nodeType, orderNum, left, top, line1, line2, line3, line4) {
+        var c;
+        if(nodeType == "SceneNode"){
+            c = new SceneNode(video1El, {
+              left: left,
+              top: top,
+              originX: 'center',
+              originY: 'center',
+              label: orderNum,
+              stroke : 'black',
+              strokeWidth : 4
+            });    
+        }else{
+            c = new LabeledRect({
+              width: 100,
+              height: 50,
+              left: left,
+              top: top,
+              originX: 'center',
+              originY: 'center',
+              label: 'Tap',
+              fill: 'white',
+              stroke: 'black'
+            });
+        }
+
+        c.hasControls = c.hasBorders = false;
+
+        c.line1 = line1;
+        c.line2 = line2;
+        c.line3 = line3;
+        c.line4 = line4;
+        if(nodeType == "SceneNode"){
+            c.getElement().play();
+            allScenes.push({fabricNodeObject:c, fabricCanvasObject: " "});
+        }
+        return c;
+    }
+    
+    function makeLine(coords) {
+        return new fabric.Line(coords, {
+          fill: 'gray',
+          stroke: 'black',
+          strokeWidth: 5,
+          selectable: false
+        });
+    }
+    var line = makeLine([ canvas.width/2, canvas.height/4, canvas.width/2, canvas.height/2]),
+      line2 = makeLine([ canvas.width/2, canvas.height/2 , canvas.width/4, canvas.height/1.2]),
+      line3 = makeLine([ canvas.width/2, canvas.height/2, 2*canvas.width/4, canvas.height/1.2]),
+      line4 = makeLine([ canvas.width/2, canvas.height/2, 3*canvas.width/4, canvas.height/1.2]);
+
+    canvas.add(line, line2, line3, line4);
+    
+    
+    canvas.add(
+        makeNode("SceneNode", "", line.get('x1'), line.get('y1'), null, line),
+        makeNode("InteractionNode", "", line.get('x2'), line.get('y2'), line, line2, line3, line4),
+        makeNode("SceneNode", "1", line2.get('x2'), line2.get('y2'), line2),
+        makeNode("SceneNode", "2", line3.get('x2'), line3.get('y2'), line3),
+        makeNode("SceneNode", "3", line4.get('x2'), line4.get('y2'), line4)
+    );
+    
+     canvas.on('object:moving', function(e) {
+        var p = e.target;
+        p.line1 && p.line1.set({ 'x2': p.left, 'y2': p.top });
+        p.line2 && p.line2.set({ 'x1': p.left, 'y1': p.top });
+        p.line3 && p.line3.set({ 'x1': p.left, 'y1': p.top });
+        p.line4 && p.line4.set({ 'x1': p.left, 'y1': p.top });
+        canvas.renderAll();
+    });
+
+    fabric.util.requestAnimFrame(function render() {
+      canvas.renderAll();
+      if(workingCanvas != undefined){
+        workingCanvas.renderAll();       
+      }      
+      fabric.util.requestAnimFrame(render);
+    });
+
+    
+    
+
+    
+    // Get the modal
+    var modal = document.getElementById('nodeeditormodal');
+    // Get the <span> element that closes the modal
+    var span = document.getElementById("closeNodeEditor");
+    
+    var publishButton = document.getElementById('publishbutton');
+    var publishModal = document.getElementById('publishModal');
+    var publishExit = document.getElementById("exitPublishModal");
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal || event.target == span) {
+            saveSceneCanvas();
+            modal.style.display = "none";
+        }
+        //console.log("bla: " + String(event.target.id).substring(0,2));
+        if(String(event.target.id).substring(0,3) == "vid"){
+            console.log("bla: " + event.target.id);
+            var $target = event.target;
+            var videoID = "#video00"+currentSceneNumber; 
+            
+                $(videoID).attr("src",$target.src); 
+                $(videoID).width("500px");
+                $(videoID).height("auto");
+        }
+        
+        if(event.target == publishButton){
+            $("#publishModal").show(); 
+            exportPlayLoop(); 
+        }
+        if (event.target == publishModal || event.target == publishExit) {
+            $("#publishModal").hide(); 
+        }
+    }
+    
+    
+    canvas.on('object:selected', function(options) {
+        if (options.target.type == "labeledRect") {
+            lastClickPos.x = options.e.clientX;
+            lastClickPos.y = options.e.clientY;
+            console.log("cX: "+lastClickPos.x+" cY: "+lastClickPos.y);
+            $('.canvas main').contextMenu({x:300, y:200});
+        }
+        else{
+            modal.style.display = "block";
+        
+            //see if the node's canvas has already been contructed. 
+            for (var i = 0, count = allScenes.length; i < count; i++) {    
+                if(allScenes[i].fabricNodeObject == options.target){
+                    currentSceneNumber = i; 
+                    //console.log("what gets opended: " + allScenes[i].fabricCanvasObject);
+                    openSceneCanvas(allScenes[i].fabricNodeObject, allScenes[i].fabricCanvasObject);
+                }
+            }
+            
+            //load GIFs
+            var xhr = $.get("https://api.giphy.com/v1/gifs/search?q=tantrum&api_key=dc6zaTOxFJmzC&limit=5");
+            xhr.done(function(data) { 
+                displayresults(data);
+            }); 
+        }
+    });
+    
+    function openSceneCanvas(sceneNode, canvasStr){
+     
+        //if first time create a rectangle
+        if(canvasStr == " "){ 
+            if(workingCanvas == undefined){
+                workingCanvas = new fabric.Canvas('nodecanvas');
+                workingCanvas.setHeight( .75*$("#modalcontent").innerHeight() );
+                workingCanvas.setWidth( .8*$("#modalcontent").innerWidth() );
+            }
+            workingCanvas.backgroundColor="gray";
+            workingCanvas.renderAll();
+            //create rectangle
+            var prect = new fabric.Rect({
+                left: 0,
+                top: 0,
+                fill: 'black',
+                width: workingCanvas.width,
+                height: .2 * workingCanvas.height
+            });
+            var text = 'this is\a multiline!';
+            var centerText = new fabric.IText(text, {
+              textAlign: 'center',
+              fill: 'white',
+              fontSize: 40,
+              left: 100, 
+              top: 10 
+            });
+            /*var video1 = new fabric.Image(video1El, {
+              left: 0,
+              top: .2 * workingCanvas.height,
+              width: workingCanvas.width, 
+              height: .8*workingCanvas.height
+            });*/
+            console.log("source is: "  + video1El.src);
+            $('body').append('<video autoplay="autoplay" loop="loop" width="500" height="auto" id="video'+"00"+currentSceneNumber+'" style="display: none" src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4"></video>');
+            
+            var videoID = "video00"+currentSceneNumber; 
+            var videoCustomElement = document.getElementById(videoID);
+
+            var videoT = new fabric.Image(videoCustomElement, {
+              left: 0,
+              top: .2 * workingCanvas.height,
+              width: workingCanvas.width, 
+              height: .8*workingCanvas.height
+            });
+
+            // "add" rectangle onto canvas
+            workingCanvas.add(prect); 
+            workingCanvas.add(centerText);
+            //workingCanvas.add(video1);
+            //video1.getElement().play();
+             workingCanvas.add(videoT);
+            videoT.getElement().play();
+            workingCanvas.renderAll();
+        }
+        else{
+            var sceneJSON = JSON.parse(canvasStr);
+            console.log("sceneJSON: " + canvasStr); 
+            var sceneObjects = sceneJSON.objects;
+             for (var i = 0; i < sceneObjects.length; i++) {
+                var klass = fabric.util.getKlass(sceneObjects[i].type);
+                if (klass.async) {
+                    console.log("object type: " + sceneObjects[i].type);
+                    console.log("object src: " + sceneObjects[i].src);
+                    var videoID = "video00"+currentSceneNumber; 
+                        var videoCustomElement = document.getElementById(videoID);
+                        $(videoID).attr("src",sceneObjects[i].src); 
+                        var videoT = new fabric.Image(videoCustomElement, {
+                          left: sceneObjects[i].left,
+                          top: sceneObjects[i].top,
+                          width: sceneObjects[i].width, 
+                          height: sceneObjects[i].height
+                        });
+                    workingCanvas.add(videoT);
+                    videoT.getElement().play();                    
+                } else {
+                    workingCanvas.add(klass.fromObject(sceneObjects[i]));
+                }
+            }
+            //load modified rectangle
+            /*workingCanvas.loadFromJSON(canvasStr, CallBack, function(o, object) {
+                workingCanvas.setActiveObject(object);
+                console.log('Cloning Complete ..!');
+            });*/
+        }
+    }
+    
+    function saveSceneCanvas(){
+        console.log("currenscenenum: " + currentSceneNumber);
+        allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas);
+        workingCanvas.clear(); 
+    }
+    
+    //show GIF search results
+    function displayresults(data){
+        searchData = data; 
+        console.log("success got data", data); 
+        $('#giphydiv').empty();    
+    
+        for (i = 0; i < 5; i++) { 
+            var divname = "video " + String(i);
+            var imagename = "video" + String(i);
+            var wImg = searchData['data'][i]['images']['downsized_small']['width']; 
+            var hImg = searchData['data'][i]['images']['downsized_small']['height'];
+            var aspect = wImg/hImg; 
+            console.log("aspect: " + aspect);
+            
+            $('#giphydiv').append('<div style="flex:'+aspect+';" class='+divname+ ' id=' +divname+'>'+'<video style="width:100%; height: auto;" class='+imagename+' id='+imagename+' src='+searchData['data'][i]['images']['downsized_small']['mp4'] + ' autoplay="autoplay" loop="loop" >' + '</div>');
+        }
+    }
+    
+    function exportPlayLoop(){
+        var myPlayLoop = {};
+        var inputType = "tap"; //Tap or TapHold
+        var order = "ordered";
+        var scenes = [];
+        
+        for (var i = 0, count = allScenes.length; i < count; i++) {   
+            scenes.push(allScenes[i].fabricCanvasObject);
+        }
+        
+        myPlayLoop.inputType = inputType; 
+        myPlayLoop.order = order; 
+        myPlayLoop.scenes = scenes;
+    
+
+        var game_id = Date.now();
+        var game_url;//  = '/template1.html?'+game_id;
+        
+        game_url = 'https://www.playloops.io/template1.html?'+game_id;
+        $('#exportURL').attr('href', game_url);
+        $('#exportTextArea').val(game_url);
+        console.log("URL:  "+ game_url);
+        myPlayLoop['_id'] = game_id;
+        
+        var dataToStore = JSON.stringify(myPlayLoop);
+        console.log(dataToStore);
+        $.ajax({url:'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-',type: "POST",contentType: "application/json",data:dataToStore}).done(function() {
+        console.log("done uploading orposting");});            
+    }
+          
+});
+
+    
+</script>
+</body>
+</html>
