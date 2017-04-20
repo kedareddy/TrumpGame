@@ -27,10 +27,7 @@
     </div>
     <div class="container middle" id="middlecontainer">
         <!--Canvas with editor--> 
-        <video id="videoElement" width="150" height="75" poster="https://media.giphy.com/media/xUPGclaE8lP7ZvTRT2/giphy.gif" style="display:none;" loop>
-          <source src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+        <video id="videoElement" width="150" height="75" src="https://media.giphy.com/media/xUPGclaE8lP7ZvTRT2/giphy.gif" style="display:none;" autoplay="autoplay" loop="loop"></video>
         <canvas class="canvas main" id="maincanvas"></canvas>
     </div>
     <div class="container right">
@@ -60,6 +57,7 @@
     
 var canvas = new fabric.Canvas('maincanvas');
 $(document).ready(function(){
+
     var game_id = window.location.toString().split('?')[1];
     if(game_id){
 		var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
@@ -76,24 +74,29 @@ $(document).ready(function(){
                     var sceneJSON = JSON.parse(canvasStr);
                     console.log("sceneJSON: " + canvasStr); 
                     var sceneObjects = sceneJSON.objects;
-                     for (var i = 0; i < sceneObjects.length; i++) {
+                    for (var i = 0; i < sceneObjects.length; i++) {
                         var klass = fabric.util.getKlass(sceneObjects[i].type);
+                        
                         if (klass.async) {
                             console.log("object type: " + sceneObjects[i].type);
                             console.log("object src: " + sceneObjects[i].src);
-                            var videoID = "video00";//+currentSceneNumber; 
-                                var videoCustomElement = document.getElementById("videoElement");
-                                $("videoElement").attr("src",sceneObjects[i].src); 
-                                var videoT = new fabric.Image(videoCustomElement, {
+                            //var videoID = "video00";//+currentSceneNumber; 
+                            
+                            var videoCustomElement = document.getElementById("videoElement");
+                            $("#videoElement").attr("src",sceneObjects[i].src); 
+                            var videoT = new fabric.Image(videoCustomElement, {
                                   left: sceneObjects[i].left,
                                   top: sceneObjects[i].top,
                                   width: sceneObjects[i].width, 
                                   height: sceneObjects[i].height
-                                });
+                            });
                             canvas.add(videoT);
-                            videoT.getElement().play();                    
+                            videoT.getElement().play();
+                            canvas.renderAll();
+                        
                         } else {
                             canvas.add(klass.fromObject(sceneObjects[i]));
+                            canvas.renderAll();
                         }
                     }
                 }
@@ -111,6 +114,13 @@ $(document).ready(function(){
             console.log(errorThrown);
         }); 
 	}
+    
+    fabric.util.requestAnimFrame(function render() {
+      canvas.renderAll();      
+      fabric.util.requestAnimFrame(render);
+    });
+
+    
 }); 
 
 </script>
