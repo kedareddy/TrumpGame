@@ -494,13 +494,13 @@ $(document).ready(function(){
         
         myPlayLoop.inputType = inputType; 
         myPlayLoop.order = order; 
-        myPlayLoop.scenes = scenes;
+        //myPlayLoop.scenes = scenes;
     
 
         var game_id = Date.now();
         var game_url;//  = '/template1.html?'+game_id;
         
-        game_url = 'https://www.playloops.io/template1.html?'+game_id;
+        game_url = 'https://www.playloops.io/IBranchTemplate.html?'+game_id;
         $('#exportURL').attr('href', game_url);
         $('#exportTextArea').val(game_url);
         console.log("URL:  "+ game_url);
