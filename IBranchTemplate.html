@@ -47,6 +47,8 @@
     .logo{width: 100%; height: auto;}
     
     .nodecanvas{padding: 12% 20% 0% 10%;}
+        .modal.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 60%;}
+
     
     .button {border-style: solid; border-radius: 0px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none;  }
 </style>       
@@ -78,7 +80,7 @@ $(document).ready(function(){
                             console.log("object src: " + sceneObjects[i].src);
                             var videoID = "video00";//+currentSceneNumber; 
                                 var videoCustomElement = document.getElementById("videoElement");
-                                $(videoID).attr("src",sceneObjects[i].src); 
+                                $("videoElement").attr("src",sceneObjects[i].src); 
                                 var videoT = new fabric.Image(videoCustomElement, {
                                   left: sceneObjects[i].left,
                                   top: sceneObjects[i].top,
