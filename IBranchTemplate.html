@@ -27,6 +27,7 @@
     </div>
     <div class="container middle" id="middlecontainer">
         <!--Canvas with editor--> 
+        <video id="videoElement" width="150" height="75" style="display:none;" loop></video>
         <canvas class="canvas main" id="maincanvas"></canvas>
     </div>
     <div class="container right">
@@ -52,7 +53,7 @@
 
 <script>
     
-    
+var canvas = new fabric.Canvas('maincanvas');
 $(document).ready(function(){
     var game_id = window.location.toString().split('?')[1];
     if(game_id){
@@ -62,6 +63,35 @@ $(document).ready(function(){
             if(jsonData){
                 console.log("inside jsonData *****");
                 console.log('stored: ', jsonData);
+                
+                for(int j = 0; j < jsonData['scenes'].length; j++){
+                    
+                    var canvasStr = jsonData['scenes'][j];
+                
+                    var sceneJSON = JSON.parse(canvasStr);
+                    console.log("sceneJSON: " + canvasStr); 
+                    var sceneObjects = sceneJSON.objects;
+                     for (var i = 0; i < sceneObjects.length; i++) {
+                        var klass = fabric.util.getKlass(sceneObjects[i].type);
+                        if (klass.async) {
+                            console.log("object type: " + sceneObjects[i].type);
+                            console.log("object src: " + sceneObjects[i].src);
+                            var videoID = "video00";//+currentSceneNumber; 
+                                var videoCustomElement = document.getElementById("videoElement");
+                                $(videoID).attr("src",sceneObjects[i].src); 
+                                var videoT = new fabric.Image(videoCustomElement, {
+                                  left: sceneObjects[i].left,
+                                  top: sceneObjects[i].top,
+                                  width: sceneObjects[i].width, 
+                                  height: sceneObjects[i].height
+                                });
+                            canvas.add(videoT);
+                            videoT.getElement().play();                    
+                        } else {
+                            canvas.add(klass.fromObject(sceneObjects[i]));
+                        }
+                    }
+                }
                 //console.log('templateURL: ', jsonData['scenes'][0]['url']);
                 //$('#parentgif').attr("src", jsonData['scenes'][0]['url']);
                 //$('#punchgif').attr("src", jsonData['scenes'][1]['url']);
