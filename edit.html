@@ -78,11 +78,13 @@
     </div>
     <div class="container middle" id="middlecontainer">
         <!--Canvas with editor--> 
-        <video id="videoElement" width="150" height="75" poster="https://media.giphy.com/media/xUPGclaE8lP7ZvTRT2/giphy.gif" style="display:none;" loop>
+        <div class="container preview canvasses" id="pcanvasesdiv"></div>
+        <video id="videoElement" width="150" height="75" style="display:none;" loop>
           <source src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
         <canvas class="canvas main" id="maincanvas"></canvas>
+        
     </div>
     <div class="container right">
         <!-- Export & Preview Buttons --> 
@@ -100,6 +102,9 @@
     .container.left{ display: table-cell; width: 20%; vertical-align: top;padding: 1%;}
     .container.middle{display: table-cell; width: 60%; border-style: solid;}
     .container.right{ display: table-cell; width:  20%; vertical-align: top; padding: 1%;}
+    .container.preview.canvasses{margin-left: auto; margin-right: auto; position: relative; }
+    .lower-canvas{left:200; top:45;}
+
     
     .div.header{margin: .5em;}
     .logo{width: 100%; height: auto;}
@@ -127,6 +132,9 @@
 //All the js
 var lastClickPos = {x:0, y:0};   
 var allScenes = []; 
+var previewFabricCanvases = []; 
+var previewCanvases = []; 
+var previewWrappers = [];
 var workingCanvas; 
 var currentSceneNumber = 0; 
 var creatingCanvas = false;
@@ -175,7 +183,7 @@ var SceneNode = fabric.util.createClass(fabric.Image, {
       },
     
       _render: function(ctx) {
-            this.callSuper('_render', ctx);
+            //this.callSuper('_render', ctx);
 
           if(this.label.length > 0){
             ctx.fillStyle = 'black';
@@ -235,7 +243,8 @@ $(document).ready(function(){
               originY: 'center',
               label: orderNum,
               stroke : 'black',
-              strokeWidth : 4
+              strokeWidth : 0, 
+              lockUniScaling : true
             });    
         }else{
             c = new LabeledRect({
@@ -260,6 +269,34 @@ $(document).ready(function(){
         if(nodeType == "SceneNode"){
             c.getElement().play();
             allScenes.push({fabricNodeObject:c, fabricCanvasObject: " "});
+            
+            var pcanvasDiv = document.getElementById("pcanvasesdiv");
+            var wrapperDiv = document.createElement("div");
+            wrapperDiv.style.position = "absolute";
+            
+            var newCanvas = document.createElement("canvas");
+            previewCanvases.push(newCanvas);
+            
+            wrapperDiv.appendChild(newCanvas);
+            pcanvasDiv.appendChild(wrapperDiv);
+            
+            var pcanvas = new fabric.Canvas(newCanvas, {width: 200, height:100});
+            var rect = new fabric.Rect({
+               left: 0,
+               top: 0,
+               width: 200,
+               height: 100,
+               fill: 'none',
+               stroke: 'rgba(34,177,76,1)',
+               strokeWidth: 5
+            });
+            pcanvas.add(rect);
+            pcanvas.renderAll();
+            
+            previewFabricCanvases.push(pcanvas);
+            wrapperDiv.style.left = (left-(newCanvas.offsetWidth/2))+"px";
+            wrapperDiv.style.top = (top-(newCanvas.offsetHeight/2))+"px";
+            previewWrappers.push(wrapperDiv);
         }
         return c;
     }
@@ -295,13 +332,20 @@ $(document).ready(function(){
         p.line3 && p.line3.set({ 'x1': p.left, 'y1': p.top });
         p.line4 && p.line4.set({ 'x1': p.left, 'y1': p.top });
         canvas.renderAll();
+        for(var i = 0; i < previewWrappers.length; i++){
+            previewWrappers[i].style.left = (allScenes[i].fabricNodeObject.left - (previewCanvases[i].offsetWidth/2))+"px";
+            previewWrappers[i].style.top = (allScenes[i].fabricNodeObject.top - (previewCanvases[i].offsetHeight/2))+"px";
+        } 
     });
 
     fabric.util.requestAnimFrame(function render() {
       canvas.renderAll();
       if(workingCanvas != undefined){
         workingCanvas.renderAll();       
-      }      
+      }  
+      for(var i =0; i < previewFabricCanvases.length; i++){
+            previewFabricCanvases[i].renderAll();            
+      }    
       fabric.util.requestAnimFrame(render);
     });
 
@@ -330,8 +374,19 @@ $(document).ready(function(){
             var videoID = "#video00"+currentSceneNumber; 
             
                 $(videoID).attr("src",$target.src); 
-                $(videoID).width("500px");
-                $(videoID).height("auto");
+                console.log("video WW: " + $(event.target).width() + "video HH: " + $(event.target).height()); 
+                //aspect ratio is greater than canvas aspect ratio if h is greater than w canvasH is the height, calculate new w
+                //if w is greater than h canvasW is the width, calculate the 
+                $(videoID).width($(event.target).width()+"px");
+                $(videoID).height($(event.target).height()+"px");
+            
+                var tWidth = $(event.target).width();
+                var tHeight = $(event.target).height();
+                tWidth = (tWidth/tHeight)*workingCanvas.height; 
+                
+               
+            workingCanvas.getObjects()[2].setWidth(tWidth);
+            workingCanvas.getObjects()[2].setHeight(workingCanvas.height);
         }
         
         if(event.target == publishButton){
@@ -341,6 +396,23 @@ $(document).ready(function(){
         if (event.target == publishModal || event.target == publishExit) {
             $("#publishModal").hide(); 
         }
+    }
+    
+    $('#myForm').on('submit', function(e){
+        e.preventDefault();
+        newSearch(false);  
+    });
+    function newSearch(defaultSearch){
+        var val = $('#searchbox').val();
+        var hr;
+        if(defaultSearch){
+            hr = $.get("https://api.giphy.com/v1/gifs/search?q=tantrum&api_key=dc6zaTOxFJmzC&limit=5");
+        }else{
+            hr = $.get("https://api.giphy.com/v1/gifs/search?q="+val+"&api_key=dc6zaTOxFJmzC&limit=5");
+        }
+        hr.done(function(data) { 
+            displayresults(data);
+        });
     }
     
     
@@ -363,11 +435,19 @@ $(document).ready(function(){
                 }
             }
             
-            //load GIFs
+            //load GIFs/Videos
+            newSearch(true);
+            /*
             var xhr = $.get("https://api.giphy.com/v1/gifs/search?q=tantrum&api_key=dc6zaTOxFJmzC&limit=5");
             xhr.done(function(data) { 
                 displayresults(data);
-            }); 
+            }); */
+            
+            //update preview canvasses positions
+            for(var i = 0; i < previewWrappers.length; i++){
+                previewWrappers[i].style.left = (allScenes[i].fabricNodeObject.left - (previewCanvases[i].offsetWidth/2))+"px";
+                previewWrappers[i].style.top = (allScenes[i].fabricNodeObject.top - (previewCanvases[i].offsetHeight/2))+"px";
+            } 
         }
     });
     
@@ -394,7 +474,6 @@ $(document).ready(function(){
             var centerText = new fabric.IText(text, {
               textAlign: 'center',
               fill: 'white',
-              fontSize: 40,
               left: 100, 
               top: 10 
             });
@@ -405,16 +484,25 @@ $(document).ready(function(){
               height: .8*workingCanvas.height
             });*/
             console.log("source is: "  + video1El.src);
-            $('body').append('<video autoplay="autoplay" loop="loop" width="500" height="auto" id="video'+"00"+currentSceneNumber+'" style="display: none" src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4"></video>');
+            $('body').append('<video autoplay="autoplay" loop="loop" id="video'+"00"+currentSceneNumber+'" style="display: none" src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4"></video>');
             
             var videoID = "video00"+currentSceneNumber; 
             var videoCustomElement = document.getElementById(videoID);
-
+            
+             
+          /*  var videoCustomElement = document.createElement("video");
+            videoCustomElement.autoPlay = true; 
+            videoCustomElement.loop = true;
+            videoCustomElement.id = videoID;                
+            videoCustomElement.src = "https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4"; 
+            videoCustomElement.style.display = "none";*/
+            //$('body').append(videoCustomElement);             
+            
             var videoT = new fabric.Image(videoCustomElement, {
               left: 0,
               top: .2 * workingCanvas.height,
-              width: workingCanvas.width, 
-              height: .8*workingCanvas.height
+              width: 400, 
+              height: 312
             });
 
             // "add" rectangle onto canvas
@@ -460,7 +548,86 @@ $(document).ready(function(){
     
     function saveSceneCanvas(){
         console.log("currenscenenum: " + currentSceneNumber);
-        allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas);
+        previewFabricCanvases[currentSceneNumber].clear();
+        allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height']));    /*previewFabricCanvases[currentSceneNumber].loadFromJSON(JSON.stringify(workingCanvas),previewFabricCanvases[currentSceneNumber].renderAll.bind(previewFabricCanvases[currentSceneNumber]), function(o, object) {
+            fabric.log(o, object);
+            previewFabricCanvases[currentSceneNumber].setWidth("200px");
+            previewFabricCanvases[currentSceneNumber].setHeight("100px");
+            previewFabricCanvases[currentSceneNumber].calcOffset();
+        });*/
+        
+           //  for(var j = 0; j <  allScenes[currentSceneNumber].fabricCanvasObject['scenes'].length; j++){
+                    
+                    var canvasStr = allScenes[currentSceneNumber].fabricCanvasObject;
+                    
+                    var sceneJSON = JSON.parse(canvasStr);
+                   // console.log("sceneJSON: " + canvasStr); 
+                    var sceneObjects = sceneJSON.objects;
+                    //console.log("incoming width: " + sceneJSON.width + "incoming height: " + sceneJSON.height);
+                    
+                    previewFabricCanvases[currentSceneNumber].setHeight(100);
+                    previewFabricCanvases[currentSceneNumber].setWidth(200);
+                    //if(j == 0){
+                    //    $("#middlecontainer").height(sceneJSON.height);
+                    //}
+                    
+                    for (var i = 0; i < sceneObjects.length; i++) {
+                        var klass = fabric.util.getKlass(sceneObjects[i].type);
+                        
+                        if (klass.async) {
+                            //console.log("object type: " + sceneObjects[i].type);
+                            //console.log("object src: " + sceneObjects[i].src);
+                            //var videoID = "video00";//+currentSceneNumber; 
+                            
+                            var newVideo = document.createElement("video");
+                            newVideo.autoPlay = true; 
+                            newVideo.loop = true;
+                            
+                            newVideo.src = sceneObjects[i].src; 
+                            newVideo.style.display = "none";
+                            previewWrappers[currentSceneNumber].appendChild(newVideo);
+                            //canvasDiv.appendChild(newVideo);
+                            
+                            
+                            //var videoCustomElement = document.getElementById("videoElement");
+                            //$("#videoElement").attr("src", sceneObjects[i].src); 
+                            console.log("canvas width: " + sceneJSON.width);
+                            console.log("canvas height: " + sceneJSON.height);
+                            
+                            var videoT = new fabric.Image(newVideo, {
+                                  left: sceneObjects[i].left*200/sceneJSON.width,
+                                  top: sceneObjects[i].top*100/sceneJSON.height,
+                                  width: sceneObjects[i].width*200/sceneJSON.width, 
+                                  height: sceneObjects[i].height*100/sceneJSON.height,
+                                  
+                            });
+                            previewFabricCanvases[currentSceneNumber].add(videoT);
+                            videoT.getElement().play();
+                            previewFabricCanvases[currentSceneNumber].renderAll();
+                        
+                        } else {
+                            var tempObj = klass.fromObject(sceneObjects[i]);
+                            previewFabricCanvases[currentSceneNumber].add(tempObj);
+                            tempObj.set({
+                                'height'     : sceneObjects[i].height*100/sceneJSON.height,
+                                'width'      : sceneObjects[i].width*200/sceneJSON.width,
+                                'left'       : sceneObjects[i].left*200/sceneJSON.width,
+                                'top'        : sceneObjects[i].top*100/sceneJSON.height,
+                                'fontSize'   : 12
+                            });
+                    
+                            previewFabricCanvases[currentSceneNumber].renderAll();
+                        }
+                    }
+                //}
+        
+        
+       /* previewFabricCanvases[currentSceneNumber].setWidth(200);
+            previewFabricCanvases[currentSceneNumber].setHeight(100);
+            previewFabricCanvases[currentSceneNumber].calcOffset();*/
+        
+        
+        
         workingCanvas.clear(); 
     }
     
@@ -498,9 +665,10 @@ $(document).ready(function(){
     
 
         var game_id = Date.now();
-        var game_url;//  = '/template1.html?'+game_id;
+        var game_url;//  
+        game_url = '/IBranchTemplate.html?'+game_id;
         
-        game_url = 'https://www.playloops.io/IBranchTemplate.html?'+game_id;
+        //game_url = 'https://www.playloops.io/IBranchTemplate.html?'+game_id;
         $('#exportURL').attr('href', game_url);
         $('#exportTextArea').val(game_url);
         console.log("URL:  "+ game_url);

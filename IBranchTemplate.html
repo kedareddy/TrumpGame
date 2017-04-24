@@ -26,9 +26,11 @@
         </div>
     </div>
     <div class="container middle" id="middlecontainer">
-        <!--Canvas with editor--> 
-        <video id="videoElement" width="150" height="75" src="https://media.giphy.com/media/xUPGclaE8lP7ZvTRT2/giphy.gif" style="display:none;" autoplay="autoplay" loop="loop"></video>
-        <canvas class="canvas main" id="maincanvas"></canvas>
+        <div class="canvascontainer" id="canvasesdiv">
+            <!--Canvas with editor--> 
+            <video class="video" id="videoElement" width="150" height="75" src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4" style="display:none;" autoplay="autoplay" loop="loop"></video>
+            <!--<canvas class="canvas main" id="maincanvas"></canvas>-->
+        </div>
     </div>
     <div class="container right">
         <!-- Edit Button --> 
@@ -40,14 +42,17 @@
     .section.main{display: table; font-family: 'Oswald medium', sans-serif; color: gray;}
     
     .container.left{ display: table-cell; width: 20%; vertical-align: top;padding: 1%;}
-    .container.middle{display: table-cell; width: 60%; border-style: solid;}
+    .container.middle{display: table-cell; width: 60%; border-style: solid; text-align: center; background-color: black;}
     .container.right{ display: table-cell; width:  20%; vertical-align: top; padding: 1%;}
     
+    .canvascontainer{margin-left: auto; margin-right: auto; position: relative; }
+    .canvas-container{margin-left: auto; margin-right: auto; position: absolute;left: 0; right: 0; }
+    .video{margin-left: auto; margin-right: auto;}
     .div.header{margin: .5em;}
     .logo{width: 100%; height: auto;}
     
     .nodecanvas{padding: 12% 20% 0% 10%;}
-        .modal.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 60%;}
+    .modal.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 60%;}
 
     
     .button {border-style: solid; border-radius: 0px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none;  }
@@ -55,7 +60,11 @@
 
 <script>
     
-var canvas = new fabric.Canvas('maincanvas');
+//var canvas = new fabric.Canvas('maincanvas');
+// Add a new rectangular canvas with fill representing specified gradient
+var allCanvases = []; 
+var allFabricObjects = []; 
+    
 $(document).ready(function(){
 
     var game_id = window.location.toString().split('?')[1];
@@ -69,11 +78,25 @@ $(document).ready(function(){
                 
                 for(var j = 0; j < jsonData['scenes'].length; j++){
                     
+                    var canvasDiv = document.getElementById("canvasesdiv");
+                    var newCanvas = document.createElement("canvas");
+                    canvasDiv.appendChild(newCanvas);
+                    var canvas = new fabric.Canvas(newCanvas, {width: 500, height:50});
+                    newCanvas.parentElement.style.position = "absolute";
+                    
+                    
                     var canvasStr = jsonData['scenes'][j];
-                
+                    
                     var sceneJSON = JSON.parse(canvasStr);
                     console.log("sceneJSON: " + canvasStr); 
                     var sceneObjects = sceneJSON.objects;
+                    console.log("incoming width: " + sceneJSON.width + "incoming height: " + sceneJSON.height);
+                    canvas.setHeight(sceneJSON.height);
+                    canvas.setWidth(sceneJSON.width);
+                    if(j == 0){
+                        $("#middlecontainer").height(sceneJSON.height);
+                    }
+                    
                     for (var i = 0; i < sceneObjects.length; i++) {
                         var klass = fabric.util.getKlass(sceneObjects[i].type);
                         
@@ -82,9 +105,19 @@ $(document).ready(function(){
                             console.log("object src: " + sceneObjects[i].src);
                             //var videoID = "video00";//+currentSceneNumber; 
                             
-                            var videoCustomElement = document.getElementById("videoElement");
-                            $("#videoElement").attr("src",sceneObjects[i].src); 
-                            var videoT = new fabric.Image(videoCustomElement, {
+                            var newVideo = document.createElement("video");
+                            newVideo.autoPlay = true; 
+                            if(i == 0){
+                                newVideo.loop = true;
+                            }
+                            newVideo.src = sceneObjects[i].src; 
+                            newVideo.style.display = "none";
+                            canvasDiv.appendChild(newVideo);
+                            
+                            
+                            //var videoCustomElement = document.getElementById("videoElement");
+                            //$("#videoElement").attr("src", sceneObjects[i].src); 
+                            var videoT = new fabric.Image(newVideo, {
                                   left: sceneObjects[i].left,
                                   top: sceneObjects[i].top,
                                   width: sceneObjects[i].width, 
@@ -99,7 +132,13 @@ $(document).ready(function(){
                             canvas.renderAll();
                         }
                     }
+                    allFabricObjects.push(canvas);
+                    allCanvases.push(newCanvas);
+                    if(j != 0){
+                        $(newCanvas).hide();
+                    }
                 }
+                
                 //console.log('templateURL: ', jsonData['scenes'][0]['url']);
                 //$('#parentgif').attr("src", jsonData['scenes'][0]['url']);
                 //$('#punchgif').attr("src", jsonData['scenes'][1]['url']);
@@ -116,12 +155,48 @@ $(document).ready(function(){
 	}
     
     fabric.util.requestAnimFrame(function render() {
-      canvas.renderAll();      
-      fabric.util.requestAnimFrame(render);
+        for(var i =0; i < allCanvases.length; i++){
+            allFabricObjects[i].renderAll();            
+        }
+        fabric.util.requestAnimFrame(render);
     });
 
+    var openForInput = true; 
+    //implement InstanceBranching logic on click/click-hold switch out the canvases. 
+    $( "#middlecontainer" ).on('touchend click', function(){
+        console.log("clicked!");
+        if(openForInput == true){
+            openForInput = false;
+            var parentVid = allFabricObjects[0].getObjects()[2].getElement(); 
+            parentVid.pause();
+            $(allCanvases[0]).hide();
+            
+            var randInt = getRandomInt(1, (allCanvases.length-1));
+            $(allCanvases[randInt]).show();
+        
+            var vidEl = allFabricObjects[randInt].getObjects()[2].getElement();
+            vidEl.pause();
+            vidEl.currentTime = 0;
+            vidEl.play();
+
+            vidEl.onended = function(e) {
+                console.log('video ended');
+                $(allCanvases[randInt]).hide();
+                $(allCanvases[0]).show();
+                parentVid.play();
+                parentVid.loop = true; 
+                openForInput = true;
+            }
+
+        }
+        
+    });
     
 }); 
+    
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 </script>
     
