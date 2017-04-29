@@ -110,11 +110,51 @@ $(document).ready(function(){
                             if(i == 0){
                                 newVideo.loop = true;
                             }
+                            var urlText = sceneObjects[i].src;
+                            var indexTC = urlText.indexOf("#t=");
+                            var timeCodes = urlText.slice(indexTC+3).split(","); 
+                            console.log("!!!!!!!!!!!timeCodes: " + timeCodes); 
+                            var startTime = timeCodes[0]; 
+                            var endTime = timeCodes[1]; 
+                            
                             newVideo.src = sceneObjects[i].src; 
                             newVideo.style.display = "none";
+                            
+                            
+                            
+                            newVideo.addEventListener('timeupdate', function (sT, eT) {
+                                return function(err) { 
+                                    if (newVideo.currentTime >= eT) {
+                                        newVideo.currentTime = sT;
+                                        newVideo.play();
+                                    }
+                                };
+
+                            }(startTime, endTime), false);
+                            
+                            var backVideo = document.createElement("video");
+                            backVideo.autoPlay = true; 
+                            backVideo.src = newVideo.src;
+                            backVideo.style.display = "none";
+                            backVideo.crossOrigin = "anonymous";
+                            backVideo.addEventListener("loadeddata", function(sT){
+                                return function(err) { 
+                                    backVideo.currentTime = sT;
+                                };
+                            }(startTime), false);
+                            
+                            
                             canvasDiv.appendChild(newVideo);
+                            canvasDiv.appendChild(backVideo);
                             
                             
+                            
+                            var videoB = new fabric.Image(backVideo, {
+                                  left: sceneObjects[i].left,
+                                  top: sceneObjects[i].top,
+                                  width: sceneObjects[i].width, 
+                                  height: sceneObjects[i].height
+                            });
                             //var videoCustomElement = document.getElementById("videoElement");
                             //$("#videoElement").attr("src", sceneObjects[i].src); 
                             var videoT = new fabric.Image(newVideo, {
@@ -123,6 +163,10 @@ $(document).ready(function(){
                                   width: sceneObjects[i].width, 
                                   height: sceneObjects[i].height
                             });
+                            
+                            
+                            
+                            canvas.add(videoB);
                             canvas.add(videoT);
                             videoT.getElement().play();
                             canvas.renderAll();

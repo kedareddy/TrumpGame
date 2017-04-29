@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="/js/jquery-ui.min.css">
+    
+    <!--Jquery Slider-->
+    <script src="/js/jquery-ui-slider-pips.js"></script>
+    <link rel="stylesheet" href="/js/jquery-ui-slider-pips.css">
     
     <!-- spinner for loading --> 
     <script src="/js/spin.min.js"></script>
@@ -55,6 +61,7 @@
         <button class="button nodeeditor AddImage">Image</button>
         <button class="button nodeeditor AddRectangle">Rect</button>
         <div class="div nodecanvas" id="nodecanvasdiv">
+            <div class="sliderholder"><div id="flat-slider"></div></div>
             <canvas class="canvas node" id="nodecanvas"></canvas>
         </div>
         <div class="modal footer">
@@ -125,6 +132,105 @@
     
     .modal.publish.header{padding: 2px 16px; background-color: rgba(0,0,0,0.75);color: white;}
     .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 40%;}
+    
+    .sliderholder{position: absolute; width: 50%; z-index: 13;}
+  
+    #flat-slider.ui-slider {
+  background: #d5cebc;
+  border: none;
+  border-radius: 0; 
+    }
+                    
+  #flat-slider.ui-slider .ui-slider-handle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50% 50% 0;
+    border-color: transparent;
+    transition: border 0.4s ease; }
+                    
+    #flat-slider.ui-slider .ui-slider-handle.ui-state-hover, 
+    #flat-slider.ui-slider .ui-slider-handle.ui-state-focus, 
+    #flat-slider.ui-slider .ui-slider-handle.ui-state-active {
+      border-color: #172f38; }
+                    
+  #flat-slider.ui-slider .ui-slider-pip .ui-slider-line {
+    background: #d5cebc;
+    transition: all 0.4s ease; }
+                    
+  #flat-slider.ui-slider.ui-slider-horizontal {
+    height: 6px; }
+                    
+    #flat-slider.ui-slider.ui-slider-horizontal .ui-slider-handle {
+      -webkit-transform: rotateZ(45deg);
+              transform: rotateZ(45deg);
+      top: -25px;
+      margin-left: -10px; }
+                    
+    #flat-slider.ui-slider.ui-slider-horizontal .ui-slider-pip {
+      top: 10px; }
+                    
+      #flat-slider.ui-slider.ui-slider-horizontal .ui-slider-pip .ui-slider-line {
+        width: 2px;
+        height: 10px;
+        margin-left: -1px; }
+                    
+      #flat-slider.ui-slider.ui-slider-horizontal .ui-slider-pip[class*=ui-slider-pip-selected] .ui-slider-line {
+        height: 20px; }
+                    
+      #flat-slider.ui-slider.ui-slider-horizontal .ui-slider-pip.ui-slider-pip-inrange .ui-slider-line {
+        height: 12px; }
+                    
+  #flat-slider.ui-slider.ui-slider-vertical {
+    width: 6px;
+    height: 125px;
+    display: inline-block;
+    margin: 0 15%; }
+                    
+    #flat-slider.ui-slider.ui-slider-vertical .ui-slider-handle {
+      -webkit-transform: rotateZ(-45deg);
+              transform: rotateZ(-45deg);
+      left: -25px;
+      margin-bottom: -10px; }
+                    
+    #flat-slider.ui-slider.ui-slider-vertical .ui-slider-pip {
+      left: 10px; }
+                    
+      #flat-slider.ui-slider.ui-slider-vertical .ui-slider-pip .ui-slider-line {
+        height: 2px;
+        width: 10px;
+        margin-top: -1px; }
+                    
+      #flat-slider.ui-slider.ui-slider-vertical .ui-slider-pip[class*=ui-slider-pip-selected] .ui-slider-line {
+        width: 20px; }
+                    
+      #flat-slider.ui-slider.ui-slider-vertical .ui-slider-pip.ui-slider-pip-inrange .ui-slider-line {
+        width: 12px; }
+                    
+      #flat-slider.ui-slider.ui-slider-vertical .ui-slider-handle .ui-slider-tip,
+      #flat-slider.ui-slider.ui-slider-vertical .ui-slider-handle[class*=ui-state-] .ui-slider-tip {
+        visibility: visible;
+        opacity: 1;
+        border: none;
+        background: transparent;
+        left: 50%;
+        width: 30px;
+        margin-left: -15px;
+        text-align: center;
+        color: white;
+        font-weight: normal;
+        top: 10px;
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+                    
+        #flat-slider.ui-slider.ui-slider-vertical .ui-slider-handle .ui-slider-tip:before,
+        #flat-slider.ui-slider.ui-slider-vertical .ui-slider-handle[class*=ui-state-] .ui-slider-tip:before {
+          display: none; }
+                    
+        #flat-slider .ui-slider-handle,
+        #flat-slider .ui-slider-range,
+        #flat-slider .ui-slider-pip[class*=ui-slider-pip-selected] .ui-slider-line,
+        #flat-slider .ui-slider-pip.ui-slider-pip-inrange .ui-slider-line {
+          background-color: #25daa5; }
     
 </style>    
     
@@ -432,6 +538,7 @@ $(document).ready(function(){
                     currentSceneNumber = i; 
                     //console.log("what gets opended: " + allScenes[i].fabricCanvasObject);
                     openSceneCanvas(allScenes[i].fabricNodeObject, allScenes[i].fabricCanvasObject);
+ 
                 }
             }
             
@@ -488,7 +595,19 @@ $(document).ready(function(){
             
             var videoID = "video00"+currentSceneNumber; 
             var videoCustomElement = document.getElementById(videoID);
-            
+            videoCustomElement.addEventListener('loadedmetadata', function() {
+                console.log(videoCustomElement.duration);
+                $("#flat-slider")
+                    .slider({
+                        max: videoCustomElement.duration,
+                        min: 0,
+                        range: true,
+                        values: [0, videoCustomElement.duration], 
+                        step: 0.1
+                    })
+                    .slider("float");
+            });
+
              
           /*  var videoCustomElement = document.createElement("video");
             videoCustomElement.autoPlay = true; 
@@ -547,87 +666,116 @@ $(document).ready(function(){
     }
     
     function saveSceneCanvas(){
-        console.log("currenscenenum: " + currentSceneNumber);
+        //console.log("currenscenenum: " + currentSceneNumber);
         previewFabricCanvases[currentSceneNumber].clear();
-        allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height']));    /*previewFabricCanvases[currentSceneNumber].loadFromJSON(JSON.stringify(workingCanvas),previewFabricCanvases[currentSceneNumber].renderAll.bind(previewFabricCanvases[currentSceneNumber]), function(o, object) {
-            fabric.log(o, object);
-            previewFabricCanvases[currentSceneNumber].setWidth("200px");
-            previewFabricCanvases[currentSceneNumber].setHeight("100px");
-            previewFabricCanvases[currentSceneNumber].calcOffset();
-        });*/
-        
-           //  for(var j = 0; j <  allScenes[currentSceneNumber].fabricCanvasObject['scenes'].length; j++){
+        allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height']));    
                     
-                    var canvasStr = allScenes[currentSceneNumber].fabricCanvasObject;
-                    
-                    var sceneJSON = JSON.parse(canvasStr);
-                   // console.log("sceneJSON: " + canvasStr); 
-                    var sceneObjects = sceneJSON.objects;
-                    //console.log("incoming width: " + sceneJSON.width + "incoming height: " + sceneJSON.height);
-                    
-                    previewFabricCanvases[currentSceneNumber].setHeight(100);
-                    previewFabricCanvases[currentSceneNumber].setWidth(200);
-                    //if(j == 0){
-                    //    $("#middlecontainer").height(sceneJSON.height);
-                    //}
-                    
-                    for (var i = 0; i < sceneObjects.length; i++) {
-                        var klass = fabric.util.getKlass(sceneObjects[i].type);
-                        
-                        if (klass.async) {
-                            //console.log("object type: " + sceneObjects[i].type);
-                            //console.log("object src: " + sceneObjects[i].src);
-                            //var videoID = "video00";//+currentSceneNumber; 
-                            
-                            var newVideo = document.createElement("video");
-                            newVideo.autoPlay = true; 
-                            newVideo.loop = true;
-                            
-                            newVideo.src = sceneObjects[i].src; 
-                            newVideo.style.display = "none";
-                            previewWrappers[currentSceneNumber].appendChild(newVideo);
-                            //canvasDiv.appendChild(newVideo);
-                            
-                            
-                            //var videoCustomElement = document.getElementById("videoElement");
-                            //$("#videoElement").attr("src", sceneObjects[i].src); 
-                            console.log("canvas width: " + sceneJSON.width);
-                            console.log("canvas height: " + sceneJSON.height);
-                            
-                            var videoT = new fabric.Image(newVideo, {
-                                  left: sceneObjects[i].left*200/sceneJSON.width,
-                                  top: sceneObjects[i].top*100/sceneJSON.height,
-                                  width: sceneObjects[i].width*200/sceneJSON.width, 
-                                  height: sceneObjects[i].height*100/sceneJSON.height,
-                                  
-                            });
-                            previewFabricCanvases[currentSceneNumber].add(videoT);
-                            videoT.getElement().play();
-                            previewFabricCanvases[currentSceneNumber].renderAll();
-                        
-                        } else {
-                            var tempObj = klass.fromObject(sceneObjects[i]);
-                            previewFabricCanvases[currentSceneNumber].add(tempObj);
-                            tempObj.set({
-                                'height'     : sceneObjects[i].height*100/sceneJSON.height,
-                                'width'      : sceneObjects[i].width*200/sceneJSON.width,
-                                'left'       : sceneObjects[i].left*200/sceneJSON.width,
-                                'top'        : sceneObjects[i].top*100/sceneJSON.height,
-                                'fontSize'   : 12
-                            });
-                    
-                            previewFabricCanvases[currentSceneNumber].renderAll();
+        var canvasStr = allScenes[currentSceneNumber].fabricCanvasObject;
+
+        var sceneJSON = JSON.parse(canvasStr);
+        var sceneObjects = sceneJSON.objects;
+
+        previewFabricCanvases[currentSceneNumber].setHeight(100);
+        previewFabricCanvases[currentSceneNumber].setWidth(200);
+
+        for (var i = 0; i < sceneObjects.length; i++) {
+            var klass = fabric.util.getKlass(sceneObjects[i].type);
+
+            if (klass.async) {
+                var startTime = 0; 
+                var endTime = 0; 
+                if($('#flat-slider').slider("values")[0] > $('#flat-slider').slider("values")[1]){
+                    startTime = $('#flat-slider').slider("values")[1];
+                    endTime = $('#flat-slider').slider("values")[0];
+                }
+                else{
+                    startTime = $('#flat-slider').slider("values")[0];
+                    endTime = $('#flat-slider').slider("values")[1];
+                }
+                
+                var newVideo = document.createElement("video");
+                newVideo.autoPlay = true; 
+                newVideo.loop = true;
+               // newVideo.poster = "/images/circle.png"
+
+                newVideo.src = sceneObjects[i].src + "#t=" +startTime+","+endTime; 
+                workingCanvas.getObjects()[i].getElement().src = newVideo.src; 
+                newVideo.style.display = "none";
+                //newVideo.style.position = "absolute";
+                newVideo.crossOrigin = 'anonymous';
+
+
+                newVideo.addEventListener('timeupdate', function (sT, eT) {
+                    return function(err) { 
+                        if (newVideo.currentTime >= eT) {
+                            newVideo.currentTime = sT;
+                            newVideo.play();
                         }
-                    }
-                //}
-        
-        
-       /* previewFabricCanvases[currentSceneNumber].setWidth(200);
-            previewFabricCanvases[currentSceneNumber].setHeight(100);
-            previewFabricCanvases[currentSceneNumber].calcOffset();*/
-        
-        
-        
+                    };
+                    
+                }(startTime, endTime), false);
+                
+
+                var backVideo = document.createElement("video");
+                backVideo.autoPlay = true; 
+                backVideo.src = newVideo.src;
+                backVideo.style.display = "none";
+                backVideo.crossOrigin = "anonymous";
+                backVideo.addEventListener("loadeddata", function(sT){
+                    return function(err) { 
+                        backVideo.currentTime = sT;
+                    };
+                }(startTime), false);
+
+
+                previewWrappers[currentSceneNumber].appendChild(newVideo);
+                previewWrappers[currentSceneNumber].appendChild(backVideo);
+
+                //canvasDiv.appendChild(newVideo);
+
+                //console.log("slider values!: " + $('#flat-slider').slider("values")[0]);// $(".ui-slider-handle").css("left")); 
+                //console.log("canvas width: " + sceneJSON.width);
+               // console.log("canvas height: " + sceneJSON.height);
+
+                var videoB = new fabric.Image(backVideo, {
+                      left: sceneObjects[i].left*200/sceneJSON.width,
+                      top: sceneObjects[i].top*100/sceneJSON.height,
+                      width: sceneObjects[i].width*200/sceneJSON.width, 
+                      height: sceneObjects[i].height*100/sceneJSON.height,
+
+                });
+
+
+                var videoT = new fabric.Image(newVideo, {
+                      left: sceneObjects[i].left*200/sceneJSON.width,
+                      top: sceneObjects[i].top*100/sceneJSON.height,
+                      width: sceneObjects[i].width*200/sceneJSON.width, 
+                      height: sceneObjects[i].height*100/sceneJSON.height,
+
+                });
+
+
+                previewFabricCanvases[currentSceneNumber].add(videoB);
+
+                previewFabricCanvases[currentSceneNumber].add(videoT);
+                videoT.getElement().play();
+                previewFabricCanvases[currentSceneNumber].renderAll();
+
+            } else {
+                var tempObj = klass.fromObject(sceneObjects[i]);
+                previewFabricCanvases[currentSceneNumber].add(tempObj);
+                tempObj.set({
+                    'height'     : sceneObjects[i].height*100/sceneJSON.height,
+                    'width'      : sceneObjects[i].width*200/sceneJSON.width,
+                    'left'       : sceneObjects[i].left*200/sceneJSON.width,
+                    'top'        : sceneObjects[i].top*100/sceneJSON.height,
+                    'fontSize'   : 12
+                });
+
+                previewFabricCanvases[currentSceneNumber].renderAll();
+            }
+        }
+        allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height'])); 
         workingCanvas.clear(); 
     }
     
