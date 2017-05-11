@@ -106,9 +106,6 @@ $(document).ready(function(){
                 orderType = jsonData.order; 
                 inputType = jsonData.inputType; 
                 transitionType = jsonData.transition; 
-                //style the canvases..
-                $(".upper-canvas, .lower-canvas").addClass("roundcorners");
-                $(".upper-canvas").addClass("shadowOutset");
                 
                 console.log("inside jsonData *****");
                 for(var j = 0; j < jsonData['scenes'].length; j++){
@@ -214,6 +211,10 @@ $(document).ready(function(){
             console.log(errorThrown);
         }); 
 	}
+    
+    //style the canvases..
+    $(".upper-canvas, .lower-canvas").addClass("roundcorners");
+    $(".upper-canvas").addClass("shadowOutset");
     
     fabric.util.requestAnimFrame(function render() {
         for(var i =0; i < allCanvases.length; i++){

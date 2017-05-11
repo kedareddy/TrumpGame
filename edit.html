@@ -408,7 +408,7 @@ $(document).ready(function(){
         console.info("window.performance work's fine on this browser");
     }
     if (performance.navigation.type == 1) {
-        console.info( "This page is reloaded" );
+        console.info( "This page is reloaded "  + $("#middlecontainer").innerWidth());
         canvas.setHeight($("#middlecontainer").innerHeight());
         canvas.setWidth( $("#middlecontainer").innerWidth());
         canvas.renderAll(); 
