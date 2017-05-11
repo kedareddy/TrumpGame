@@ -307,11 +307,11 @@ $.contextMenu({
             name: 'Transition Type',
             "items": {
                 "default": {"name": "Simple"},
-                "bubblegum": {"name": "Bubble Gum"},
+                "break": {"name": "Crumble"}
+                /*"bubblegum": {"name": "Bubble Gum"},
                 "static": {"name": "TV Static"},
-                "break": {"name": "Crumble"},
                 "wipe": {"name": "Dramatic Reveal"},
-                "random": {"name": "Random Effect"}
+                "random": {"name": "Random Effect"}*/
             }
         },
         "add":{
@@ -402,6 +402,20 @@ $(document).ready(function(){
     //canvas.setHeight( );
     //canvas.setWidth( $("#middlecontainer").innerWidth() );
     canvas.renderAll(); 
+    
+    //used to make sure the canvas is sized to the middle container div
+    if (window.performance) {
+        console.info("window.performance work's fine on this browser");
+    }
+    if (performance.navigation.type == 1) {
+        console.info( "This page is reloaded" );
+        canvas.setHeight($("#middlecontainer").innerHeight());
+        canvas.setWidth( $("#middlecontainer").innerWidth());
+        canvas.renderAll(); 
+    } else {
+        console.info( "This page is not reloaded");
+    }
+    
     
     window.addNode = function addNode(){
         //make line add to canvas

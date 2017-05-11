@@ -47,8 +47,13 @@
     
     .canvascontainer{margin-left: auto; margin-right: auto; position: relative; }
     .canvas-container{margin-left: auto; margin-right: auto; position: absolute;left: 0; right: 0; }
-    .lower-canvas, .upper-canvas{box-shadow: 10px 10px 25px rgba(0,0,0,.5);border-radius: 2.5%/5%;margin-top: 10%; margin-bottom: 10%;}
+    /*.lower-canvas, .upper-canvas{border-radius: 2.5%/5%;margin-top: 10%; margin-bottom: 10%;}
+    .upper-canvas{box-shadow: 10px 10px 25px rgba(0,0,0,.5);}
     /*canvas{}*/
+    .roundcorners{border-radius: 2.5%/5%;margin-top: 10%;}
+    .shadowOutset{box-shadow: 10px 10px 25px rgba(0,0,0,.5);}
+    .shadowInset{box-shadow: 10px 10px 25px rgba(0,0,0,.5) inset;}
+    
     .video{margin-left: auto; margin-right: auto;}
     .div.header{margin: .5em;}
     .logo{width: 100%; height: auto;}
@@ -68,6 +73,9 @@ var allCanvases = [];
 var allFabricObjects = []; 
 var allStartEndTimes = []; 
 var allVideos = []; 
+var orderType = "ordered";//ordered or randomized
+var inputType = "click"; //click or hold
+var transitionType = "default";//default or break
     
 function addTimeHandler(nVideo, startTime, endTime){
     nVideo.addEventListener('timeupdate', parentVideoListener(nVideo, startTime, endTime));
@@ -94,6 +102,14 @@ $(document).ready(function(){
                 console.log("inside jsonData *****");
                 //console.log('stored: ', jsonData);
                 console.log("OrderType: " + jsonData.order + " IType: " + jsonData.inputType + " TransitionT: " + jsonData.transition); 
+                
+                orderType = jsonData.order; 
+                inputType = jsonData.inputType; 
+                transitionType = jsonData.transition; 
+                //style the canvases..
+                $(".upper-canvas, .lower-canvas").addClass("roundcorners");
+                $(".upper-canvas").addClass("shadowOutset");
+                
                 console.log("inside jsonData *****");
                 for(var j = 0; j < jsonData['scenes'].length; j++){
                     //create div to hold the canvas for the scene
@@ -210,6 +226,10 @@ $(document).ready(function(){
     $("#middlecontainer").on('mousedown',function(){
         $(".lower-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
         $(".upper-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
+        if(inputType == "hold"){
+            //call change of scene
+            showChildScene(); 
+        }
     });
     
     $("#middlecontainer").on('mouseup',function(){
@@ -220,12 +240,22 @@ $(document).ready(function(){
         $(".lower-canvas").animate({height: (myH+20).toString(), width: (myW+20).toString(), left: (myL-10).toString(), top: (myT-10).toString()}, 150);
         $(".lower-canvas").animate({height: (myH).toString(), width: (myW).toString(), left: (myL).toString(), top: (myT).toString()}, 100);
         $(".lower-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5)');*/
+        if(inputType == "hold"){
+            //end the child scene 
+            hideChildScene(); 
+        }
     });
     
     //implement InstanceBranching logic on click/click-hold switch out the canvases. 
     $( "#middlecontainer" ).on('touchend click', function(){
         console.log("clicked!");
-        if(openForInput == true){
+       if(inputType == "click"){
+           showChildScene(); 
+       }    
+    });
+    
+    function showChildScene(){
+         if(openForInput == true){
             console.log("should play second clip");
             openForInput = false;
             
@@ -234,36 +264,44 @@ $(document).ready(function(){
             parentVid.removeEventListener("timeupdate", parentVideoListener);
             $(allCanvases[0]).hide();
             
-            //pick a random child scenes, show its canvas, get it's video and set it to its start and play it. 
+            //pick the next child scene, show its canvas, get it's video and set it to its start and play it. 
             console.log("max: " + (allCanvases.length-1)); 
-            randomChildNum = getRandomInt(1, (allCanvases.length-1));
-            $(allCanvases[randomChildNum]).show();
-            currentVidEl = allVideos[randomChildNum];
+            if(orderType == "randomized"){
+                nextChildNum = getRandomInt(1, (allCanvases.length-1));
+            }
+            else{
+                if((nextChildNum + 1) >  (allCanvases.length-1)){
+                    nextChildNum = 1;         
+                }else{
+                    nextChildNum++;      
+                }
+            }
+            $(allCanvases[nextChildNum]).show();
+            currentVidEl = allVideos[nextChildNum];
             currentVidEl.pause();
-            currentVidEl.currentTime = allStartEndTimes[randomChildNum].s;
+            currentVidEl.currentTime = allStartEndTimes[nextChildNum].s;
             currentVidEl.play();
             
-            currentVidS = allStartEndTimes[randomChildNum].s; 
-            currentVidE = allStartEndTimes[randomChildNum].e; 
+            currentVidS = allStartEndTimes[nextChildNum].s; 
+            currentVidE = allStartEndTimes[nextChildNum].e; 
             
             //add a listener to the child video so you can turn it off once it's done playing or reaches its end
             hideOnce = true; 
-            console.log("randINt getting sent over: " + randomChildNum); 
-            addSecondTimeHandler();
-            
-             $(".lower-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
-            
-            
-        }
+            //console.log("randINt getting sent over: " + nextChildNum); 
+            if(inputType =="click"){
+                addSecondTimeHandler();
+            }
         
-    });
+            $(".upper-canvas").removeClass("shadowOutset").addClass("shadowInset");// css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');   
+        }
+    }
     
 }); 
     
 var parentVid = null;     
 var hideOnce = true; 
-var openForInput = true; 
-var randomChildNum = 1; 
+var openForInput = true;  
+var nextChildNum = 1; 
 var currentVidEl;
 var currentVidS; 
 var currentVidE; 
@@ -273,41 +311,43 @@ function addSecondTimeHandler(){
 } 
     
 var childVideoListener = function (){
-    //return function(err) { 
-        //console.log("currentTime: " + currentVidEl.currentTime + "supposed: " + currentVidE); 
-        if (currentVidEl.currentTime >= currentVidE) {
-            //make sure parent doesn't get set multiple times. 
-            if(hideOnce == true){
-                hideOnce = false; 
-                //console.log('video ended' + "randnumber: " + randomChildNum);
-
-                //hide the child canvas and show the parent canvas
-                $(allCanvases[randomChildNum]).hide();
-                $(allCanvases[0]).show();
-
-                //set parent video start time & play
-                parentVid.currentTime = allStartEndTimes[0].s;
-                parentVid.play();
-                //add the time handler back to the parent so it can loop
-                addTimeHandler(parentVid, allStartEndTimes[0].s, allStartEndTimes[0].e);
-                //open to listen to input again
-                openForInput = true;
-                //don't need this event listener anymore
-                currentVidEl.removeEventListener('timeupdate', childVideoListener);   
-                
-                  var myH = $(".lower-canvas").height();
-        var myW = $(".lower-canvas").width();
-        var myL = $(".lower-canvas").position().left; 
-        var myT = $(".lower-canvas").position().top; 
-        $(".lower-canvas").animate({height: (myH+20).toString(), width: (myW+20).toString(), left: (myL-10).toString(), top: (myT-10).toString()}, 150);
-        $(".lower-canvas").animate({height: (myH).toString(), width: (myW).toString(), left: (myL).toString(), top: (myT).toString()}, 100);
-        $(".lower-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5)');
-                
-            }
+    //console.log("currentTime: " + currentVidEl.currentTime + "supposed: " + currentVidE); 
+    if (currentVidEl.currentTime >= currentVidE) {
+        //make sure parent doesn't get set multiple times. 
+        if(hideOnce == true){
+            hideOnce = false; 
+            hideChildScene(); 
         }
-   // };
+    }
 };    
-        
+  
+function hideChildScene(){
+    //hide the child canvas and show the parent canvas
+    $(allCanvases[nextChildNum]).hide();
+    $(allCanvases[0]).show();
+
+    //set parent video start time & play
+    parentVid.currentTime = allStartEndTimes[0].s;
+    parentVid.play();
+    //add the time handler back to the parent so it can loop
+    addTimeHandler(parentVid, allStartEndTimes[0].s, allStartEndTimes[0].e);
+    //open to listen to input again
+    openForInput = true;
+    //don't need this event listener anymore
+    currentVidEl.removeEventListener('timeupdate', childVideoListener);   
+
+    var myH = $(".lower-canvas").height();
+    var myW = $(".lower-canvas").width();
+    var myL = $(".lower-canvas").position().left; 
+    var myT = $(".lower-canvas").position().top; 
+    $(".lower-canvas").animate({height: (myH+20).toString(), width: (myW+20).toString(), left: (myL-10).toString(), top: (myT-10).toString()}, 150);
+    $(".lower-canvas").animate({height: (myH).toString(), width: (myW).toString(), left: (myL).toString(), top: (myT).toString()}, 100);
+    $(".upper-canvas").animate({height: (myH+20).toString(), width: (myW+20).toString(), left: (myL-10).toString(), top: (myT-10).toString()}, 150);
+    $(".upper-canvas").animate({height: (myH).toString(), width: (myW).toString(), left: (myL).toString(), top: (myT).toString()}, 100);
+
+    //$(".upper-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5)');
+    $(".upper-canvas").removeClass("shadowInset").addClass("shadowOutset");
+}    
     
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
