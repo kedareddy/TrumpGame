@@ -396,10 +396,11 @@ $(document).ready(function(){
     var span = document.getElementById("closeNodeEditor");
     
     // create a wrapper around native canvas element (with id="c")
-    var canvas = new fabric.Canvas('maincanvas', {preserveObjectStacking: true});
+    var canvas = new fabric.Canvas('maincanvas', {preserveObjectStacking: true, width: $("#middlecontainer").innerWidth(), height: $("#middlecontainer").innerHeight()});
     var video1El = document.getElementById('videoElement');
-    canvas.setHeight( $("#middlecontainer").innerHeight() );
-    canvas.setWidth( $("#middlecontainer").innerWidth() );
+    //canvas.setHeight( );
+    //canvas.setWidth( $("#middlecontainer").innerWidth() );
+    canvas.renderAll(); 
     
     window.addNode = function addNode(){
         //make line add to canvas
