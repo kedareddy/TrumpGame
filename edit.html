@@ -397,7 +397,7 @@ $(document).ready(function(){
     var span = document.getElementById("closeNodeEditor");
     
     // create a wrapper around native canvas element (with id="c")
-    var canvas = new fabric.Canvas('maincanvas', {preserveObjectStacking: true, width: $("#middlecontainer").innerWidth(), height: $("#middlecontainer").innerHeight()});
+    var canvas = new fabric.Canvas('maincanvas', {preserveObjectStacking: true, width: .6*window.innerWidth, height: $("#middlecontainer").innerHeight()});
     var video1El = document.getElementById('videoElement');
     //canvas.setHeight( );
     //canvas.setWidth( $("#middlecontainer").innerWidth() );
@@ -408,9 +408,9 @@ $(document).ready(function(){
         console.info("window.performance work's fine on this browser");
     }
     if (performance.navigation.type == 1) {
-        console.info( "This page is reloaded "  + $("#middlecontainer").innerWidth());
+        console.info( "This page is reloaded "  + (.6*window.innerWidth).toString());
         canvas.setHeight($("#middlecontainer").innerHeight());
-        canvas.setWidth( $("#middlecontainer").innerWidth());
+        canvas.setWidth(.6*window.innerWidth);
         canvas.renderAll(); 
     } else {
         console.info( "This page is not reloaded");
