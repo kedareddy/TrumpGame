@@ -47,7 +47,7 @@
     
     .canvascontainer{margin-left: auto; margin-right: auto; position: relative; }
     .canvas-container{margin-left: auto; margin-right: auto; position: absolute;left: 0; right: 0; }
-    .lower-canvas{box-shadow: 10px 10px 25px rgba(0,0,0,.5);border-radius: 2.5%/5%;margin-top: 10%; margin-bottom: 10%;}
+    .lower-canvas, .upper-canvas{box-shadow: 10px 10px 25px rgba(0,0,0,.5);border-radius: 2.5%/5%;margin-top: 10%; margin-bottom: 10%;}
     /*canvas{}*/
     .video{margin-left: auto; margin-right: auto;}
     .div.header{margin: .5em;}
@@ -106,10 +106,8 @@ $(document).ready(function(){
                     
                     var canvasStr = jsonData['scenes'][j];
                     
-                    var sceneJSON = JSON.parse(canvasStr);
-                    //console.log("sceneJSON: " + canvasStr); 
+                    var sceneJSON = JSON.parse(canvasStr); 
                     var sceneObjects = sceneJSON.objects;
-                    //console.log("incoming width: " + sceneJSON.width + "incoming height: " + sceneJSON.height);
                     canvas.setHeight(sceneJSON.height);
                     canvas.setWidth(sceneJSON.width);
                     if(j == 0){
@@ -122,17 +120,11 @@ $(document).ready(function(){
                         if (klass.async) {
                             console.log("object type: " + sceneObjects[i].type);
                             console.log("object src: " + sceneObjects[i].src);
-                            //var videoID = "video00";//+currentSceneNumber; 
                             
                             var newVideo = document.createElement("video");
                             newVideo.src = sceneObjects[i].src; 
                             newVideo.style.display = "none";
                             
-                            //newVideo.autoPlay = true; 
-                            /*if(i == 0){
-                                newVideo.loop = true;
-                            }*/
-                            //if(j == 0){
                                 
                                 var urlText = sceneObjects[i].src;
                                 var indexTC = urlText.indexOf("#t=");
@@ -143,15 +135,6 @@ $(document).ready(function(){
                                 allStartEndTimes.push({"s":startTime, "e":endTime});
                                 
                                 allVideos.push(newVideo); 
-                                /*newVideo.addEventListener('timeupdate', function (sT, eT) {
-                                    return function(err) { 
-                                        if (newVideo.currentTime >= endTime) {
-                                            newVideo.currentTime = startTime;
-                                            newVideo.play();
-                                            console.log("in newVideo callback");
-                                        }
-                                    };
-                                }(startTime, endTime), false);*/
                                 if(j == 0)
                                 {                                
                                     addTimeHandler(newVideo, startTime, endTime);
@@ -159,10 +142,8 @@ $(document).ready(function(){
                             
                                 
                                 var backVideo = document.createElement("video");
-                                //backVideo.autoPlay = true; 
                                 backVideo.src = newVideo.src;
                                 backVideo.style.display = "none";
-                                //backVideo.crossOrigin = "anonymous";
                             
                                 console.log("inbackVideo"); 
                                 backVideo.addEventListener("loadeddata", function(sT){
@@ -185,8 +166,7 @@ $(document).ready(function(){
                             //}
                             
                             canvasDiv.appendChild(newVideo);
-                            //var videoCustomElement = document.getElementById("videoElement");
-                            //$("#videoElement").attr("src", sceneObjects[i].src); 
+                            
                             var videoT = new fabric.Image(newVideo, {
                                   left: sceneObjects[i].left,
                                   top: sceneObjects[i].top,
@@ -196,15 +176,6 @@ $(document).ready(function(){
                             
                             canvas.add(videoT);
                             videoT.getElement().play();
-                                  /*videoT.getElement().addEventListener('timeupdate', function (domEl) {
-                                      return function(err) { 
-                                        if (domEl.currentTime >= endTime) {
-                                            domEl.currentTime = startTime;
-                                            domEl.play();
-                                            console.log("in newVideo callback");
-                                        }
-                                    };
-                                }(videoT.getElement()),false);*/
                             canvas.renderAll();
                         
                         } else {
@@ -219,12 +190,6 @@ $(document).ready(function(){
                     }
                 }
                 
-                //console.log('templateURL: ', jsonData['scenes'][0]['url']);
-                //$('#parentgif').attr("src", jsonData['scenes'][0]['url']);
-                //$('#punchgif').attr("src", jsonData['scenes'][1]['url']);
-                //textScene1 = jsonData['scenes'][0]['text'];
-                //textScene2 = jsonData['scenes'][1]['text'];
-                //$("#text").html(textScene1);
             }
   
 		}).fail(function(jqXHR, textStatus, errorThrown )  {
@@ -244,6 +209,7 @@ $(document).ready(function(){
   
     $("#middlecontainer").on('mousedown',function(){
         $(".lower-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
+        $(".upper-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
     });
     
     $("#middlecontainer").on('mouseup',function(){
