@@ -36,15 +36,16 @@
 <section id="publishModal" class="section modal publish">
   <div class="modal publish content">
     <div class="modal publish header">
-      <h2>Your Play Loop!</h2>
       <span class="modal close" id="exitPublishModal">&times;</span>
+      <h2>Your Play Loop!</h2>
+      
     </div>
     <div class="modal body">
       <p>Loop Link</p>
-      <a href="" id="exportURL" target="_blank">
-        <img id = 'newtab' src="/assets/newtabicon.svg" alt="HTML5 Icon" style="opacity: 0.75; width:7%; height: auto; ">
+      <a href="" id="exportURL" target="_blank" style="display: inline-block; width: 7%; height: auto;">
+        <img id = 'newtab' src="/assets/newtabicon.svg" alt="HTML5 Icon" style="opacity: 0.75; ">
       </a>
-      <textarea id="exportTextArea" readonly style="width: 75%; padding-left:3px;">
+      <textarea id="exportTextArea" readonly style="width: 75%; padding-left:3px; display: inline-block;">
           http://www.playloops.io/template1.html
       </textarea>
     </div>
@@ -126,15 +127,15 @@
     
     .section.modal {display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
     .modal.content { background-color: gainsboro;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 60%;}
-    .close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;}
+    .close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;padding:2%;}
     .close:hover,
     .close:focus {color: #000;text-decoration: none;cursor: pointer;}
     .modal.footer{display: block; padding: 2px 16px; background-color: rgba(0,0,0,0.75); color: white;}
     .container.giphy{text-align: center; display:inline-block; margin: 0 auto; position:relative; background-color:black;display: flex; overflow: auto;}
     video { object-fit: contain;}
     
-    .modal.publish.header{padding: 2px 16px; background-color: rgba(0,0,0,0.75);color: white;}
-    .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 40%;}
+    .modal.publish.header{padding: 2px; background-color: rgba(0,0,0,0.75);color: white; display: inline-block; width:  100%;}
+    .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 30%;}
     
     .sliderholder{position: absolute; width: 50%; z-index: 13;}
   

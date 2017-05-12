@@ -36,6 +36,8 @@
         <!-- Edit Button 
         <button class="button edit" id="editbutton">Edit</button>-->
     </div>
+    <audio id="popAudio" src="/audio/pop.mp3" autostart="false" ></audio>
+    <audio id="pushAudio" src="/audio/pushHydraulic.mp3" autostart="false" ></audio>
 </section>
     
 <style> 
@@ -51,8 +53,8 @@
     .upper-canvas{box-shadow: 10px 10px 25px rgba(0,0,0,.5);}
     /*canvas{}*/
     .roundcorners{border-radius: 2.5%/5%;margin-top: 10%;}
-    .shadowOutset{box-shadow: 10px 10px 25px rgba(0,0,0,.5);}
-    .shadowInset{box-shadow: 10px 10px 25px rgba(0,0,0,.5) inset;}
+    .shadowOutset{box-shadow: 10px 10px 25px rgba(0,0,0,.25);}
+    .shadowInset{box-shadow: 10px 10px 25px rgba(0,0,0,.25) inset;}
     
     .video{margin-left: auto; margin-right: auto;}
     .div.header{margin: .5em;}
@@ -148,7 +150,7 @@ $(document).ready(function(){
                                 allStartEndTimes.push({"s":startTime, "e":endTime});
                                 
                                 allVideos.push(newVideo); 
-                                if(j == 0)
+                                if(j == 0 || inputType == "hold")
                                 {                                
                                     addTimeHandler(newVideo, startTime, endTime);
                                 }
@@ -196,11 +198,28 @@ $(document).ready(function(){
                             canvas.renderAll();
                         }
                     }
+                    
+                    
                     allFabricObjects.push(canvas);
                     allCanvases.push(newCanvas);
+                    
+                    //add button gloss
+                    if(j == 0){
+                        fabric.Image.fromURL('/images/ButtonGloss-01.png', function(myImg) {
+                            //i create an extra var for to change some image properties
+                            var img1 = myImg.set({ left: 0, top: 0 ,width:sceneJSON.width,height:sceneJSON.height});
+                            allFabricObjects[0].add(img1);
+                            allFabricObjects[0].renderAll(); 
+                        });
+                    }
+                    
                     if(j != 0){
                         $(newCanvas).hide();
                     }
+                    if(j == (jsonData['scenes'].length-1) ){
+                        canvas.on('after:render', initLook);    
+                    }
+                    
                 }
                 
             }
@@ -213,8 +232,19 @@ $(document).ready(function(){
 	}
     
     //style the canvases..
-    $(".upper-canvas, .lower-canvas").addClass("roundcorners");
-    $(".upper-canvas").addClass("shadowOutset");
+
+    //setTimeout(function(){
+    var initLook = function(e){
+        allFabricObjects[(allFabricObjects.length-1)].off('after:render', initLook);
+        if(transitionType == "default"){
+            $(".upper-canvas").addClass("roundcorners");
+            $(".upper-canvas").addClass("shadowOutset");
+            $(".lower-canvas").addClass("roundcorners");
+        }
+        else{}
+    };
+   
+    
     
     fabric.util.requestAnimFrame(function render() {
         for(var i =0; i < allCanvases.length; i++){
@@ -225,8 +255,8 @@ $(document).ready(function(){
 
   
     $("#middlecontainer").on('mousedown',function(){
-        $(".lower-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
-        $(".upper-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
+        //$(".lower-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
+        //$(".upper-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');
         if(inputType == "hold"){
             //call change of scene
             showChildScene(); 
@@ -262,7 +292,7 @@ $(document).ready(function(){
             
             //get parent video, remove its event listener & hide its canvas
             parentVid = allVideos[0];
-            parentVid.removeEventListener("timeupdate", parentVideoListener);
+            //parentVid.removeEventListener("timeupdate", parentVideoListener);
             $(allCanvases[0]).hide();
             
             //pick the next child scene, show its canvas, get it's video and set it to its start and play it. 
@@ -294,6 +324,8 @@ $(document).ready(function(){
             }
         
             $(".upper-canvas").removeClass("shadowOutset").addClass("shadowInset");// css('box-shadow', '10px 10px 25px rgba(0,0,0,.5) inset');   
+            var pushSound = document.getElementById("pushAudio");
+            pushSound.play();
         }
     }
     
@@ -348,6 +380,8 @@ function hideChildScene(){
 
     //$(".upper-canvas").css('box-shadow', '10px 10px 25px rgba(0,0,0,.5)');
     $(".upper-canvas").removeClass("shadowInset").addClass("shadowOutset");
+    var sound = document.getElementById("popAudio");
+    sound.play();
 }    
     
 function getRandomInt(min, max) {
