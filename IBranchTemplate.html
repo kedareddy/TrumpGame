@@ -38,6 +38,7 @@
     </div>
     <audio id="popAudio" src="/audio/cartoon.mp3" autostart="false" ></audio>
     <audio id="pushAudio" src="/audio/blinking.mp3" autostart="false" ></audio>
+    <div style="font-family:'MyDosis'">&nbsp;</div>
 </section>
     
 <style> 
@@ -52,7 +53,27 @@
     /*.lower-canvas, .upper-canvas{border-radius: 2.5%/5%;margin-top: 10%; margin-bottom: 10%;}
     .upper-canvas{box-shadow: 10px 10px 25px rgba(0,0,0,.5);}
     /*canvas{}*/
+    /*.lower-canvas, .upper-canvas{
+          border: 8px solid transparent;
+
+          -moz-border-image: -moz-linear-gradient(left, #3acfd5 0%, #3a4ed5 100%);
+          -webkit-border-image: -webkit-linear-gradient(left, #3acfd5 0%, #3a4ed5 100%);
+          border-image: linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%);
+
+          border-image-slice: 1;
+    }
+    .lower-canvas::after, .upper-canvas::after {
+        border-radius: 2.5%/5%;
+        border: 8px solid transparent;
+        -moz-border-image: -moz-linear-gradient(left, #3acfd5 0%, #3a4ed5 100%);
+        -webkit-border-image: -webkit-linear-gradient(left, #3acfd5 0%, #3a4ed5 100%);
+        border-image: linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%);
+        border-image-slice: 1;
+        content: '';
+        position: absolute;
+    }*/
     .roundcorners{border-radius: 2.5%/5%;margin-top: 10%;}
+    
     .shadowOutset{box-shadow: 10px 10px 25px rgba(0,0,0,.25);}
     .shadowInset{box-shadow: 10px 10px 25px rgba(0,0,0,.25) inset;}
     
@@ -65,6 +86,12 @@
 
     
     .button {border-style: solid; border-radius: 0px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none;  }
+    
+    @font-face
+    {
+        font-family: MyDosis;
+        src: url('/fonts/BebasNeue.otf')
+    }
 </style>       
 
 <script>
@@ -194,7 +221,9 @@ $(document).ready(function(){
                             canvas.renderAll();
                         
                         } else {
-                            canvas.add(klass.fromObject(sceneObjects[i]));
+                            var aObj = klass.fromObject(sceneObjects[i]);
+                            canvas.add(aObj);
+                            //aObj.fontFamily = 'MyDosis';   
                             canvas.renderAll();
                         }
                     }
@@ -292,6 +321,7 @@ $(document).ready(function(){
             
             //get parent video, remove its event listener & hide its canvas
             parentVid = allVideos[0];
+            parentVid.muted = true; 
             //parentVid.removeEventListener("timeupdate", parentVideoListener);
             $(allCanvases[0]).hide();
             
@@ -362,6 +392,7 @@ function hideChildScene(){
     //set parent video start time & play
     parentVid.currentTime = allStartEndTimes[0].s;
     parentVid.play();
+    parentVid.muted = false; 
     //add the time handler back to the parent so it can loop
     addTimeHandler(parentVid, allStartEndTimes[0].s, allStartEndTimes[0].e);
     //open to listen to input again

@@ -8,6 +8,7 @@
     
     <!-- Canvas Library --> 
     <script type="text/javascript" src="/js/fabric.min.js"></script>
+    <script defer src="js/customFabricJSMenu/customiseControls.js"></script>
     
     <!-- import JQuery --> 
     <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
@@ -61,17 +62,21 @@
         <!--<button class="button nodeeditor AddText">Text</button>
         <button class="button nodeeditor AddImage">Image</button>
         <button class="button nodeeditor AddRectangle">Rect</button>-->
+        <br></br>
         <div class="div nodecanvas" id="nodecanvasdiv">
             <div class="sliderholder"><div id="flat-slider"></div></div>
             <canvas class="canvas node" id="nodecanvas"></canvas>
         </div>
-        <div class="modal footer">
+        <br></br>
+        <div class="modal footer" id="videoHelpMenu">
             <div id="myForm" class="searchDiv">
                 <form>
                   <input class="search" id="searchbox" type="text" name="search" placeholder="Search..">
                 </form>    
             </div>
-            <div class = "container giphy" id = "giphydiv"></div> 
+            <!--<div id ="searchResultsWrapper" class='searchResults'>-->
+                <div class = "container giphy" id = "giphydiv"></div> 
+            <!--</div>-->
         </div>
     </div>
 </section>
@@ -118,7 +123,8 @@
     .div.header{margin: .5em;}
     .logo{width: 100%; height: auto;}
     
-    .nodecanvas{padding: 5% 0% 0% 10%;}
+    .nodecanvas{padding: 5% 10% 0% 10%;}
+    .canvas-container{left: 0; margin: auto;}
     .canvas.node.lower-canvas{background-color:white;}
     
     
@@ -126,19 +132,21 @@
     .button {border-style: solid; border-radius: 0px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none;  }
     
     .section.modal {display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
-    .modal.content { background-color: gainsboro;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 60%;}
+    .modal.content { background-color: gainsboro;margin: auto;padding: 0;border: 1px solid #888;width: 60%; height: 60%;}
     .close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;padding-right:1%;padding-top: 0%;}
     .close:hover,
     .close:focus {color: #000;text-decoration: none;cursor: pointer;}
-    .modal.footer{display: block; padding: 2px 16px; background-color: rgba(0,0,0,0.75); color: white;}
-    .container.giphy{text-align: center; display:inline-block; margin: 0 auto; position:relative; background-color:black;display: flex; overflow: auto;}
+    .modal.footer{ height: 40%; display: block; padding: 2px 16px; background-color: rgba(0,0,0,0.75); color: white;}
+    .container.giphy{ margin: 0 auto; position:relative; background-color:black;overflow-x:auto;overflow-y:hidden; white-space: nowrap;}
     .searchDiv{width: 75%;}
     video { object-fit: contain;}
     
     .modal.publish.header{padding: 2px; background-color: rgba(0,0,0,0.75);color: white; display: inline-block; width:  100%;}
     .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 30%;}
     
-    .sliderholder{position: absolute; width: 50%; z-index: 13;}
+    .sliderholder{position: relative; width: 100%; z-index: 13;}
+  /*  .searchResults{}*/
+    br {display: block;margin-top: 2px;line-height:2px;content: " "}
   
     #flat-slider.ui-slider {
   background: #d5cebc;
@@ -236,6 +244,12 @@
         #flat-slider .ui-slider-pip[class*=ui-slider-pip-selected] .ui-slider-line,
         #flat-slider .ui-slider-pip.ui-slider-pip-inrange .ui-slider-line {
           background-color: #25daa5; }
+    
+        @font-face
+        {
+            font-family: MyDosis;
+            src: url('/fonts/BebasNeue.otf')
+        }
     
 </style>    
     
@@ -395,11 +409,16 @@ $(document).ready(function(){
     
     // Get the modal
     var modal = document.getElementById('nodeeditormodal');
+    var modalContent = document.getElementById("modalcontent");
+    var nodeCanvasDiv = document.getElementById("nodecanvasdiv");
     // Get the <span> element that closes the modal
     var span = document.getElementById("closeNodeEditor");
+    //last object selected on working canvas
+    var lastWCanvasObjSelected = null;
+    
     
     // create a wrapper around native canvas element (with id="c")
-    var canvas = new fabric.Canvas('maincanvas', {preserveObjectStacking: true, width: .6*window.innerWidth, height: $("#middlecontainer").innerHeight()});
+    var canvas = new fabric.Canvas('maincanvas', {preserveObjectStacking: true, width: .6*window.innerWidth, height: $("#middlecontainer").innerHeight(),renderOnAddRemove: false});
     var video1El = document.getElementById('videoElement');
     //canvas.setHeight( );
     //canvas.setWidth( $("#middlecontainer").innerWidth() );
@@ -812,10 +831,10 @@ $(document).ready(function(){
     var publishButton = document.getElementById('publishbutton');
     var publishModal = document.getElementById('publishModal');
     var publishExit = document.getElementById("exitPublishModal");
-    // When the user clicks anywhere outside of the modal, close it
+    
     window.onclick = function(event) {
+        // When the user clicks anywhere outside of the modal, close it
         if (event.target == modal || event.target == span) {
-            
             Promise.resolve()
             .then((val)=>saveSceneCanvas(" "))
             .catch(function(err){
@@ -825,12 +844,22 @@ $(document).ready(function(){
                 modal.style.display = "none";    
             })
             .catch(function(error){
-                
             });
-            //saveSceneCanvas("");
-            //modal.style.display = "none";
         }
-        //console.log("bla: " + String(event.target.id).substring(0,2));
+        //if user clicks in the margins of the node editor
+        if(event.target == modalContent || event.target == nodeCanvasDiv){
+            //deactive all objects when clicked out of bounds.
+            //console.log("in the deactive all space");
+            workingCanvas.deactivateAll();
+            for(var i = 0; i < workingCanvas.getObjects().length; i++){
+                if (workingCanvas.getObjects()[i].name == "video") {
+                    deactivateObject(workingCanvas.getObjects()[i]);     
+                    break;
+                }
+            }
+            
+        }
+        //detect which search result video user clicks on
         if(String(event.target.id).substring(0,3) == "vid"){
             //console.log("bla: " + event.target.id);
             var $target = event.target;
@@ -838,19 +867,6 @@ $(document).ready(function(){
             var currentDOMVideo = document.getElementById("video00"+currentSceneNumber);
             
             $(videoID).attr("src",$target.src); 
-            //console.log("video WW: " + $(event.target).width() + "video HH: " + $(event.target).height()); 
-            //aspect ratio is greater than canvas aspect ratio if h is greater than w canvasH is the height, calculate new w
-            //if w is greater than h canvasW is the width, calculate the 
-            //$(videoID).width($(event.target).width()+"px");
-            //$(videoID).height($(event.target).height()+"px");
-
-            //var tWidth = $(event.target).width();
-            //var tHeight = $(event.target).height();
-            //tWidth = (tWidth/tHeight)*workingCanvas.height; 
-                
-               
-            //workingCanvas.getItemByName('video').setWidth(tWidth);
-            //workingCanvas.getItemByName('video').setHeight(workingCanvas.height);
             
             var setNewDuration = function(e) {
                 currentDOMVideo.removeEventListener("loadedmetadata", setNewDuration);  
@@ -865,10 +881,7 @@ $(document).ready(function(){
                 }
                 
                 //console.log('NAME: ', fabricVideo.duration);    
-                fabricVideo.set('duration', currentDOMVideo.duration); 
-                
-                //console.log('NAME: ', fabricVideo.duration); 
-                
+                fabricVideo.set('duration', currentDOMVideo.duration);      
                 
                 var aspect = currentDOMVideo.videoWidth/currentDOMVideo.videoHeight; 
                 console.log("aspect" + aspect); 
@@ -944,16 +957,17 @@ $(document).ready(function(){
         var diffY = Math.abs( options.e.clientY - mouseDownPos.y );
         console.log("diffX: " + diffX + " diffY: " + diffY); 
         if(diffX == 0 && diffY == 0){
+            //when user clicks on the middle options button
             if (options.target.type == "labeledRect") {
                 lastClickPos.x = options.e.clientX;
                 lastClickPos.y = options.e.clientY;
                 console.log("cX: "+lastClickPos.x+" cY: "+lastClickPos.y);
                 $('.canvas main').contextMenu({x:300, y:200});
             }
+            //when user clicks on one of the scene nodes
             else if(options.target.type == "sceneNode"){
                 //console.log( "youjust clicked: " + options.target.type);
                 //see if the node's canvas has already been contructed. 
-
                 if(options.target.type == "sceneNode"){
 
                     modal.style.display = "block";
@@ -964,38 +978,29 @@ $(document).ready(function(){
                         }
                     }
 
-                    //openSceneCanvas(allScenes[currentSceneNumber].fabricNodeObject, allScenes[currentSceneNumber].fabricCanvasObject);
-      
-                    
-                    
                     Promise.resolve()
                         .then((nodeObject, canvasObject) => openSceneCanvas(allScenes[currentSceneNumber].fabricNodeObject, allScenes[currentSceneNumber].fabricCanvasObject))
                         .catch(function(err){
                             console.log(err);
                         })
                         .then(function(){
-                            //load GIFs/Videos
-                            newSearch(true);
-
-                            //update preview canvasses positions
-                            for(var i = 0; i < previewWrappers.length; i++){
+                            //deactivate video to begin with
+                            for(var i = 0; i < workingCanvas.getObjects().length; i++){
+                                if (workingCanvas.getObjects()[i].name == "video") {
+                                    deactivateObject(workingCanvas.getObjects()[i]);     
+                                    break;
+                                }
+                            }
+                            //WTF IS THIS? update preview canvasses positions
+                            /*for(var i = 0; i < previewWrappers.length; i++){
                                 previewWrappers[i].style.left = (allScenes[i].fabricNodeObject.left - (previewCanvases[i].offsetWidth/2))+"px";
                                 previewWrappers[i].style.top = (allScenes[i].fabricNodeObject.top - (previewCanvases[i].offsetHeight/2))+"px";
-                            }
+                            }*/
                         }).catch(function(error){
                             console.log("error while opening node: " + error); 
                         });
-
-                    //load GIFs/Videos
-                    /*newSearch(true);
-
-                    //update preview canvasses positions
-                    for(var i = 0; i < previewWrappers.length; i++){
-                        previewWrappers[i].style.left = (allScenes[i].fabricNodeObject.left - (previewCanvases[i].offsetWidth/2))+"px";
-                        previewWrappers[i].style.top = (allScenes[i].fabricNodeObject.top - (previewCanvases[i].offsetHeight/2))+"px";
-                    } */
                 }
-
+            //when user clicks the delete icon on the scene node
             }else if(options.target.type == "image"){
                 var sceneNum;
                 for (var i = 0, count = allScenes.length; i < count; i++) {    
@@ -1003,7 +1008,6 @@ $(document).ready(function(){
                         sceneNum = i; 
                     }
                 }
-
                 allScenes.splice(sceneNum, 1)[0]; 
                 previewFabricCanvases.splice(sceneNum, 1 )[0];
                 previewCanvases.splice(sceneNum, 1 )[0];
@@ -1024,6 +1028,156 @@ $(document).ready(function(){
             }
         }
     });
+    
+    
+    fabric.Canvas.prototype.customiseControls({
+        tl: {
+            action: function( e, target ) {
+                workingCanvas.deactivateAll();
+                deactivateObject(target);
+                workingCanvas.remove(target);
+                setTimeout(function(){ workingCanvas.renderAll(); }, 1000);
+            },
+            cursor:'pointer'
+        },
+        tr: {
+            action: function( e, target ) {
+                //alert("new style"); 
+                workingCanvas.renderAll();
+            },
+            cursor:'pointer'
+         }, 
+        bl:{
+            
+        }, 
+        br:{
+            
+        }, 
+        mt:{
+            
+        }, 
+        ml:{
+           
+        }, 
+        mr:{
+            
+        }
+    }, function() {
+        canvas.renderAll();
+    } );
+    
+    // basic settings
+    fabric.Object.prototype.customiseCornerIcons({
+        settings: {
+            cornerSize:35,
+            cornerBackgroundColor: 'gray',
+        },
+        tl: {
+            icon: '/images/trash.png',
+            settings: {
+                cornerSize:50,
+                cornerBackgroundColor: 'rgba(255,255,255,0)',
+                cornerPadding: 0
+            }
+        },
+        tr: {
+            icon: '/images/refresh.png',
+            settings: {
+                cornerSize:50,
+                cornerBackgroundColor: 'rgba(255,255,255,0)',
+                cornerPadding: 0
+            }
+        }, 
+        bl:{
+            icon: '/images/rectangle.png',
+            settings: {
+                cornerSize:15,
+                cornerBackgroundColor: 'rgba(255,255,255,0)'
+            }
+        }, 
+        br:{
+            icon: '/images/rectangle.png',
+           settings: {
+                cornerSize:15,
+                cornerBackgroundColor: 'rgba(255,255,255,0)'
+            }
+        }, 
+        mt:{
+            icon: '/images/rectangle.png',
+            settings: {
+                cornerSize:15,
+                cornerBackgroundColor: 'rgba(255,255,255,0)'
+            }
+        }, 
+        ml:{
+            icon: '/images/rectangle.png',
+            settings: {
+                cornerSize:15,
+                cornerBackgroundColor: 'rgba(255,255,255,0)'
+            }
+        }, 
+        mr:{
+            icon: '/images/rectangle.png',
+            settings: {
+                cornerSize:15,
+                cornerBackgroundColor: 'rgba(255,255,255,0)'
+            }
+        },
+        mb:{
+            icon: '/images/rectangle.png',
+            settings: {
+                cornerSize:15,
+                cornerBackgroundColor: 'rgba(255,255,255,0)'
+            }
+        },
+        mtr:{
+            icon: '/images/rectangle.png',
+            settings: {
+                cornerSize:15,
+                cornerBackgroundColor: 'rgba(255,255,255,0)'
+            }
+        }
+    }, function() {
+        canvas.renderAll();
+    });
+
+    
+    
+    function activateObject(activeObj){
+        //activate with fabricjs
+        //workingCanvas.setActiveObject(activeObj);
+        
+        //if video do specific activation steps
+        if(activeObj.name == "video"){
+            //show the video trimmer
+            $("#flat-slider").css('visibility', 'visible');
+            //$("#flat-slider").show(); 
+            //load GIFs/Videos
+            $("#videoHelpMenu").show();
+            newSearch(true);  
+
+        }
+        //if text or its background
+        else{
+            
+        }
+    }
+    
+    function deactivateObject(dObj){
+        
+        //if video
+        if(dObj.name == "video"){
+            //hide the video trimmer
+            $("#flat-slider").css('visibility', 'hidden');
+            //$("#flat-slider").hide(); 
+            //hide the giphy div
+            $("#videoHelpMenu").hide();
+        }
+        //if text or its background
+        else{
+            
+        }
+    }
     
     function openSceneCanvas (sceneNode, canvasStr){
         return new Promise(function (resolve) {
@@ -1048,9 +1202,10 @@ $(document).ready(function(){
                     height: .2 * workingCanvas.height, 
                     name: 'rect'
                 });
-                var text = 'this is\a multiline!';
+                var text = 'Ummmm......';
                 var centerText = new fabric.IText(text, {
                   textAlign: 'center',
+                  fontFamily: 'MyDosis', 
                   fill: 'rgba(250,250,250,0.7)',
                   left: 100, 
                   top: 10,
@@ -1163,6 +1318,7 @@ $(document).ready(function(){
                         console.log("object src: " + sceneObjects[i].src);
                         var videoID = "video00"+currentSceneNumber; 
                             var videoCustomElement = document.getElementById(videoID);
+                            videoCustomElement.muted = false; 
                             $(videoID).attr("src",sceneObjects[i].src);
                             //set the video sliders to previous values parsed from the url.
                             var urlText = videoCustomElement.src;
@@ -1192,7 +1348,6 @@ $(document).ready(function(){
                               height: sceneObjects[i].height,
                               duration: sceneObjects[i].duration, 
                               src: sceneObjects[i].src,
-                              type: 'image',
                               name: 'video'
                             });
                             /*videoT.toObject = function() {
@@ -1214,6 +1369,21 @@ $(document).ready(function(){
                     }
                 }
                 
+                //when user selects an object
+                workingCanvas.on('object:selected', function(options) {
+                    if(lastWCanvasObjSelected != null && options.target != lastWCanvasObjSelected){
+                       deactivateObject(lastWCanvasObjSelected);
+                    }
+                    lastWCanvasObjSelected = options.target; 
+                    activateObject(options.target);
+                });
+                
+                workingCanvas.on('selection:cleared', function(options) {
+                    if(lastWCanvasObjSelected != null){
+                       deactivateObject(lastWCanvasObjSelected);
+                    }
+                });
+                
                 resolve(); 
             }
         });
@@ -1224,6 +1394,18 @@ $(document).ready(function(){
         return new Promise(function (resolve) {
             console.log("in the SAVE SCENE!!!!!:: " + initVal + " sceneNumb: " + currentSceneNumber); 
             //console.log("currenscenenum: " + currentSceneNumber);
+            //remove the src from the video in the modal to mute the video
+            /*for (var i = 0; i < allScenes[currentSceneNumber].fabricCanvasObject.getObjects().length; i++) {   
+                if (allScenes[currentSceneNumber].fabricCanvasObject.getObjects()[i].name == "video") {
+                    allScenes[currentSceneNumber].fabricCanvasObject.getObjects()[i].getElement().src = " ";
+                    break;
+                }
+            }*/
+            var vID = "video00"+currentSceneNumber; 
+            var v = document.getElementById(vID);
+            v.muted = true;  
+           // $(videoID).attr("src"," ");
+                 
             previewFabricCanvases[currentSceneNumber].clear();
             //was trying to resize the canvas, but not a good idea, because the end playloop needs a consistent size.
             /*workingCanvas.setWidth(workingCanvas.getObjects()[1].getWidth());
@@ -1295,6 +1477,7 @@ $(document).ready(function(){
                     var newVideo = document.createElement("video");
                     newVideo.autoPlay = true; 
                     newVideo.loop = true;
+                    newVideo.muted = true; 
                    // newVideo.poster = "/images/circle.png"
 
                     newVideo.pause();
@@ -1328,6 +1511,7 @@ $(document).ready(function(){
 
                     var backVideo = document.createElement("video");
                     backVideo.autoPlay = true; 
+                    backVideo.muted = true; 
                     backVideo.pause();
                     backVideo.src = newVideo.src;
                     backVideo.style.display = "none";
@@ -1394,17 +1578,75 @@ $(document).ready(function(){
     function displayresults(data){
         searchData = data; 
         console.log("success got data", data); 
-        $('#giphydiv').empty();    
-    
-        for (i = 0; i < 5; i++) { 
-            var divname = "video " + String(i);
-            var imagename = "video" + String(i);
-            var wImg = searchData['data'][i]['images']['downsized_small']['width']; 
-            var hImg = searchData['data'][i]['images']['downsized_small']['height'];
-            var aspect = wImg/hImg; 
+        $('#giphydiv').empty();
+        var modalHeight =  $('#modalcontent').height();
+        
+        var divname;
+        var imagename;
+        var wImg;
+        var hImg;
+        var aspect;
+        
+        
+        var localSrces = [];
+        var url1, url2, url3; 
+        var vidN; 
+        
+        function getVideoNum(st, ed){
+            var randomS = getRandomInt(st,ed); 
+            if(randomS > 9){
+                randomS = "0" + randomS; 
+            }else{
+                randomS = "00" + randomS; 
+            }
+            return randomS; 
+        }
+        //if parent scene get Barfer videos else get 
+        if(currentSceneNumber != 0){
+            vidN = getVideoNum(2, 52); 
+            url1 = "/SceneDetectTest/v-" +vidN + ".mp4"; 
+            vidN = getVideoNum(2, 52); 
+            url2 = "/SceneDetectTest/v-" +vidN + ".mp4"; 
+            vidN = getVideoNum(2, 52); 
+            url3 = "/SceneDetectTest/v-" +vidN + ".mp4"; 
+        }
+        else{
+            var barfURLs = ["/SceneDetectTest/Barfies/", "Volvo", "BMW"];
+            vidN = getVideoNum(1, 9); 
+            url1 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4"; 
+            vidN = getVideoNum(1, 9); 
+            url2 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4"; 
+            vidN = getVideoNum(1, 9); 
+            url3 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4"; 
+        }
+        localSrces.push(url1);
+        localSrces.push(url2);
+        localSrces.push(url3);
+        
+        for(j = 0; j < localSrces.length; j++){
+            divname = "videoL" + String(j);
+            imagename = "videoL" + String(j);
+            wImg = 640; 
+            hImg = 360;
+            aspect = wImg/hImg; 
+            hImg =  modalHeight*0.2;
+            wImg = aspect * 100; 
             console.log("aspect: " + aspect);
             
-            $('#giphydiv').append('<div style="flex:'+aspect+';" class='+divname+ ' id=' +divname+'>'+'<video style="width:100%; height: auto;" class='+imagename+' id='+imagename+' src='+searchData['data'][i]['images']['downsized_small']['mp4'] + ' autoplay="autoplay" loop="loop" >' + '</div>');
+          $('#giphydiv').append('<div id="'+divname+'" style="width:25%; height:80%; display:inline-block;">'+'<video muted id="'+imagename+'" style="width:' + wImg + 'px; height:'+hImg+'px;" src='+localSrces[j] + ' autoplay="autoplay" loop="loop" > </div>');
+        }
+    
+        for (i = 0; i < 5; i++) { 
+            divname = "video " + String(i);
+            imagename = "video" + String(i);
+            wImg = searchData['data'][i]['images']['downsized_small']['width']; 
+            hImg = searchData['data'][i]['images']['downsized_small']['height'];
+            aspect = wImg/hImg; 
+            hImg =  modalHeight*0.2;
+            wImg = aspect * 100; 
+            console.log("aspect: " + aspect);
+            
+            $('#giphydiv').append('<div id="'+divname+'" style="width:25%; height:80%; display:inline-block;">'+'<video muted id="'+imagename+'" style="width:' + wImg + 'px; height:'+hImg+'px;" src='+searchData['data'][i]['images']['downsized_small']['mp4'] + ' autoplay="autoplay" loop="loop" > </div>');
         }
     }
     
@@ -1484,6 +1726,10 @@ function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
     ctx.fill();
   }        
 } 
+    
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
  
 </script>
