@@ -42,7 +42,7 @@
 </section>
     
 <style> 
-    .section.main{display: table; font-family: 'Oswald medium', sans-serif; color: gray;}
+    .section.main{display: table; font-family: 'Oswald medium', sans-serif; color: white;}
     
     .container.left{ display: table-cell; width: 20%; vertical-align: top;padding: 1%;}
     .container.middle{display: table-cell; width: 60%; height: auto;/*border-style: solid; */text-align: center;/* background-color: gainsboro;*/}
@@ -72,10 +72,10 @@
         content: '';
         position: absolute;
     }*/
-    .roundcorners{border-radius: 2.5%/5%;margin-top: 10%;}
+    .roundcorners{/*border-radius: 2.5%/5%;*/margin-top: 10%;}
     
-    .shadowOutset{box-shadow: 10px 10px 25px rgba(0,0,0,.25);}
-    .shadowInset{box-shadow: 10px 10px 25px rgba(0,0,0,.25) inset;}
+    .shadowOutset{/*box-shadow: 10px 10px 25px rgba(0,0,0,.25);*/}
+    .shadowInset{/*box-shadow: 10px 10px 25px rgba(0,0,0,.25) inset;*/}
     
     .video{margin-left: auto; margin-right: auto;}
     .div.header{margin: .5em;}
@@ -166,46 +166,43 @@ $(document).ready(function(){
                             var newVideo = document.createElement("video");
                             newVideo.src = sceneObjects[i].src; 
                             newVideo.style.display = "none";
-                            
-                                
-                                var urlText = sceneObjects[i].src;
-                                var indexTC = urlText.indexOf("#t=");
-                                var timeCodes = urlText.slice(indexTC+3).split(","); 
-                                console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
-                                var startTime = timeCodes[0]; 
-                                var endTime = timeCodes[1]; 
-                                allStartEndTimes.push({"s":startTime, "e":endTime});
-                                
-                                allVideos.push(newVideo); 
-                                if(j == 0 || inputType == "hold")
-                                {                                
-                                    addTimeHandler(newVideo, startTime, endTime);
-                                }
-                            
-                                
-                                var backVideo = document.createElement("video");
-                                backVideo.src = newVideo.src;
-                                backVideo.style.display = "none";
-                            
-                                console.log("inbackVideo"); 
-                                backVideo.addEventListener("loadeddata", function(sT){
-                                    return function(err) { 
-                                        backVideo.currentTime = sT;
-                                        console.log("in backVideo callback");
-                                    };
-                                }(startTime), false);
-                
-                                canvasDiv.appendChild(backVideo);
+                                                            
+                            var urlText = sceneObjects[i].src;
+                            var indexTC = urlText.indexOf("#t=");
+                            var timeCodes = urlText.slice(indexTC+3).split(","); 
+                            console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
+                            var startTime = timeCodes[0]; 
+                            var endTime = timeCodes[1]; 
+                            allStartEndTimes.push({"s":startTime, "e":endTime});
 
-                                var videoB = new fabric.Image(backVideo, {
-                                      left: sceneObjects[i].left,
-                                      top: sceneObjects[i].top,
-                                      width: sceneObjects[i].width, 
-                                      height: sceneObjects[i].height
-                                });
-                                
-                                canvas.add(videoB);
-                            //}
+                            allVideos.push(newVideo); 
+                            if(j == 0 || inputType == "hold")
+                            {                                
+                                addTimeHandler(newVideo, startTime, endTime);
+                            }
+
+                            var backVideo = document.createElement("video");
+                            backVideo.src = newVideo.src;
+                            backVideo.style.display = "none";
+
+                            console.log("inbackVideo"); 
+                            backVideo.addEventListener("loadeddata", function(sT){
+                                return function(err) { 
+                                    backVideo.currentTime = sT;
+                                    console.log("in backVideo callback");
+                                };
+                            }(startTime), false);
+
+                            canvasDiv.appendChild(backVideo);
+
+                            var videoB = new fabric.Image(backVideo, {
+                                  left: sceneObjects[i].left,
+                                  top: sceneObjects[i].top,
+                                  width: sceneObjects[i].width, 
+                                  height: sceneObjects[i].height
+                            });
+
+                            canvas.add(videoB);
                             
                             canvasDiv.appendChild(newVideo);
                             
@@ -227,7 +224,6 @@ $(document).ready(function(){
                             canvas.renderAll();
                         }
                     }
-                    
                     
                     allFabricObjects.push(canvas);
                     allCanvases.push(newCanvas);
@@ -392,7 +388,7 @@ function hideChildScene(){
     //set parent video start time & play
     parentVid.currentTime = allStartEndTimes[0].s;
     parentVid.play();
-    parentVid.muted = false; 
+    parentVid.muted = true; 
     //add the time handler back to the parent so it can loop
     addTimeHandler(parentVid, allStartEndTimes[0].s, allStartEndTimes[0].e);
     //open to listen to input again
