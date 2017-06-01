@@ -159,7 +159,7 @@ $(document).ready(function(){
                     for (var i = 0; i < sceneObjects.length; i++) {
                         var klass = fabric.util.getKlass(sceneObjects[i].type);
                         
-                        if (klass.async) {
+                        if (sceneObjects[i].name == "video") {
                             console.log("object type: " + sceneObjects[i].type);
                             console.log("object src: " + sceneObjects[i].src);
                             
@@ -218,10 +218,12 @@ $(document).ready(function(){
                             canvas.renderAll();
                         
                         } else {
-                            var aObj = klass.fromObject(sceneObjects[i]);
-                            canvas.add(aObj);
-                            //aObj.fontFamily = 'MyDosis';   
-                            canvas.renderAll();
+                            if(sceneObjects[i].name != "cursor"){
+                                var aObj = klass.fromObject(sceneObjects[i]);
+                                canvas.add(aObj);
+                                //aObj.fontFamily = 'MyDosis';   
+                                //canvas.renderAll();
+                            }
                         }
                     }
                     

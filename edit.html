@@ -29,6 +29,9 @@
     <script src="/js/contextMenu/jquery.contextMenu.min.js"></script>
     <script src="/js/contextMenu/jquery.ui.position.min.js"></script>
     
+    <!-- GIF encoder -->
+    <script src='/js/gifshot.min.js'></script>
+    
 </head>
 
 <body>
@@ -49,6 +52,7 @@
       <textarea id="exportTextArea" readonly style="width: 75%; padding-left:3px; display: inline-block;">
           http://www.playloops.io/template1.html
       </textarea>
+      <img crossOrigin="Anonymous" id = "summaryGIF" src="/images/firstgif.gif">
     </div>
     <div class="modal footer">
       <h3></h3>
@@ -426,18 +430,18 @@ $(document).ready(function(){
     
     //used to make sure the canvas is sized to the middle container div
     if (window.performance) {
-        console.info("window.performance work's fine on this browser");
+      //  console.info("window.performance work's fine on this browser");
     }
     if (performance.navigation.type == 1) {
-        console.info( "This page is reloaded "  + (.6*window.innerWidth).toString());
+       // console.info( "This page is reloaded "  + (.6*window.innerWidth).toString());
         canvas.setHeight($("#middlecontainer").innerHeight());
         canvas.setWidth(.6*window.innerWidth);
         canvas.renderAll(); 
     } else {
-        console.info( "This page is not reloaded");
+       // console.info( "This page is not reloaded");
     }
     
-    
+    var initModalZIndex; 
     window.addNode = function addNode(){
         //make line add to canvas
         var line = makeLine([ canvas.width/2, canvas.height/2, .85*canvas.width, canvas.height/1.2]);
@@ -448,7 +452,7 @@ $(document).ready(function(){
         canvas.add(node);
         //add node to global arrays
         //add exit button
-        console.log("!!!!!!!!!!Exit index obj: "+ (canvas.getObjects().indexOf(node)).toString());
+        //console.log("!!!!!!!!!!Exit index obj: "+ (canvas.getObjects().indexOf(node)).toString());
         createExitButtons(node); 
         
         //add line to the middle node (in addition to the new node)
@@ -464,7 +468,7 @@ $(document).ready(function(){
         //call savescene
         //close modal
         modal.style.display = "block";
-        var initModalZIndex = modal.style.zIndex; 
+        initModalZIndex = modal.style.zIndex; 
         modal.style.zIndex = "-3000";
         //initialize scenes
         
@@ -517,7 +521,7 @@ $(document).ready(function(){
     }
     
     window.randomizeScenes = function randomizeScenes(){
-        console.log("randoming");
+        //console.log("randoming");
         for(var i = 0; i < allScenes.length; i++){
             if(i != 0){
                 allScenes[i].fabricNodeObject.set('label', "0");
@@ -526,7 +530,7 @@ $(document).ready(function(){
     }
     
     window.orderScenes = function orderScenes(){
-        console.log("ordering");
+        //console.log("ordering");
         for(var i = 0; i < allScenes.length; i++){
             if(i != 0){
                 allScenes[i].fabricNodeObject.set('label', (i).toString());
@@ -740,7 +744,7 @@ $(document).ready(function(){
             console.log("first save: " + error);
         })
         .then(function(){
-            console.log("after 0 scene");
+            //console.log("after 0 scene");
             currentSceneNumber = 1;
         })
         .then((nodeObject1, canvasObject1) =>openSceneCanvas(allScenes[1].fabricNodeObject, allScenes[1].fabricCanvasObject))
@@ -752,7 +756,7 @@ $(document).ready(function(){
             console.log("second save: " + error);
         })
         .then(function(){
-            console.log("after 1 scene");
+            //console.log("after 1 scene");
             currentSceneNumber = 2;
         })
         .then((nodeObject2, canvasObject2) =>openSceneCanvas(allScenes[2].fabricNodeObject, allScenes[2].fabricCanvasObject))
@@ -764,7 +768,7 @@ $(document).ready(function(){
             console.log("third save: " + error);
         })
         .then(function(){
-            console.log("after 2 scene");
+            //console.log("after 2 scene");
             currentSceneNumber = 3;
         })
         .then((nodeObject3, canvasObject3) =>openSceneCanvas(allScenes[3].fabricNodeObject, allScenes[3].fabricCanvasObject))
@@ -776,7 +780,7 @@ $(document).ready(function(){
             console.log("fourth save: " + error);
         })
         .then(function(){
-            console.log("after 3 scene");
+            //console.log("after 3 scene");
             modal.style.display = "none";
             modal.style.zIndex = initModalZIndex; 
 
@@ -819,7 +823,8 @@ $(document).ready(function(){
     fabric.util.requestAnimFrame(function render() {
       canvas.renderAll();
       if(workingCanvas != undefined){
-        workingCanvas.renderAll();       
+          workingCanvas.renderAll();  
+         // console.log("how many/??????: " + workingCanvas.getObjects().length); 
       }  
       for(var i =0; i < previewFabricCanvases.length; i++){
             previewFabricCanvases[i].renderAll();            
@@ -875,7 +880,7 @@ $(document).ready(function(){
                 var fabricVideo; 
                 for(var j=0; j< workingCanvas.getObjects().length; j++){
                     if(workingCanvas.getObjects()[j].get('name') == "video"){
-                        console.log("found video"); 
+                       // console.log("found video"); 
                        fabricVideo = workingCanvas.getObjects()[j];
                     }
                 }
@@ -884,7 +889,7 @@ $(document).ready(function(){
                 fabricVideo.set('duration', currentDOMVideo.duration);      
                 
                 var aspect = currentDOMVideo.videoWidth/currentDOMVideo.videoHeight; 
-                console.log("aspect" + aspect); 
+                //console.log("aspect" + aspect); 
                 var newH = fabricVideo.getHeight(); 
                 fabricVideo.setWidth(newH * aspect);
                 fabricVideo.setHeight(newH);
@@ -902,9 +907,11 @@ $(document).ready(function(){
                 }).slider("float");
                 
                 for (var i = 0; i < workingCanvas.getObjects().length; i++) {
-                    var klass = fabric.util.getKlass(workingCanvas.getObjects()[i].type);
-                    if (!klass.async) {
-                        console.log("element width: " + fabricVideo.width + ":i: " + i);
+                    //var klass = fabric.util.getKlass(workingCanvas.getObjects()[i].type);
+                    var klass = workingCanvas.getObjects()[i].name; 
+                    if (klass != "video" && klass != "cursor") {
+                    //if(!klass.async){
+                        //console.log("element width: " + fabricVideo.width + ":i: " + i);
                         //console.log("video WIDTH: " + currentDOMVideo.videoWidth + "::" + currentDOMVideo.offsetWidth); 
                         //var aspect = workingCanvas.getObjects()[2].width/ workingCanvas.getObjects()[i].height; 
                         workingCanvas.getObjects()[i].setWidth(fabricVideo.getWidth()); 
@@ -919,10 +926,22 @@ $(document).ready(function(){
         
         if(event.target == publishButton){
             $("#publishModal").show(); 
-            exportPlayLoop(); 
+            generateSummaryGIF(); 
         }
         if (event.target == publishModal || event.target == publishExit) {
-            $("#publishModal").hide(); 
+            $("#publishModal").hide();
+            //reset variables
+            gifFrames.length =0;
+                var bkgVideo;
+numLoops = 0; 
+ 
+    cursorSteps = 0; 
+    nowTime = 0; 
+    initTime = 0; 
+    
+   numLoops2 = 0; 
+    cursorSteps2 = 0; 
+ 
         }
     }
     
@@ -955,7 +974,7 @@ $(document).ready(function(){
         }
         var diffX = Math.abs( options.e.clientX - mouseDownPos.x );
         var diffY = Math.abs( options.e.clientY - mouseDownPos.y );
-        console.log("diffX: " + diffX + " diffY: " + diffY); 
+        //console.log("diffX: " + diffX + " diffY: " + diffY); 
         if(diffX == 0 && diffY == 0){
             //when user clicks on the middle options button
             if (options.target.type == "labeledRect") {
@@ -978,7 +997,7 @@ $(document).ready(function(){
                         }
                     }
 
-                    Promise.resolve()
+                        Promise.resolve()
                         .then((nodeObject, canvasObject) => openSceneCanvas(allScenes[currentSceneNumber].fabricNodeObject, allScenes[currentSceneNumber].fabricCanvasObject))
                         .catch(function(err){
                             console.log(err);
@@ -1179,20 +1198,43 @@ $(document).ready(function(){
         }
     }
     
+    var oSHandler;
+    var oSVidLoops = 0; 
+    function openSceneTimeUpdate(v, sT, eT) {
+    //var oSHandler = function(v, sT, eT){
+        oSHandler = function(e){
+               // console.log("updating time: " + sT + " :: " + eT + " v: " + v.currentTime);
+            if (v.currentTime >= eT) {
+                v.currentTime = sT;
+                //console.log("replaying video");
+                v.play();
+                oSVidLoops++; 
+            }  
+            else if(v.currentTime == 0 ){
+               // console.log("replaying video000");
+                oSVidLoops++; 
+            }
+        };
+        
+        return oSHandler;
+    }
+    
+    
     function openSceneCanvas (sceneNode, canvasStr){
         return new Promise(function (resolve) {
             
             //if first time create a rectangle
             if(canvasStr == " "){ 
-                console.log("CANVAS Str: " + canvasStr);
+                //console.log("CANVAS Str: " + canvasStr);
                 if(workingCanvas == undefined){
-                    workingCanvas = new fabric.Canvas('nodecanvas');
-                    workingCanvas.backgroundColor = "white";
+                    workingCanvas = new fabric.Canvas('nodecanvas', {preserveObjectStacking: true});
+                    workingCanvas.backgroundColor = "black";
                     workingCanvas.setHeight( .75*$("#modalcontent").innerHeight() );
                     workingCanvas.setWidth( .75*$("#modalcontent").innerWidth() );
                 }
-                workingCanvas.backgroundColor="white";
+                workingCanvas.backgroundColor="black";
                 workingCanvas.renderAll();
+                
                 //create rectangle
                 var prect = new fabric.Rect({
                     left: 0,
@@ -1212,11 +1254,11 @@ $(document).ready(function(){
                   name: 'text'
                 });
                 //console.log("source is: "  + video1El.src);
-                $('body').append('<video autoplay="autoplay" loop="loop" id="video'+"00"+currentSceneNumber+'" style="display: none" src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4"></video>');
+                $('body').append('<video crossOrigin="Anonymous" autoplay="autoplay" loop="loop" id="video'+"00"+currentSceneNumber+'" style="display: none" src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4"></video>');
 
                 var videoID = "video00"+currentSceneNumber; 
                 var videoCustomElement = document.getElementById(videoID);
-                console.log("videoID: " + videoID);
+                //console.log("videoID: " + videoID);
 
                 var videoT = new fabric.Image(videoCustomElement, {
                   left: 0,
@@ -1225,12 +1267,22 @@ $(document).ready(function(){
                   height: workingCanvas.height,//312, 
                   duration: 0,
                   src: 'bad',
-                  name: 'video'
+                  name: 'video', 
+                  selectable: false
                 });
 
                 // "add" rectangle onto canvas
                 workingCanvas.add(prect); 
                 workingCanvas.add(centerText);
+                
+                //adding cursor and hiding it for later use
+                fabric.Image.fromURL('/images/cursor.png', function(myImg) {
+                     //i create an extra var for to change some image properties
+                     var img1 = myImg.set({ selectable:false, opacity: 0, name: 'cursor',left: 4*(workingCanvas.width/5), top: workingCanvas.height/2 ,width:(2/2.5)*(workingCanvas.height/5),height:workingCanvas.height/5});
+                     workingCanvas.add(img1); 
+                     workingCanvas.renderAll(); 
+                });
+                
 
                 var resolveOnce = false; 
                 //wait until the metadata of the DOM video loaded to set the min/max on the slider, and assign duration for the fabric video object
@@ -1241,7 +1293,7 @@ $(document).ready(function(){
                     return function(err){
                         if(rOnce == false){
                             rOnce = true; 
-                            console.log("in the FUCKING metatdalistenre: " + this.duration);
+                            //console.log("in the FUCKING metatdalistenre: " + this.duration);
                             $("#flat-slider").slider({
                                 max: this.duration,
                                 min: 0,
@@ -1299,7 +1351,7 @@ $(document).ready(function(){
                             fabricVideo.getElement().play();
                             wCanvas.renderAll(); 
 
-                             console.log("the open src: " + this.src);
+                             //console.log("the open src: " + this.src);
 
                             resolve();
                         }
@@ -1308,67 +1360,116 @@ $(document).ready(function(){
 
             }
             else{
+                workingCanvas.backgroundColor="black";
+                workingCanvas.renderAll();
                 var sceneJSON = JSON.parse(canvasStr);
-                console.log("sceneJSON: " + canvasStr); 
+                //console.log("sceneJSON: " + canvasStr); 
                 var sceneObjects = sceneJSON.objects;
                  for (var i = 0; i < sceneObjects.length; i++) {
                     var klass = fabric.util.getKlass(sceneObjects[i].type);
-                    if (klass.async) {
-                        console.log("object type: " + sceneObjects[i].type);
-                        console.log("object src: " + sceneObjects[i].src);
-                        var videoID = "video00"+currentSceneNumber; 
-                            var videoCustomElement = document.getElementById(videoID);
-                            videoCustomElement.muted = false; 
-                            $(videoID).attr("src",sceneObjects[i].src);
-                            //set the video sliders to previous values parsed from the url.
-                            var urlText = videoCustomElement.src;
-                            var indexTC = urlText.indexOf("#t=");
-                            console.log("indexTC:"  + urlText.slice(indexTC+3)); 
-                            var timeCodes = urlText.slice(indexTC+3).split(","); 
-                            console.log("!!!!!!!!!!!timeCodes onSECON OPEN: " + timeCodes[0] + " :: " + timeCodes[1]); 
-                            var startTime = timeCodes[0]; 
-                            var endTime = timeCodes[1];
-                            //videoSlider.slider( "option", "min", 0);
-                            /*videoSlider.slider("option", "max", sceneObjects[i].duration);
-                            videoSlider.slider('values',0,startTime);
-                            videoSlider.slider('values',1,endTime);
-                            */
-                            $("#flat-slider").slider({
-                                max: sceneObjects[i].duration,
-                                min: 0,
-                                range: true,
-                                values: [startTime, endTime], 
-                                step: 0.1
-                            }).slider("float");
-
-                            var videoT = new fabric.Image(videoCustomElement, {
-                              left: sceneObjects[i].left,
-                              top: sceneObjects[i].top,
-                              width: sceneObjects[i].width, 
-                              height: sceneObjects[i].height,
-                              duration: sceneObjects[i].duration, 
-                              src: sceneObjects[i].src,
-                              name: 'video'
-                            });
-                            /*videoT.toObject = function() {
-                                return {
-                                  src: sceneObjects[i].src,
-                                  left: sceneObjects[i].left,
-                                  top: sceneObjects[i].top,
-                                  width: sceneObjects[i].width, 
-                                  height: sceneObjects[i].height, 
-                                  type: 'image',
-                                  duration: sceneObjects[i].duration
-                                };
-                            };*/
+                    //var klass = sceneObjects[i].name;
+                    //if (klass == "video") {
+                     //console.log("OpenScene How many objects?: " + sceneObjects.length + sceneObjects[i].name);
+                    if(sceneObjects[i].name == "video"){
                         
+                        var videoID = "video00"+currentSceneNumber; 
+                        var videoCustomElement = document.getElementById(videoID);
+                        videoCustomElement.muted = true; 
+                        $(videoID).attr("src",sceneObjects[i].src);
+                        
+                        //set the video sliders to previous values parsed from the url.
+                        var urlText = videoCustomElement.src;
+                        var indexTC = urlText.indexOf("#t=");
+                        var timeCodes = urlText.slice(indexTC+3).split(","); 
+
+                        var startTime = timeCodes[0]; 
+                        var endTime = timeCodes[1];
+      
+                        $("#flat-slider").slider({
+                            max: sceneObjects[i].duration,
+                            min: 0,
+                            range: true,
+                            values: [startTime, endTime], 
+                            step: 0.1
+                        }).slider("float");
+                        
+                        
+                       // videoCustomElement.addEventListener('timeupdate', oSHandler);
+                        videoCustomElement.addEventListener('timeupdate', openSceneTimeUpdate(videoCustomElement, startTime, endTime));
+                       /* videoCustomElement.addEventListener('timeupdate', function(v, sT, eT) {
+                            return function(err) { 
+                                if (videoCustomElement.currentTime >= eT) {
+                                    videoCustomElement.currentTime = sT;
+                                   console.log("replaying video");
+                                    videoCustomElement.play();
+                                }
+                            };
+                        }(startTime, endTime), false);*/
+
+                        var backVideo = document.createElement("video");
+                        backVideo.autoPlay = true; 
+                        backVideo.muted = true; 
+                        backVideo.pause();
+                        backVideo.src = videoCustomElement.src;
+                        backVideo.style.display = "none";
+                        // backVideo.crossOrigin = "anonymous";
+                        backVideo.addEventListener("loadeddata", function(sT){
+                            return function(err) { 
+                                backVideo.currentTime = sT;
+                            };
+                        }(startTime), false);
+                        
+                        $('body').append(backVideo);
+                        
+                        
+                        var videoB = new fabric.Image(backVideo, {
+                          left: sceneObjects[i].left,
+                          top: sceneObjects[i].top,
+                          width: sceneObjects[i].width, 
+                          height: sceneObjects[i].height,
+                          duration: sceneObjects[i].duration, 
+                          src: sceneObjects[i].src,
+                          name: 'videoB'
+                        });
+
+                        
+                        
+
+                        var videoT = new fabric.Image(videoCustomElement, {
+                          left: sceneObjects[i].left,
+                          top: sceneObjects[i].top,
+                          width: sceneObjects[i].width, 
+                          height: sceneObjects[i].height,
+                          duration: sceneObjects[i].duration, 
+                          src: sceneObjects[i].src,
+                          name: 'video', 
+                          lockMovementX: true,
+                          lockMovementY: true, 
+                          lockRotation: true, 
+                          lockScalingX: true, 
+                          lockScalingY: true
+                        });
+                        
+                        workingCanvas.add(videoB);
                         workingCanvas.add(videoT);
                         videoT.getElement().play();                    
                     } else {
-                        workingCanvas.add(klass.fromObject(sceneObjects[i]));
+                        if(sceneObjects[i].name != "cursor"){
+                            workingCanvas.add(klass.fromObject(sceneObjects[i]));
+                        }
+                        else{
+                             
+                            fabric.Image.fromObject(sceneObjects[i], function (img1) {
+                                workingCanvas.add(img1);
+                                workingCanvas.renderAll();
+                                //console.log("openScene 2nd time opening: " + workingCanvas.getObjects().length);
+                                /* Add to group */
+                                /* Image was not rendered, even when I call canvas.renderAll() */
+                            });
+                            
+                        }
                     }
                 }
-                
                 //when user selects an object
                 workingCanvas.on('object:selected', function(options) {
                     if(lastWCanvasObjSelected != null && options.target != lastWCanvasObjSelected){
@@ -1392,15 +1493,24 @@ $(document).ready(function(){
     function saveSceneCanvas (initVal){
         
         return new Promise(function (resolve) {
-            console.log("in the SAVE SCENE!!!!!:: " + initVal + " sceneNumb: " + currentSceneNumber); 
+            //console.log("in the SAVE SCENE!!!!!:: " + initVal + " sceneNumb: " + currentSceneNumber); 
             //console.log("currenscenenum: " + currentSceneNumber);
             //remove the src from the video in the modal to mute the video
-            /*for (var i = 0; i < allScenes[currentSceneNumber].fabricCanvasObject.getObjects().length; i++) {   
-                if (allScenes[currentSceneNumber].fabricCanvasObject.getObjects()[i].name == "video") {
-                    allScenes[currentSceneNumber].fabricCanvasObject.getObjects()[i].getElement().src = " ";
-                    break;
+            for (var i = 0; i < workingCanvas.getObjects().length; i++) {   
+                if (workingCanvas.getObjects()[i].name == "videoB") {
+                    workingCanvas.getObjects()[i].remove(); 
                 }
-            }*/
+                else if(workingCanvas.getObjects()[i].name == "cursor"){
+                    workingCanvas.getObjects()[i].left = 4*(workingCanvas.width/5);
+                    workingCanvas.getObjects()[i].top = workingCanvas.height/2;
+                    workingCanvas.getObjects()[i].width= (2/2.5)*(workingCanvas.height/5);
+                    workingCanvas.getObjects()[i].height = workingCanvas.height/5;
+                    workingCanvas.getObjects()[i].opacity = 0; 
+                }
+                else if(workingCanvas.getObjects()[i].name == "video"){
+                    //workingCanvas.getObjects()[i].getElement().removeEventListener('timeupdate', oSHandler);
+                }
+            }
             var vID = "video00"+currentSceneNumber; 
             var v = document.getElementById(vID);
             v.muted = true;  
@@ -1418,7 +1528,7 @@ $(document).ready(function(){
             var sceneJSON = JSON.parse(canvasStr);
             var sceneObjects = sceneJSON.objects;
             //console.log("let's see what's written: " + canvasStr);
-            console.log("Mh:: " + modal.offsetHeight + " ::Mw:: " + modal.offsetWidth); 
+            //console.log("Mh:: " + modal.offsetHeight + " ::Mw:: " + modal.offsetWidth); 
             var previewH = modal.offsetHeight/7; 
             var previewW = modal.offsetWidth/7;
             if(currentSceneNumber == 0){
@@ -1457,11 +1567,13 @@ $(document).ready(function(){
 
             for (var i = 0; i < sceneObjects.length; i++) {
                 var klass = fabric.util.getKlass(sceneObjects[i].type);
+                //var klass = sceneObjects[i].name;
 
-                if (klass.async) {
+                //if (klass == "video") {
+                if(sceneObjects[i].name == "video"){
                     var startTime = 0; 
                     var endTime = sceneObjects[i].duration; 
-                    console.log("DURATION: " + endTime + "**" + currentSceneNumber );
+                    //console.log("DURATION: " + endTime + "**" + currentSceneNumber );
                     if(initVal != "InitSliderValues"){
                         if($('#flat-slider').slider("values")[0] > $('#flat-slider').slider("values")[1]){
                             startTime = $('#flat-slider').slider("values")[1];
@@ -1481,7 +1593,7 @@ $(document).ready(function(){
                    // newVideo.poster = "/images/circle.png"
 
                     newVideo.pause();
-                    console.log("src: " + sceneObjects[i].src); 
+                    //console.log("src: " + sceneObjects[i].src); 
                     
                     //check if #t= is there, if so remove it. 
                     var srcText = sceneObjects[i].src;
@@ -1554,17 +1666,29 @@ $(document).ready(function(){
                     previewFabricCanvases[currentSceneNumber].renderAll();
 
                 } else {
-                    var tempObj = klass.fromObject(sceneObjects[i]);
-                    previewFabricCanvases[currentSceneNumber].add(tempObj);
-                    tempObj.set({
-                        'height'     : sceneObjects[i].height*(pInnerH)/sceneJSON.height,
-                        'width'      : sceneObjects[i].width*(pInnerW)/sceneJSON.width,
-                        'left'       : (sceneObjects[i].left*(previewW)/sceneJSON.width) + pInnerLOffset,
-                        'top'        : (sceneObjects[i].top*(previewH)/sceneJSON.height) + pInnerTOffset,
-                        'fontSize'   : 12
-                    });
+                    //don't need to put cursor in the preview canvasses
+                    if(sceneObjects[i].name != "cursor"){
+                        var tempObj = klass.fromObject(sceneObjects[i]);
+                        previewFabricCanvases[currentSceneNumber].add(tempObj);
+                        tempObj.set({
+                            'height'     : sceneObjects[i].height*(pInnerH)/sceneJSON.height,
+                            'width'      : sceneObjects[i].width*(pInnerW)/sceneJSON.width,
+                            'left'       : (sceneObjects[i].left*(previewW)/sceneJSON.width) + pInnerLOffset,
+                            'top'        : (sceneObjects[i].top*(previewH)/sceneJSON.height) + pInnerTOffset,
+                            'fontSize'   : 12
+                        });
 
-                    previewFabricCanvases[currentSceneNumber].renderAll();
+                        previewFabricCanvases[currentSceneNumber].renderAll();
+                    }
+                    else{
+                        fabric.Image.fromObject(sceneObjects[i], function (img1) {
+                            previewFabricCanvases[currentSceneNumber].add(img1);
+                            previewFabricCanvases[currentSceneNumber].renderAll();
+                            /* Add to group */
+                            /* Image was not rendered, even when I call canvas.renderAll() */
+                        });
+                            
+                    }
                 }
             }
             allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height'])); 
@@ -1577,7 +1701,7 @@ $(document).ready(function(){
     //show GIF search results
     function displayresults(data){
         searchData = data; 
-        console.log("success got data", data); 
+        //console.log("success got data", data); 
         $('#giphydiv').empty();
         var modalHeight =  $('#modalcontent').height();
         
@@ -1603,25 +1727,38 @@ $(document).ready(function(){
         }
         //if parent scene get Barfer videos else get 
         if(currentSceneNumber != 0){
-            vidN = getVideoNum(2, 52); 
+            /*vidN = getVideoNum(2, 52); 
             url1 = "/SceneDetectTest/v-" +vidN + ".mp4"; 
             vidN = getVideoNum(2, 52); 
             url2 = "/SceneDetectTest/v-" +vidN + ".mp4"; 
             vidN = getVideoNum(2, 52); 
             url3 = "/SceneDetectTest/v-" +vidN + ".mp4"; 
+            */
+            url1 = "/assets/ELVideos/m1.mp4"; 
+            url2 = "/assets/ELVideos/m2.mp4";  
+            url3 = "/assets/ELVideos/m3.mp4";
+            url4 = "/assets/ELVideos/m4.mp4";
+            url5 = "/assets/ELVideos/m5.mp4";
         }
         else{
-            var barfURLs = ["/SceneDetectTest/Barfies/", "Volvo", "BMW"];
+            /*var barfURLs = ["/SceneDetectTest/Barfies/", "Volvo", "BMW"];
             vidN = getVideoNum(1, 9); 
             url1 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4"; 
             vidN = getVideoNum(1, 9); 
             url2 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4"; 
             vidN = getVideoNum(1, 9); 
-            url3 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4"; 
+            url3 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4";*/
+            url1 = "/assets/ELVideos/v1.mp4"; 
+            url2 = "/assets/ELVideos/v2.mp4";  
+            url3 = "/assets/ELVideos/v3.mp4";
+            url4 = "/assets/ELVideos/v4.mp4";
+            url5 = "/assets/ELVideos/v5.mp4";
         }
         localSrces.push(url1);
         localSrces.push(url2);
         localSrces.push(url3);
+        localSrces.push(url4);
+        localSrces.push(url5);
         
         for(j = 0; j < localSrces.length; j++){
             divname = "videoL" + String(j);
@@ -1631,7 +1768,7 @@ $(document).ready(function(){
             aspect = wImg/hImg; 
             hImg =  modalHeight*0.2;
             wImg = aspect * 100; 
-            console.log("aspect: " + aspect);
+            //console.log("aspect: " + aspect);
             
           $('#giphydiv').append('<div id="'+divname+'" style="width:25%; height:80%; display:inline-block;">'+'<video muted id="'+imagename+'" style="width:' + wImg + 'px; height:'+hImg+'px;" src='+localSrces[j] + ' autoplay="autoplay" loop="loop" > </div>');
         }
@@ -1644,7 +1781,7 @@ $(document).ready(function(){
             aspect = wImg/hImg; 
             hImg =  modalHeight*0.2;
             wImg = aspect * 100; 
-            console.log("aspect: " + aspect);
+            //console.log("aspect: " + aspect);
             
             $('#giphydiv').append('<div id="'+divname+'" style="width:25%; height:80%; display:inline-block;">'+'<video muted id="'+imagename+'" style="width:' + wImg + 'px; height:'+hImg+'px;" src='+searchData['data'][i]['images']['downsized_small']['mp4'] + ' autoplay="autoplay" loop="loop" > </div>');
         }
@@ -1674,15 +1811,389 @@ $(document).ready(function(){
         //game_url = 'https://www.playloops.io/IBranchTemplate.html?'+game_id;
         $('#exportURL').attr('href', game_url);
         $('#exportTextArea').val(game_url);
-        console.log("URL:  "+ game_url);
+        //console.log("URL:  "+ game_url);
         myPlayLoop['_id'] = game_id;
         
         var dataToStore = JSON.stringify(myPlayLoop);
-        console.log(dataToStore);
+        //console.log(dataToStore);
         $.ajax({url:'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-',type: "POST",contentType: "application/json",data:dataToStore}).done(function() {
         console.log("done uploading orposting");});            
     }
-          
+    
+    var gifFrames = []; 
+    //global variables for capturing the frames of the first scene.
+    var bkgVideo;
+    var numLoops = 0; 
+    var myCursor; 
+    var cursorSteps = 0; 
+    var cursorW, cursorH;
+    var nowTime = 0; 
+    var initTime = 0; 
+    
+    //global variables for capturing the frames of the second scene.
+    var bkgVideo2;
+    var numLoops2 = 0; 
+    var myCursor2; 
+    var cursorSteps2 = 0; 
+    var cursorW2, cursorH2;
+
+    
+    var myTU1Event = function(resolve, captureFrame, startTime) {
+        var handler = function(event) {
+            nowTime = new Date();
+            var timediff = nowTime - initTime;
+            //console.log("video time: " + bkgVideo.currentTime + " start Time: " + startTime + " sinceTime: " + timediff); 
+            if(bkgVideo.currentTime == 0 && timediff > 100){
+                numLoops++; 
+            }
+             //after the video  twice add cursor hand png on top of the images. 
+            if(cursorSteps >= 8){
+                //stop capturing from the first scene
+                console.log("num of gifFrames: " + gifFrames.length); 
+                clearInterval(captureFrame);
+                //resolve to the next then.
+                bkgVideo.removeEventListener('timeupdate', handler);
+                resolve(); 
+                //return promise; //Promise.resolve([]);
+            }
+        };
+        return handler;
+    };
+    
+    
+    var myTU2Event = function(resolve, captureFrame2) {
+        var handler = function(event) {
+            if(bkgVideo2.currentTime == 0){
+                numLoops2++; 
+            }
+             //after the video  twice add cursor hand png on top of the images. 
+            var makeGifOnce = true; 
+            if(numLoops2 >= 1){
+                //if(makeGifOnce == true){
+                    makeGifOnce = false; 
+                    //stop capturing from the first scene
+                    clearInterval(captureFrame2);
+                    //gifFrames.splice(0,28);
+                    console.log("num of gifFrames2: " + gifFrames.length); 
+                    //turn off cursor
+                    myCursor2.set('opacity', 0);
+                    
+                     //pass the array of frames to the GIF encoder            
+                    gifshot.createGIF({
+                        images: gifFrames,
+                        gifWidth: workingCanvas.width, 
+                        gifHeight: workingCanvas.height, 
+                        interval: 0.083
+                    }, function(obj) {
+                        if(!obj.error) {
+                            console.log("making hte GIF"); 
+                            document.getElementById('summaryGIF').src = obj.image;
+                            //resolve(); 
+                            //return promise;// Promise.resolve([]);
+                        }
+                    });
+                    bkgVideo2.removeEventListener('timeupdate', handler);
+                    resolve(); 
+                //}
+            }
+        };
+        return handler;
+    };
+
+        
+    
+    function generateSummaryGIF(){
+        
+        //open modal in background & openScene. 
+        modal.style.display = "block";
+        modal.style.zIndex = "-30000";
+
+        currentSceneNumber = 0; 
+
+        Promise.resolve()
+        .then((nodeObject, canvasObject) => openSceneCanvas(allScenes[currentSceneNumber].fabricNodeObject, allScenes[currentSceneNumber].fabricCanvasObject))
+        .catch(function(err){
+            console.log(err);
+        })
+        .then(function(){
+           return new Promise(function(resolve) { 
+               console.log("first time out"); 
+               setTimeout(resolve, 100)
+           });  
+        })
+        .catch(function(err){
+            console.log(err);
+        })
+        .then(function(){
+            return new Promise(function(resolve){
+            
+                //start recording the frames using workingCanvas's toDataURL()...pass to array
+                //first wait for the cursor to load in the background modal
+                //setTimeout(function(){ 
+                    
+                    console.log("lenght of the contents: " + workingCanvas.getObjects().length); 
+                    for(var i = 0; i < workingCanvas.getObjects().length; i++){
+                        if (workingCanvas.getObjects()[i].name == "video") {
+                            //console.log("THERE IS A VIDEO!*&^&%");
+                            bkgVideo = workingCanvas.getObjects()[i].getElement();     
+                        }else if(workingCanvas.getObjects()[i].name == "cursor"){
+                            //console.log("THERE IS A CURSOR!*&^&%");
+                            myCursor = workingCanvas.getObjects()[i];
+                        }
+                    }
+                
+                
+                    //restart the video
+                    var startTime = 0;
+                    var endTime = 0; 
+                    if($('#flat-slider').slider("values")[0] > $('#flat-slider').slider("values")[1]){
+                        startTime = $('#flat-slider').slider("values")[1];
+                        endTime = $('#flat-slider').slider("values")[0];
+                    }
+                    else{
+                        startTime = $('#flat-slider').slider("values")[0];
+                        endTime = $('#flat-slider').slider("values")[1];
+                    }
+                    
+                    bkgVideo.currentTime = startTime; 
+        
+                    //var nowTime = new Date(); 
+                    //console.log("currentTime: " + nowTime.getTime() ); 
+
+                    //capture frames
+                    var captureFrame = setInterval(function() {
+                        //console.log("currentTime: " + nowTime.getTime() );
+                        //add cursor once more than 2 cycles of the first video play
+                        if(numLoops < 1){
+                            gifFrames.push(workingCanvas.toDataURL("jpeg",8));
+                        }else{
+                            if(cursorSteps == 0){
+                                myCursor.set('opacity', 1);
+                               
+                            }
+                            else if(cursorSteps == 1){
+                                myCursor.setLeft(1.15*(workingCanvas.width/2)); 
+                                myCursor.setTop(.85*(2*(workingCanvas.height/3)));
+                               
+                            }
+                            else if(cursorSteps == 2){
+                                myCursor.setLeft(workingCanvas.width/2); 
+                                myCursor.setTop(2*(workingCanvas.height/3));
+                               
+                            }
+                            else if(cursorSteps == 5){
+                                cursorW = myCursor.width; 
+                                cursorH = myCursor.height; 
+                                myCursor.setWidth(2*(cursorW/3)); 
+                                myCursor.setHeight(2*(cursorH/3));
+                               
+                            }
+                            else if(cursorSteps == 7){
+                                myCursor.setWidth(cursorW); 
+                                myCursor.setHeight(cursorH);
+                                workingCanvas.renderAll();
+                            }
+
+                            gifFrames.push(workingCanvas.toDataURL("jpeg",8));
+
+                            cursorSteps++; 
+                        }
+                    }, 83.33);
+
+                    initTime = new Date();
+                    //bkgVideo.addEventListener('timeupdate', myTU1Event(resolve, captureFrame, startTime)); 
+                    var lastNumLoops = oSVidLoops; 
+                    var minNumLoops = 0; 
+                    var checkVideoLoop = setInterval(function(){
+                        nowTime = new Date();
+                        if((oSVidLoops - lastNumLoops) > minNumLoops && ((nowTime - initTime) < 200) ){
+                            
+                            minNumLoops = 1;
+                            
+                        }
+                        
+                        if((oSVidLoops - lastNumLoops) > minNumLoops){
+                            console.log("minNumLoops: " + minNumLoops ); 
+                            numLoops++;    
+                        }
+                        
+                        //after the video  twice add cursor hand png on top of the images. 
+                        if(cursorSteps >= 9){
+                            //stop capturing from the first scene
+                            console.log("num of gifFrames: " + gifFrames.length); 
+                            clearInterval(captureFrame);
+                            //resolve to th}e next then.
+                            //bkgVideo.removeEventListener('timeupdate', handler);
+                            resolve(); 
+                            clearInterval(checkVideoLoop);
+                            
+                            //return promise; //Promise.resolve([]);
+                        }
+                    }, 10);
+            });
+            
+        })
+        .catch(function(error){
+            console.log("error while opening node: " + error); 
+        })
+        .then((val)=>saveSceneCanvas(" "))
+        .catch(function(err){
+            console.log("error saving" + err);
+        })
+        .then(function(){
+            //change scene number to open another scene.
+            //close the modal 
+            /*workingCanvas.clear();
+            workingCanvas.renderAll();*/
+            currentSceneNumber = 1; 
+           /* modal.style.display = "none";
+            modal.style.zIndex = initModalZIndex;
+            
+            console.log("clearing the canvas");
+            
+            modal.style.display = "block";
+            modal.style.zIndex = "-3000";
+            */
+        })
+        .catch(function(err){
+            console.log("" + err);
+        })
+        .then((nodeObject, canvasObject) => openSceneCanvas(allScenes[currentSceneNumber].fabricNodeObject, allScenes[currentSceneNumber].fabricCanvasObject))
+        .catch(function(err){
+            console.log(err);
+        })
+        .then(function(){
+           return new Promise(function(resolve) { 
+               console.log("second time out" + "scenenum: " + currentSceneNumber);
+               setTimeout(resolve, 100)
+           });  
+        })
+        .catch(function(err){
+            console.log(err);
+        })
+        .then(function(){
+            return new Promise(function(resolve){
+                //first wait for the cursor to load in the background modal
+                
+                    //console.log("lenght of the contents: " + workingCanvas.getObjects().length); 
+                    for(var i = 0; i < workingCanvas.getObjects().length; i++){
+                        if (workingCanvas.getObjects()[i].name == "video") {
+                            //console.log("THERE IS A VIDEO!*&^&%");
+                            bkgVideo2 = workingCanvas.getObjects()[i].getElement();     
+                            console.log("Second SRC: " + bkgVideo2.src); 
+                        }else if(workingCanvas.getObjects()[i].name == "cursor"){
+                            //console.log("THERE IS A CURSOR!*&^&%");
+                            myCursor2 = workingCanvas.getObjects()[i];
+                        }
+                    }
+                
+                    //restart the video
+                    var startTime = 0; 
+                    if($('#flat-slider').slider("values")[0] > $('#flat-slider').slider("values")[1]){
+                        startTime = $('#flat-slider').slider("values")[1];
+                    }
+                    else{
+                        startTime = $('#flat-slider').slider("values")[0];
+                    }
+                    
+                    bkgVideo2.currentTime = startTime; 
+
+                    var setOnce = false; 
+                    //capture frames
+                    var captureFrame2 = setInterval(function() {
+                        //add cursor once more than 2 cycles of the first video play
+                        //if(numLoops < 2){
+                        if(setOnce == false){
+                            setOnce = true; 
+                            myCursor2.set('opacity', 1);
+                            myCursor2.setLeft(workingCanvas.width/2); 
+                            myCursor2.setTop(2*(workingCanvas.height/3));
+                        }
+                        else{
+                            gifFrames.push(workingCanvas.toDataURL("jpeg",8));
+                        }
+                            
+
+                    }, 83.33);
+
+
+                    //bkgVideo2.addEventListener('timeupdate', myTU2Event(resolve, captureFrame2)); 
+                    initTime = new Date();
+                    var lastNumLoops = oSVidLoops; 
+                    var minNumLoops = 0; 
+                    var checkVideoLoop = setInterval(function(){
+                        nowTime = new Date();
+                        if((oSVidLoops - lastNumLoops) > minNumLoops && ((nowTime - initTime) < 200) ){
+                            
+                            minNumLoops = 1;
+                            
+                        }
+                        if((oSVidLoops - lastNumLoops) > minNumLoops){
+                            console.log("TIME SINCE PLAY 2: " + (nowTime - initTime));
+                            numLoops2++;
+                        }
+                        
+                        if(numLoops2 >= 1){
+                        
+                            //stop capturing from the first scene
+                            clearInterval(captureFrame2);
+                            //gifFrames.splice(0,28);
+                            console.log("num of gifFrames2: " + gifFrames.length); 
+                            //turn off cursor
+                            myCursor2.set('opacity', 0);
+
+                             //pass the array of frames to the GIF encoder            
+                            gifshot.createGIF({
+                                images: gifFrames,
+                                gifWidth: workingCanvas.width, 
+                                gifHeight: workingCanvas.height, 
+                                interval: 0.083
+                            }, function(obj) {
+                                if(!obj.error) {
+                                    console.log("making hte GIF"); 
+                                    document.getElementById('summaryGIF').src = obj.image;
+                                    //resolve(); 
+                                    //return promise;// Promise.resolve([]);
+                                }
+                            });
+                            
+                            resolve(); 
+                            clearInterval(checkVideoLoop);
+                            
+                        }
+                    }, 10);
+            });
+           
+        })
+        .catch(function(err){
+            console.log("" + err);
+        })
+        .then((val)=>saveSceneCanvas(" "))
+        .catch(function(err){
+            console.log("error saving" + err);
+        })
+        .then(function(){
+            //hide modal to not show, and it's usual zIndex
+            modal.style.display = "none";
+            //console.log("zIndex that's getting set" + initModalZIndex);
+            modal.style.zIndex = 1;
+        })
+        .catch(function(err){
+            console.log("error saving" + err);
+        })
+        .then(function(){
+           //create the export links.
+           exportPlayLoop();
+        })
+        .catch(function(err){
+            console.log("error saving" + err);
+        });
+        
+        
+         
+    }
+    
+//end of document.ready          
 });
 
     
