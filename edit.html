@@ -32,6 +32,9 @@
     <!-- GIF encoder -->
     <script src='/js/gifshot.min.js'></script>
     
+    <!--video encoder --> 
+    <!--<script src="/js/whammy.js"></script>-->
+    
 </head>
 
 <body>
@@ -254,6 +257,12 @@
             font-family: MyDosis;
             src: url('/fonts/BebasNeue.otf')
         }
+   
+        @font-face
+        {
+            font-family: MySketch;
+            src: url('/fonts/Anton.ttf')
+        }
     
 </style>    
     
@@ -419,6 +428,8 @@ $(document).ready(function(){
     var span = document.getElementById("closeNodeEditor");
     //last object selected on working canvas
     var lastWCanvasObjSelected = null;
+    
+    //
     
     
     // create a wrapper around native canvas element (with id="c")
@@ -925,8 +936,9 @@ $(document).ready(function(){
         }
         
         if(event.target == publishButton){
+            exportPlayLoop();
             $("#publishModal").show(); 
-            generateSummaryGIF(); 
+            //generateSummaryGIF(); 
         }
         if (event.target == publishModal || event.target == publishExit) {
             $("#publishModal").hide();
@@ -1200,6 +1212,7 @@ numLoops = 0;
     
     var oSHandler;
     var oSVidLoops = 0; 
+    var throttle = true; 
     function openSceneTimeUpdate(v, sT, eT) {
     //var oSHandler = function(v, sT, eT){
         oSHandler = function(e){
@@ -1212,7 +1225,15 @@ numLoops = 0;
             }  
             else if(v.currentTime == 0 ){
                // console.log("replaying video000");
-                oSVidLoops++; 
+                if (throttle) {
+                    throttle = false,
+                    oSVidLoops++; 
+                    console.log("loops: " + oSVidLoops);
+                }
+                setTimeout(()=> { 
+                    throttle = true;
+                }, 400);
+                
             }
         };
         
@@ -1253,6 +1274,18 @@ numLoops = 0;
                   top: 10,
                   name: 'text'
                 });
+                
+                //00324D
+                /*var secondText = new fabric.IText(text, {
+                  textAlign: 'center',
+                  fontFamily: 'MySketch', 
+                  fill: 'rgb(250,250,250)',
+                  left: 100, 
+                  top: 100,
+                  name: 'text'
+                });*/
+                
+                
                 //console.log("source is: "  + video1El.src);
                 $('body').append('<video crossOrigin="Anonymous" autoplay="autoplay" loop="loop" id="video'+"00"+currentSceneNumber+'" style="display: none" src="https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4"></video>');
 
@@ -1274,6 +1307,7 @@ numLoops = 0;
                 // "add" rectangle onto canvas
                 workingCanvas.add(prect); 
                 workingCanvas.add(centerText);
+               // workingCanvas.add(secondText);
                 
                 //adding cursor and hiding it for later use
                 fabric.Image.fromURL('/images/cursor.png', function(myImg) {
@@ -1360,6 +1394,8 @@ numLoops = 0;
 
             }
             else{
+                //resetting variable
+                throttle = true; 
                 workingCanvas.backgroundColor="black";
                 workingCanvas.renderAll();
                 var sceneJSON = JSON.parse(canvasStr);
@@ -1732,13 +1768,31 @@ numLoops = 0;
             vidN = getVideoNum(2, 52); 
             url2 = "/SceneDetectTest/v-" +vidN + ".mp4"; 
             vidN = getVideoNum(2, 52); 
-            url3 = "/SceneDetectTest/v-" +vidN + ".mp4"; 
-            */
-            url1 = "/assets/ELVideos/m1.mp4"; 
+            url3 = "/SceneDetectTest/v-" +vidN + ".mp4";*/ 
+            
+            /*url1 = "/assets/ELVideos/m1.mp4"; 
             url2 = "/assets/ELVideos/m2.mp4";  
             url3 = "/assets/ELVideos/m3.mp4";
             url4 = "/assets/ELVideos/m4.mp4";
-            url5 = "/assets/ELVideos/m5.mp4";
+            url5 = "/assets/ELVideos/m5.mp4";*/
+            
+            //anti-Islamophobia
+           // url1 = "/assets/EqualityLabs/Part2/1.mp4"; 
+           // url2 = "/assets/EqualityLabs/Part2/2.mp4";
+            url1 = "/assets/AEMP/yestopeoplePart2.mp4";
+            url2 = "/assets/AEMP/yestopeoplePart2.mp4";
+            url3 = "/assets/AEMP/yestopeoplePart3.mp4";//"/assets/EqualityLabs/Part2/11.mp4";
+          /*  url4 = "/assets/EqualityLabs/Part2/4.mp4";
+            url5 = "/assets/EqualityLabs/Part2/5.mp4";
+            url6 = "/assets/EqualityLabs/Part2/6.mp4";
+            url7 = "/assets/EqualityLabs/Part2/7.mp4";
+            url8 = "/assets/EqualityLabs/Part2/8.mp4";
+            url9 = "/assets/EqualityLabs/Part2/9.mp4";
+            url10 = "/assets/EqualityLabs/Part1/10.mp4";
+            url11 = "/assets/EqualityLabs/Part1/11.mp4";
+            url12 = "/assets/EqualityLabs/Part1/12.mp4";
+            url13 = "/assets/EqualityLabs/Part1/13.mp4";*/
+            
         }
         else{
             /*var barfURLs = ["/SceneDetectTest/Barfies/", "Volvo", "BMW"];
@@ -1748,17 +1802,44 @@ numLoops = 0;
             url2 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4"; 
             vidN = getVideoNum(1, 9); 
             url3 = "/SceneDetectTest/Barfies/v-" +vidN + ".mp4";*/
-            url1 = "/assets/ELVideos/v1.mp4"; 
+           /* url1 = "/assets/ELVideos/v1.mp4"; 
             url2 = "/assets/ELVideos/v2.mp4";  
             url3 = "/assets/ELVideos/v3.mp4";
             url4 = "/assets/ELVideos/v4.mp4";
-            url5 = "/assets/ELVideos/v5.mp4";
+            url5 = "/assets/ELVideos/v5.mp4";*/
+            
+           // url1 = "/assets/EqualityLabs/Part1/1.mp4"; 
+           // url2 = "/assets/EqualityLabs/Part1/2.mp4";
+            url1 = "/assets/AEMP/fightforPart1.mp4";
+            url2 = "/assets/AEMP/housingpricesPart1.mp4";
+            url3 = "/assets/AEMP/yestopeoplePart1.mp4";//url3 = "/assets/EqualityLabs/Part1/5.mp4";
+           /* url4 = "/assets/EqualityLabs/Part1/4.mp4";
+            url5 = "/assets/EqualityLabs/Part1/5.mp4";
+            url6 = "/assets/EqualityLabs/Part1/6.mp4";
+            url7 = "/assets/EqualityLabs/Part1/7.mp4";
+            url8 = "/assets/EqualityLabs/Part1/8.mp4";
+            url9 = "/assets/EqualityLabs/Part1/9.mp4";
+            url10 = "/assets/EqualityLabs/Part1/10.mp4";
+            url11 = "/assets/EqualityLabs/Part1/11.mp4";
+            url12 = "/assets/EqualityLabs/Part1/12.mp4";
+            url13 = "/assets/EqualityLabs/Part1/13.mp4";*/
         }
         localSrces.push(url1);
         localSrces.push(url2);
         localSrces.push(url3);
-        localSrces.push(url4);
+        /*localSrces.push(url4);
         localSrces.push(url5);
+        localSrces.push(url6);
+        localSrces.push(url7);
+        localSrces.push(url8);
+        localSrces.push(url9);
+        localSrces.push(url10);
+        localSrces.push(url11);
+        localSrces.push(url12);
+        localSrces.push(url13);*/
+        
+        //localSrces.push(url4);
+       // localSrces.push(url5);
         
         for(j = 0; j < localSrces.length; j++){
             divname = "videoL" + String(j);
@@ -1966,10 +2047,10 @@ numLoops = 0;
                         //add cursor once more than 2 cycles of the first video play
                         if(numLoops < 1){
                             gifFrames.push(workingCanvas.toDataURL("jpeg",8));
+                            //gifFrames.push(workingCanvas.toDataURL("webp"));
                         }else{
                             if(cursorSteps == 0){
                                 myCursor.set('opacity', 1);
-                               
                             }
                             else if(cursorSteps == 1){
                                 myCursor.setLeft(1.15*(workingCanvas.width/2)); 
@@ -1995,25 +2076,27 @@ numLoops = 0;
                             }
 
                             gifFrames.push(workingCanvas.toDataURL("jpeg",8));
+                            //gifFrames.push(workingCanvas.toDataURL("webp"));
 
                             cursorSteps++; 
                         }
-                    }, 83.33);
+                    }, 100);// 83.33);
 
                     initTime = new Date();
                     //bkgVideo.addEventListener('timeupdate', myTU1Event(resolve, captureFrame, startTime)); 
                     var lastNumLoops = oSVidLoops; 
-                    var minNumLoops = 0; 
+                    var minNumLoops = 1; 
                     var checkVideoLoop = setInterval(function(){
                         nowTime = new Date();
-                        if((oSVidLoops - lastNumLoops) > minNumLoops && ((nowTime - initTime) < 200) ){
+                        console.log("oSVidLoops" + oSVidLoops + " lasNumLoops" + lastNumLoops);
+                        if((oSVidLoops - lastNumLoops) > minNumLoops ){ // && ((nowTime - initTime) > 200) ){
                             
                             minNumLoops = 1;
                             
                         }
                         
                         if((oSVidLoops - lastNumLoops) > minNumLoops){
-                            console.log("minNumLoops: " + minNumLoops ); 
+                            //console.log("minNumLoops: " + minNumLoops ); 
                             numLoops++;    
                         }
                         
@@ -2111,10 +2194,11 @@ numLoops = 0;
                         }
                         else{
                             gifFrames.push(workingCanvas.toDataURL("jpeg",8));
+                            //gifFrames.push(workingCanvas.toDataURL("webp"));
                         }
                             
 
-                    }, 83.33);
+                    }, 100);//83.33);
 
 
                     //bkgVideo2.addEventListener('timeupdate', myTU2Event(resolve, captureFrame2)); 
@@ -2143,11 +2227,12 @@ numLoops = 0;
                             myCursor2.set('opacity', 0);
 
                              //pass the array of frames to the GIF encoder            
+                            //0.083
                             gifshot.createGIF({
                                 images: gifFrames,
                                 gifWidth: workingCanvas.width, 
                                 gifHeight: workingCanvas.height, 
-                                interval: 0.083
+                                interval: 0.1
                             }, function(obj) {
                                 if(!obj.error) {
                                     console.log("making hte GIF"); 
@@ -2156,6 +2241,8 @@ numLoops = 0;
                                     //return promise;// Promise.resolve([]);
                                 }
                             });
+                            
+                           // Whammy.fromImageArray(gifFrames, 12);
                             
                             resolve(); 
                             clearInterval(checkVideoLoop);
