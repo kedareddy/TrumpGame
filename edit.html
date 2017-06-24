@@ -35,6 +35,9 @@
     <!--video encoder --> 
     <!--<script src="/js/whammy.js"></script>-->
     
+    <!--PlayLooops library -->
+    <script src="js/playloops.js"></script>
+    
 </head>
 
 <body>
@@ -935,9 +938,9 @@ $(document).ready(function(){
         }
         
         if(event.target == publishButton){
-            exportPlayLoop();
+            //exportPlayLoop();
             $("#publishModal").show(); 
-           // generateSummaryGIF(); 
+            generateSummaryGIF(); 
         }
         if (event.target == publishModal || event.target == publishExit) {
             $("#publishModal").hide();
@@ -1879,6 +1882,84 @@ $(document).ready(function(){
         }
     }
     
+    function uploadContent(){
+
+        //First make the data structure to pass to mongo
+        var playloop_dict = {};
+
+        playloop_id = generateUUID();
+        
+        
+        var inputType = clickHold;  //Tap or TapHold
+        var order = sceneOrder;
+        var transition = transitionType; 
+        var scenes = [];
+        
+        for (var i = 0, count = allScenes.length; i < count; i++) {   
+            scenes.push(allScenes[i].fabricCanvasObject);
+        }
+        
+        playloop_dict['inputType'] = inputType; 
+        playloop_dict['order'] = order; 
+        playloop_dict['transition'] = transition; 
+        playloop_dict['scenes'] = scenes;
+        
+        
+        //playloop_dict['scene_name'] = 'AngerTranslator_001';
+        playloop_dict['_id'] = playloop_id;
+        playloop_dict['scene_name'] = 'IBranchTemplate';
+        playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/view/' + playloop_id;
+
+        /*playloop_dict['text1'] = inputText1;
+        playloop_dict['text2'] = inputText4;
+        playloop_dict['heroname'] = selectedBody;*/
+
+
+        //get signed request summary -> upload s3 summary -> add playloop
+
+
+        
+        Promise.resolve(
+        ).then( function () {
+                //get the summary image signature
+                imageType = "gif";
+                contentType = "image/" + imageType;           
+                img_name = playloop_id + ".gif";
+                return getS3SignedResponse(img_name, contentType);
+            }
+        ).then( function( signed_response ) {
+                //upload the summary image
+                var signedRequest = signed_response.signedRequest;
+                var summary_url = signed_response.url;
+
+                imageType = "gif";
+                contentType = "image/" + imageType;
+
+                console.log("summary_url" + summary_url);
+                playloop_dict['summary_img'] = summary_url;
+
+                var file = $("#summaryGIF").attr("src");
+
+                return uploadFileToS3( file , contentType, signedRequest );
+
+            }
+        ).then ( function( s3_results) {
+                //save the playloop datastructure
+                return  addPlayloop (playloop_dict);
+
+            }
+        ).then ( function ( data ) {
+                //finally redirect here
+                //$("#spinnerParent").hide();
+                //spinner.stop(); 
+                console.log("*** Finished image uploads: " + playloop_dict['playloop_url'])
+                //return $.get(playloop_dict['playloop_url']);
+                //window.location.href = playloop_dict['playloop_url'];
+            }
+        );
+    }
+    
+    
     function exportPlayLoop(){
         var myPlayLoop = {};
         var inputType = clickHold;  //Tap or TapHold
@@ -2256,6 +2337,7 @@ $(document).ready(function(){
                                 if(!obj.error) {
                                     console.log("making hte GIF"); 
                                     document.getElementById('summaryGIF').src = obj.image;
+                                    uploadContent();
                                     //resolve(); 
                                     //return promise;// Promise.resolve([]);
                                 }
@@ -2289,7 +2371,9 @@ $(document).ready(function(){
         })
         .then(function(){
            //create the export links.
-           exportPlayLoop();
+           console("exported PlayLoop. links updated.");
+           //uploadContent();
+           //exportPlayLoop();
         })
         .catch(function(err){
             console.log("error saving" + err);

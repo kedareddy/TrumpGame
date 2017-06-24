@@ -5,6 +5,21 @@
     <meta charset="UTF-8" />
     <title>Instance Branch Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- updte with summary gif-->     
+    <meta property="og:url" content="{{playloop_url}}">
+    <meta property="og:image" content="{{summary_img}}">
+    <meta property="og:title" content="PlayLoops!" />
+    <meta property="og:description" content="Click to play! Make your own at Playloops.io" />
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Playloops">
+    <meta name="twitter:creator" content="@playloops">
+    <meta name="twitter:title" content="PlayLoops!">
+    <meta name="twitter:description" content="Click to play! Make your own at Playloops.io">
+    <meta name="twitter:image" content="{{summary_img}}">
+    
+
+    
     
     <!-- Canvas Library --> 
     <script type="text/javascript" src="/js/fabric.min.js"></script>
@@ -122,22 +137,28 @@ var parentVideoListener = function (nVideo, sT, eT) {
     
 $(document).ready(function(){
 
-    var game_id = window.location.toString().split('?')[1];
-    if(game_id){
-		var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
-		$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( jsonData ) {
-            console.log("inside ajax callback *****");
-            if(jsonData){
-                console.log("inside jsonData *****");
+    //var game_id = window.location.toString().split('?')[1];
+    //if(game_id){
+		//var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
+		//$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( jsonData ) {
+           // console.log("inside ajax callback *****");
+            
+            //if(jsonData){
+              //  console.log("inside jsonData *****");
                 //console.log('stored: ', jsonData);
-                console.log("OrderType: " + jsonData.order + " IType: " + jsonData.inputType + " TransitionT: " + jsonData.transition); 
+                //console.log("OrderType: " + jsonData.order + " IType: " + jsonData.inputType + " TransitionT: " + jsonData.transition); 
                 
-                orderType = jsonData.order; 
+                orderType = {{order | safe |json}};   
+                inputType = {{inputType | safe |json}};   
+                transitionType = {{transition | safe |json}};   
+                /*orderType = jsonData.order; 
                 inputType = jsonData.inputType; 
                 transitionType = jsonData.transition; 
-                
-                console.log("inside jsonData *****");
-                for(var j = 0; j < jsonData['scenes'].length; j++){
+                */
+                //console.log("inside jsonData *****");
+                var scenes = {{scenes | safe |json}};   
+                //jsonData['scenes']
+                for(var j = 0; j < scenes.length; j++){
                     //create div to hold the canvas for the scene
                     var canvasDiv = document.getElementById("canvasesdiv");
                     var newCanvas = document.createElement("canvas");
@@ -146,7 +167,7 @@ $(document).ready(function(){
                     newCanvas.parentElement.style.position = "absolute";
                     
                     
-                    var canvasStr = jsonData['scenes'][j];
+                    var canvasStr = scenes[j];
                     
                     var sceneJSON = JSON.parse(canvasStr); 
                     var sceneObjects = sceneJSON.objects;
@@ -243,20 +264,20 @@ $(document).ready(function(){
                     if(j != 0){
                         $(newCanvas).hide();
                     }
-                    if(j == (jsonData['scenes'].length-1) ){
+                    if(j == (scenes.length-1) ){
                         canvas.on('after:render', initLook);    
                     }
                     
                 }
                 
-            }
+           // } //JsonData
   
-		}).fail(function(jqXHR, textStatus, errorThrown )  {
+	/*	}).fail(function(jqXHR, textStatus, errorThrown )  {
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
-        }); 
-	}
+        }); */
+	//} game_id
     
     //style the canvases..
 
