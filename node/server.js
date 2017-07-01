@@ -41,7 +41,7 @@ app.post('/playloops', playloops.addPlayloop);
 app.put('/playloops/:id', playloops.updatePlayloop);
 app.delete('/playloops/:id', playloops.deletePlayloop);
 app.get('/playloops-all/', playloops.findAll);
-app.get("/hello", function(req, res) { res.send("noonononononon"); });
+app.get("/hello", playloops.createSummaryGIF);
 
 app.get('/playloops-img/sign-s3', playloops.signS3);
 
