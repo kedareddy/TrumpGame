@@ -34,6 +34,14 @@
             
     }
     
+    //Kedar's additions
+    function createSummaryGIF(){
+        const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/hello";
+    
+       $.get( PLAYLOOPS_GET_URL, function( data ) {
+           console.log( "##$#create Summary GIF result: " + data );
+        });
+    }
 
     //generates a 26 byte long low-ascii string 
     function generateUUID() {

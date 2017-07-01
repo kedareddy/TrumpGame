@@ -2,6 +2,8 @@
 
 const util = require('util')
 
+var ffmpeg = require('fluent-ffmpeg');
+
 var mongo = require('mongodb');
 
 var aws = require('aws-sdk');
@@ -82,6 +84,25 @@ exports.signS3 = function(req, res) {
     res.end();
   });
 }
+
+
+//Kedar's additions
+exports.createSummaryGIF = function(req, res){
+   
+    console.log("in the function!!@!@!");
+    res.send("hahahahahah"); 
+    /*var proc = new ffmpeg({ source: 'https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4' })
+      .withSize('150x100')
+      .takeScreenshots(2, '/playloops-img/sign-s3', function(err, filenames) {
+        if(err){
+          throw err;
+        }
+        res.send(filenames);
+        console.log(filenames);
+        console.log('screenshots were saved');
+    });*/
+}
+
 
 
 exports.findById = function(req, res) {

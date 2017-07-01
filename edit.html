@@ -940,7 +940,8 @@ $(document).ready(function(){
         if(event.target == publishButton){
             //exportPlayLoop();
             $("#publishModal").show(); 
-            generateSummaryGIF(); 
+            uploadContent(); 
+            //generateSummaryGIF(); 
         }
         if (event.target == publishModal || event.target == publishExit) {
             $("#publishModal").hide();
@@ -1917,9 +1918,25 @@ $(document).ready(function(){
 
         //get signed request summary -> upload s3 summary -> add playloop
 
-
-        
         Promise.resolve(
+        ).then ( function() {
+                //save the playloop datastructure
+                return  addPlayloop (playloop_dict);
+
+            }
+        ).then ( function ( data ) {
+                //finally redirect here
+                //$("#spinnerParent").hide();
+                //spinner.stop();
+                createSummaryGIF();
+                
+                //console.log("*** Finished image uploads: " + playloop_dict['playloop_url'])
+                //return $.get(playloop_dict['playloop_url']);
+                //window.location.href = playloop_dict['playloop_url'];
+            }
+        );
+        
+        /*Promise.resolve(
         ).then( function () {
                 //get the summary image signature
                 imageType = "gif";
@@ -1956,7 +1973,11 @@ $(document).ready(function(){
                 //return $.get(playloop_dict['playloop_url']);
                 //window.location.href = playloop_dict['playloop_url'];
             }
-        );
+        );*/
+        
+        
+        
+        
     }
     
     
@@ -2371,7 +2392,7 @@ $(document).ready(function(){
         })
         .then(function(){
            //create the export links.
-           console("exported PlayLoop. links updated.");
+           console.log("exported PlayLoop. links updated.");
            //uploadContent();
            //exportPlayLoop();
         })

@@ -35,12 +35,13 @@ app.use(function(req, res, next) {
 });
 
 //app.get('/playloops', wine.findAll);
-app.get("/hello", function(req, res) { res.send("hello world"); });
+//app.get("/hello", function(req, res) { res.send("hello world"); });
 app.get('/playloops/:id', playloops.findById);
 app.post('/playloops', playloops.addPlayloop);
 app.put('/playloops/:id', playloops.updatePlayloop);
 app.delete('/playloops/:id', playloops.deletePlayloop);
 app.get('/playloops-all/', playloops.findAll);
+app.get("/hello", function(req, res) { res.send("noonononononon"); });
 
 app.get('/playloops-img/sign-s3', playloops.signS3);
 
