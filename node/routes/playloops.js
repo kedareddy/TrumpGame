@@ -102,7 +102,12 @@ exports.createSummaryGIF = function(req, res){
         console.log('screenshots were saved');
     });*/
     
-    var command = ffmpeg('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4')
+    ffmpeg.ffprobe('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4',function(err, metadata) {
+       var textt = require('util').inspect(metadata, false, null);
+       res.send(textt);
+    });
+    
+    /*var command = ffmpeg('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4')
       .on('end', function(files) {
         console.log('screenshots were saved as ' + files);
           res.send('screenshots were saved as ' + files);
@@ -115,7 +120,7 @@ exports.createSummaryGIF = function(req, res){
         filename: 'thumbnail-at-%s-seconds.png',
         folder: '/views',
         size: '320x240'
-      });
+      });*/
 }
 
 
