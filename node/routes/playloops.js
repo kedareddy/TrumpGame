@@ -102,21 +102,20 @@ exports.createSummaryGIF = function(req, res){
         console.log('screenshots were saved');
     });*/
     
-    var command = 
-    ffmpeg('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4')
+    var command = ffmpeg('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4')
       .on('end', function(files) {
         console.log('screenshots were saved as ' + files);
           res.send('screenshots were saved as ' + files);
       })
       .on('error', function(err) {
         console.log('an error happened: ' + err.message);
-      })
-      .screenshots({
+      });
+      /*.screenshots({
         timestamps: [0],
         filename: 'thumbnail-at-%s-seconds.png',
         folder: '../../assets',
         size: '320x240'
-      });
+      });*/
 }
 
 
