@@ -102,10 +102,26 @@ exports.createSummaryGIF = function(req, res){
         console.log('screenshots were saved');
     });*/
     
-    ffmpeg.ffprobe('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4',function(err, metadata) {
+    /*ffmpeg.ffprobe('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4',function(err, metadata) {
        var textt = require('util').inspect(metadata, false, null);
        res.send(textt);
-    });
+    });*/
+    
+    var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+  // setup event handlers
+  .on('filenames', function(filenames) {
+      var fileNs = 'screenshots are ' + filenames.join(', ');
+      res.send(fileNs);
+  })
+  .on('end', function() {
+    console.log('screenshots were saved');
+  })
+  .on('error', function(err) {
+    console.log('an error happened: ' + err.message);
+      res.send(err.message);
+  })
+  // take 2 screenshots at predefined timemarks and size
+  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100' }, '/views');
     
     /*var command = ffmpeg('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4')
       .on('end', function(files) {
