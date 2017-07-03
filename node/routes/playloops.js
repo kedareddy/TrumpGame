@@ -109,13 +109,13 @@ exports.createSummaryGIF = function(req, res){
       })
       .on('error', function(err) {
         console.log('an error happened: ' + err.message);
-      });
-      /*.screenshots({
+      })
+      .screenshots({
         timestamps: [0],
         filename: 'thumbnail-at-%s-seconds.png',
-        folder: '../../assets',
+        folder: '/views',
         size: '320x240'
-      });*/
+      });
 }
 
 
