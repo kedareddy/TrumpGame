@@ -91,7 +91,7 @@ exports.createSummaryGIF = function(req, res){
    
     console.log("in the function!!@!@!");
     //res.send("hahahahahah"); 
-    var proc = new ffmpeg({ source: 'https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4' })
+    /*var proc = new ffmpeg({ source: 'https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4' })
       .withSize('150x100')
       .takeScreenshots(2, '/playloops-img/sign-s3', function(err, filenames) {
         if(err){
@@ -100,7 +100,23 @@ exports.createSummaryGIF = function(req, res){
         res.send(filenames);
         console.log(filenames);
         console.log('screenshots were saved');
-    });
+    });*/
+    
+    var command = 
+    ffmpeg('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4')
+      .on('end', function(files) {
+        console.log('screenshots were saved as ' + files);
+          res.send('screenshots were saved as ' + files);
+      })
+      .on('error', function(err) {
+        console.log('an error happened: ' + err.message);
+      })
+      .screenshots({
+        timestamps: [0],
+        filename: 'thumbnail-at-%s-seconds.png',
+        folder: '../../assets',
+        size: '320x240'
+      });
 }
 
 
