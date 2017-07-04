@@ -46,6 +46,7 @@ app.get('/createSummaryGIF', playloops.createSummaryGIF);
 app.get('/playloops-img/sign-s3', playloops.signS3);
 
 app.get('/view/:id', playloops.renderPlayLoop);
+/*app.get('/view/images:id', playloops.renderPlayLoop);*/
 
 console.log("routes set");
 
