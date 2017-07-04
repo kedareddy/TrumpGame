@@ -110,7 +110,7 @@ exports.createSummaryGIF = function(req, res){
       res.send(err.message);
   })
   // take 2 screenshots at predefined timemarks and size
-  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100' }, '/temp');
+  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100' }, '/assets');
     
 
 }
