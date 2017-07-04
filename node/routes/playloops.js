@@ -99,7 +99,7 @@ exports.createSummaryGIF = function(req, res){
     var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   // setup event handlers
   .on('filenames', function(filenames) {
-      var fileNs = 'screenshots are ' + filenames.join(', ');
+      var fileNs = 'screenshots are ' + filenames.join(', ') +  process.cwd();
       res.send(fileNs);
   })
   .on('end', function() {
