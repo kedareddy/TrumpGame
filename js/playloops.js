@@ -40,6 +40,7 @@
     
        $.get( PLAYLOOPS_GET_URL, function( data ) {
            console.log( "##$#create Summary GIF result: " + data );
+           stitchGIF();
         });
     }
 
