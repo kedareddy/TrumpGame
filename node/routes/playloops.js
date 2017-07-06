@@ -123,7 +123,7 @@ exports.createSummaryGIF = function(req, res){
 
 exports.stitchGIF = function(req, res){
     
-var tempPath = path.resolve() + "/temp/" + "tn_%03d.png";
+var tempPath = path.resolve() + "/temp/" + "*.png";
     //res.send(tempPath);
     var proc = new ffmpeg({ source: tempPath })
       .saveToFile('temp/my.gif', function(stdout, stderr) {
