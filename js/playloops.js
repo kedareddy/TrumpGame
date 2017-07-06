@@ -43,6 +43,14 @@
         });
     }
 
+    function stitchGIF(){
+        const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/stitchGIF";
+    
+       $.get( PLAYLOOPS_GET_URL, function( data ) {
+           console.log( "GIF at: " + data );
+        });
+    }
+
     //generates a 26 byte long low-ascii string 
     function generateUUID() {
         return Math.random().toString(36).substring(2, 15) +
