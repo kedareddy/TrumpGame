@@ -123,13 +123,13 @@ exports.createSummaryGIF = function(req, res){
 
 exports.stitchGIF = function(req, res){
     
-var tempPath = path.resolve() + "/temp/" + "tn_%2d.png";
-    res.send(tempPath);
-    /*var proc = new ffmpeg({ source: tempPath })
+var tempPath = path.resolve() + "/temp/" + "tn_%03d.png";
+    //res.send(tempPath);
+    var proc = new ffmpeg({ source: tempPath })
       .saveToFile('temp/my.gif', function(stdout, stderr) {
-        console.log('file has been created with soundtrack succesfully');
+        //console.log('file has been created with soundtrack succesfully');
           res.send("gif created on server!");
-      });*/
+      });
 }
 
 
