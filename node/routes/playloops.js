@@ -3,6 +3,7 @@
 const util = require('util')
 
 var ffmpeg = require('fluent-ffmpeg/index');
+var path = require('path'); 
 
 var mongo = require('mongodb');
 
@@ -99,7 +100,7 @@ exports.createSummaryGIF = function(req, res){
     var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   // setup event handlers
   .on('filenames', function(filenames) {
-      var fileNs = 'screenshots are ' + filenames.join(', ') +  process.cwd();
+      var fileNs = 'screenshots are ' + filenames.join(', ') +  path.resolve(__dirname);
       res.send(fileNs);
   })
   .on('end', function() {
@@ -110,7 +111,9 @@ exports.createSummaryGIF = function(req, res){
       res.send(err.message);
   })
   // take 2 screenshots at predefined timemarks and size
-  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100' }, __dirname);
+  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100' }, path.resolve(__dirname), function(stdout, stderr) {
+    console.log('file has been converted succesfully');
+  });
     
 
 }
