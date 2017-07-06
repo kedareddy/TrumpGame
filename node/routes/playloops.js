@@ -100,12 +100,13 @@ exports.createSummaryGIF = function(req, res){
        res.send(textt);
     });*/
     
-    var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
-  // setup event handlers
-  .on('filenames', function(filenames) {
+      // setup event handlers
+  /*.on('filenames', function(filenames) {
       var fileNs = 'screenshots are ' + filenames.join(', ') +  path.resolve();
       res.send(fileNs);
-  })
+  })*/
+    
+    var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .on('end', function() {
     console.log('screenshots were saved');
   })
@@ -114,8 +115,9 @@ exports.createSummaryGIF = function(req, res){
       res.send(err.message);
   })
   // take 2 screenshots at predefined timemarks and size
-  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100', fileName: 'image_%d.png'}, tempPath, function(stdout, stderr) {
+  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100', filename: 'image_%i.png'}, tempPath, function(err, filenames) {
     console.log('file has been converted succesfully');
+      res.send(filenames);
   });
     
 
@@ -123,10 +125,10 @@ exports.createSummaryGIF = function(req, res){
 
 exports.stitchGIF = function(req, res){
     
-var tempPath = path.resolve() + "/temp/" + "image_%02d.png";
+var tempPath = path.resolve() + "/temp/" + "image_%2d.png";
     //res.send(tempPath);
     var proc = new ffmpeg({ source: tempPath })
-      .saveToFile('temp/my.mp4', function(stdout, stderr) {
+      .saveToFile('temp/my.gif', function(stdout, stderr) {
         //console.log('file has been created with soundtrack succesfully');
           res.send("gif created on server!");
       });
