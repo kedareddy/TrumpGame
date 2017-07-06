@@ -4,6 +4,7 @@ const util = require('util')
 
 var ffmpeg = require('fluent-ffmpeg/index');
 var path = require('path'); 
+var fs = require('fs');
 
 var mongo = require('mongodb');
 
@@ -92,6 +93,8 @@ exports.createSummaryGIF = function(req, res){
    
     console.log("in the function!!@!@!");
     
+    var tempPath = path.resolve() + "/temp";
+    
     /*ffmpeg.ffprobe('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4',function(err, metadata) {
        var textt = require('util').inspect(metadata, false, null);
        res.send(textt);
@@ -111,7 +114,7 @@ exports.createSummaryGIF = function(req, res){
       res.send(err.message);
   })
   // take 2 screenshots at predefined timemarks and size
-  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100' }, path.resolve(), function(stdout, stderr) {
+  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100' }, tempPath, function(stdout, stderr) {
     console.log('file has been converted succesfully');
   });
     
@@ -214,6 +217,20 @@ exports.renderPlayLoop = function(req,res) {
  	    }
    	);
                 
+    });
+
+}
+
+exports.renderTempImage = function(req,res) {
+
+    var id = req.params.id;
+    
+    var file = 'https://www.playloops.io/' + id;
+    
+    var s = fs.createReadStream(file);
+    s.on('open', function () {
+        res.setHeader('Content-Type', type);
+        s.pipe(res);
     });
 
 }
