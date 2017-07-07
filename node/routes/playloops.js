@@ -120,25 +120,23 @@ exports.createSummaryGIF = function(req, res){
       res.send(filenames);
   });*/
     
-     var proc = new ffmpeg();
-    tempPath = path.resolve() + "/temp/image_%02d.png";
-
-    proc.addInput(tempPath)
-    .on('start', function(ffmpegCommand) {
-        /// log something maybe
-    })
-    .on('progress', function(data) {
-        /// do stuff with progress data if you want
-    })
-    .on('end', function() {
-        /// encoding is complete, so callback or move on at this point
-        res.send("finished!");
-    })
-    .on('error', function(error) {
-        /// error handling
-    })
-    .output('temp/out.gif')
-    .run();
+    var tempPath1 = path.resolve() + "/temp/image_001.png";
+     var tempPath2 = path.resolve() + "/temp/target.gif";
+ var proc = ffmpeg(tempPath1)
+  // loop for 5 seconds
+  .loop(1)
+  // using 25 fps
+  .fps(12)
+  // setup event handlers
+  .on('end', function() {
+    console.log('file has been converted succesfully');
+      res.send("finished");
+  })
+  .on('error', function(err) {
+    console.log('an error happened: ' + err.message);
+  })
+  // save to file
+  .save(tempPath2);
     
 
 }
