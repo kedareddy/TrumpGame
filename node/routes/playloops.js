@@ -106,7 +106,7 @@ exports.createSummaryGIF = function(req, res){
       res.send(fileNs);
   })*/
     
-    var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+  /*  var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .on('end', function() {
     console.log('screenshots were saved');
   })
@@ -119,8 +119,8 @@ exports.createSummaryGIF = function(req, res){
     console.log('file has been converted succesfully');
       res.send(filenames);
   });
-    
-  /*  var tempPath1 = path.resolve() + "/temp/image_001.png";
+    */
+    var tempPath1 = path.resolve() + "/temp/image_001.png";
      var tempPath2 = path.resolve() + "/temp/target.gif";
  var proc = ffmpeg('http://musicresourcecenter.org/wp-content/uploads/2016/04/Dance-Image.png')
   // loop for 5 seconds
@@ -136,7 +136,7 @@ exports.createSummaryGIF = function(req, res){
     console.log('an error happened: ' + err.message);
   })
   // save to file
-  .save(tempPath2);*/
+  .save(tempPath2);
     
 
 }
