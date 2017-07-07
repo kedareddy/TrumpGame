@@ -115,7 +115,7 @@ exports.createSummaryGIF = function(req, res){
       res.send(err.message);
   })
   // take 2 screenshots at predefined timemarks and size
-  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100', filename: 'image_%i.png'}, tempPath, function(err, filenames) {
+  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100', filename: 'image_00%i.png'}, tempPath, function(err, filenames) {
     console.log('file has been converted succesfully');
       res.send(filenames);
   });
@@ -125,7 +125,7 @@ exports.createSummaryGIF = function(req, res){
 
 exports.stitchGIF = function(req, res){
     
-var tempPath = path.resolve() + "/temp/" + "image_%2d.png";
+var tempPath = path.resolve() + "/temp/" + "image_%02d.png";
     //res.send(tempPath);
     var proc = new ffmpeg({ source: tempPath })
       .saveToFile('temp/my.gif', function(stdout, stderr) {
@@ -234,11 +234,23 @@ exports.renderPlayLoop = function(req,res) {
 
 }
 
+var mime = {
+    html: 'text/html',
+    txt: 'text/plain',
+    css: 'text/css',
+    gif: 'image/gif',
+    jpg: 'image/jpeg',
+    png: 'image/png',
+    svg: 'image/svg+xml',
+    js: 'application/javascript'
+};
+
 exports.renderTempImage = function(req,res) {
 
     var id = req.params.id;
     
     var file = 'https://www.playloops.io/' + id;
+    var type = mime[path.extname(file).slice(1)] || 'text/plain';
     
     var s = fs.createReadStream(file);
     s.on('open', function () {
