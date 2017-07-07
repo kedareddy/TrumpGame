@@ -136,11 +136,33 @@ var tempPath = path.resolve() + "/temp/image_%02d.png";
       });
     */
     
-var proc = new ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+/*var proc = new ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
       .saveToFile('temp/my.gif', function(stdout, stderr) {
         //console.log('file has been created with soundtrack succesfully');
           res.send("gif created on server!");
-      });
+      });*/
+    
+    var proc = new ffmpeg();
+
+    proc.addInput(tempPath)
+    .on('start', function(ffmpegCommand) {
+        /// log something maybe
+    })
+    .on('progress', function(data) {
+        /// do stuff with progress data if you want
+    })
+    .on('end', function() {
+        /// encoding is complete, so callback or move on at this point
+        res.send("finished!");
+    })
+    .on('error', function(error) {
+        /// error handling
+    })
+    .output('temp/out.mp4')
+    .run();
+/*
+    .addInputOption('-framerate 20')
+    .outputOptions(['-c:v libx264', '-r 30', '-pix_fmt yuv420p'])*/
 
 }
 
