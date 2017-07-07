@@ -116,7 +116,7 @@ exports.createSummaryGIF = function(req, res){
   })
   // take 2 screenshots at predefined timemarks and size
   .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100', filename: 'image_00%i.png'}, tempPath, function(err, filenames) {
-    console.log('file has been converted succesfully');
+    console.log('file has been converted succesfullyh');
       res.send(filenames);
   });
     
