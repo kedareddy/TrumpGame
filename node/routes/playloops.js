@@ -122,7 +122,7 @@ exports.createSummaryGIF = function(req, res){
     
     var tempPath1 = path.resolve() + "/temp/image_001.png";
      var tempPath2 = path.resolve() + "/temp/target.gif";
- var proc = ffmpeg(tempPath1)
+ var proc = ffmpeg('http://musicresourcecenter.org/wp-content/uploads/2016/04/Dance-Image.png')
   // loop for 5 seconds
   .loop(1)
   // using 25 fps
@@ -284,7 +284,13 @@ exports.renderPlayLoop = function(req,res) {
 
 }
 
-var mime = {
+
+
+exports.renderTempImage = function(req,res) {
+
+    var id = req.params.id;
+    
+    var mime = {
     html: 'text/html',
     txt: 'text/plain',
     css: 'text/css',
@@ -294,13 +300,9 @@ var mime = {
     svg: 'image/svg+xml',
     js: 'application/javascript'
 };
-
-exports.renderTempImage = function(req,res) {
-
-    var id = req.params.id;
     
     var file = 'https://www.playloops.io/' + id;
-    var type = mime[path.extname(file).slice(1)] || 'text/plain';
+    //var type = mime[path.extname(file).slice(1)] || 'text/plain';
     
     var s = fs.createReadStream(file);
     s.on('open', function () {
