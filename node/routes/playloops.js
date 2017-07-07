@@ -106,7 +106,7 @@ exports.createSummaryGIF = function(req, res){
       res.send(fileNs);
   })*/
     
-    var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+   /* var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .on('end', function() {
     console.log('screenshots were saved');
   })
@@ -118,7 +118,27 @@ exports.createSummaryGIF = function(req, res){
   .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100', filename: 'image_00%i.png'}, tempPath, function(err, filenames) {
     console.log('file has been converted succesfully');
       res.send(filenames);
-  });
+  });*/
+    
+     var proc = new ffmpeg();
+    tempPath = path.resolve() + "/temp/image_%02d.png";
+
+    proc.addInput(tempPath)
+    .on('start', function(ffmpegCommand) {
+        /// log something maybe
+    })
+    .on('progress', function(data) {
+        /// do stuff with progress data if you want
+    })
+    .on('end', function() {
+        /// encoding is complete, so callback or move on at this point
+        res.send("finished!");
+    })
+    .on('error', function(error) {
+        /// error handling
+    })
+    .output('temp/out.gif')
+    .run();
     
 
 }
