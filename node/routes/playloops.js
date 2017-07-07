@@ -129,19 +129,19 @@ var tempPath = path.resolve() + "/temp/image_%02d.png";
     var tempPath1 = path.resolve() + "/temp/image_001.png";
     var tempPath2 = path.resolve() + "/temp/image_002.png";
     //res.send(tempPath);
-   /* var proc = new ffmpeg({ source: tempPath })
+    var proc = new ffmpeg({ source: tempPath })
       .saveToFile('temp/my.mp4', function(stdout, stderr) {
         //console.log('file has been created with soundtrack succesfully');
           res.send("gif created on server!");
-      });*/
+      });
     
     
-var proc = new ffmpeg({source: "tempPath1"})
+/*var proc = new ffmpeg({source: "tempPath1"})
     .mergeAdd("tempPath2")
     .mergeToFile("out.gif", "temp/", function(){
         console.log('files has been merged succesfully');
         res.send("gif at out made");
-     });
+     });*/
 }
 
 
