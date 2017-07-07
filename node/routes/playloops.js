@@ -121,7 +121,7 @@ exports.createSummaryGIF = function(req, res){
   });
     */
     var tempPath1 = path.resolve() + "/temp/image_001.png";
-     var tempPath2 = path.resolve() + "/temp/target.gif";
+     var tempPath2 = path.resolve() + "/temp/target.m4v";
  var proc = ffmpeg('http://musicresourcecenter.org/wp-content/uploads/2016/04/Dance-Image.png')
   // loop for 5 seconds
   .loop(1)
