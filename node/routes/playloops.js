@@ -120,8 +120,8 @@ exports.createSummaryGIF = function(req, res){
       res.send(filenames);
   });
     */
-    var tempPath1 = path.resolve() + "/temp/image_001.png";
-     var tempPath2 = path.resolve() + "/temp/target.m4v";
+    var tempPath1 = path.resolve() + '/temp/image_001.png';
+     var tempPath2 = path.resolve() + '/temp/target.m4v';
  var proc = ffmpeg('http://musicresourcecenter.org/wp-content/uploads/2016/04/Dance-Image.png')
   // loop for 5 seconds
   .loop(1)
@@ -130,7 +130,7 @@ exports.createSummaryGIF = function(req, res){
   // setup event handlers
   .on('end', function() {
     console.log('file has been converted succesfully');
-      res.send("finished");
+      res.send('finished');
   })
   .on('error', function(err) {
     console.log('an error happened: ' + err.message);
