@@ -938,9 +938,9 @@ $(document).ready(function(){
         }
         
         if(event.target == publishButton){
-            exportPlayLoop();
+            //exportPlayLoop();
             $("#publishModal").show(); 
-            //uploadContent(); 
+            uploadContent(); 
             //generateSummaryGIF(); 
         }
         if (event.target == publishModal || event.target == publishExit) {
@@ -1929,6 +1929,7 @@ $(document).ready(function(){
                 //$("#spinnerParent").hide();
                 //spinner.stop();
                 //createSummaryGIF();
+                console.log("done");
                 
                 //console.log("*** Finished image uploads: " + playloop_dict['playloop_url'])
                 //return $.get(playloop_dict['playloop_url']);

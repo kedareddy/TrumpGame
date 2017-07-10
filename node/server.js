@@ -41,13 +41,13 @@ app.post('/playloops', playloops.addPlayloop);
 app.put('/playloops/:id', playloops.updatePlayloop);
 app.delete('/playloops/:id', playloops.deletePlayloop);
 app.get('/playloops-all/', playloops.findAll);
-app.get('/createSummaryGIF', playloops.createSummaryGIF);
+/*app.get('/createSummaryGIF', playloops.createSummaryGIF);
 app.get('/stitchGIF', playloops.stitchGIF);
-
+*/
 app.get('/playloops-img/sign-s3', playloops.signS3);
 
 app.get('/view/:id', playloops.renderPlayLoop);
-app.get('/temp/:id', playloops.renderTempImage);
+/*app.get('/temp/:id', playloops.renderTempImage);*/
 
 console.log("routes set");
 
