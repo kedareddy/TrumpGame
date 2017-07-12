@@ -1930,6 +1930,8 @@ $(document).ready(function(){
                 //spinner.stop();
                 //createSummaryGIF();
                 console.log("done");
+                $('#exportURL').attr('href', playloop_dict['playloop_url']);
+                $('#exportTextArea').val(playloop_dict['playloop_url']);
                 
                 //console.log("*** Finished image uploads: " + playloop_dict['playloop_url'])
                 //return $.get(playloop_dict['playloop_url']);

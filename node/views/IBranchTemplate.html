@@ -55,6 +55,14 @@
     <audio id="popAudio" src="/audio/cartoon.mp3" autostart="false" ></audio>
     <audio id="pushAudio" src="/audio/blinking.mp3" autostart="false" ></audio>
     <div style="font-family:'MyDosis'">&nbsp;</div>
+    
+    <blockquote class="embedly-card">
+        <h4><a href="http://embed.ly/docs">My PlayLoop</a></h4>
+        <p>
+          Play more at playloops.io!
+        </p>
+    </blockquote>
+    
 </section>
     
 <style> 
@@ -111,6 +119,18 @@
 </style>       
 
 <script>
+//Embedly importing player.js    
+(function(w, d){
+    var id='embedly-platform', n = 'script';
+    if (!d.getElementById(id)){
+     w.embedly = w.embedly || function() {(w.embedly.q = w.embedly.q || []).push(arguments);};
+     var e = d.createElement(n); e.id = id; e.async=1;
+     e.src = ('https:' === document.location.protocol ? 'https' : 'http') + '://cdn.embedly.com/widgets/platform.js';
+     var s = d.getElementsByTagName(n)[0];
+     s.parentNode.insertBefore(e, s);
+    }
+})(window, document);
+//End Embedly stuff
     
 //var canvas = new fabric.Canvas('maincanvas');
 // Add a new rectangular canvas with fill representing specified gradient
