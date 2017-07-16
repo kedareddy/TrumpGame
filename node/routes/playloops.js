@@ -93,8 +93,9 @@ exports.createSummaryGIF = function(req, res){
    
     console.log("in the function!!@!@!");
     
-    var tempPath = path.resolve() + "/temp";
-    
+    //var tempPath = path.resolve() + "/temp";
+    var tempPath = "/tmp";   
+ 
     /*ffmpeg.ffprobe('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4',function(err, metadata) {
        var textt = require('util').inspect(metadata, false, null);
        res.send(textt);
