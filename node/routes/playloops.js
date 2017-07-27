@@ -92,22 +92,11 @@ exports.signS3 = function(req, res) {
 exports.createSummaryGIF = function(req, res){
    
     console.log("in the function!!@!@!");
-    
-    //var tempPath = path.resolve() + "/temp";
+
     var tempPath = "/tmp";   
- 
-    /*ffmpeg.ffprobe('https://media.giphy.com/media/3rgXBvnbXtxwaWmhr2/giphy.mp4',function(err, metadata) {
-       var textt = require('util').inspect(metadata, false, null);
-       res.send(textt);
-    });*/
+
     
-      // setup event handlers
-  /*.on('filenames', function(filenames) {
-      var fileNs = 'screenshots are ' + filenames.join(', ') +  path.resolve();
-      res.send(fileNs);
-  })*/
-    
-    var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+    /*var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .on('end', function() {
     console.log('screenshots were saved');
   })
@@ -119,25 +108,21 @@ exports.createSummaryGIF = function(req, res){
   .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100', filename: 'image_00%i.png'}, tempPath, function(err, filenames) {
     console.log('file has been converted succesfullyh');
       res.send(filenames);
-  });
+  });*/
     
-   /* var tempPath1 = path.resolve() + '/temp/image_001.png';
-     var tempPath2 = path.resolve() + '/temp/target.m4v';
- var proc = ffmpeg('http://musicresourcecenter.org/wp-content/uploads/2016/04/Dance-Image.png')
-  // loop for 5 seconds
-  .loop(1)
-  // using 25 fps
-  .fps(12)
-  // setup event handlers
+  ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+  .on('filenames', function(filenames) {
+    console.log('Will generate ' + filenames.join(', '));
+    res.send(filenames);
+  })
   .on('end', function() {
-    console.log('file has been converted succesfully');
-      res.send('finished');
+    console.log('Screenshots taken');
   })
-  .on('error', function(err) {
-    console.log('an error happened: ' + err.message);
-  })
-  // save to file
-  .save(tempPath2);*/
+  .screenshots({
+    // Will take screens at 20%, 40%, 60% and 80% of the video
+    count: 4,
+    folder: tempPath
+  });    
     
 
 }
