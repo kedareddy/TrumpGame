@@ -287,7 +287,7 @@ exports.renderTempImage = function(req,res) {
     js: 'application/javascript'
 };
     
-    var file = 'https://www.playloops.io/' + id;
+    var file = 'https://www.playloops.io/tmp/' + id;
     //var type = mime[path.extname(file).slice(1)] || 'text/plain';
     
     var s = fs.createReadStream(file);
