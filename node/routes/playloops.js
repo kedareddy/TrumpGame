@@ -93,7 +93,7 @@ exports.createSummaryGIF = function(req, res){
    
     console.log("in the function!!@!@!");
 
-    var tempPath = "/tmp";   
+    var tempPath = __dirname + "/../tmp";   
 
     
     /*var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
