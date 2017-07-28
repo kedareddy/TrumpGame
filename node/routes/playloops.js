@@ -120,7 +120,6 @@ exports.createSummaryGIF = function(req, res){
   })
   .screenshots({
     // Will take screens at 20%, 40%, 60% and 80% of the video
-    count: 4,
     folder: tempPath
   });    
     
