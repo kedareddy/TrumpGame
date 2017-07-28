@@ -110,7 +110,7 @@ exports.createSummaryGIF = function(req, res){
       res.send(filenames);
   });*/
     
-  ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+  /*ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .on('filenames', function(filenames) {
     console.log('Will generate ' + filenames.join(', '));
     res.send(filenames);
@@ -120,8 +120,24 @@ exports.createSummaryGIF = function(req, res){
   })
   .screenshots({
     // Will take screens at 20%, 40%, 60% and 80% of the video
+    count: 4,
     folder: tempPath
-  });    
+  });*/
+    
+  ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+  .output('image-%03d.png')
+  .noAudio()
+  .on('error', function(err) {
+    console.log('An error occurred: ' + err.message);
+  })
+  .on('end', function() {
+    console.log('Processing finished !');
+  })
+  .on('filenames', function(filenames) {
+    console.log('Will generate ' + filenames.join(', '));
+    res.send(filenames);
+  })
+  .run();
     
 
 }
