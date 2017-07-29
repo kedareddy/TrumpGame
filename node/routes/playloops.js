@@ -126,6 +126,7 @@ exports.createSummaryGIF = function(req, res){
     
   ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .output('image-%03d.png')
+  .inputFps(3)
   .noAudio()
   .on('error', function(err) {
     console.log('An error occurred: ' + err.message);
