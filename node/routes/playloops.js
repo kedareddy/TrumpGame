@@ -125,18 +125,14 @@ exports.createSummaryGIF = function(req, res){
   });*/
     
   ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
-  .output('image-%03d.png')
-  .inputFps(3)
+  .output('screenshot.png')
   .noAudio()
+  .seek('0:00')
   .on('error', function(err) {
     console.log('An error occurred: ' + err.message);
   })
   .on('end', function() {
     console.log('Processing finished !');
-  })
-  .on('filenames', function(filenames) {
-    console.log('Will generate ' + filenames.join(', '));
-    res.send(filenames);
   })
   .run();
     
