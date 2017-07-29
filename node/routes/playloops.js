@@ -125,7 +125,7 @@ exports.createSummaryGIF = function(req, res){
   });*/
     
   ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
-  .output('screenshot.png')
+  .output(tempPath + '/screenshot.png')
   .noAudio()
   .seek('0:00')
   .on('error', function(err) {
