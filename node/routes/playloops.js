@@ -2,7 +2,7 @@
 
 const util = require('util')
 
-var ffmpeg = require('fluent-ffmpeg/index');
+//var ffmpeg = require('fluent-ffmpeg/index');
 var path = require('path'); 
 var fs = require('fs');
 
@@ -124,7 +124,7 @@ exports.createSummaryGIF = function(req, res){
     folder: tempPath
   });*/
     
-  ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
+  /*ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .noAudio()
   .seek('0:00')
   .on('error', function(err) {
@@ -133,7 +133,54 @@ exports.createSummaryGIF = function(req, res){
   .on('end', function() {
     console.log('Processing finished !');
   })
-  .save(tempPath + '/screenshot.png');
+  .save(tempPath + '/screenshot.png');*/
+    
+    
+    //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
+    //ffmpeg -framerate 2 -i output_%04d.png output.gif
+    
+    
+    var ffmpeg = spawn('ffmpeg', ['-i', 'https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4', '-r', '0.5', '../tmp/output_%04d.png']);
+    var ffmpeg2; 
+
+    ffmpeg.stderr.on('data', function (data) {
+        console.log(data.toString());
+        //res.send(data.toString());
+    });
+
+    ffmpeg.stderr.on('end', function () {
+        console.log('file has been converted succesfully');
+        ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', '../tmp/output_%04d.png', '../tmp/output.gif']);
+    });
+
+    ffmpeg.stderr.on('exit', function () {
+        console.log('child process exited');
+    });
+
+    ffmpeg.stderr.on('close', function() {
+        console.log('...closing time! bye');
+    });
+    
+    
+    
+    
+    ffmpeg2.stderr.on('data', function (data) {
+        console.log(data.toString());
+        res.send(data.toString());
+    });
+
+    ffmpeg2.stderr.on('end', function () {
+        console.log('file2 has been converted succesfully');
+    });
+
+    ffmpeg2.stderr.on('exit', function () {
+        console.log('child process exited2');
+    });
+
+    ffmpeg2.stderr.on('close', function() {
+        console.log('...closing time2! bye');
+    });
+    
     
 
 }
