@@ -91,25 +91,23 @@ exports.signS3 = function(req, res) {
 
 //Kedar's additions
 exports.createSummaryGIF = function(req, res){
-   
-    console.log("in the function!!@!@!");
-
-    var tempPath = __dirname + "/../tmp";   
-
+   var playloop = req.body;
     
-    /*var proc = ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
-  .on('end', function() {
-    console.log('screenshots were saved');
-  })
-  .on('error', function(err) {
-    console.log('an error happened: ' + err.message);
-      res.send(err.message);
-  })
-  // take 2 screenshots at predefined timemarks and size
-  .takeScreenshots({ count: 2, timemarks: [ '00:00:00.000', '00:00:00.100' ], size: '150x100', filename: 'image_00%i.png'}, tempPath, function(err, filenames) {
-    console.log('file has been converted succesfullyh');
-      res.send(filenames);
-  });*/
+   
+
+   var tempPath = __dirname + "/../tmp";   
+   
+   var mov1URL; 
+    
+   for(var i = 0; i < playloop_dict['scenes'][0].getObjects().length; i++){
+        console.log("in the function!!@!@!");
+       if (workingCanvas.getObjects()[i].name == "video") {
+            console.log("in video!");
+            mov1URL = workingCanvas.getObjects()[i].src;     
+            break;
+        }
+   }
+   
     
   /*ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .on('filenames', function(filenames) {
@@ -125,23 +123,13 @@ exports.createSummaryGIF = function(req, res){
     folder: tempPath
   });*/
     
-  /*ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
-  .noAudio()
-  .seek('0:00')
-  .on('error', function(err) {
-    console.log('An error occurred: ' + err.message);
-  })
-  .on('end', function() {
-    console.log('Processing finished !');
-  })
-  .save(tempPath + '/screenshot.png');*/
-    
+
     
     //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
     
     
-    var ffmpeg = spawn('ffmpeg', ['-i', 'https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4', '-r', '0.5', 'output_%04d.png']);
+    var ffmpeg = spawn('ffmpeg', ['-i', mov1URL, '-r', '0.5', 'output_%04d.png']);
     var ffmpeg2; 
 
     ffmpeg.stderr.on('data', function (data) {
@@ -178,13 +166,7 @@ exports.createSummaryGIF = function(req, res){
     ffmpeg.stderr.on('close', function() {
         console.log('...closing time! bye');
     });
-    
-    
-    
-    
 
-    
-    
 
 }
 
