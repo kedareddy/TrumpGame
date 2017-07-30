@@ -99,7 +99,7 @@ exports.createSummaryGIF = function(req, res){
    
    var mov1URL; 
     
-   for(var i = 0; i < playloop_dict['scenes'][0].getObjects().length; i++){
+   for(var i = 0; i < playloop['scenes'][0].getObjects().length; i++){
         console.log("in the function!!@!@!");
        if (workingCanvas.getObjects()[i].name == "video") {
             console.log("in video!");
