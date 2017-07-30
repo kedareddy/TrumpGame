@@ -146,7 +146,7 @@ exports.createSummaryGIF = function(req, res){
 
     ffmpeg.stderr.on('data', function (data) {
         console.log(data.toString());
-        res.send(data.toString());
+        //res.send(data.toString());
     });
 
     ffmpeg.stderr.on('end', function () {
