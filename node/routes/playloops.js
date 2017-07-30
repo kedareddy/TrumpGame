@@ -146,12 +146,12 @@ exports.createSummaryGIF = function(req, res){
 
     ffmpeg.stderr.on('data', function (data) {
         console.log(data.toString());
-        //res.send(data.toString());
+        res.send(data.toString());
     });
 
     ffmpeg.stderr.on('end', function () {
         console.log('file has been converted succesfully');
-        ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', '../tmp/output_%04d.png', '../tmp/output.gif']);
+        /*ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', '../tmp/output_%04d.png', '../tmp/output.gif']);
         
         ffmpeg2.stderr.on('data', function (data) {
             console.log(data.toString());
@@ -168,7 +168,7 @@ exports.createSummaryGIF = function(req, res){
 
         ffmpeg2.stderr.on('close', function() {
             console.log('...closing time2! bye');
-        });
+        });*/
     });
 
     ffmpeg.stderr.on('exit', function () {
