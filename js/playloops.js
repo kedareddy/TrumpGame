@@ -36,20 +36,24 @@
     
     //Kedar's additions
     function createSummaryGIF(playloop_dict){
-        const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/createSummaryGIF";
-        
-        $.ajax({
-            type: 'POST',
-            //dataType: 'jsonp',
-            data: playloop_dict,
-            url: PLAYLOOPS_GET_URL,
-            success : function(data) { resolve(playloop_dict) },
-            error : function(jqXHR, textStatus, errorThrown) {
-                console.log("Error: Status: "+textStatus+" Message: "+errorThrown);
-                reject("Error: Status:"+textStatus+" Message: "+errorThrown);
-            } 
+        return new Promise( function(resolve, reject) {
+            
+            const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/createSummaryGIF";
 
-        });
+            $.ajax({
+                type: 'POST',
+                //dataType: 'jsonp',
+                data: playloop_dict,
+                url: PLAYLOOPS_GET_URL,
+                success : function(data) { resolve(playloop_dict) },
+                error : function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error: Status: "+textStatus+" Message: "+errorThrown);
+                    reject("Error: Status:"+textStatus+" Message: "+errorThrown);
+                } 
+
+            });
+            
+        });    
     
        /*$.get( PLAYLOOPS_GET_URL, function( data ) {
            console.log( "##$#create Summary GIF result: " + data );
