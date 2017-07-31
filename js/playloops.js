@@ -38,7 +38,7 @@
     function createSummaryGIF(playloop_dict){
         return new Promise( function(resolve, reject) {
             
-            const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/createSummaryGIF";
+            const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/createSummaryGIF/";
 
             $.ajax({
                 type: 'POST',

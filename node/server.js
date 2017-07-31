@@ -42,7 +42,7 @@ app.post('/playloops', playloops.addPlayloop);
 app.put('/playloops/:id', playloops.updatePlayloop);
 app.delete('/playloops/:id', playloops.deletePlayloop);
 app.get('/playloops-all/', playloops.findAll);
-app.get('/createSummaryGIF', playloops.createSummaryGIF);
+app.post('/createSummaryGIF', playloops.createSummaryGIF);
 //app.get('/playloops/tmp/:id', playloops.renderTempImage);
 /*app.get('/stitchGIF', playloops.stitchGIF);
 */
