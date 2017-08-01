@@ -110,7 +110,18 @@ exports.createSummaryGIF = function(req, res){
 
         if (sceneObjects[i].name == "video") {
             console.log("in video!");
-            mov1URL = sceneObjects[i].src;     
+            var urlText = sceneObjects[i].src;
+            /*var indexTC = urlText.indexOf("#t=");
+            var timeCodes = urlText.slice(indexTC+3).split(","); 
+            console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
+            var startTime = timeCodes[0]; 
+            var endTime = timeCodes[1];*/
+            
+            
+            urlText = urlText.split('mp4')[0];
+            
+            
+            mov1URL = urlText + "mp4";     
             break;
         }
    }
