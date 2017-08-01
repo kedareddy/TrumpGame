@@ -1,8 +1,7 @@
 
 
 const util = require('util')
-
-//var ffmpeg = require('fluent-ffmpeg/index');
+var ffmpeg = require('fluent-ffmpeg/index');
 var spawn = require('child_process').spawn;
 var path = require('path'); 
 var fs = require('fs');
