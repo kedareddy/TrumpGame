@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "canvas": "^1.6.6",
     "express": "3.x",
     "fabric": "^2.0.0-beta.4",
     "multer": "^1.2.1"
