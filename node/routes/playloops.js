@@ -7,7 +7,7 @@ var spawn = require('child_process').spawn;
 var path = require('path'); 
 var fs = require('fs');
 var fabric = require('fabric').fabric;
-var Canvas = require('canvas');
+//var Canvas = require('canvas');
 
 var mongo = require('mongodb');
 
