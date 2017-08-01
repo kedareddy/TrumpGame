@@ -109,7 +109,7 @@ exports.createSummaryGIF = function(req, res){
         var klass = fabric.util.getKlass(sceneObjects[i].type);
 
         if (sceneObjects[i].name == "video") {
-            console.log("in video!");
+            
             var urlText = sceneObjects[i].src;
             /*var indexTC = urlText.indexOf("#t=");
             var timeCodes = urlText.slice(indexTC+3).split(","); 
@@ -121,7 +121,8 @@ exports.createSummaryGIF = function(req, res){
             urlText = urlText.split('mp4')[0];
             
             
-            mov1URL = urlText + "mp4";     
+            mov1URL = urlText.concat("mp4"); 
+            console.log("in video!" + mov1URL);
             break;
         }
    }
