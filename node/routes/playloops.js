@@ -6,6 +6,8 @@ const util = require('util')
 var spawn = require('child_process').spawn;
 var path = require('path'); 
 var fs = require('fs');
+var fabric = require('fabric').fabric;
+var Canvas = require('canvas');
 
 var mongo = require('mongodb');
 
@@ -101,9 +103,9 @@ exports.createSummaryGIF = function(req, res){
     
    for(var i = 0; i < playloop['scenes'][0].getObjects().length; i++){
         console.log("in the function!!@!@!");
-       if (workingCanvas.getObjects()[i].name == "video") {
+       if (playloop['scenes'][0].getObjects()[i].name == "video") {
             console.log("in video!");
-            mov1URL = workingCanvas.getObjects()[i].src;     
+            mov1URL = playloop['scenes'][0].getObjects()[i].src;     
             break;
         }
    }
