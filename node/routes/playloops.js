@@ -101,15 +101,20 @@ exports.createSummaryGIF = function(req, res){
    
    var mov1URL; 
     
-   /*for(var i = 0; i < playloop['scenes'][0].getObjects().length; i++){
-        console.log("in the function!!@!@!");
-       if (playloop['scenes'][0].getObjects()[i].name == "video") {
+   var canvasStr = playloop['scenes'][0];
+   var sceneJSON = JSON.parse(canvasStr); 
+   var sceneObjects = sceneJSON.objects;
+   //canvas.setHeight(sceneJSON.height);
+   //canvas.setWidth(sceneJSON.width);    
+   for (var i = 0; i < sceneObjects.length; i++) {
+        var klass = fabric.util.getKlass(sceneObjects[i].type);
+
+        if (sceneObjects[i].name == "video") {
             console.log("in video!");
-            mov1URL = playloop['scenes'][0].getObjects()[i].src;     
+            mov1URL = sceneObjects[i].src;     
             break;
         }
-   }*/
-   
+   }
     
   /*ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
   .on('filenames', function(filenames) {
