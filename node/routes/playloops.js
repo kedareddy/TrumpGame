@@ -185,11 +185,11 @@ exports.createSummaryGIF = function(req, res){
          // }
         
         
-        var stream = canvas.createPNGStream();
+        /*var stream = canvas.createPNGStream();
             stream.on('data', function(chunk) {
             out.write(chunk);
             fs.createWriteStream()
-        });
+        });*/
         
         
         
