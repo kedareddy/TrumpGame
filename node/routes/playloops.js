@@ -130,22 +130,6 @@ exports.createSummaryGIF = function(req, res){
         }
    }
     
-  /*ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
-  .on('filenames', function(filenames) {
-    console.log('Will generate ' + filenames.join(', '));
-    res.send(filenames);
-  })
-  .on('end', function() {
-    console.log('Screenshots taken');
-  })
-  .screenshots({
-    // Will take screens at 20%, 40%, 60% and 80% of the video
-    count: 4,
-    folder: tempPath
-  });*/
-    
-
-    
     //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
     
@@ -154,13 +138,28 @@ exports.createSummaryGIF = function(req, res){
     var ffmpeg2; 
 
     ffmpeg.stderr.on('data', function (data) {
-        console.log(data.toString());
+        console.log("WTF is DATA??: " + data.toString());
         //res.send(data.toString());
     });
 
     ffmpeg.stderr.on('end', function () {
-        console.log('file has been converted succesfully');
-        ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'output_%04d.png', 'output.gif']);
+        console.log('file has finished splitting into frames ');
+         const files = fs.readdirSync("/");
+          const response = [];
+          for (let file of files) {
+            const extension = path.extname(file);
+            console.log("the extension: " + extension);
+          }
+        
+        res.send("ljlj");
+        
+        /*var img = new Image();
+        img.src = fs.readFileSync('/path/to/file.png');
+        var canvas = fabric.createCanvasForNode(200, 200);
+        canvas.add(new fabric.Image(img));*/
+        
+        
+        /*ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'output_%04d.png', 'output.gif']);
         
         ffmpeg2.stderr.on('data', function (data) {
             console.log(data.toString());
@@ -177,7 +176,7 @@ exports.createSummaryGIF = function(req, res){
 
         ffmpeg2.stderr.on('close', function() {
             console.log('...closing time2! bye');
-        });
+        });*/
     });
 
     ffmpeg.stderr.on('exit', function () {
