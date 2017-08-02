@@ -148,7 +148,7 @@ exports.createSummaryGIF = function(req, res){
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
     
     
-    var ffmpeg = spawn('ffmpeg', ['-i', 'https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4', '-r', '0.5', 'output_%04d.png']);
+    var ffmpeg = spawn('ffmpeg', ['-i', 'http://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4', '-r', '0.5', 'output_%04d.png']);
     var ffmpeg2; 
 
     ffmpeg.stderr.on('data', function (data) {
