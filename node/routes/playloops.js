@@ -145,10 +145,10 @@ exports.createSummaryGIF = function(req, res){
     ffmpeg.stderr.on('end', function () {
         //__dirname is where this file is locate, process.cwd() is inside the node folder?  
         console.log('file has finished splitting into frames. __dirname: ' + __dirname + ":p:" + process.cwd() );
-          const files = fs.readdirSync(path.join(__dirname, '/../../'));
-          
+          var files = fs.readdirSync(path.join(__dirname, '/../../'));
+          console.log("where is node looking: " + path.join(__dirname, '/../../')); 
           for (var j = 0; j < files.length; j++) {
-            var extension = path.extname(file);
+            var extension = path.extname(files[j]);
             console.log("the extension: " + extension);
           }
         
