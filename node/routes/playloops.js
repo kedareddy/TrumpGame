@@ -103,6 +103,7 @@ exports.createSummaryGIF = function(req, res){
    var canvasStr = playloop['scenes'][0];
    var sceneJSON = JSON.parse(canvasStr); 
    var sceneObjects = sceneJSON.objects;
+   var addOnObjs = []; 
    //canvas.setHeight(sceneJSON.height);
    //canvas.setWidth(sceneJSON.width);    
    for (var i = 0; i < sceneObjects.length; i++) {
@@ -128,7 +129,19 @@ exports.createSummaryGIF = function(req, res){
             console.log("in video!" + mov1URL);
             break;
         }
+        else{
+            if(sceneObjects[i].name != "cursor"){
+                var aObj = klass.fromObject(sceneObjects[i]);
+                addOnObjs.add(aObj);
+            }
+        }
    }
+    
+    
+   //define fabric canvas
+    var canvas = fabric.createCanvasForNode(200, 200);
+    canvas.setHeight(sceneJSON.height);
+    canvas.setWidth(sceneJSON.width);
     
     //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
@@ -147,12 +160,38 @@ exports.createSummaryGIF = function(req, res){
         console.log('file has finished splitting into frames. __dirname: ' + __dirname + ":p:" + process.cwd() );
           var files = fs.readdirSync(path.join(__dirname, '/../../'));
           console.log("where is node looking: " + path.join(__dirname, '/../../')); 
-          for (var j = 0; j < files.length; j++) {
-            var extension = path.extname(files[j]);
-            console.log("the extension: " + extension);
-          }
         
-        res.send("ljlj");
+          //for (var j = 0; j < files.length; j++) {
+        var j = 0; 
+                var extension = path.extname(files[j]);
+                console.log("the extension: " + extension);
+                if(extension == ".png"){
+                    //clear canvas
+                    canvas.clear();
+                    
+                    var img = new Image(); 
+                    img.onload = function() {
+                        //add image
+                        canvas.add(new fabric.Image(img));
+                        //add other elements
+                        for(var p = 0; p < addOnObjs.length; p++){
+                            canvas.add(addOnObjs[p]);
+                        }
+                        //export to file
+                        fs.writeFile('/app/' + files[j].path, canvas.toBuffer());
+                    };
+                    img.src = files[j];
+                }
+         // }
+        
+        
+        var stream = canvas.createPNGStream();
+            stream.on('data', function(chunk) {
+            out.write(chunk);
+            fs.createWriteStream()
+        });
+        
+        
         
         /*var img = new Image();
         img.src = fs.readFileSync('/path/to/file.png');
