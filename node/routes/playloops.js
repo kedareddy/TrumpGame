@@ -260,6 +260,7 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs) {
             for(var p = 0; p < addOnObjs.length; p++){
                 c.add(addOnObjs[p]);
             }
+            c.renderAll(); 
             //export to file
             var stream = c.createPNGStream();
             stream.on('data', function(chunk) {
