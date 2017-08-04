@@ -164,8 +164,8 @@ exports.createSummaryGIF = function(req, res){
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
-                    console.log("file path of png: " + files[j].path + " name: " + path.basename(files[j].path));
-                     var result = populateFrames(canvas, files[j], files[j].path, addOnObjs);
+                    //console.log("file path of png: " + files[j].path + " name: " + path.basename(files[j].path));
+                     var result = populateFrames(canvas, files[j], "/", addOnObjs);
                     promises.add(result);
                     //clear canvas
                     /*canvas.clear();
