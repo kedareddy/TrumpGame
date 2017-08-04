@@ -105,7 +105,7 @@ exports.createSummaryGIF = function(req, res){
    var vPosY =0;
    //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
-        var klass = fabric.util.getKlass(sceneObjects[i].type);
+        //var klass = fabric.util.getKlass(sceneObjects[i].type);
 
         if (sceneObjects[i].name == "video") {
             
@@ -127,7 +127,7 @@ exports.createSummaryGIF = function(req, res){
         }
         else{
             if(sceneObjects[i].name != "cursor"){
-                var aObj = klass.fromObject(sceneObjects[i]);
+                var aObj = sceneObjects[i];//  klass.fromObject(sceneObjects[i]);
                 addOnObjs.push(aObj);
             }
         }
