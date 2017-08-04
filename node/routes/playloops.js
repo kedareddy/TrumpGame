@@ -93,19 +93,14 @@ exports.signS3 = function(req, res) {
 //Kedar's additions
 exports.createSummaryGIF = function(req, res){
    var playloop = req.body;
-    
-   
-
    var tempPath = __dirname + "/../tmp";   
    
    var mov1URL; 
-    
    var canvasStr = playloop['scenes'][0];
    var sceneJSON = JSON.parse(canvasStr); 
    var sceneObjects = sceneJSON.objects;
    var addOnObjs = []; 
-   //canvas.setHeight(sceneJSON.height);
-   //canvas.setWidth(sceneJSON.width);    
+   //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
         var klass = fabric.util.getKlass(sceneObjects[i].type);
 
@@ -117,10 +112,7 @@ exports.createSummaryGIF = function(req, res){
             console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
             var startTime = timeCodes[0]; 
             var endTime = timeCodes[1];*/
-            
-            
             urlText = urlText.split('mp4')[0];
-            
             
             mov1URL = urlText.concat("mp4"); 
             if(mov1URL.match('^https://')){
@@ -145,8 +137,7 @@ exports.createSummaryGIF = function(req, res){
     
     //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
-    
-    
+    //first break up the first scene into frames
     var ffmpeg = spawn('ffmpeg', ['-i',mov1URL, '-r', '0.5', 'output_%04d.png']);
     var ffmpeg2; 
 
@@ -156,18 +147,27 @@ exports.createSummaryGIF = function(req, res){
     });
 
     ffmpeg.stderr.on('end', function () {
-        //__dirname is where this file is locate, process.cwd() is inside the node folder?  
+        //__dirname is where this file is located, process.cwd() is inside the node folder?  
         console.log('file has finished splitting into frames. __dirname: ' + __dirname + ":p:" + process.cwd() );
           var files = fs.readdirSync(path.join(__dirname, '/../../'));
           console.log("where is node looking: " + path.join(__dirname, '/../../')); 
         
-          //for (var j = 0; j < files.length; j++) {
-        var j = 0; 
+          var promises = []; 
+          /*const promises = files.map(file => {
+            const source = file.path;
+            const destination = path.join('/tmp', file.path);
+            return copyFile(source, destination);
+          });*/
+        
+          for (var j = 0; j < files.length; j++) {
+         
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
+                     var result = populateFrames(canvas, files[j], files[j].path, addOnObjs);
+                    promises.add(result);
                     //clear canvas
-                    canvas.clear();
+                    /*canvas.clear();
                     
                     var img = new Image(); 
                     img.onload = function() {
@@ -178,12 +178,20 @@ exports.createSummaryGIF = function(req, res){
                             canvas.add(addOnObjs[p]);
                         }
                         //export to file
-                        fs.writeFile('/app/' + files[j].path, canvas.toBuffer());
+                        fs.writeFile(files[j].path, canvas.toBuffer());
                     };
-                    img.src = files[j];
+                    img.src = files[j];*/
                 }
-         // }
+          }
         
+        
+        Promise.all(promises).then(_ => {
+            // do what you want
+            console.log('done#$@#$@#$@#$@YAYAYAYA');
+        }).catch(err => {
+            // handle I/O error
+            console.error(err);
+        });
         
         /*var stream = canvas.createPNGStream();
             stream.on('data', function(chunk) {
@@ -231,6 +239,42 @@ exports.createSummaryGIF = function(req, res){
 
 
 }
+
+function populateFrames(c, orgImg, orgImgPath, addOnObjs) {
+    //const input = fs.createReadStream(source);
+    //const output = fs.createWriteStream(destination);
+    //clear canvas
+    c.clear();
+    var out = fs.createWriteStream(orgImgPath);
+
+    return new Promise((resolve, reject) => {
+        var img = new Image(); 
+        img.onload = function() {
+            console.log("image loaded with src");
+            //add image
+            c.add(new fabric.Image(img));
+            //add other elements
+            for(var p = 0; p < addOnObjs.length; p++){
+                c.add(addOnObjs[p]);
+            }
+            //export to file
+            var stream = c.createPNGStream();
+            stream.on('data', function(chunk) {
+                out.write(chunk);
+            });
+            stream.on('end', function() {
+              console.log("finished writing final png");
+                resolve();
+            });
+            stream.on('error', function() {
+              reject();
+            });
+            //fs.writeFile(orgImgPath, c.toBuffer());
+        };
+        img.src = orgImg;
+    });
+}
+
 
 exports.stitchGIF = function(req, res){
     
