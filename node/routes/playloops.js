@@ -258,10 +258,9 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY) {
         img.onload = function() {
             console.log("image loaded with src");
             //add image
-            c.add(new fabric.Image(img));
-            c.item(0).left = posX; 
-            c.item(0).top = posY;
-            c.item(0).setCoords();
+            fabImg = new fabric.Image(img);
+            c.add(fabImg);
+            fabImg.set({ left: posX, top: posY });
             //add other elements
             for(var p = 0; p < addOnObjs.length; p++){
                 c.add(addOnObjs[p]);
