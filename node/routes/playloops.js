@@ -164,6 +164,7 @@ exports.createSummaryGIF = function(req, res){
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
+                    console.log("file path of png: " + files[j].path + " name: " + path.basename(files[j].path));
                      var result = populateFrames(canvas, files[j], files[j].path, addOnObjs);
                     promises.add(result);
                     //clear canvas
@@ -244,8 +245,9 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs) {
     //const input = fs.createReadStream(source);
     //const output = fs.createWriteStream(destination);
     //clear canvas
+    var outputPath = path.join(__dirname, '/../../exp.png');
     c.clear();
-    var out = fs.createWriteStream(orgImgPath);
+    var out = fs.createWriteStream(outputPath);
 
     return new Promise((resolve, reject) => {
         var img = new Image(); 
