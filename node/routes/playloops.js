@@ -101,6 +101,8 @@ exports.createSummaryGIF = function(req, res){
    var sceneJSON = JSON.parse(canvasStr); 
    var sceneObjects = sceneJSON.objects;
    var addOnObjs = []; 
+   var vPosX =0;
+   var vPosY =0;
    //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
         var klass = fabric.util.getKlass(sceneObjects[i].type);
@@ -119,13 +121,14 @@ exports.createSummaryGIF = function(req, res){
             if(mov1URL.match('^https://')){
                  mov1URL = mov1URL.replace("https://","http://")
             } 
+            vPosX = sceneObjects[i].left; 
+            vPosY = sceneObjects[i].top;
             console.log("in video!" + mov1URL);
-            break;
         }
         else{
             if(sceneObjects[i].name != "cursor"){
                 var aObj = klass.fromObject(sceneObjects[i]);
-                addOnObjs.add(aObj);
+                addOnObjs.push(aObj);
             }
         }
    }
@@ -166,7 +169,7 @@ exports.createSummaryGIF = function(req, res){
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
                     //console.log("file path of png: " + files[j].path + " name: " + path.basename(files[j].path));
-                     var result = populateFrames(canvas, files[j], "/", addOnObjs);
+                     var result = populateFrames(canvas, files[j], "/", addOnObjs, vPosX, vPosY);
                     promises.push(result);
                     //clear canvas
                     /*canvas.clear();
@@ -242,7 +245,7 @@ exports.createSummaryGIF = function(req, res){
 
 }
 
-function populateFrames(c, orgImg, orgImgPath, addOnObjs) {
+function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY) {
     //const input = fs.createReadStream(source);
     //const output = fs.createWriteStream(destination);
     //clear canvas
@@ -256,6 +259,9 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs) {
             console.log("image loaded with src");
             //add image
             c.add(new fabric.Image(img));
+            c.item(0).left = posX; 
+            c.item(0).top = posY;
+            c.item(0).setCoords();
             //add other elements
             for(var p = 0; p < addOnObjs.length; p++){
                 c.add(addOnObjs[p]);
