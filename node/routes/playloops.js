@@ -7,6 +7,7 @@ var path = require('path');
 var fs = require('fs');
 var fabric = require('fabric').fabric;
 var Canvas = require('canvas');
+global.Image = Canvas.Image;
 
 var mongo = require('mongodb');
 
