@@ -263,7 +263,7 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY) {
             fabImg.set({ left: posX, top: posY });
             //add other elements
             for(var p = 0; p < addOnObjs.length; p++){
-                c.add(addOnObjs[p]);
+                //c.add(addOnObjs[p]);
             }
             c.renderAll(); 
             //export to file
