@@ -6,7 +6,7 @@ var spawn = require('child_process').spawn;
 var path = require('path'); 
 var fs = require('fs');
 var fabric = require('fabric').fabric;
-var fabricUtil = require('fabric').fabric.util;
+//var fabricUtil = require('fabric').fabric.util;
 var Canvas = require('canvas');
 global.Image = Canvas.Image;
 
@@ -106,7 +106,7 @@ exports.createSummaryGIF = function(req, res){
    var vPosY =0;
    //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
-        var klass = fabricUtil.getKlass(sceneObjects[i].type);
+        var klass = fabric.util.getKlass(sceneObjects[i].type);
 
         if (sceneObjects[i].name == "video") {
             
