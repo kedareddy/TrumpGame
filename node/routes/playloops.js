@@ -153,7 +153,7 @@ exports.createSummaryGIF = function(req, res){
     //first break up the first scene into frames
     var scaleParam = "scale=-1:"+gifH;
     console.log("scaleParam: " + scaleParam);
-    var ffmpeg = spawn('ffmpeg', ['-i', mov1URL, '-r', '0.5', scaleParam , 'output_%04d.png']);
+    var ffmpeg = spawn('ffmpeg', ['-i', mov1URL, '-r', '0.5', '-filter:v', scaleParam , 'output_%04d.png']);
     var ffmpeg2; 
 
     ffmpeg.stderr.on('data', function (data) {
