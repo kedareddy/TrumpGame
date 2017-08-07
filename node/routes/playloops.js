@@ -6,6 +6,7 @@ var spawn = require('child_process').spawn;
 var path = require('path'); 
 var fs = require('fs');
 var fabric = require('fabric').fabric;
+var fabricUtil = require('fabric').fabric.util;
 var Canvas = require('canvas');
 global.Image = Canvas.Image;
 
@@ -105,7 +106,7 @@ exports.createSummaryGIF = function(req, res){
    var vPosY =0;
    //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
-        //var klass = fabric.util.getKlass(sceneObjects[i].type);
+        var klass = fabricUtil.getKlass(sceneObjects[i].type);
 
         if (sceneObjects[i].name == "video") {
             
@@ -127,7 +128,7 @@ exports.createSummaryGIF = function(req, res){
         }
         else{
             if(sceneObjects[i].name != "cursor"){
-                var aObj = sceneObjects[i];//  klass.fromObject(sceneObjects[i]);
+                var aObj = klass.fromObject(sceneObjects[i]);
                 addOnObjs.push(aObj);
             }
         }
@@ -263,7 +264,7 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY) {
             fabImg.set({ left: posX, top: posY });
             //add other elements
             for(var p = 0; p < addOnObjs.length; p++){
-                //c.add(addOnObjs[p]);
+                c.add(addOnObjs[p]);
             }
             c.renderAll(); 
             //export to file
