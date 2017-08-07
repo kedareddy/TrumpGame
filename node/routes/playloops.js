@@ -104,6 +104,11 @@ exports.createSummaryGIF = function(req, res){
    var addOnObjs = []; 
    var vPosX =0;
    var vPosY =0;
+    //define fabric canvas
+    var canvas = fabric.createCanvasForNode(200, 200);
+        
+    
+    
    //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
         //var klass = fabric.util.getKlass(sceneObjects[i].type);
@@ -125,6 +130,10 @@ exports.createSummaryGIF = function(req, res){
             vPosX = sceneObjects[i].left; 
             vPosY = sceneObjects[i].top;
             console.log("in video!" + mov1URL);
+            //canvas.setHeight(sceneJSON.height);
+            //canvas.setWidth(sceneJSON.width);
+            canvas.setHeight(sceneObjects[i].height);
+            canvas.setWidth(sceneObjects[i].width);
         }
         else{
             //if(sceneObjects[i].name != "cursor"){
@@ -136,11 +145,6 @@ exports.createSummaryGIF = function(req, res){
         }
    }
     
-    
-   //define fabric canvas
-    var canvas = fabric.createCanvasForNode(200, 200);
-    canvas.setHeight(sceneJSON.height);
-    canvas.setWidth(sceneJSON.width);
     
     //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
