@@ -106,7 +106,7 @@ exports.createSummaryGIF = function(req, res){
    var vPosY =0;
    //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
-        var klass = fabric.util.getKlass(sceneObjects[i].type);
+        //var klass = fabric.util.getKlass(sceneObjects[i].type);
 
         if (sceneObjects[i].name == "video") {
             
@@ -127,9 +127,11 @@ exports.createSummaryGIF = function(req, res){
             console.log("in video!" + mov1URL);
         }
         else{
-            if(sceneObjects[i].name != "cursor"){
-                var aObj = klass.fromObject(sceneObjects[i]);
-                addOnObjs.push(aObj);
+            //if(sceneObjects[i].name != "cursor"){
+            if(sceneObjects[i].name == "text" || sceneObjects[i].name == "rect"){
+                //var aObj = klass.fromObject(sceneObjects[i]);
+                //addOnObjs.push(aObj);
+                addOnObjs.push(sceneObjects[i]);
             }
         }
    }
@@ -264,7 +266,27 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY) {
             fabImg.set({ left: posX, top: posY });
             //add other elements
             for(var p = 0; p < addOnObjs.length; p++){
-                c.add(addOnObjs[p]);
+                if(addOnObjs[p].name == "rect"){
+                    var shape = new fabric.Rect({
+                        left: addOnObjs[p].left,
+                        top: addOnObjs[p].top,
+                        fill: 'rgba(0,0,0,0.4)',
+                        width: addOnObjs[p].width,
+                        height: addOnObjs[p].height, 
+                        name: 'rect'
+                    });
+                    c.add(shape);
+                }else if(addOnObjs[p].name == "text"){
+                   var iText = new fabric.IText({
+                        left: addOnObjs[p].left,
+                        top: addOnObjs[p].top,
+                        fill: 'rgba(250,250,250,0.7)',
+                        width: addOnObjs[p].width,
+                        height: addOnObjs[p].height, 
+                        name: 'text'
+                    });
+                    c.add(iText);      
+                }
             }
             c.renderAll(); 
             //export to file
