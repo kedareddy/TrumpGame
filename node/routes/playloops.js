@@ -268,10 +268,11 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
     //const input = fs.createReadStream(source);
     //const output = fs.createWriteStream(destination);
     var num = pad(counter+1, 4); 
-    var path = '/../../exp_' + num + '.png';
-    console.log("path names being created: " + path);
+    //var path = '/../../exp_' + num + '.png';
+    //console.log("path names being created: " + path);
     //var outputPath = path.join(__dirname, '/../../exp.png');
-    var outputPath = path.join(__dirname, path);
+    //var outputPath = path.join(__dirname, path);
+    var outputPath = "/app/exp_"+num+".png";
     console.log("outputPath: " + outputPath);
     var out = fs.createWriteStream(outputPath);
     //clear canvas
