@@ -98,6 +98,7 @@ exports.createSummaryGIF = function(req, res){
    var tempPath = __dirname + "/../tmp";   
    
    var mov1URL; 
+   var gifH; 
    var canvasStr = playloop['scenes'][0];
    var sceneJSON = JSON.parse(canvasStr); 
    var sceneObjects = sceneJSON.objects;
@@ -105,7 +106,9 @@ exports.createSummaryGIF = function(req, res){
    var vPosX =0;
    var vPosY =0;
     //define fabric canvas
-    var canvas = fabric.createCanvasForNode(200, 200);
+   var canvas = fabric.createCanvasForNode(200, 200);
+   canvas.setHeight(sceneJSON.height);
+   canvas.setWidth(sceneJSON.width);
         
     
     
@@ -130,10 +133,9 @@ exports.createSummaryGIF = function(req, res){
             vPosX = sceneObjects[i].left; 
             vPosY = sceneObjects[i].top;
             console.log("in video!" + mov1URL);
-            //canvas.setHeight(sceneJSON.height);
-            //canvas.setWidth(sceneJSON.width);
-            canvas.setHeight(sceneObjects[i].height);
-            canvas.setWidth(sceneObjects[i].width);
+            gifH = sceneObjects[i].height;
+            //canvas.setHeight(sceneObjects[i].height);
+            //canvas.setWidth(sceneObjects[i].width);
         }
         else{
             //if(sceneObjects[i].name != "cursor"){
@@ -149,7 +151,7 @@ exports.createSummaryGIF = function(req, res){
     //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
     //first break up the first scene into frames
-    var ffmpeg = spawn('ffmpeg', ['-i',mov1URL, '-r', '0.5', 'output_%04d.png']);
+    var ffmpeg = spawn('ffmpeg', ['-i', mov1URL, '-r', '0.5', 'scale=-1:'+gifH , 'output_%04d.png']);
     var ffmpeg2; 
 
     ffmpeg.stderr.on('data', function (data) {
@@ -176,7 +178,7 @@ exports.createSummaryGIF = function(req, res){
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
                     //console.log("file path of png: " + files[j].path + " name: " + path.basename(files[j].path));
-                     var result = populateFrames(canvas, files[j], "/", addOnObjs, vPosX, vPosY);
+                     var result = populateFrames(canvas, files[j], "/", addOnObjs, vPosX, vPosY, j);
                     promises.push(result);
                     //clear canvas
                     /*canvas.clear();
@@ -200,6 +202,14 @@ exports.createSummaryGIF = function(req, res){
         Promise.all(promises).then(_ => {
             // do what you want
             console.log('done#$@#$@#$@#$@YAYAYAYA');
+            //stich the final GIF together
+            //ffmpeg -framerate 2 -i output_%04d.png output.gif
+            //first break up the first scene into frames
+            var ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'exp_%04d.png', 'output.gif']);
+            ffmpeg2.stderr.on('end', function () {
+                console.log("final GIF made! at output.gif");
+            });
+                
         }).catch(err => {
             // handle I/O error
             console.error(err);
@@ -252,14 +262,17 @@ exports.createSummaryGIF = function(req, res){
 
 }
 
-function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY) {
+function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
     //const input = fs.createReadStream(source);
     //const output = fs.createWriteStream(destination);
-    //clear canvas
-    var outputPath = path.join(__dirname, '/../../exp.png');
-    c.clear();
+    var num = pad(counter+1, 4); 
+    var path = '/../../exp_' + num + '.png';
+    //var outputPath = path.join(__dirname, '/../../exp.png');
+    var outputPath = path.join(__dirname, path);
     var out = fs.createWriteStream(outputPath);
-
+    //clear canvas
+    c.clear();
+    
     return new Promise((resolve, reject) => {
         var img = new Image(); 
         img.onload = function() {
@@ -308,6 +321,13 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY) {
         };
         img.src = orgImg;
     });
+}
+
+
+//get a padded number
+function pad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length-size);
 }
 
 
