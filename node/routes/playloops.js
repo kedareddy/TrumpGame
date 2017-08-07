@@ -277,12 +277,11 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY) {
                     });
                     c.add(shape);
                 }else if(addOnObjs[p].name == "text"){
-                   var iText = new fabric.IText({
+                   var iText =new fabric.IText(addOnObjs[p].text, {
+                        textAlign: 'center',
                         left: addOnObjs[p].left,
                         top: addOnObjs[p].top,
                         fill: 'rgba(250,250,250,0.7)',
-                        width: addOnObjs[p].width,
-                        height: addOnObjs[p].height, 
                         name: 'text'
                     });
                     c.add(iText);      
