@@ -106,9 +106,9 @@ exports.createSummaryGIF = function(req, res){
    var vPosX =0;
    var vPosY =0;
     //define fabric canvas
-   var canvas = fabric.createCanvasForNode(200, 200);
+   /*var canvas = fabric.createCanvasForNode(200, 200);
    canvas.setHeight(sceneJSON.height);
-   canvas.setWidth(sceneJSON.width);
+   canvas.setWidth(sceneJSON.width);*/
         
     
     
@@ -181,7 +181,7 @@ exports.createSummaryGIF = function(req, res){
                 if(extension == ".png"){
                     pngCounter += 1; 
                     //console.log("file path of png: " + files[j].path + " name: " + path.basename(files[j].path));
-                     var result = populateFrames(canvas, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter);
+                     var result = populateFrames(sceneJSON.width, sceneJSON.height, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter);
                     promises.push(result);
                     //clear canvas
                     /*canvas.clear();
@@ -265,7 +265,7 @@ exports.createSummaryGIF = function(req, res){
 
 }
 
-function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
+function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
     //const input = fs.createReadStream(source);
     //const output = fs.createWriteStream(destination);
     console.log("counter is: " + counter);
@@ -277,12 +277,16 @@ function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
     var outputPath = "/app/exp_"+num+".png";
     console.log("outputPath: " + outputPath);
     var out = fs.createWriteStream(outputPath);
-    //clear canvas
-    c.clear();
+    //make canvas
+    var c = fabric.createCanvasForNode(200, 200);
+    c.setHeight(cH);
+    c.setWidth(cW);
     
     return new Promise((resolve, reject) => {
         var img = new Image(); 
+        img.src = orgImg;
         img.onload = function() {
+            img.src = orgImg;
             console.log("image loaded with src");
             //add image
             fabImg = new fabric.Image(img);
