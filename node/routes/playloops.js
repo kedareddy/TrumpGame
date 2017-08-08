@@ -105,17 +105,10 @@ exports.createSummaryGIF = function(req, res){
    var addOnObjs = []; 
    var vPosX =0;
    var vPosY =0;
-    //define fabric canvas
-   /*var canvas = fabric.createCanvasForNode(200, 200);
-   canvas.setHeight(sceneJSON.height);
-   canvas.setWidth(sceneJSON.width);*/
-        
-    
-    
+
    //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
         //var klass = fabric.util.getKlass(sceneObjects[i].type);
-
         if (sceneObjects[i].name == "video") {
             
             var urlText = sceneObjects[i].src;
@@ -134,8 +127,6 @@ exports.createSummaryGIF = function(req, res){
             vPosY = sceneObjects[i].top;
             console.log("in video!" + mov1URL);
             gifH = sceneObjects[i].height;
-            //canvas.setHeight(sceneObjects[i].height);
-            //canvas.setWidth(sceneObjects[i].width);
         }
         else{
             //if(sceneObjects[i].name != "cursor"){
@@ -146,7 +137,6 @@ exports.createSummaryGIF = function(req, res){
             }
         }
    }
-    
     
     //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
@@ -168,88 +158,32 @@ exports.createSummaryGIF = function(req, res){
           console.log("where is node looking: " + path.join(__dirname, '/../../')); 
         
           var promises = []; 
-          /*const promises = files.map(file => {
-            const source = file.path;
-            const destination = path.join('/tmp', file.path);
-            return copyFile(source, destination);
-          });*/
           var pngCounter = 0; 
           for (var j = 0; j < files.length; j++) {
-         
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
                     pngCounter += 1; 
-                    //console.log("file path of png: " + files[j].path + " name: " + path.basename(files[j].path));
                      var result = populateFrames(sceneJSON.width, sceneJSON.height, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter);
                     promises.push(result);
-                    //clear canvas
-                    /*canvas.clear();
-                    
-                    var img = new Image(); 
-                    img.onload = function() {
-                        //add image
-                        canvas.add(new fabric.Image(img));
-                        //add other elements
-                        for(var p = 0; p < addOnObjs.length; p++){
-                            canvas.add(addOnObjs[p]);
-                        }
-                        //export to file
-                        fs.writeFile(files[j].path, canvas.toBuffer());
-                    };
-                    img.src = files[j];*/
                 }
           }
-        
         
         Promise.all(promises).then(_ => {
             // do what you want
             console.log('done#$@#$@#$@#$@YAYAYAYA');
             //stich the final GIF together
             //ffmpeg -framerate 2 -i output_%04d.png output.gif
-            //first break up the first scene into frames
             var ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'exp_%04d.png', 'output.gif']);
             ffmpeg2.stderr.on('end', function () {
-                console.log("final GIF made! at output.gif");
+                console.log("final GIF made! at /app/output.gif");
             });
                 
         }).catch(err => {
             // handle I/O error
             console.error(err);
         });
-        
-        /*var stream = canvas.createPNGStream();
-            stream.on('data', function(chunk) {
-            out.write(chunk);
-            fs.createWriteStream()
-        });*/
-        
-        
-        
-        /*var img = new Image();
-        img.src = fs.readFileSync('/path/to/file.png');
-        var canvas = fabric.createCanvasForNode(200, 200);
-        canvas.add(new fabric.Image(img));*/
-        
-        
-        /*ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'output_%04d.png', 'output.gif']);
-        
-        ffmpeg2.stderr.on('data', function (data) {
-            console.log(data.toString());
-            //res.send(data.toString());
-        });
 
-        ffmpeg2.stderr.on('end', function () {
-            console.log('file2 has been converted succesfully');
-        });
-
-        ffmpeg2.stderr.on('exit', function () {
-            console.log('child process exited2');
-        });
-
-        ffmpeg2.stderr.on('close', function() {
-            console.log('...closing time2! bye');
-        });*/
     });
 
     ffmpeg.stderr.on('exit', function () {
@@ -266,14 +200,8 @@ exports.createSummaryGIF = function(req, res){
 }
 
 function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
-    //const input = fs.createReadStream(source);
-    //const output = fs.createWriteStream(destination);
-    console.log("counter is: " + counter);
+    //console.log("counter is: " + counter);
     var num = pad(counter, 4); 
-    //var path = '/../../exp_' + num + '.png';
-    //console.log("path names being created: " + path);
-    //var outputPath = path.join(__dirname, '/../../exp.png');
-    //var outputPath = path.join(__dirname, path);
     var outputPath = "/app/exp_"+num+".png";
     console.log("outputPath: " + outputPath);
     var out = fs.createWriteStream(outputPath);
@@ -284,9 +212,7 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
     
     return new Promise((resolve, reject) => {
         var img = new Image(); 
-        //img.src = orgImg;
         img.onload = function() {
-            //img.src = orgImg;
             console.log("image loaded with src");
             //add image
             fabImg = new fabric.Image(img);
@@ -316,7 +242,7 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
                 }
             }
             c.renderAll(); 
-            //export to file
+            //Export to PNG
             var stream = c.createPNGStream();
             stream.on('data', function(chunk) {
                 out.write(chunk);
@@ -328,7 +254,6 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
             stream.on('error', function() {
               reject();
             });
-            //fs.writeFile(orgImgPath, c.toBuffer());
         };
         img.src = orgImg;
     });
@@ -340,51 +265,6 @@ function pad(num, size) {
     var s = "000000000" + num;
     return s.substr(s.length-size);
 }
-
-
-exports.stitchGIF = function(req, res){
-    
-var tempPath = path.resolve() + "/temp/image_%02d.png";
-    var tempPath1 = path.resolve() + "/temp/image_001.png";
-    var tempPath2 = path.resolve() + "/temp/image_002.png";
-    //res.send(tempPath);
-   /* var proc = new ffmpeg({ source: tempPath })
-      .saveToFile('temp/my.mp4', function(stdout, stderr) {
-        //console.log('file has been created with soundtrack succesfully');
-          res.send("gif created on server!");
-      });
-    */
-    
-/*var proc = new ffmpeg('https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4')
-      .saveToFile('temp/my.gif', function(stdout, stderr) {
-        //console.log('file has been created with soundtrack succesfully');
-          res.send("gif created on server!");
-      });*/
-    
-    var proc = new ffmpeg();
-
-    proc.addInput(tempPath)
-    .on('start', function(ffmpegCommand) {
-        /// log something maybe
-    })
-    .on('progress', function(data) {
-        /// do stuff with progress data if you want
-    })
-    .on('end', function() {
-        /// encoding is complete, so callback or move on at this point
-        res.send("finished!");
-    })
-    .on('error', function(error) {
-        /// error handling
-    })
-    .output('temp/out.mp4')
-    .run();
-/*
-    .addInputOption('-framerate 20')
-    .outputOptions(['-c:v libx264', '-r 30', '-pix_fmt yuv420p'])*/
-
-}
-
 
 
 exports.findById = function(req, res) {
