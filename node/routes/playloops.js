@@ -173,14 +173,15 @@ exports.createSummaryGIF = function(req, res){
             const destination = path.join('/tmp', file.path);
             return copyFile(source, destination);
           });*/
-        
+          var pngCounter = 0; 
           for (var j = 0; j < files.length; j++) {
          
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
+                    pngCounter += 1; 
                     //console.log("file path of png: " + files[j].path + " name: " + path.basename(files[j].path));
-                     var result = populateFrames(canvas, files[j], "/", addOnObjs, vPosX, vPosY, j);
+                     var result = populateFrames(canvas, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter);
                     promises.push(result);
                     //clear canvas
                     /*canvas.clear();
@@ -267,7 +268,8 @@ exports.createSummaryGIF = function(req, res){
 function populateFrames(c, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
     //const input = fs.createReadStream(source);
     //const output = fs.createWriteStream(destination);
-    var num = pad(counter+1, 4); 
+    console.log("counter is: " + counter);
+    var num = pad(counter, 4); 
     //var path = '/../../exp_' + num + '.png';
     //console.log("path names being created: " + path);
     //var outputPath = path.join(__dirname, '/../../exp.png');
