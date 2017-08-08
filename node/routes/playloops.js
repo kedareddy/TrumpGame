@@ -284,9 +284,9 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
     
     return new Promise((resolve, reject) => {
         var img = new Image(); 
-        img.src = orgImg;
+        //img.src = orgImg;
         img.onload = function() {
-            img.src = orgImg;
+            //img.src = orgImg;
             console.log("image loaded with src");
             //add image
             fabImg = new fabric.Image(img);
