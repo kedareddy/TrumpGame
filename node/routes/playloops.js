@@ -182,7 +182,8 @@ exports.createSummaryGIF = function(req, res){
             console.log('done#$@#$@#$@#$@YAYAYAYA');
             //stich the final GIF together
             //ffmpeg -framerate 2 -i output_%04d.png output.gif
-            var ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'output_%04d.png', '-r', '2', 'output.gif']);
+            //'-pix_fmt', 'yuv420p',
+            var ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-f', 'png', '-i', 'output_%04d.png', '-f', 'gif', 'output.gif']);
             ffmpeg2.stderr.on('end', function () {
                 console.log("final GIF made! at output.gif");
             });
