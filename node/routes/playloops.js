@@ -7,6 +7,8 @@ var path = require('path');
 var fs = require('fs');
 var fabric = require('fabric').fabric;
 //var fabricUtil = require('fabric').fabric.util;
+var GIFEncoder = require('gifencoder');
+var encoder;
 var Canvas = require('canvas');
 global.Image = Canvas.Image;
 
@@ -105,6 +107,10 @@ exports.createSummaryGIF = function(req, res){
    var addOnObjs = []; 
    var vPosX =0;
    var vPosY =0;
+    
+   //setup gif encoder
+   encoder = new GIFEncoder(sceneJSON.width, sceneJSON.height);
+   encoder.createReadStream().pipe(fs.createWriteStream('myanimated.gif'));
 
    //extract playloop info    
    for (var i = 0; i < sceneObjects.length; i++) {
@@ -154,7 +160,13 @@ exports.createSummaryGIF = function(req, res){
         //__dirname is where this file is located, process.cwd() is inside the node folder?  
         console.log('file has finished splitting into frames. __dirname: ' + __dirname + ":p:" + process.cwd() );
           var files = fs.readdirSync(path.join(__dirname, '/../../'));
-          console.log("where is node looking: " + path.join(__dirname, '/../../')); 
+          console.log("where is node looking: " + path.join(__dirname, '/../../'));
+        
+            //start gif encoder
+        encoder.start();
+        encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
+        encoder.setDelay(50);  // frame delay in ms 
+        encoder.setQuality(10); // image quality. 10 is default. 
         
           var promises = []; 
           var pngCounter = 0; 
@@ -183,7 +195,7 @@ exports.createSummaryGIF = function(req, res){
             //stich the final GIF together
             //ffmpeg -framerate 2 -i output_%04d.png output.gif
             //'-pix_fmt', 'yuv420p', '-f', 'png', 
-            var ffmpeg2 = spawn('ffmpeg', [ '-y', '-f', 'image2', '-c:v', 'png', '-framerate', '2', '-pix_fmt', 'rgba', '-s', '300x200', '-i', 'exp_%04d.png', '-t', '2', 'output.gif']);
+           /* var ffmpeg2 = spawn('ffmpeg', [ '-y', '-f', 'image2', '-c:v', 'png', '-framerate', '2', '-pix_fmt', 'rgba', '-s', '300x200', '-i', 'exp_%04d.png', '-t', '2', 'output.gif']);
             ffmpeg2.stderr.on('end', function () {
                 console.log("final GIF made! at output.gif");
             });
@@ -196,7 +208,9 @@ exports.createSummaryGIF = function(req, res){
 
             ffmpeg2.stderr.on('close', function() {
                 console.log('...closing time! bye2');
-            });
+            });*/
+            
+            encoder.finish();
 
         }).catch(err => {
             // handle I/O error
@@ -263,7 +277,13 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
                 }
             }
             c.renderAll(); 
-            //Export to PNG
+            var ctx = canvas.getContext('2d');
+            
+            encoder.addFrame(ctx);
+            resolve();
+            var a = 0; 
+            if(a == 1){ reject();}
+            /*//Export to PNG
             var stream = c.createPNGStream();
             stream.on('data', function(chunk) {
                 out.write(chunk);
@@ -274,7 +294,7 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
             });
             stream.on('error', function() {
                 reject();
-            });
+            });*/
         };
         img.src = orgImg;
     });
