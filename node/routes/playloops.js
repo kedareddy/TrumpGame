@@ -143,7 +143,7 @@ exports.createSummaryGIF = function(req, res){
     //first break up the first scene into frames
     var scaleParam = "scale=-1:"+gifH;
     console.log("scaleParam: " + scaleParam);
-    var ffmpeg = spawn('ffmpeg', ['-i', mov1URL, '-r', '0.5', '-filter:v', scaleParam , 'output_%04d.png']);
+    var ffmpeg = spawn('ffmpeg', ['-y', '-i', mov1URL, '-r', '0.5', '-filter:v', scaleParam , 'output_%04d.png']);
     var ffmpeg2; 
 
     ffmpeg.stderr.on('data', function (data) {
@@ -183,7 +183,7 @@ exports.createSummaryGIF = function(req, res){
             //stich the final GIF together
             //ffmpeg -framerate 2 -i output_%04d.png output.gif
             //'-pix_fmt', 'yuv420p', '-f', 'png', '-framerate', '2',
-            var ffmpeg2 = spawn('ffmpeg', [ '-i', 'exp_%04d.png', '-pix_fmt', 'rgb24', 'output.gif']);
+            var ffmpeg2 = spawn('ffmpeg', [ '-y', '-pix_fmt', 'rgba(pc)','-i', 'exp_%04d.png', 'output.gif']);
             ffmpeg2.stderr.on('end', function () {
                 console.log("final GIF made! at output.gif");
             });
