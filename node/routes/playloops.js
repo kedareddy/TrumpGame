@@ -107,7 +107,8 @@ exports.createSummaryGIF = function(req, res){
    var addOnObjs = []; 
    var vPosX =0;
    var vPosY =0;
-    
+   var startTime; 
+   var endTime; 
    //setup gif encoder
    encoder = new GIFEncoder(sceneJSON.width, sceneJSON.height);
    encoder.createReadStream().pipe(fs.createWriteStream('myanimated.gif'));
@@ -118,11 +119,11 @@ exports.createSummaryGIF = function(req, res){
         if (sceneObjects[i].name == "video") {
             
             var urlText = sceneObjects[i].src;
-            /*var indexTC = urlText.indexOf("#t=");
+            var indexTC = urlText.indexOf("#t=");
             var timeCodes = urlText.slice(indexTC+3).split(","); 
             console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
-            var startTime = timeCodes[0]; 
-            var endTime = timeCodes[1];*/
+            startTime = timeCodes[0]; 
+            endTime = timeCodes[1];
             urlText = urlText.split('mp4')[0];
             
             mov1URL = urlText.concat("mp4"); 
@@ -154,16 +155,16 @@ exports.createSummaryGIF = function(req, res){
     var ffmpeg2; 
     
     
-    var ffprobe = spawn('ffprobe', ['-v', '0', '-of', 'compact=p=0', scaleParam , '-select_streams', '0', '\-show_entries', 'stream=r_frame_rate', mov1URL]);
+    /*var ffprobe = spawn('ffprobe', ['-v', '0', '-of', 'compact=p=0', scaleParam , '-select_streams', '0', '\-show_entries', 'stream=r_frame_rate', mov1URL]);
     ffprobe.stdout.on('data', function (data) {
         console.log('framerate: ' + data);
     });
     ffprobe.stderr.on('data', function (data) {
         console.log('framerateERR: ' + data);
     });
-     ffprobe.stderr.on('end', function () {
+    ffprobe.stderr.on('end', function () {
         console.log('framerateERREND');
-    });
+    });*/
     //ffprobe -v 0 -of compact=p=0 -select_streams 0 \-show_entries stream=r_frame_rate 'The Master (2012).mp4'
     
     
@@ -179,10 +180,13 @@ exports.createSummaryGIF = function(req, res){
           var files = fs.readdirSync(path.join(__dirname, '/../../'));
           console.log("where is node looking: " + path.join(__dirname, '/../../'));
         
+        //calculate frame rate
+        var delay = (endTime - startTime)/files.length; 
+        
             //start gif encoder
         encoder.start();
         encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
-        encoder.setDelay(40);  // frame delay in ms 25fps or 1000/25 ms delay
+        encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
         encoder.setQuality(10); // image quality. 10 is default. 
         
           var promises = []; 
