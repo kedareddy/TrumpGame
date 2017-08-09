@@ -143,7 +143,7 @@ exports.createSummaryGIF = function(req, res){
     //first break up the first scene into frames
     var scaleParam = "scale=-1:"+gifH;
     console.log("scaleParam: " + scaleParam);
-    var ffmpeg = spawn('ffmpeg', ['-i', mov1URL, '-r', '0.5', '-filter:v', scaleParam , 'output_%04d.png']);
+    var ffmpeg = spawn('ffmpeg', ['-i', mov1URL, '-r', '0.5', '-filter:v', scaleParam , 'output_%04d.jpg']);
     var ffmpeg2; 
 
     ffmpeg.stderr.on('data', function (data) {
@@ -161,7 +161,7 @@ exports.createSummaryGIF = function(req, res){
           for (var j = 0; j < files.length; j++) {
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
-                if(extension == ".png"){
+                if(extension == ".jpg"){
                     pngCounter += 1; 
                      var result = populateFrames(sceneJSON.width, sceneJSON.height, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter);
                     promises.push(result);
@@ -182,12 +182,12 @@ exports.createSummaryGIF = function(req, res){
             console.log('done#$@#$@#$@#$@YAYAYAYA');
             //stich the final GIF together
             //ffmpeg -framerate 2 -i output_%04d.png output.gif
-            var ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'exp_%04d.png', 'output.gif']);
+            var ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'exp_%04d.jpg', 'output.gif']);
             ffmpeg2.stderr.on('end', function () {
                 console.log("final GIF made! at output.gif");
             });
-            ffmpeg2.stderr.on('error', function () {
-                console.log("final GIF error");
+            ffmpeg2.stderr.on('data', function () {
+                console.log("WTF is DATA??: " + data.toString());
             });
 
         }).catch(err => {
@@ -215,7 +215,7 @@ exports.createSummaryGIF = function(req, res){
 function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
     //console.log("counter is: " + counter);
     var num = pad(counter, 4); 
-    var outputPath = "/app/exp_"+num+".png";
+    var outputPath = "/app/exp_"+num+".jpg";
     console.log("outputPath: " + outputPath);
     var out = fs.createWriteStream(outputPath);
     //make canvas
@@ -256,7 +256,7 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
             }
             c.renderAll(); 
             //Export to PNG
-            var stream = c.createPNGStream();
+            var stream = c.createJPEGStream();
             stream.on('data', function(chunk) {
                 out.write(chunk);
             });
