@@ -149,8 +149,25 @@ exports.createSummaryGIF = function(req, res){
     //first break up the first scene into frames
     var scaleParam = "scale=-1:"+gifH;
     console.log("scaleParam: " + scaleParam);
-    var ffmpeg = spawn('ffmpeg', ['-y', '-i', mov1URL, '-r', '0.5', '-filter:v', scaleParam , 'output_%04d.png']);
+    // '-r', '0.5',
+    var ffmpeg = spawn('ffmpeg', ['-y', '-i', mov1URL, '-filter:v', scaleParam , 'output_%04d.png']);
     var ffmpeg2; 
+    
+    
+    var ffprobe = spawn('ffprobe', ['-v', '0', '-of', 'compact=p=0', scaleParam , '-select_streams', '0', '\-show_entries', 'stream=r_frame_rate', mov1URL]);
+    ffprobe.stdout.on('data', function (data) {
+        console.log('framerate: ' + data);
+    });
+    ffprobe.stderr.on('data', function (data) {
+        console.log('framerateERR: ' + data);
+    });
+     ffprobe.stderr.on('end', function () {
+        console.log('framerateERREND');
+    });
+    //ffprobe -v 0 -of compact=p=0 -select_streams 0 \-show_entries stream=r_frame_rate 'The Master (2012).mp4'
+    
+    
+    
 
     ffmpeg.stderr.on('data', function (data) {
         //console.log("WTF is DATA??: " + data.toString());
@@ -165,7 +182,7 @@ exports.createSummaryGIF = function(req, res){
             //start gif encoder
         encoder.start();
         encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
-        encoder.setDelay(50);  // frame delay in ms 
+        encoder.setDelay(40);  // frame delay in ms 25fps or 1000/25 ms delay
         encoder.setQuality(10); // image quality. 10 is default. 
         
           var promises = []; 
