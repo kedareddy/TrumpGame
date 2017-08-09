@@ -147,8 +147,7 @@ exports.createSummaryGIF = function(req, res){
     var ffmpeg2; 
 
     ffmpeg.stderr.on('data', function (data) {
-        console.log("WTF is DATA??: " + data.toString());
-        //res.send(data.toString());
+        //console.log("WTF is DATA??: " + data.toString());
     });
 
     ffmpeg.stderr.on('end', function () {
@@ -169,6 +168,15 @@ exports.createSummaryGIF = function(req, res){
                 }
           }
         
+        try {
+          var stats = fs.statSync("/app/output.gif");
+          console.log('it exists');
+          fs.unlinkSync("/app/output.gif");   
+        }
+        catch(err) {
+            console.log('it does not exist');
+        }
+        
         Promise.all(promises).then(_ => {
             // do what you want
             console.log('done#$@#$@#$@#$@YAYAYAYA');
@@ -176,13 +184,18 @@ exports.createSummaryGIF = function(req, res){
             //ffmpeg -framerate 2 -i output_%04d.png output.gif
             var ffmpeg2 = spawn('ffmpeg', ['-framerate', '2', '-i', 'exp_%04d.png', 'output.gif']);
             ffmpeg2.stderr.on('end', function () {
-                console.log("final GIF made! at /app/output.gif");
+                console.log("final GIF made! at output.gif");
             });
-                
+            ffmpeg2.stderr.on('error', function () {
+                console.log("final GIF error");
+            });
+
         }).catch(err => {
             // handle I/O error
             console.error(err);
-        });
+        }); 
+        
+        
 
     });
 
@@ -248,11 +261,11 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
                 out.write(chunk);
             });
             stream.on('end', function() {
-              console.log("finished writing final png");
+                console.log("finished writing final png");
                 resolve();
             });
             stream.on('error', function() {
-              reject();
+                reject();
             });
         };
         img.src = orgImg;
