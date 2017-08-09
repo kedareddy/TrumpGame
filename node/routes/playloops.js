@@ -162,9 +162,9 @@ exports.createSummaryGIF = function(req, res){
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
                 if(extension == ".jpg"){
-                    pngCounter += 1; 
-                     var result = populateFrames(sceneJSON.width, sceneJSON.height, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter);
+                    var result = populateFrames(sceneJSON.width, sceneJSON.height, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter);
                     promises.push(result);
+                    pngCounter += 1; 
                 }
           }
         
