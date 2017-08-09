@@ -186,7 +186,7 @@ exports.createSummaryGIF = function(req, res){
             ffmpeg2.stderr.on('end', function () {
                 console.log("final GIF made! at output.gif");
             });
-            ffmpeg2.stderr.on('data', function () {
+            ffmpeg2.stderr.on('data', function (data) {
                 console.log("WTF is DATA??: " + data.toString());
             });
 
