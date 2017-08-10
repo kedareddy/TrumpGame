@@ -8,7 +8,7 @@ var fs = require('fs');
 var fabric = require('fabric').fabric;
 //var fabricUtil = require('fabric').fabric.util;
 var GIFEncoder = require('gifencoder');
-var encoder;
+
 var Canvas = require('canvas');
 global.Image = Canvas.Image;
 
@@ -110,8 +110,8 @@ exports.createSummaryGIF = function(req, res){
    var startTime; 
    var endTime; 
    //setup gif encoder
-   encoder = undefined;
-   encoder = new GIFEncoder(sceneJSON.width, sceneJSON.height);
+   //encoder = undefined;
+   var encoder = new GIFEncoder(sceneJSON.width, sceneJSON.height);
    encoder.createReadStream().pipe(fs.createWriteStream('myanimated.gif'));
 
    //extract playloop info    
@@ -188,7 +188,7 @@ exports.createSummaryGIF = function(req, res){
         encoder.start();
         encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
         encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
-        encoder.setQuality(10); // image quality. 10 is default. 
+        encoder.setQuality(15); // image quality. 10 is default. 
         
           var promises = []; 
           var pngCounter = 0; 
@@ -196,7 +196,7 @@ exports.createSummaryGIF = function(req, res){
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
-                    var result = populateFrames(sceneJSON.width, sceneJSON.height, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter);
+                    var result = populateFrames(sceneJSON.width, sceneJSON.height, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter, encoder);
                     promises.push(result);
                     pngCounter += 1; 
                 }
@@ -256,7 +256,7 @@ exports.createSummaryGIF = function(req, res){
 
 }
 
-function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter) {
+function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter, enGIF) {
     //console.log("counter is: " + counter);
     var num = pad(counter, 4); 
     var outputPath = "/app/exp_"+num+".png";
@@ -301,7 +301,7 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
             c.renderAll(); 
             var ctx = c.getContext('2d');
             
-            encoder.addFrame(ctx);
+            enGIF.addFrame(ctx);
             resolve();
             var a = 0; 
             if(a == 1){ reject();}
