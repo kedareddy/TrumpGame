@@ -110,6 +110,7 @@ exports.createSummaryGIF = function(req, res){
    var startTime; 
    var endTime; 
    //setup gif encoder
+   encoder = undefined;
    encoder = new GIFEncoder(sceneJSON.width, sceneJSON.height);
    encoder.createReadStream().pipe(fs.createWriteStream('myanimated.gif'));
 
@@ -182,7 +183,7 @@ exports.createSummaryGIF = function(req, res){
         
         //calculate frame rate
         var delay = (endTime - startTime)/files.length; 
-        
+        console.log("difference in time:" + (endTime - startTime).toString());
             //start gif encoder
         encoder.start();
         encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
