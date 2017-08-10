@@ -182,7 +182,7 @@ exports.createSummaryGIF = function(req, res){
           console.log("where is node looking: " + path.join(__dirname, '/../../'));
         
         //calculate frame rate
-        var delay = (endTime - startTime)/files.length; 
+        var delay = ((endTime - startTime)*1000)/files.length; 
         console.log("difference in time:" + (endTime - startTime).toString());
             //start gif encoder
         encoder.start();
