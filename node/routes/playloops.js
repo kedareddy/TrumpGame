@@ -104,7 +104,7 @@ exports.createSummaryGIF = function(req, res){
     
    //extract playloop info
    for(var k = 0; k < 2; k++){   
-       var scene; 
+       var scene = {};
        scene.num = k;
        scene.addOnObjs = [];
        
@@ -306,7 +306,7 @@ function setupScene(s){
         encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
         encoder.setQuality(15); // image quality. 10 is default. 
         
-        var encoderPromises;
+        var encoderPromises = {};
         var promises = []; 
         var pngCounter = 0; 
         for (var j = 0; j < files.length; j++) {
