@@ -105,12 +105,12 @@ exports.createSummaryGIF = function(req, res){
    //extract playloop info
    for(var k = 0; k < 2; k++){   
        var scene = {};
-       scene.num = k;
-       scene.addOnObjs = [];
+       scene['num'] = k;
+       scene['addOnObjs'] = [];
        
        canvasStr = playloop['scenes'][k];
        sceneJSON = JSON.parse(canvasStr);
-       scene.sceneJSON = sceneJSON;
+       scene['sceneJSON'] = sceneJSON;
        sceneObjects = sceneJSON.objects;
         
        for (var i = 0; i < sceneObjects.length; i++) {    
@@ -119,8 +119,8 @@ exports.createSummaryGIF = function(req, res){
                 var indexTC = urlText.indexOf("#t=");
                 var timeCodes = urlText.slice(indexTC+3).split(","); 
                 console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
-                startTime = timeCodes[0]; 
-                endTime = timeCodes[1];
+                scene['startTime'] = timeCodes[0]; 
+                scene['endTime'] = timeCodes[1];
                 
                 urlText = urlText.split('mp4')[0];
                 urlText = urlText.concat("mp4"); 
@@ -128,10 +128,10 @@ exports.createSummaryGIF = function(req, res){
                      urlText = urlText.replace("https://","http://")
                 } 
                 
-                scene.movURL = urlText; 
-                scene.vPosX = sceneObjects[i].left; 
-                scene.vPosY = sceneObjects[i].top; 
-                scene.gifH = sceneObjects[i].height
+                scene['movURL'] = urlText; 
+                scene['vPosX'] = sceneObjects[i].left; 
+                scene['vPosY'] = sceneObjects[i].top; 
+                scene['gifH'] = sceneObjects[i].height
             }
             else{
                 if(sceneObjects[i].name == "text" || sceneObjects[i].name == "rect"){
@@ -318,8 +318,8 @@ function setupScene(s){
                 pngCounter += 1; 
             }
         }
-        encoderPromises.encoder = encoder; 
-        encoderPromises.promises = promises; 
+        encoderPromises['encoder'] = encoder; 
+        encoderPromises['promises'] = promises; 
         resolve(encoderPromises);
         var a = 0; 
         if(a == 1){ reject();}
