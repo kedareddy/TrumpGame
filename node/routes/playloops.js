@@ -284,7 +284,7 @@ function setupScene(s){
     return new Promise( function(resolve, reject) {
         var folderPath; 
         var gifPath;
-        if(s.num == 0){
+        if(s['num'] == 0){
             folderPath = '/app/temp1/';
             gifPath = '/app/temp1/myanimated.gif';
         }else{
