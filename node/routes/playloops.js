@@ -5,6 +5,7 @@ var ffmpeg = require('fluent-ffmpeg/index');
 var spawn = require('child_process').spawn;
 var path = require('path'); 
 var fs = require('fs');
+var rimraf = require('rimraf');
 var fabric = require('fabric').fabric;
 //var fabricUtil = require('fabric').fabric.util;
 var GIFEncoder = require('gifencoder');
@@ -96,80 +97,87 @@ exports.signS3 = function(req, res) {
 
 //Kedar's additions
 exports.createSummaryGIF = function(req, res){
-   var playloop = req.body;
-   var tempPath = __dirname + "/../tmp";   
-   
-   var mov1URL; 
-   var gifH; 
-   var canvasStr = playloop['scenes'][0];
-   var sceneJSON = JSON.parse(canvasStr); 
-   var sceneObjects = sceneJSON.objects;
-   var addOnObjs = []; 
-   var vPosX =0;
-   var vPosY =0;
-   var startTime; 
-   var endTime; 
-   //setup gif encoder
-   //encoder = undefined;
-   var encoder = new GIFEncoder(sceneJSON.width, sceneJSON.height);
-   encoder.createReadStream().pipe(fs.createWriteStream('myanimated.gif'));
-
-   //extract playloop info    
-   for (var i = 0; i < sceneObjects.length; i++) {
-        //var klass = fabric.util.getKlass(sceneObjects[i].type);
-        if (sceneObjects[i].name == "video") {
-            
-            var urlText = sceneObjects[i].src;
-            var indexTC = urlText.indexOf("#t=");
-            var timeCodes = urlText.slice(indexTC+3).split(","); 
-            console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
-            startTime = timeCodes[0]; 
-            endTime = timeCodes[1];
-            urlText = urlText.split('mp4')[0];
-            
-            mov1URL = urlText.concat("mp4"); 
-            if(mov1URL.match('^https://')){
-                 mov1URL = mov1URL.replace("https://","http://")
-            } 
-            vPosX = sceneObjects[i].left; 
-            vPosY = sceneObjects[i].top;
-            console.log("in video!" + mov1URL);
-            gifH = sceneObjects[i].height;
-        }
-        else{
-            //if(sceneObjects[i].name != "cursor"){
-            if(sceneObjects[i].name == "text" || sceneObjects[i].name == "rect"){
-                //var aObj = klass.fromObject(sceneObjects[i]);
-                //addOnObjs.push(aObj);
-                addOnObjs.push(sceneObjects[i]);
+   var playloop = req.body;    
+    
+   var scenes = []; 
+   var canvasStr, sceneJSON, sceneObjects;
+    
+   //extract playloop info
+   for(var k = 0; k < 2; k++){   
+       var scene; 
+       scene.num = k;
+       scene.addOnObjs = [];
+       
+       canvasStr = playloop['scenes'][k];
+       sceneJSON = JSON.parse(canvasStr);
+       scene.sceneJSON = sceneJSON;
+       sceneObjects = sceneJSON.objects;
+        
+       for (var i = 0; i < sceneObjects.length; i++) {    
+            if (sceneObjects[i].name == "video") {
+                var urlText = sceneObjects[i].src;
+                var indexTC = urlText.indexOf("#t=");
+                var timeCodes = urlText.slice(indexTC+3).split(","); 
+                console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
+                startTime = timeCodes[0]; 
+                endTime = timeCodes[1];
+                
+                urlText = urlText.split('mp4')[0];
+                urlText = urlText.concat("mp4"); 
+                if(urlText.match('^https://')){
+                     urlText = urlText.replace("https://","http://")
+                } 
+                
+                scene.movURL = urlText; 
+                scene.vPosX = sceneObjects[i].left; 
+                scene.vPosY = sceneObjects[i].top; 
+                scene.gifH = sceneObjects[i].height
             }
-        }
+            else{
+                if(sceneObjects[i].name == "text" || sceneObjects[i].name == "rect"){
+                    scene.addOnObjs.push(sceneObjects[i]);
+                }
+            }
+       }
+       
+       scenes.push(scene);
    }
     
-    //ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
+   //if temp1 and temp2 exist, delete everything in there
+    if (fs.existsSync('/app/temp1')) {
+       rimraf.sync('/app/temp1');
+    }
+    if (fs.existsSync('/app/temp2')) {
+       rimraf.sync('/app/temp2');
+    }
+            
+    //split up the frames of the two videos from the first 2 scenes
+    var promisesSplitFrames = []; 
+    for (var j = 0; j < 2; j++) {
+        var result = splitFrames(scenes[j]); 
+        promisesSplitFrames.push(result);
+    }
+
+    Promise.all(promisesSplitFrames).then(_ => {
+        //get array of promises to execute next
+        return prepGIFS(scenes);
+    }).catch(err => {
+        // handle I/O error
+        console.error(err);
+    }).then(_ => {
+        //write combined gif to /app/temp1/
+        
+    }).catch(err => {
+        // handle I/O error
+        console.error(err);
+    })
+    
+    /*//ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
     //ffmpeg -framerate 2 -i output_%04d.png output.gif
     //first break up the first scene into frames
-    var scaleParam = "scale=-1:"+gifH;
-    console.log("scaleParam: " + scaleParam);
-    // '-r', '0.5',
-    var ffmpeg = spawn('ffmpeg', ['-y', '-i', mov1URL, '-filter:v', scaleParam , 'output_%04d.png']);
-    var ffmpeg2; 
-    
-    
-    /*var ffprobe = spawn('ffprobe', ['-v', '0', '-of', 'compact=p=0', scaleParam , '-select_streams', '0', '\-show_entries', 'stream=r_frame_rate', mov1URL]);
-    ffprobe.stdout.on('data', function (data) {
-        console.log('framerate: ' + data);
-    });
-    ffprobe.stderr.on('data', function (data) {
-        console.log('framerateERR: ' + data);
-    });
-    ffprobe.stderr.on('end', function () {
-        console.log('framerateERREND');
-    });*/
-    //ffprobe -v 0 -of compact=p=0 -select_streams 0 \-show_entries stream=r_frame_rate 'The Master (2012).mp4'
-    
-    
-    
+    var scaleParam = "scale=-1:"+ scene[0].gifH;
+    console.log("scaleParam: " + scaleParam);// '-r', '0.5',
+    var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene[0].movURL, '-filter:v', scaleParam , '/app/temp1/output_%04d.png']);
 
     ffmpeg.stderr.on('data', function (data) {
         //console.log("WTF is DATA??: " + data.toString());
@@ -177,9 +185,7 @@ exports.createSummaryGIF = function(req, res){
 
     ffmpeg.stderr.on('end', function () {
         //__dirname is where this file is located, process.cwd() is inside the node folder?  
-        console.log('file has finished splitting into frames. __dirname: ' + __dirname + ":p:" + process.cwd() );
-          var files = fs.readdirSync(path.join(__dirname, '/../../'));
-          console.log("where is node looking: " + path.join(__dirname, '/../../'));
+        var files = fs.readdirSync(path.join(__dirname, '/../../'));
         
         //calculate frame rate
         var delay = ((endTime - startTime)*1000)/files.length; 
@@ -202,15 +208,6 @@ exports.createSummaryGIF = function(req, res){
                 }
           }
         
-        try {
-          var stats = fs.statSync("/app/output.gif");
-          console.log('it exists');
-          fs.unlinkSync("/app/output.gif");   
-        }
-        catch(err) {
-            console.log('it does not exist');
-        }
-        
         Promise.all(promises).then(_ => {
             // do what you want
             console.log('done#$@#$@#$@#$@YAYAYAYA');
@@ -232,7 +229,7 @@ exports.createSummaryGIF = function(req, res){
                 console.log('...closing time! bye2');
             });*/
             
-            encoder.finish();
+      /*      encoder.finish();
 
         }).catch(err => {
             // handle I/O error
@@ -249,12 +246,101 @@ exports.createSummaryGIF = function(req, res){
 
     ffmpeg.stderr.on('close', function() {
         console.log('...closing time! bye');
-    });
+    });*/
     
     res.send("converted");
 
 
 }
+
+
+function prepGIFS(scenes){
+    //prep for both scenes
+    return Promise.all(scenes.map(s => {
+        return Promise.resolve()
+        .then(s => {
+            //get array of promises to execute next
+            return setupScene(s);
+        }).catch(err => {
+            // handle I/O error
+            console.error(err);
+        }).then(encoderPromises => {
+            //execute array of populateFrames promises
+            return Promise.all(encoderPromises.promises).then(_ => {
+                encoderPromises.encoder.finish();
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
+            });
+
+        }).catch(err => {
+            // handle I/O error
+            console.error(err);
+        });
+    })); 
+}
+
+function setupScene(s){
+    return new Promise( function(resolve, reject) {
+        var folderPath; 
+        var gifPath;
+        if(s.num == 0){
+            folderPath = '/app/temp1/';
+            gifPath = '/app/temp1/myanimated.gif';
+        }else{
+            folderPath = '/app/temp2/';
+            gifPath = '/app/temp2/myanimated.gif';
+        }
+        var files = fs.readdirSync(folderPath);
+        
+        //calculate frame rate
+        var delay = ((s.endTime - s.startTime)*1000)/files.length; 
+        console.log("difference in time:" + (s.endTime - s.startTime).toString());
+        
+        //setup gif encoder
+        var encoder = new GIFEncoder(s.sceneJSON.width, s.sceneJSON.height);
+        encoder.createReadStream().pipe(fs.createWriteStream(gifPath));
+        //start gif encoder
+        encoder.start();
+        encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
+        encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
+        encoder.setQuality(15); // image quality. 10 is default. 
+        
+        var encoderPromises;
+        var promises = []; 
+        var pngCounter = 0; 
+        for (var j = 0; j < files.length; j++) {
+            var extension = path.extname(files[j]);
+            console.log("the extension: " + extension);
+            if(extension == ".png"){
+                var result = populateFrames(s.sceneJSON.width, s.sceneJSON.height, files[j], "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder);
+                promises.push(result);
+                pngCounter += 1; 
+            }
+        }
+        encoderPromises.encoder = encoder; 
+        encoderPromises.promises = promises; 
+        resolve(encoderPromises);
+        var a = 0; 
+        if(a == 1){ reject();}
+    });
+}
+
+
+
+function splitFrames(scene){
+    var scaleParam = "scale=-1:"+ scene.gifH;
+    console.log("scaleParam: " + scaleParam);// '-r', '0.5',
+    var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , '/app/temp1/output_%04d.png']);
+
+    ffmpeg.stderr.on('data', function (data) {
+        //console.log("WTF is DATA??: " + data.toString());
+    });
+
+    ffmpeg.stderr.on('end', function () {
+    });
+}
+
 
 function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter, enGIF) {
     //console.log("counter is: " + counter);
