@@ -362,7 +362,7 @@ function setupScene(s){
             var extension = path.extname(files[j]);
             console.log("the extension: " + extension);
             if(extension == ".png"){
-                var result = populateFrames(s.width, s.height, files[j], "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder);
+                var result = populateFrames(s.width, s.height, files[j], "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder, s.num);
                 promises.push(result);
                 pngCounter += 1; 
             }
@@ -378,9 +378,15 @@ function setupScene(s){
 
 
 function splitFrames(scene){
+    var outputAddress; 
+    if(scene.num == 0){
+        outputAddress = '/app/temp1/output_%04d.png';
+    }else{
+        outputAddress = '/app/temp2/output_%04d.png';
+    }
     var scaleParam = "scale=-1:"+ scene.gifH;
     console.log("scaleParam: " + scaleParam);// '-r', '0.5',
-    var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , '/app/temp1/output_%04d.png']);
+    var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , outputAddress]);
 
     ffmpeg.stderr.on('data', function (data) {
         //console.log("WTF is DATA??: " + data.toString());
@@ -391,10 +397,16 @@ function splitFrames(scene){
 }
 
 
-function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter, enGIF) {
-    //console.log("counter is: " + counter);
+function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter, enGIF, sceneNum) {
+    console.log("inside populateFrames");
+    var folderPath; 
+    if(sceneNum == 0){
+        folderPath = "/app/temp1/exp_";
+    }else{
+        folderPath = "/app/temp2/exp_";
+    }
     var num = pad(counter, 4); 
-    var outputPath = "/app/exp_"+num+".png";
+    var outputPath = folderPath+num+".png";
     console.log("outputPath: " + outputPath);
     var out = fs.createWriteStream(outputPath);
     //make canvas
