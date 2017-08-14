@@ -259,10 +259,10 @@ function prepGIFS(scenes){
     return Promise.all(scenes.map(s => {
         console.log("test to see: " + s.num);
         return Promise.resolve()
-        .then(s => {
+        .then(s => 
             //get array of promises to execute next
             return setupScene(s);
-        }).catch(err => {
+        ).catch(err => {
             // handle I/O error
             console.error(err);
         }).then(encoderPromises => {
