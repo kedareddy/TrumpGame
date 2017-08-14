@@ -288,7 +288,7 @@ function prepGIFS(scenes){
     return Promise.resolve()
         .then(() => {
             //get array of promises to execute next
-            return setupScene(0);
+            return setupScene(scenes[0]);
         }).catch(err => {
             // handle I/O error
             console.error(err);
@@ -307,7 +307,7 @@ function prepGIFS(scenes){
         })
         .then(() => {
             //get array of promises to execute next
-            return setupScene(1);
+            return setupScene(scenes[1]);
         }).catch(err => {
             // handle I/O error
             console.error(err);
