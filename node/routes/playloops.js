@@ -146,9 +146,13 @@ exports.createSummaryGIF = function(req, res){
    //if temp1 and temp2 exist, delete everything in there
     if (fs.existsSync('/app/temp1')) {
        rimraf.sync('/app/temp1');
+    }else{
+       fs.mkdirSync('/app/temp1'); 
     }
     if (fs.existsSync('/app/temp2')) {
        rimraf.sync('/app/temp2');
+    }else{
+        fs.mkdirSync('/app/temp2'); 
     }
             
     //split up the frames of the two videos from the first 2 scenes
