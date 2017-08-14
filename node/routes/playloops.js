@@ -110,7 +110,8 @@ exports.createSummaryGIF = function(req, res){
        
        canvasStr = playloop['scenes'][k];
        sceneJSON = JSON.parse(canvasStr);
-       scene['sceneJSON'] = sceneJSON;
+       scene['width'] = sceneJSON.width;
+       scene['height'] = sceneJSON.height;
        sceneObjects = sceneJSON.objects;
         
        for (var i = 0; i < sceneObjects.length; i++) {    
@@ -344,7 +345,7 @@ function setupScene(s){
         console.log("difference in time:" + (s.endTime - s.startTime).toString());
         
         //setup gif encoder
-        var encoder = new GIFEncoder(s.sceneJSON.width, s.sceneJSON.height);
+        var encoder = new GIFEncoder(s.width, s.height);
         encoder.createReadStream().pipe(fs.createWriteStream(gifPath));
         //start gif encoder
         encoder.start();
@@ -359,7 +360,7 @@ function setupScene(s){
             var extension = path.extname(files[j]);
             console.log("the extension: " + extension);
             if(extension == ".png"){
-                var result = populateFrames(s.sceneJSON.width, s.sceneJSON.height, files[j], "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder);
+                var result = populateFrames(s.width, s.height, files[j], "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder);
                 promises.push(result);
                 pngCounter += 1; 
             }
