@@ -257,6 +257,7 @@ exports.createSummaryGIF = function(req, res){
 function prepGIFS(scenes){
     //prep for both scenes
     return Promise.all(scenes.map(s => {
+        console.log("test to see: " + s.num);
         return Promise.resolve()
         .then(s => {
             //get array of promises to execute next
