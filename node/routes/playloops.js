@@ -260,7 +260,7 @@ exports.createSummaryGIF = function(req, res){
 
 function prepGIFS(scenes){
     //prep for both scenes
-    return Promise.all(scenes.map(s => {
+    /*return Promise.all(scenes.map(s => {
         console.log("test to see: " + s.num);
         return Promise.resolve(s)
         .then(s => {
@@ -282,7 +282,48 @@ function prepGIFS(scenes){
             // handle I/O error
             console.error(err);
         });
-    })); 
+    }));*/
+    
+    return Promise.resolve()
+        .then(() => {
+            //get array of promises to execute next
+            return setupScene(0);
+        }).catch(err => {
+            // handle I/O error
+            console.error(err);
+        }).then(encoderPromises => {
+            //execute array of populateFrames promises
+            return Promise.all(encoderPromises.promises).then(_ => {
+                encoderPromises.encoder.finish();
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
+            });
+
+        }).catch(err => {
+            // handle I/O error
+            console.error(err);
+        })
+        .then(() => {
+            //get array of promises to execute next
+            return setupScene(1);
+        }).catch(err => {
+            // handle I/O error
+            console.error(err);
+        }).then(encoderPromises => {
+            //execute array of populateFrames promises
+            return Promise.all(encoderPromises.promises).then(_ => {
+                encoderPromises.encoder.finish();
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
+            });
+
+        }).catch(err => {
+            // handle I/O error
+            console.error(err);
+        });
+    
 }
 
 function setupScene(s){
