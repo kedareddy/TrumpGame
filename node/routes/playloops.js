@@ -295,6 +295,7 @@ function prepGIFS(scenes){
         }).then(encoderPromises => {
             //execute array of populateFrames promises
             return Promise.all(encoderPromises.promises).then(_ => {
+                console.log();
                 encoderPromises.encoder.finish();
             }).catch(err => {
                 // handle I/O error
@@ -331,13 +332,14 @@ function setupScene(s){
     return new Promise( function(resolve, reject) {
         var folderPath; 
         var gifPath;
-        if(s['num'] == 0){
+        if(s.num == 0){
             folderPath = '/app/temp1/';
             gifPath = '/app/temp1/myanimated.gif';
         }else{
             folderPath = '/app/temp2/';
             gifPath = '/app/temp2/myanimated.gif';
         }
+        console.log("s num: " + s.num + " folderPath: " + folderPath);
         var files = fs.readdirSync(folderPath);
         
         //calculate frame rate
