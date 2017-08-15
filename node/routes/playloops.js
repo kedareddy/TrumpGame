@@ -441,7 +441,7 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
     c.setHeight(cH);
     c.setWidth(cW);
     
-    return new Promise((resolve, reject) => {
+    return new Promise( function(resolve, reject) {
         var img = new Image(); 
         img.onload = function() {
             console.log("image loaded with src");
