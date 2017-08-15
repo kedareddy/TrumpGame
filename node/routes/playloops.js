@@ -360,6 +360,7 @@ function prepGIFS(scenes){
     
 }
 
+var pngCounter = 0;
 function setupScene(s){
     return new Promise( function(resolve, reject) {
         var folderPath; 
@@ -394,8 +395,8 @@ function setupScene(s){
 
             //var encoderPromises = {};
             //var promises = []; 
-            var pngCounter = 0;
-            
+          
+            pngCounter = 0;
             /*for (var j = 0; j < files.length; j++) {
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
@@ -407,8 +408,7 @@ function setupScene(s){
             }*/
             
             const myPromises = files.map(file => {
-              return populateFrames(s.width, s.height, file, "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder, s.num);
-                pngCounter += 1; 
+              return populateFrames(s.width, s.height, file, s.addOnObjs, s.vPosX, s.vPosY, encoder, s.num);
             });
             
             Promise.all(myPromises).then(() => {
@@ -466,7 +466,7 @@ function splitFrames(scene){
 }
 
 
-function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter, enGIF, sceneNum) {
+function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum) {
 
     return new Promise( function(resolve, reject) {
         console.log("inside populateFrames");
@@ -476,14 +476,17 @@ function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, count
         }else{
             folderPath = "/app/temp2/exp_";
         }
-        var num = pad(counter, 4); 
+        var num = pad(pngCounter, 4); 
+        pngCounter +=1;
         var outputPath = folderPath+num+".png";
         console.log("outputPath: " + outputPath);
-        var out = fs.createWriteStream(outputPath);
+        //var out = fs.createWriteStream(outputPath);
         //make canvas
         var c = fabric.createCanvasForNode(200, 200);
         c.setHeight(cH);
         c.setWidth(cW);
+        
+        
         
         var img = new Image(); 
         img.onload = function() {
