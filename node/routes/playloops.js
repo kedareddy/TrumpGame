@@ -481,6 +481,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum) 
        
         var outputPath = folderPath+num+".png";
         console.log("outputPath: " + outputPath);
+        console.log("img src: " + orgImg);
         //var out = fs.createWriteStream(outputPath);
         //make canvas
         var c = fabric.createCanvasForNode(200, 200);
