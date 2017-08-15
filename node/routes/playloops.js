@@ -420,28 +420,37 @@ function splitFrames(scene){
         ffmpeg.stderr.on('end', function () {
             resolve();
         });
+        
+        ffmpeg.stderr.on('exit', function () {
+            console.log('child process exited2');
+        });
+
+        ffmpeg.stderr.on('close', function() {
+            console.log('...closing time! bye2');
+        });
     });
 }
 
 
 function populateFrames(cW, cH, orgImg, orgImgPath, addOnObjs, posX, posY, counter, enGIF, sceneNum) {
-    console.log("inside populateFrames");
-    var folderPath; 
-    if(sceneNum == 0){
-        folderPath = "/app/temp1/exp_";
-    }else{
-        folderPath = "/app/temp2/exp_";
-    }
-    var num = pad(counter, 4); 
-    var outputPath = folderPath+num+".png";
-    console.log("outputPath: " + outputPath);
-    var out = fs.createWriteStream(outputPath);
-    //make canvas
-    var c = fabric.createCanvasForNode(200, 200);
-    c.setHeight(cH);
-    c.setWidth(cW);
-    
+
     return new Promise( function(resolve, reject) {
+        console.log("inside populateFrames");
+        var folderPath; 
+        if(sceneNum == 0){
+            folderPath = "/app/temp1/exp_";
+        }else{
+            folderPath = "/app/temp2/exp_";
+        }
+        var num = pad(counter, 4); 
+        var outputPath = folderPath+num+".png";
+        console.log("outputPath: " + outputPath);
+        var out = fs.createWriteStream(outputPath);
+        //make canvas
+        var c = fabric.createCanvasForNode(200, 200);
+        c.setHeight(cH);
+        c.setWidth(cW);
+        
         var img = new Image(); 
         img.onload = function() {
             console.log("image loaded with src");
