@@ -401,21 +401,25 @@ function setupScene(s){
 
 
 function splitFrames(scene){
-    var outputAddress; 
-    if(scene.num == 0){
-        outputAddress = '/app/temp1/output_%04d.png';
-    }else{
-        outputAddress = '/app/temp2/output_%04d.png';
-    }
-    var scaleParam = "scale=-1:"+ scene.gifH;
-    console.log("scaleParam: " + scaleParam);// '-r', '0.5',
-    var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , outputAddress]);
+    return new Promise(function(resolve, reject) {
+    
+        var outputAddress; 
+        if(scene.num == 0){
+            outputAddress = '/app/temp1/output_%04d.png';
+        }else{
+            outputAddress = '/app/temp2/output_%04d.png';
+        }
+        var scaleParam = "scale=-1:"+ scene.gifH;
+        console.log("scaleParam: " + scaleParam);// '-r', '0.5',
+        var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , outputAddress]);
 
-    ffmpeg.stderr.on('data', function (data) {
-        //console.log("WTF is DATA??: " + data.toString());
-    });
+        ffmpeg.stderr.on('data', function (data) {
+            //console.log("WTF is DATA??: " + data.toString());
+        });
 
-    ffmpeg.stderr.on('end', function () {
+        ffmpeg.stderr.on('end', function () {
+            resolve();
+        });
     });
 }
 
