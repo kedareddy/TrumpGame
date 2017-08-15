@@ -157,13 +157,30 @@ exports.createSummaryGIF = function(req, res){
     //}
             
     //split up the frames of the two videos from the first 2 scenes
-    var promisesSplitFrames = []; 
+    /*var promisesSplitFrames = []; 
     for (var j = 0; j < 2; j++) {
         var result = splitFrames(scenes[j]); 
         promisesSplitFrames.push(result);
     }
 
-    Promise.all(promisesSplitFrames).then(_ => {
+    Promise.all(promisesSplitFrames).
+    */
+    Promise.resolve()
+    .then(() => {
+        //get array of promises to execute next
+        return splitFrames(scenes[0]);
+    }).catch(err => {
+        // handle I/O error
+        console.error(err);
+    })
+    .then(() => {
+        //get array of promises to execute next
+        return splitFrames(scenes[1]);
+    }).catch(err => {
+        // handle I/O error
+        console.error(err);
+    })
+    .then(_ => {
         //get array of promises to execute next
         return prepGIFS(scenes);
     }).catch(err => {
@@ -419,6 +436,7 @@ function splitFrames(scene){
 
         ffmpeg.stderr.on('end', function () {
             resolve();
+            console.log("finished splitting");
         });
         
         ffmpeg.stderr.on('exit', function () {
