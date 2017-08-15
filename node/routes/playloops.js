@@ -292,15 +292,16 @@ function prepGIFS(scenes){
         }).catch(err => {
             // handle I/O error
             console.error(err);
-        }).then(encoderPromises => {
+        }).then(() => {
+            console.log("made first gif");
             //execute array of populateFrames promises
-            return Promise.all(encoderPromises.promises).then(_ => {
-                console.log();
+            /*return Promise.all(encoderPromises.promises).then(_ => {
+                console.log("populateFrames promises done");
                 encoderPromises.encoder.finish();
             }).catch(err => {
                 // handle I/O error
                 console.error(err);
-            });
+            });*/
 
         }).catch(err => {
             // handle I/O error
@@ -312,14 +313,15 @@ function prepGIFS(scenes){
         }).catch(err => {
             // handle I/O error
             console.error(err);
-        }).then(encoderPromises => {
+        }).then(() => {
+            console.log("made second gif");
             //execute array of populateFrames promises
-            return Promise.all(encoderPromises.promises).then(_ => {
+            /*return Promise.all(encoderPromises.promises).then(_ => {
                 encoderPromises.encoder.finish();
             }).catch(err => {
                 // handle I/O error
                 console.error(err);
-            });
+            });*/
 
         }).catch(err => {
             // handle I/O error
@@ -340,38 +342,54 @@ function setupScene(s){
             gifPath = '/app/temp2/myanimated.gif';
         }
         console.log("s num: " + s.num + " folderPath: " + folderPath);
-        var files = fs.readdirSync(folderPath);
-        
-        //calculate frame rate
-        var delay = ((s.endTime - s.startTime)*1000)/files.length; 
-        console.log("difference in time:" + (s.endTime - s.startTime).toString());
-        
-        //setup gif encoder
-        var encoder = new GIFEncoder(s.width, s.height);
-        encoder.createReadStream().pipe(fs.createWriteStream(gifPath));
-        //start gif encoder
-        encoder.start();
-        encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
-        encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
-        encoder.setQuality(15); // image quality. 10 is default. 
-        
-        var encoderPromises = {};
-        var promises = []; 
-        var pngCounter = 0; 
-        for (var j = 0; j < files.length; j++) {
-            var extension = path.extname(files[j]);
-            console.log("the extension: " + extension);
-            if(extension == ".png"){
-                var result = populateFrames(s.width, s.height, files[j], "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder, s.num);
-                promises.push(result);
-                pngCounter += 1; 
+        //var files = fs.readdirSync(folderPath);
+        fs.readdir(folderPath, function (err, files) {
+            if (err) {
+                console.log(err);
             }
-        }
-        encoderPromises['encoder'] = encoder; 
-        encoderPromises['promises'] = promises; 
-        resolve(encoderPromises);
-        var a = 0; 
-        if(a == 1){ reject();}
+            
+            //calculate frame rate
+            var delay = ((s.endTime - s.startTime)*1000)/files.length; 
+            console.log("difference in time:" + (s.endTime - s.startTime).toString());
+
+            //setup gif encoder
+            var encoder = new GIFEncoder(s.width, s.height);
+            encoder.createReadStream().pipe(fs.createWriteStream(gifPath));
+            //start gif encoder
+            encoder.start();
+            encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
+            encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
+            encoder.setQuality(15); // image quality. 10 is default. 
+
+            var encoderPromises = {};
+            var promises = []; 
+            var pngCounter = 0;
+            
+            for (var j = 0; j < files.length; j++) {
+                var extension = path.extname(files[j]);
+                console.log("the extension: " + extension);
+                if(extension == ".png"){
+                    var result = populateFrames(s.width, s.height, files[j], "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder, s.num);
+                    promises.push(result);
+                    pngCounter += 1; 
+                }
+            }
+            
+            Promise.all(encoderPromises.promises).then(_ => {
+                encoderPromises.encoder.finish();
+                //encoderPromises['encoder'] = encoder; 
+                //encoderPromises['promises'] = promises; 
+                //resolve(encoderPromises);
+                resolve();
+                var a = 0; 
+                if(a == 1){ reject();}
+                
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
+            });
+
+        });
     });
 }
 
