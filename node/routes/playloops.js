@@ -471,17 +471,20 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum) 
     return new Promise( function(resolve, reject) {
         console.log("inside populateFrames");
         var folderPath; 
+        var imgAddress; 
         if(sceneNum == 0){
             folderPath = "/app/temp1/exp_";
+            imgAddress = "/app/temp1/"+orgImg; 
         }else{
             folderPath = "/app/temp2/exp_";
+            imgAddress = "/app/temp2/"+orgImg; 
         }
         pngCounter +=1;
         var num = pad(pngCounter, 4); 
        
         var outputPath = folderPath+num+".png";
         console.log("outputPath: " + outputPath);
-        console.log("img src: " + orgImg);
+        console.log("img src: " + imgAddress);
         //var out = fs.createWriteStream(outputPath);
         //make canvas
         var c = fabric.createCanvasForNode(200, 200);
@@ -540,7 +543,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum) 
                 reject();
             });*/
         };
-        img.src = orgImg;
+        img.src = imgAddress;
     });
 }
 
