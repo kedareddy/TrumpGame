@@ -393,10 +393,10 @@ function setupScene(s){
             encoder.setQuality(15); // image quality. 10 is default. 
 
             //var encoderPromises = {};
-            var promises = []; 
+            //var promises = []; 
             var pngCounter = 0;
             
-            for (var j = 0; j < files.length; j++) {
+            /*for (var j = 0; j < files.length; j++) {
                 var extension = path.extname(files[j]);
                 console.log("the extension: " + extension);
                 if(extension == ".png"){
@@ -404,11 +404,17 @@ function setupScene(s){
                     promises.push(result);
                     pngCounter += 1; 
                 }
-            }
+            }*/
             
-            Promise.all(promises).then(_ => {
+            const myPromises = files.map(file => {
+              return populateFrames(s.width, s.height, file, "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder, s.num);
+                pngCounter += 1; 
+            });
+            
+            Promise.all(myPromises).then(() => {
                 //encoderPromises.encoder.finish();
                 encoder.finish();
+                console.log("encoding finished");
                 //encoderPromises['encoder'] = encoder; 
                 //encoderPromises['promises'] = promises; 
                 //resolve(encoderPromises);
