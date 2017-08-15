@@ -1,2 +1,2 @@
-file 'http://www.playloops.io/temp1/myanimated.gif'
-file 'http://www.playloops.io/temp2/myanimated.gif'
+file 'https://www.playloops.io/temp1/myanimated.gif'
+file 'https://www.playloops.io/temp2/myanimated.gif'
