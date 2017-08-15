@@ -351,6 +351,7 @@ function setupScene(s){
             //calculate frame rate
             var delay = ((s.endTime - s.startTime)*1000)/files.length; 
             console.log("difference in time:" + (s.endTime - s.startTime).toString());
+            console.log("num of files: " + files.length);
 
             //setup gif encoder
             var encoder = new GIFEncoder(s.width, s.height);
