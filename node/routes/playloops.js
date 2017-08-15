@@ -198,8 +198,24 @@ exports.createSummaryGIF = function(req, res){
     })
     .then(() => {
         //write combined gif to /app/temp1/
-        fs.readdir("/app/temp1/", function (err, files) {
+        /*fs.readdir("/app/temp1/", function (err, files) {
             console.log("now file number: " + files.length);
+        });*/
+        //ffmpeg -i 'concat:input1|input2' -codec copy output
+        var concatString = 'concat:/app/temp1/myanimated.gif|/app/temp2/myanimated.gif';
+        var ffmpeg = spawn('ffmpeg', ['-y', '-i', concatString,'/app/temp1/final.gif']);
+        ffmpeg.stderr.on('end', function () {
+            console.log("final GIF made! at temp1/final.gif");
+        });
+        ffmpeg.stderr.on('data', function (data) {
+            console.log("WTF is DATA??: " + data.toString());
+        });
+        ffmpeg.stderr.on('exit', function () {
+            console.log('child process exited2');
+        });
+
+        ffmpeg.stderr.on('close', function() {
+            console.log('...closing time! bye2');
         });
         
     }).catch(err => {
@@ -286,78 +302,6 @@ exports.createSummaryGIF = function(req, res){
     res.send("converted");
 
 
-}
-
-
-function prepGIFS(scenes){
-    //prep for both scenes
-    /*return Promise.all(scenes.map(s => {
-        console.log("test to see: " + s.num);
-        return Promise.resolve(s)
-        .then(s => {
-            //get array of promises to execute next
-            return setupScene(s);
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        }).then(encoderPromises => {
-            //execute array of populateFrames promises
-            return Promise.all(encoderPromises.promises).then(_ => {
-                encoderPromises.encoder.finish();
-            }).catch(err => {
-                // handle I/O error
-                console.error(err);
-            });
-
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        });
-    }));*/
-    
-    return Promise.resolve()
-        .then(() => {
-            //get array of promises to execute next
-            return setupScene(scenes[0]);
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        }).then(() => {
-            console.log("made first gif");
-            //execute array of populateFrames promises
-            /*return Promise.all(encoderPromises.promises).then(_ => {
-                console.log("populateFrames promises done");
-                encoderPromises.encoder.finish();
-            }).catch(err => {
-                // handle I/O error
-                console.error(err);
-            });*/
-
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        })
-        .then(() => {
-            //get array of promises to execute next
-            return setupScene(scenes[1]);
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        }).then(() => {
-            console.log("made second gif");
-            //execute array of populateFrames promises
-            /*return Promise.all(encoderPromises.promises).then(_ => {
-                encoderPromises.encoder.finish();
-            }).catch(err => {
-                // handle I/O error
-                console.error(err);
-            });*/
-
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        });
-    
 }
 
 var pngCounter = 0;
