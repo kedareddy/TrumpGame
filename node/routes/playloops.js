@@ -180,13 +180,23 @@ exports.createSummaryGIF = function(req, res){
         // handle I/O error
         console.error(err);
     })
-    .then(_ => {
+    .then(() => {
         //get array of promises to execute next
-        return prepGIFS(scenes);
+        //return prepGIFS(scenes);
+        return setupScene(scenes[0]);
     }).catch(err => {
         // handle I/O error
         console.error(err);
-    }).then(_ => {
+    })
+    .then(() => {
+        //get array of promises to execute next
+        //return prepGIFS(scenes);
+        return setupScene(scenes[1]);
+    }).catch(err => {
+        // handle I/O error
+        console.error(err);
+    })
+    .then(() => {
         //write combined gif to /app/temp1/
         fs.readdir("/app/temp1/", function (err, files) {
             console.log("now file number: " + files.length);
