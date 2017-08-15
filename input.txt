@@ -1,0 +1,2 @@
+file '/app/temp1/myanimated.gif'
+file '/app/temp2/myanimated.gif'

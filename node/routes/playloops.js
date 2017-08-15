@@ -202,8 +202,10 @@ exports.createSummaryGIF = function(req, res){
             console.log("now file number: " + files.length);
         });*/
         //ffmpeg -i 'concat:input1|input2' -codec copy output
+        //ffmpeg -f concat -i input.txt -codec copy output.mp4
         var concatString = 'concat:/app/temp1/myanimated.gif|/app/temp2/myanimated.gif';
-        var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
+        //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
+        var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-i', '/app/input.txt', '-codec', 'copy', '/app/temp1/final.gif']);
         ffmpeg.stderr.on('end', function () {
             console.log("final GIF made! at temp1/final.gif");
         });
