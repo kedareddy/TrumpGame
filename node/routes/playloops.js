@@ -361,7 +361,7 @@ function setupScene(s){
             encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
             encoder.setQuality(15); // image quality. 10 is default. 
 
-            var encoderPromises = {};
+            //var encoderPromises = {};
             var promises = []; 
             var pngCounter = 0;
             
@@ -375,8 +375,9 @@ function setupScene(s){
                 }
             }
             
-            Promise.all(encoderPromises.promises).then(_ => {
-                encoderPromises.encoder.finish();
+            Promise.all(promises).then(_ => {
+                //encoderPromises.encoder.finish();
+                encoder.finish();
                 //encoderPromises['encoder'] = encoder; 
                 //encoderPromises['promises'] = promises; 
                 //resolve(encoderPromises);
