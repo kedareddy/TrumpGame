@@ -203,7 +203,7 @@ exports.createSummaryGIF = function(req, res){
         });*/
         //ffmpeg -i 'concat:input1|input2' -codec copy output
         var concatString = 'concat:/app/temp1/myanimated.gif|/app/temp2/myanimated.gif';
-        var ffmpeg = spawn('ffmpeg', ['-y', '-i', concatString,'/app/temp1/final.gif']);
+        var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
         ffmpeg.stderr.on('end', function () {
             console.log("final GIF made! at temp1/final.gif");
         });
