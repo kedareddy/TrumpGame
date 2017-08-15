@@ -171,6 +171,9 @@ exports.createSummaryGIF = function(req, res){
         console.error(err);
     }).then(_ => {
         //write combined gif to /app/temp1/
+        fs.readdir("/app/temp1/", function (err, files) {
+            console.log("now file number: " + files.length);
+        });
         
     }).catch(err => {
         // handle I/O error
