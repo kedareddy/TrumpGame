@@ -476,8 +476,9 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum) 
         }else{
             folderPath = "/app/temp2/exp_";
         }
-        var num = pad(pngCounter, 4); 
         pngCounter +=1;
+        var num = pad(pngCounter, 4); 
+       
         var outputPath = folderPath+num+".png";
         console.log("outputPath: " + outputPath);
         //var out = fs.createWriteStream(outputPath);
