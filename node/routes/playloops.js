@@ -212,6 +212,21 @@ exports.createSummaryGIF = function(req, res){
             var ffmpeg2 = spawn('ffmpeg',['-i', '/app/temp1/final.mp4', '/app/temp1/final.gif']);
             ffmpeg2.stderr.on('end', function () {
                 console.log("final GIF made at temp1/final.gif");
+                //gifsicle -b -O2 anim.gif
+                var gifsicle = spawn('gifsicle', ['-b','-02','/app/temp1/final.gif']);
+                gifsicle.stderr.on('end', function () {
+                    console.log("GIF optimized at temp1/final.gif");
+                });
+                gifsicle.stderr.on('data', function (data) {
+                    console.log("WTF is DATA??: " + data.toString());
+                });
+                gifsicle.stderr.on('exit', function () {
+                    console.log('child process exited2');
+                });
+                gifsicle.stderr.on('close', function() {
+                    console.log('...closing time! bye2');
+                });
+                
             });
             ffmpeg2.stderr.on('data', function (data) {
                 console.log("WTF is DATA??: " + data.toString());
