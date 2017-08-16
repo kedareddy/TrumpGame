@@ -207,7 +207,22 @@ exports.createSummaryGIF = function(req, res){
         //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
         var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
         ffmpeg.stderr.on('end', function () {
-            console.log("final GIF made! at temp1/final.gif");
+            console.log("final MOVIE made! at temp1/final.mp4");
+            //ffmpeg -i input.mp4 output.gif
+            var ffmpeg2 = spawn('ffmpeg',['-i', '/app/temp1/final.mp4', '/app/temp1/final.gif']);
+            ffmpeg2.stderr.on('end', function () {
+                console.log("final GIF made at temp1/final.gif");
+            });
+            ffmpeg2.stderr.on('data', function (data) {
+                console.log("WTF is DATA??: " + data.toString());
+            });
+            ffmpeg2.stderr.on('exit', function () {
+                console.log('child process exited2');
+            });
+
+            ffmpeg2.stderr.on('close', function() {
+                console.log('...closing time! bye2');
+            });
         });
         ffmpeg.stderr.on('data', function (data) {
             console.log("WTF is DATA??: " + data.toString());
