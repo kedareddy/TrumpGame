@@ -213,7 +213,7 @@ exports.createSummaryGIF = function(req, res){
             ffmpeg2.stderr.on('end', function () {
                 console.log("final GIF made at temp1/final.gif");
                 //gifsicle -b -O2 anim.gif
-                var gifsicle = spawn('gifsicle', ['-b','-02','/app/temp1/final.gif']);
+                var gifsicle = spawn('gifsicle', ['-b','-O2','/app/temp1/final.gif']);
                 gifsicle.stderr.on('end', function () {
                     console.log("GIF optimized at temp1/final.gif");
                 });
