@@ -445,6 +445,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         //console.log("image!!!! source is: " + addOnObjs[p].getSrc()); 
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
+                            console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + . numFrames);
                             var cImg = new fabric.Image(cursorImg);
                             c.add(cImg);
                             //cImg.set({ left: addOnObjs[p].left, top: addOnObjs[p].top, width: addOnObjs[p].width, height: addOnObjs[p].height, name: 'cursor' });
@@ -471,6 +472,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             enGIF.addFrame(ctx);
                             
                             if(index == (numFrames - 1)){
+                                console.log("resolving!");
                                 resolve();    
                             }
                             var a = 0; 
@@ -488,7 +490,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                 reject();
                             });*/
                         }
-                        cursorImg.src = '/images/cursor.png'; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
+                        cursorImg.src = "/images/cursor.png"; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
                     }
                 }
             }
