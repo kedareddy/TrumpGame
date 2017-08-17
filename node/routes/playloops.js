@@ -441,7 +441,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         }
                     }*/
                     
-                    if(cursorAllowed == true){
+                   // if(cursorAllowed == true){
                         //console.log("image!!!! source is: " + addOnObjs[p].getSrc()); 
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
@@ -490,8 +490,8 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                 reject();
                             });*/
                         }
-                        cursorImg.src = "https://www.playloops.io/images/cursor.png"; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
-                    }
+                        cursorImg.src = "/app/images/cursor.png"; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
+                   // }
                 }
             }
 
