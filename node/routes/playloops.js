@@ -115,7 +115,7 @@ exports.createSummaryGIF = function(req, res){
        sceneObjects = sceneJSON.objects;
         
        for (var i = 0; i < sceneObjects.length; i++) {
-            console.log("obj is: " + sceneObjects[i].name);
+            console.log("obj is: " + sceneObjects[i].name + " scenenum: " + k);
             if (sceneObjects[i].name == "video") {
                 var urlText = sceneObjects[i].src;
                 var indexTC = urlText.indexOf("#t=");
@@ -406,7 +406,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
             fabImg.set({ left: posX, top: posY });
             //add other elements
             for(var p = 0; p < addOnObjs.length; p++){
-                console.log("name of object: " + addOnObjs[p].name);
+                console.log("name of object: " + addOnObjs[p].name + " numofobjs: " + addOnObjs.length);
                 if(addOnObjs[p].name == "rect"){
                     var shape = new fabric.Rect({
                         left: addOnObjs[p].left,
