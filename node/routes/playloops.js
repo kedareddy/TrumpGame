@@ -135,9 +135,9 @@ exports.createSummaryGIF = function(req, res){
                 scene['gifH'] = sceneObjects[i].height
             }
             else{
-                if(sceneObjects[i].name == "text" || sceneObjects[i].name == "rect"){
+                //if(sceneObjects[i].name == "text" || sceneObjects[i].name == "rect"){
                     scene.addOnObjs.push(sceneObjects[i]);
-                }
+                //}
             }
        }
        
@@ -255,82 +255,6 @@ exports.createSummaryGIF = function(req, res){
         console.error(err);
     })
     
-    /*//ffmpeg -i https://media.giphy.com/media/TLqkzhMIZxAQg/giphy.mp4 -r 0.5 output_%04d.png
-    //ffmpeg -framerate 2 -i output_%04d.png output.gif
-    //first break up the first scene into frames
-    var scaleParam = "scale=-1:"+ scene[0].gifH;
-    console.log("scaleParam: " + scaleParam);// '-r', '0.5',
-    var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene[0].movURL, '-filter:v', scaleParam , '/app/temp1/output_%04d.png']);
-
-    ffmpeg.stderr.on('data', function (data) {
-        //console.log("WTF is DATA??: " + data.toString());
-    });
-
-    ffmpeg.stderr.on('end', function () {
-        //__dirname is where this file is located, process.cwd() is inside the node folder?  
-        var files = fs.readdirSync(path.join(__dirname, '/../../'));
-        
-        //calculate frame rate
-        var delay = ((endTime - startTime)*1000)/files.length; 
-        console.log("difference in time:" + (endTime - startTime).toString());
-            //start gif encoder
-        encoder.start();
-        encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
-        encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
-        encoder.setQuality(15); // image quality. 10 is default. 
-        
-          var promises = []; 
-          var pngCounter = 0; 
-          for (var j = 0; j < files.length; j++) {
-                var extension = path.extname(files[j]);
-                console.log("the extension: " + extension);
-                if(extension == ".png"){
-                    var result = populateFrames(sceneJSON.width, sceneJSON.height, files[j], "/", addOnObjs, vPosX, vPosY, pngCounter, encoder);
-                    promises.push(result);
-                    pngCounter += 1; 
-                }
-          }
-        
-        Promise.all(promises).then(_ => {
-            // do what you want
-            console.log('done#$@#$@#$@#$@YAYAYAYA');
-            //stich the final GIF together
-            //ffmpeg -framerate 2 -i output_%04d.png output.gif
-            //'-pix_fmt', 'yuv420p', '-f', 'png', 
-           /* var ffmpeg2 = spawn('ffmpeg', [ '-y', '-f', 'image2', '-c:v', 'png', '-framerate', '2', '-pix_fmt', 'rgba', '-s', '300x200', '-i', 'exp_%04d.png', '-t', '2', 'output.gif']);
-            ffmpeg2.stderr.on('end', function () {
-                console.log("final GIF made! at output.gif");
-            });
-            ffmpeg2.stderr.on('data', function (data) {
-                console.log("WTF is DATA??: " + data.toString());
-            });
-            ffmpeg2.stderr.on('exit', function () {
-                console.log('child process exited2');
-            });
-
-            ffmpeg2.stderr.on('close', function() {
-                console.log('...closing time! bye2');
-            });*/
-            
-      /*      encoder.finish();
-
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        }); 
-        
-        
-
-    });
-
-    ffmpeg.stderr.on('exit', function () {
-        console.log('child process exited');
-    });
-
-    ffmpeg.stderr.on('close', function() {
-        console.log('...closing time! bye');
-    });*/
-    
     res.send("converted");
 
 
@@ -356,6 +280,12 @@ function setupScene(s){
             }
             
             //calculate frame rate
+            var frameRate = 0; 
+            var animFrameMarkers; 
+            if(s.num == 0){
+                frameRate = files.length/(s.endTime - s.startTime);
+                animFrameMarkers = [Math.round(frameRate*0.5), Math.round(frameRate*(0.5*.80)), Math.round(frameRate*(0.5*0.60)), Math.round(frameRate*(0.5*0.40)), Math.round(frameRate*(0.5*0.25)), 0]; 
+            }
             var delay = ((s.endTime - s.startTime)*1000)/files.length; 
             console.log("difference in time:" + (s.endTime - s.startTime).toString());
             console.log("num of files: " + files.length);
@@ -383,8 +313,8 @@ function setupScene(s){
                 }
             }*/
             
-            const myPromises = files.map(file => {
-              return populateFrames(s.width, s.height, file, s.addOnObjs, s.vPosX, s.vPosY, encoder, s.num);
+            const myPromises = files.map((file, index) => {
+              return populateFrames(s.width, s.height, file, s.addOnObjs, s.vPosX, s.vPosY, encoder, s.num, index, files.length, animFrameMarkers);
             });
             
             Promise.all(myPromises).then(() => {
@@ -411,7 +341,6 @@ function setupScene(s){
 
 function splitFrames(scene){
     return new Promise(function(resolve, reject) {
-    
         var outputAddress; 
         if(scene.num == 0){
             outputAddress = '/app/temp1/output_%04d.png';
@@ -442,7 +371,7 @@ function splitFrames(scene){
 }
 
 
-function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum) {
+function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, index, numFrames, animationFrames) {
 
     return new Promise( function(resolve, reject) {
         console.log("inside populateFrames");
@@ -466,8 +395,6 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum) 
         var c = fabric.createCanvasForNode(200, 200);
         c.setHeight(cH);
         c.setWidth(cW);
-        
-        
         
         var img = new Image(); 
         img.onload = function() {
@@ -497,6 +424,35 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum) 
                         name: 'text'
                     });
                     c.add(iText);      
+                }
+                
+                if(addOnObjs[p].name == "cursor"){
+                    
+                    console.log("image source is: " + addOnObjs[p]._originalElement.currentSrc); 
+                    /*var cursorImg = new Image(); 
+                    cursorImg.onload = function(){
+                        
+                    }
+                    cursorImg.src = blabla; //object._originalElement.currentSrc;
+                    
+                    if(sceneNum == 0){
+                        if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
+                           //show cursor in far right position
+                        }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
+                           //show cursor almost near final position  
+                        }else if(index >= (numFrames - animationFrames[2]) && index < (numFrames - animationFrames[3]) ){
+                           //show cursor at final location
+                        }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
+                           //shrink cursor size
+                        }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
+                           //show cursor at full size
+                        }      
+                    }
+                    else{
+                        //show cursor at final location
+                    }
+                    //add cursor to canvas
+                    */
                 }
             }
             c.renderAll(); 
