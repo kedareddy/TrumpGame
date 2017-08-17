@@ -431,17 +431,17 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                 //if(addOnObjs[p].name == "cursor"){
                 if(p == 1 ){
                     console.log("in cursor");
-                    var cursorAllowed = true;//false; 
-                    /*if(sceneNum == 1){
+                    var cursorAllowed = false; 
+                    if(sceneNum == 1){
                         cursorAllowed = true; 
                     }
                     if(sceneNum == 0){
                         if(index >= (numFrames - animationFrames[0])){
                            cursorAllowed = true; 
                         }
-                    }*/
+                    }
                     
-                   // if(cursorAllowed == true){
+                    if(cursorAllowed == true){
                         //console.log("image!!!! source is: " + addOnObjs[p].getSrc());
                         
                         var cursorImg = new Image(); 
@@ -450,7 +450,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             var cImg = new fabric.Image(cursorImg);
                             c.add(cImg);
                             //cImg.set({ left: addOnObjs[p].left, top: addOnObjs[p].top, width: addOnObjs[p].width, height: addOnObjs[p].height, name: 'cursor' });
-                            cImg.set({ left: 4*(cW/5), top: cH/2, width: (2/2.5)*(cH/5), height: cH/5, name: 'cursor' });
+                            cImg.set({ left: 4*(cW/5), top: cH/2, width: .67*cW, height: .67*cH, name: 'cursor' });
                             var cursorOrgW =  (2/2.5)*(cH/5);
                             var cursorOrgH = cH/5;
                             if(sceneNum == 0){
@@ -465,7 +465,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                     cImg.set({ left: 0.5*cW, top: 0.67*cH});
                                 }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
                                    //shrink cursor size
-                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: 0.67*cW, height: 0.67*cH});
+                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: 0.33*cW, height: 0.33*cH});
                                 }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
                                    //show cursor at full size
                                     cImg.set({ left: 0.5*cW, top: 0.67*cH, width: cursorOrgW , height: cursorOrgH });
@@ -479,10 +479,8 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             var ctx = c.getContext('2d');
                             enGIF.addFrame(ctx);
                             
-                            //if(index == (numFrames - 1)){
-                                console.log("resolving!");
-                                resolve();    
-                            //}
+                            console.log("resolving!");
+                            resolve();    
                             var a = 0; 
                             if(a == 1){ reject();}
                             /*//Export to PNG
@@ -499,7 +497,12 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             });*/
                         }
                         cursorImg.src = "/app/images/cursor.png"; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
-                   // }
+                    }
+                    else{
+                        resolve();    
+                        var a = 0; 
+                        if(a == 1){ reject();}
+                    }
                 }
             }
 
