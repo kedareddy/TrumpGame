@@ -449,23 +449,23 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + numFrames);
                             var cImg = new fabric.Image(cursorImg);
                             c.add(cImg);
-                            //cImg.set({ left: addOnObjs[p].left, top: addOnObjs[p].top, width: addOnObjs[p].width, height: addOnObjs[p].height, name: 'cursor' });
-                            cImg.set({ left: 4*(cW/5), top: cH/2, width: .67*cW, height: .67*cH, name: 'cursor' });
-                            var cursorOrgW =  (2/2.5)*(cH/5);
-                            var cursorOrgH = cH/5;
+                            
+                            var cursorOrgW =  0.33*cW;
+                            var cursorOrgH = 0.33*cH;
                             if(sceneNum == 0){
                                 if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
                                    //show cursor in far right position
                                     //cImg.set({ left: 4*(cW/5), top: cH/2});
+                                    cImg.set({ left: 4*(cW/5), top: cH/2, width: cursorOrgW , height: cursorOrgH});
                                 }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
                                    //show cursor almost near final position
-                                    cImg.set({ left: .575*cW, top: .567*cH});
+                                    cImg.set({ left: .575*cW, top: .567*cH, width: cursorOrgW , height: cursorOrgH});
                                 }else if(index >= (numFrames - animationFrames[2]) && index < (numFrames - animationFrames[3]) ){
                                    //show cursor at final location
-                                    cImg.set({ left: 0.5*cW, top: 0.67*cH});
+                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: cursorOrgW , height: cursorOrgH});
                                 }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
                                    //shrink cursor size
-                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: 0.33*cW, height: 0.33*cH});
+                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: 0.13*cW, height: 0.13*cH});
                                 }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
                                    //show cursor at full size
                                     cImg.set({ left: 0.5*cW, top: 0.67*cH, width: cursorOrgW , height: cursorOrgH });
@@ -473,6 +473,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             }
                             else{
                                 //show cursor at final location
+                                cImg.set({ left: 0.5*cW, top: 0.67*cH, width: cursorOrgW , height: cursorOrgH });
                             }
 
                             c.renderAll(); 
@@ -496,9 +497,10 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                 reject();
                             });*/
                         }
-                        cursorImg.src = "/app/images/cursor.png"; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
+                        cursorImg.src = "/app/images/cursor.png"; 
                     }
                     else{
+                        console.log("resolving empty frame");
                         resolve();    
                         var a = 0; 
                         if(a == 1){ reject();}
