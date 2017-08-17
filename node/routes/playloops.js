@@ -115,7 +115,7 @@ exports.createSummaryGIF = function(req, res){
        sceneObjects = sceneJSON.objects;
         
        for (var i = 0; i < sceneObjects.length; i++) {
-            console.log("obj is: " + sceneObjects[i]);
+            console.log("obj is: " + sceneObjects[i].name);
             if (sceneObjects[i].name == "video") {
                 var urlText = sceneObjects[i].src;
                 var indexTC = urlText.indexOf("#t=");
