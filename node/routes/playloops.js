@@ -427,53 +427,65 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                 }
                 
                 if(addOnObjs[p].name == "cursor"){
-                    
-                    console.log("image source is: " + addOnObjs[p]._originalElement.currentSrc); 
-                    /*var cursorImg = new Image(); 
-                    cursorImg.onload = function(){
-                        
+                    var cursorAllowed = false; 
+                    if(sceneNum == 1){
+                        cursorAllowed = true; 
                     }
-                    cursorImg.src = blabla; //object._originalElement.currentSrc;
-                    
                     if(sceneNum == 0){
-                        if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
-                           //show cursor in far right position
-                        }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
-                           //show cursor almost near final position  
-                        }else if(index >= (numFrames - animationFrames[2]) && index < (numFrames - animationFrames[3]) ){
-                           //show cursor at final location
-                        }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
-                           //shrink cursor size
-                        }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
-                           //show cursor at full size
-                        }      
+                        if(index >= (numFrames - animationFrames[0])){
+                           cursorAllowed = true; 
+                        }
                     }
-                    else{
-                        //show cursor at final location
+                    
+                    if(cursorAllowed){
+                        console.log("image source is: " + addOnObjs[p].getSrc()); 
+                        var cursorImg = new Image(); 
+                        cursorImg.onload = function(){
+                            var cImg = new fabric.Image(cursorImg);
+                            c.add(cImg);
+                            cImg.set({ left: addOnObjs[p].left, top: addOnObjs[p].top, width: addOnObjs[p].width, height: addOnObjs[p].height, name: 'cursor' });
+                            if(sceneNum == 0){
+                                if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
+                                   //show cursor in far right position
+                                }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
+                                   //show cursor almost near final position  
+                                }else if(index >= (numFrames - animationFrames[2]) && index < (numFrames - animationFrames[3]) ){
+                                   //show cursor at final location
+                                }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
+                                   //shrink cursor size
+                                }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
+                                   //show cursor at full size
+                                }      
+                            }
+                            else{
+                                //show cursor at final location
+                            }
+
+                            c.renderAll(); 
+                            var ctx = c.getContext('2d');
+
+                            enGIF.addFrame(ctx);
+                            resolve();
+                            var a = 0; 
+                            if(a == 1){ reject();}
+                            /*//Export to PNG
+                            var stream = c.createPNGStream();
+                            stream.on('data', function(chunk) {
+                                out.write(chunk);
+                            });
+                            stream.on('end', function() {
+                                console.log("finished writing final png");
+                                resolve();
+                            });
+                            stream.on('error', function() {
+                                reject();
+                            });*/
+                        }
+                        cursorImg.src = addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
                     }
-                    //add cursor to canvas
-                    */
                 }
             }
-            c.renderAll(); 
-            var ctx = c.getContext('2d');
-            
-            enGIF.addFrame(ctx);
-            resolve();
-            var a = 0; 
-            if(a == 1){ reject();}
-            /*//Export to PNG
-            var stream = c.createPNGStream();
-            stream.on('data', function(chunk) {
-                out.write(chunk);
-            });
-            stream.on('end', function() {
-                console.log("finished writing final png");
-                resolve();
-            });
-            stream.on('error', function() {
-                reject();
-            });*/
+
         };
         img.src = imgAddress;
     });
