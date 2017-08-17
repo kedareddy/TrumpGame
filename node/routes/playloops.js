@@ -471,10 +471,10 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             var ctx = c.getContext('2d');
                             enGIF.addFrame(ctx);
                             
-                            if(index == (numFrames - 1)){
+                            //if(index == (numFrames - 1)){
                                 console.log("resolving!");
                                 resolve();    
-                            }
+                            //}
                             var a = 0; 
                             if(a == 1){ reject();}
                             /*//Export to PNG
