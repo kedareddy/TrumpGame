@@ -405,6 +405,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
             fabImg.set({ left: posX, top: posY });
             //add other elements
             for(var p = 0; p < addOnObjs.length; p++){
+                console.log("name of object: " + addOnObjs[p].name);
                 if(addOnObjs[p].name == "rect"){
                     var shape = new fabric.Rect({
                         left: addOnObjs[p].left,
@@ -437,8 +438,8 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         }
                     }
                     
-                    if(cursorAllowed){
-                        console.log("image source is: " + addOnObjs[p].getSrc()); 
+                    if(cursorAllowed == true){
+                        console.log("image!!!! source is: " + addOnObjs[p].getSrc()); 
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
                             var cImg = new fabric.Image(cursorImg);
