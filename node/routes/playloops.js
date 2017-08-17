@@ -490,7 +490,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                 reject();
                             });*/
                         }
-                        cursorImg.src = "/images/cursor.png"; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
+                        cursorImg.src = "https://www.playloops.io/images/cursor.png"; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
                     }
                 }
             }
