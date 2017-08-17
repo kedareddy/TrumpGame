@@ -441,7 +441,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                     }
                     
                     if(cursorAllowed == true){
-                        console.log("image!!!! source is: " + addOnObjs[p].getSrc()); 
+                        //console.log("image!!!! source is: " + addOnObjs[p].getSrc()); 
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
                             var cImg = new fabric.Image(cursorImg);
