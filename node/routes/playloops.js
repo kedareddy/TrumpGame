@@ -114,7 +114,8 @@ exports.createSummaryGIF = function(req, res){
        scene['height'] = sceneJSON.height;
        sceneObjects = sceneJSON.objects;
         
-       for (var i = 0; i < sceneObjects.length; i++) {    
+       for (var i = 0; i < sceneObjects.length; i++) {
+            console.log("obj is: " + sceneObjects[i]);
             if (sceneObjects[i].name == "video") {
                 var urlText = sceneObjects[i].src;
                 var indexTC = urlText.indexOf("#t=");
@@ -427,7 +428,8 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                     c.add(iText);      
                 }
                 
-                if(addOnObjs[p].name == "cursor"){
+                //if(addOnObjs[p].name == "cursor"){
+                if(p == (addOnObjs.length - 1) ){
                     var cursorAllowed = false; 
                     if(sceneNum == 1){
                         cursorAllowed = true; 
@@ -444,7 +446,8 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         cursorImg.onload = function(){
                             var cImg = new fabric.Image(cursorImg);
                             c.add(cImg);
-                            cImg.set({ left: addOnObjs[p].left, top: addOnObjs[p].top, width: addOnObjs[p].width, height: addOnObjs[p].height, name: 'cursor' });
+                            //cImg.set({ left: addOnObjs[p].left, top: addOnObjs[p].top, width: addOnObjs[p].width, height: addOnObjs[p].height, name: 'cursor' });
+                            cImg.set({ left: 4*(cW/5), top: cH/2, width: (2/2.5)*(cH/5), height: cH/5, name: 'cursor' });
                             if(sceneNum == 0){
                                 if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
                                    //show cursor in far right position
@@ -484,7 +487,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                 reject();
                             });*/
                         }
-                        cursorImg.src = addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
+                        cursorImg.src = '/images/cursor.png'; //addOnObjs[p].getSrc(); //object._originalElement.currentSrc;
                     }
                 }
             }
