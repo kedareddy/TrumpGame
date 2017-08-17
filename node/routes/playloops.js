@@ -442,7 +442,8 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                     }*/
                     
                    // if(cursorAllowed == true){
-                        //console.log("image!!!! source is: " + addOnObjs[p].getSrc()); 
+                        //console.log("image!!!! source is: " + addOnObjs[p].getSrc());
+                        
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
                             console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + numFrames);
@@ -450,17 +451,24 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             c.add(cImg);
                             //cImg.set({ left: addOnObjs[p].left, top: addOnObjs[p].top, width: addOnObjs[p].width, height: addOnObjs[p].height, name: 'cursor' });
                             cImg.set({ left: 4*(cW/5), top: cH/2, width: (2/2.5)*(cH/5), height: cH/5, name: 'cursor' });
+                            var cursorOrgW =  (2/2.5)*(cH/5);
+                            var cursorOrgH = cH/5;
                             if(sceneNum == 0){
                                 if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
                                    //show cursor in far right position
+                                    //cImg.set({ left: 4*(cW/5), top: cH/2});
                                 }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
-                                   //show cursor almost near final position  
+                                   //show cursor almost near final position
+                                    cImg.set({ left: .575*cW, top: .567*cH});
                                 }else if(index >= (numFrames - animationFrames[2]) && index < (numFrames - animationFrames[3]) ){
                                    //show cursor at final location
+                                    cImg.set({ left: 0.5*cW, top: 0.67*cH});
                                 }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
                                    //shrink cursor size
+                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: 0.67*cW, height: 0.67*cH});
                                 }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
                                    //show cursor at full size
+                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: cursorOrgW , height: cursorOrgH });
                                 }      
                             }
                             else{
