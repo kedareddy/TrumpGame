@@ -445,7 +445,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         //console.log("image!!!! source is: " + addOnObjs[p].getSrc()); 
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
-                            console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + . numFrames);
+                            console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + numFrames);
                             var cImg = new fabric.Image(cursorImg);
                             c.add(cImg);
                             //cImg.set({ left: addOnObjs[p].left, top: addOnObjs[p].top, width: addOnObjs[p].width, height: addOnObjs[p].height, name: 'cursor' });
