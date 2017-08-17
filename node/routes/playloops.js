@@ -463,9 +463,11 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
 
                             c.renderAll(); 
                             var ctx = c.getContext('2d');
-
                             enGIF.addFrame(ctx);
-                            resolve();
+                            
+                            if(index == (numFrames - 1)){
+                                resolve();    
+                            }
                             var a = 0; 
                             if(a == 1){ reject();}
                             /*//Export to PNG
