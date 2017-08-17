@@ -115,7 +115,7 @@ exports.createSummaryGIF = function(req, res){
        sceneObjects = sceneJSON.objects;
         
        for (var i = 0; i < sceneObjects.length; i++) {
-            console.log("obj is: " + sceneObjects[i].name + " scenenum: " + k);
+            console.log("obj is: " + sceneObjects[i].name + " scenenum: " + k + " numberofOBjs: " + sceneObjects.length);
             if (sceneObjects[i].name == "video") {
                 var urlText = sceneObjects[i].src;
                 var indexTC = urlText.indexOf("#t=");
@@ -429,16 +429,17 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                 }
                 
                 //if(addOnObjs[p].name == "cursor"){
-                if(p == (addOnObjs.length - 1) ){
-                    var cursorAllowed = false; 
-                    if(sceneNum == 1){
+                if(p == 1 ){
+                    console.log("in cursor");
+                    var cursorAllowed = true;//false; 
+                    /*if(sceneNum == 1){
                         cursorAllowed = true; 
                     }
                     if(sceneNum == 0){
                         if(index >= (numFrames - animationFrames[0])){
                            cursorAllowed = true; 
                         }
-                    }
+                    }*/
                     
                     if(cursorAllowed == true){
                         //console.log("image!!!! source is: " + addOnObjs[p].getSrc()); 
