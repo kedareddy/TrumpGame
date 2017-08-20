@@ -447,36 +447,61 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
                             console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + numFrames);
-                            var cImg = new fabric.Image(cursorImg);
-                            c.add(cImg);
-                            
-                            var cursorOrgW =  0.33*cW;
-                            var cursorOrgH = 0.33*cH;
+                            //assign end positions to initialize
+                            var cImg = new fabric.Image(cursorImg, {
+                                left: 0.5*cW, 
+                                top: 0.67*cH
+                            });
+                            //var cursorOrgW =  0.33*cW;
+                            //var cursorOrgH = 0.33*cH;
+                            var cursorFullSize = true; 
                             if(sceneNum == 0){
                                 if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
                                    //show cursor in far right position
-                                    //cImg.set({ left: 4*(cW/5), top: cH/2});
-                                    cImg.set({ left: 4*(cW/5), top: cH/2, width: cursorOrgW , height: cursorOrgH});
+                                    cImg.set({ left: 4*(cW/5), top: cH/2});
                                 }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
                                    //show cursor almost near final position
-                                    cImg.set({ left: .575*cW, top: .567*cH, width: cursorOrgW , height: cursorOrgH});
+                                    cImg.set({ left: .575*cW, top: .567*cH});
                                 }else if(index >= (numFrames - animationFrames[2]) && index < (numFrames - animationFrames[3]) ){
                                    //show cursor at final location
-                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: cursorOrgW , height: cursorOrgH});
+                                    //cImg.set({ left: 0.5*cW, top: 0.67*cH});
                                 }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
                                    //shrink cursor size
-                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: 0.13*cW, height: 0.13*cH});
+                                    //cImg.set({ left: 0.5*cW, top: 0.67*cH});
+                                    cursorFullSize = false; 
                                 }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
                                    //show cursor at full size
-                                    cImg.set({ left: 0.5*cW, top: 0.67*cH, width: cursorOrgW , height: cursorOrgH });
+                                    //cImg.set({ left: 0.5*cW, top: 0.67*cH );
                                 }      
                             }
                             else{
-                                //show cursor at final location
-                                cImg.set({ left: 0.5*cW, top: 0.67*cH, width: cursorOrgW , height: cursorOrgH });
+                                //show cursor at final location at full size
                             }
+                                
+                            if(cursorFullSize == true){
+                                cImg.filters.push(
+                                    new fabric.Image.filters.Resize({
+                                            resizeType: 'hermite',
+                                            scaleX: 0.5,
+                                            scaleY: 0.5
+                                    })
+                                );
+                            }
+                            else{
+                                cImg.filters.push(
+                                    new fabric.Image.filters.Resize({
+                                            resizeType: 'hermite',
+                                            scaleX: 0.2,
+                                            scaleY: 0.2
+                                    })
+                                );
+                            }
+                                
 
+                            cImg.applyFilters();
+                            c.add(cImg);
                             c.renderAll(); 
+                            
                             var ctx = c.getContext('2d');
                             enGIF.addFrame(ctx);
                             
