@@ -145,17 +145,17 @@ exports.createSummaryGIF = function(req, res){
        scenes.push(scene);
    }
     
-   //if temp1 and temp2 exist, delete everything in there
-    /*if (fs.existsSync('/app/temp1')) {
+    //if temp1 and temp2 exist, delete everything in there
+    if (fs.existsSync('/app/temp1')) {
        rimraf.sync('/app/temp1');
-    }else{*/
-       fs.mkdirSync('/app/temp1'); 
-   // }
-    /*if (fs.existsSync('/app/temp2')) {
+    }
+    fs.mkdirSync('/app/temp1'); 
+   
+    if (fs.existsSync('/app/temp2')) {
        rimraf.sync('/app/temp2');
-    }else{*/
-       fs.mkdirSync('/app/temp2'); 
-    //}
+    }
+    fs.mkdirSync('/app/temp2'); 
+
             
     //split up the frames of the two videos from the first 2 scenes
     /*var promisesSplitFrames = []; 
@@ -226,8 +226,7 @@ exports.createSummaryGIF = function(req, res){
                 });
                 gifsicle.stderr.on('close', function() {
                     console.log('...closing time! bye2');
-                });
-                
+                });   
             });
             ffmpeg2.stderr.on('data', function (data) {
                 console.log("WTF is DATA??: " + data.toString());
@@ -235,7 +234,6 @@ exports.createSummaryGIF = function(req, res){
             ffmpeg2.stderr.on('exit', function () {
                 console.log('child process exited2');
             });
-
             ffmpeg2.stderr.on('close', function() {
                 console.log('...closing time! bye2');
             });
@@ -246,11 +244,9 @@ exports.createSummaryGIF = function(req, res){
         ffmpeg.stderr.on('exit', function () {
             console.log('child process exited2');
         });
-
         ffmpeg.stderr.on('close', function() {
             console.log('...closing time! bye2');
         });
-        
     }).catch(err => {
         // handle I/O error
         console.error(err);
@@ -285,7 +281,7 @@ function setupScene(s){
             var animFrameMarkers; 
             if(s.num == 0){
                 frameRate = files.length/(s.endTime - s.startTime);
-                animFrameMarkers = [Math.round(frameRate*0.5), Math.round(frameRate*(0.5*.80)), Math.round(frameRate*(0.5*0.60)), Math.round(frameRate*(0.5*0.40)), Math.round(frameRate*(0.5*0.25)), 0]; 
+                animFrameMarkers = [Math.round(frameRate*0.5), Math.round(frameRate*(0.5*.80)), Math.round(frameRate*(0.5*0.70)), Math.round(frameRate*(0.5*0.55)), Math.round(frameRate*(0.5*0.35)), 0]; 
             }
             var delay = ((s.endTime - s.startTime)*1000)/files.length; 
             console.log("difference in time:" + (s.endTime - s.startTime).toString());
@@ -452,7 +448,9 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                 left: 0.5*cW, 
                                 top: 0.67*cH, 
                                 scaleX: 0.5, 
-                                scaleY: 0.5
+                                scaleY: 0.5,
+                                originX: "center", 
+                                originY: "center"
                             });
                             
                              c.add(cImg);
@@ -471,7 +469,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                     //cImg.set({ left: 0.5*cW, top: 0.67*cH});
                                 }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
                                    //shrink cursor size
-                                    cImg.set({ scaleX: 0.2, scaleY: 0.2});
+                                    cImg.set({ scaleX: 0.4, scaleY: 0.4});
                                     //cursorFullSize = false; 
                                 }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
                                    //show cursor at full size
