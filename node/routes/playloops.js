@@ -219,33 +219,33 @@ exports.createSummaryGIF = function(req, res){
                     console.log("GIF optimized at temp1/final.gif");
                 });
                 gifsicle.stderr.on('data', function (data) {
-                    console.log("WTF is DATA??: " + data.toString());
+                    //console.log("WTF is DATA??: " + data.toString());
                 });
                 gifsicle.stderr.on('exit', function () {
-                    console.log('child process exited2');
+                   // console.log('child process exited2');
                 });
                 gifsicle.stderr.on('close', function() {
-                    console.log('...closing time! bye2');
+                    //console.log('...closing time! bye2');
                 });   
             });
             ffmpeg2.stderr.on('data', function (data) {
-                console.log("WTF is DATA??: " + data.toString());
+                //console.log("WTF is DATA??: " + data.toString());
             });
             ffmpeg2.stderr.on('exit', function () {
-                console.log('child process exited2');
+                //console.log('child process exited2');
             });
             ffmpeg2.stderr.on('close', function() {
-                console.log('...closing time! bye2');
+                //console.log('...closing time! bye2');
             });
         });
         ffmpeg.stderr.on('data', function (data) {
-            console.log("WTF is DATA??: " + data.toString());
+            //console.log("WTF is DATA??: " + data.toString());
         });
         ffmpeg.stderr.on('exit', function () {
-            console.log('child process exited2');
+            //console.log('child process exited2');
         });
         ffmpeg.stderr.on('close', function() {
-            console.log('...closing time! bye2');
+            //console.log('...closing time! bye2');
         });
     }).catch(err => {
         // handle I/O error
@@ -276,16 +276,33 @@ function setupScene(s){
                 console.log(err);
             }
             
+            
+            var delay = ((s.endTime - s.startTime)*1000)/files.length; 
+            console.log("difference in time:" + (s.endTime - s.startTime).toString());
+            console.log("num of files: " + files.length);
             //calculate frame rate
             var frameRate = 0; 
             var animFrameMarkers; 
             if(s.num == 0){
                 frameRate = files.length/(s.endTime - s.startTime);
-                animFrameMarkers = [Math.round(frameRate*0.5), Math.round(frameRate*(0.5*.80)), Math.round(frameRate*(0.5*0.70)), Math.round(frameRate*(0.5*0.55)), Math.round(frameRate*(0.5*0.35)), 0]; 
+                animFrameMarkers = [Math.round(frameRate*1), Math.round(frameRate*(1*.80)), Math.round(frameRate*(1*0.60)), Math.round(frameRate*(1*0.45)), Math.round(frameRate*(1*0.25)), 0]; 
+                
+                //extend length of first clip to at least 1 sec if less than that
+                if((s.endTime - s.startTime) < 1){
+                    //number of times to duplicate the first gif/movie
+                    var numCopies = Math.ceil(1/(s.endTime - s.startTime));
+                    console.log("number of times extended: " + numCopies);
+                    var additionalFiles = []; 
+                    for(var m = 0; m < numCopies; m++){
+                        additionalFiles= additionalFiles.concat(files);
+                    }
+                    files = files.concat(additionalFiles);
+                }
             }
-            var delay = ((s.endTime - s.startTime)*1000)/files.length; 
-            console.log("difference in time:" + (s.endTime - s.startTime).toString());
-            console.log("num of files: " + files.length);
+            
+            
+            
+            
 
             //setup gif encoder
             var encoder = new GIFEncoder(s.width, s.height);
@@ -385,8 +402,8 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
         var num = pad(pngCounter, 4); 
        
         var outputPath = folderPath+num+".png";
-        console.log("outputPath: " + outputPath);
-        console.log("img src: " + imgAddress);
+        //console.log("outputPath: " + outputPath);
+        //console.log("img src: " + imgAddress);
         //var out = fs.createWriteStream(outputPath);
         //make canvas
         var c = fabric.createCanvasForNode(200, 200);
@@ -395,14 +412,14 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
         
         var img = new Image(); 
         img.onload = function() {
-            console.log("image loaded with src");
+            //console.log("image loaded with src");
             //add image
             fabImg = new fabric.Image(img);
             c.add(fabImg);
             fabImg.set({ left: posX, top: posY });
             //add other elements
             for(var p = 0; p < addOnObjs.length; p++){
-                console.log("name of object: " + addOnObjs[p].name + " numofobjs: " + addOnObjs.length);
+               // console.log("name of object: " + addOnObjs[p].name + " numofobjs: " + addOnObjs.length);
                 if(addOnObjs[p].name == "rect"){
                     var shape = new fabric.Rect({
                         left: addOnObjs[p].left,
@@ -432,6 +449,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         cursorAllowed = true; 
                     }
                     if(sceneNum == 0){
+                        console.log("frame index: " + index + " point of cursor:" + (numFrames - animationFrames[0]).toString());
                         if(index >= (numFrames - animationFrames[0])){
                            cursorAllowed = true; 
                         }
@@ -442,13 +460,15 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
-                            console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + numFrames);
+                            //console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + numFrames);
                             //assign end positions to initialize
                             var cImg = new fabric.Image(cursorImg, {
                                 left: 0.5*cW, 
-                                top: 0.67*cH, 
+                                top: 0.75*cH, 
                                 scaleX: 0.5, 
-                                scaleY: 0.5
+                                scaleY: 0.5,
+                                originX: "center", 
+                                originY: "center"
                             });
                             
                              c.add(cImg);
@@ -461,13 +481,13 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                     cImg.set({ left: 4*(cW/5), top: cH/2});
                                 }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
                                    //show cursor almost near final position
-                                    cImg.set({ left: .575*cW, top: .567*cH});
+                                    cImg.set({ left: .575*cW, top: .67*cH});
                                 }else if(index >= (numFrames - animationFrames[2]) && index < (numFrames - animationFrames[3]) ){
                                    //show cursor at final location
                                     //cImg.set({ left: 0.5*cW, top: 0.67*cH});
                                 }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
                                    //shrink cursor size
-                                    cImg.set({ scaleX: 0.3, scaleY: 0.3, originX: "center", originY: "center"});
+                                    cImg.set({ scaleX: 0.3, scaleY: 0.3});
                                     //cursorFullSize = false; 
                                 }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
                                    //show cursor at full size
@@ -478,27 +498,6 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                 //show cursor at final location at full size
                             }
                                 
-                            /*if(cursorFullSize == true){
-                                cImg.filters.push(
-                                    new fabric.Image.filters.Resize({
-                                            resizeType: 'hermite',
-                                            scaleX: 0.5,
-                                            scaleY: 0.5
-                                    })
-                                );
-                            }
-                            else{
-                                cImg.filters.push(
-                                    new fabric.Image.filters.Resize({
-                                            resizeType: 'hermite',
-                                            scaleX: 0.2,
-                                            scaleY: 0.2
-                                    })
-                                );
-                            }*/
-                                
-
-                            //cImg.applyFilters();
                             c.renderAll(); 
                             
                             var ctx = c.getContext('2d');
@@ -524,7 +523,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         cursorImg.src = "/app/images/cursor.png"; 
                     }
                     else{
-                        console.log("resolving empty frame");
+                        console.log("resolving empty frame. SHIT WORKS!!!!!");
                         resolve();    
                         var a = 0; 
                         if(a == 1){ reject();}
