@@ -448,9 +448,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                 left: 0.5*cW, 
                                 top: 0.67*cH, 
                                 scaleX: 0.5, 
-                                scaleY: 0.5,
-                                originX: "center", 
-                                originY: "center"
+                                scaleY: 0.5
                             });
                             
                              c.add(cImg);
@@ -469,7 +467,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                                     //cImg.set({ left: 0.5*cW, top: 0.67*cH});
                                 }else if(index >= (numFrames - animationFrames[3]) && index < (numFrames - animationFrames[4]) ){
                                    //shrink cursor size
-                                    cImg.set({ scaleX: 0.4, scaleY: 0.4});
+                                    cImg.set({ scaleX: 0.3, scaleY: 0.3, originX: "center", originY: "center"});
                                     //cursorFullSize = false; 
                                 }else if(index >= (numFrames - animationFrames[4]) && index < (numFrames - animationFrames[5]) ){
                                    //show cursor at full size
