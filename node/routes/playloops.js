@@ -317,19 +317,15 @@ function setupScene(s){
             //var promises = []; 
           
             pngCounter = 0;
-            /*for (var j = 0; j < files.length; j++) {
-                var extension = path.extname(files[j]);
-                console.log("the extension: " + extension);
-                if(extension == ".png"){
-                    var result = populateFrames(s.width, s.height, files[j], "/", s.addOnObjs, s.vPosX, s.vPosY, pngCounter, encoder, s.num);
-                    promises.push(result);
-                    pngCounter += 1; 
-                }
-            }*/
+            var myPromises = []; 
+            for (var j = 0; j < files.length; j++) {
+                var result = populateFrames(s.width, s.height, files[j], s.addOnObjs, s.vPosX, s.vPosY, encoder, s.num, j, files.length, animFrameMarkers);
+                myPromises.push(result);
+            }
             
-            const myPromises = files.map((file, index) => {
+            /*const myPromises = files.map((file, index) => {
               return populateFrames(s.width, s.height, file, s.addOnObjs, s.vPosX, s.vPosY, encoder, s.num, index, files.length, animFrameMarkers);
-            });
+            });*/
             
             Promise.all(myPromises).then(() => {
                 //encoderPromises.encoder.finish();
@@ -477,7 +473,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             if(sceneNum == 0){
                                 if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
                                    //show cursor in far right position
-                                    cImg.set({ left: 0.95*cW, top: 0.65*cH});
+                                    cImg.set({ left: 0.97*cW, top: 0.65*cH});
                                 }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
                                    //show cursor almost near final position
                                     cImg.set({ left: .575*cW, top: .75*cH});
