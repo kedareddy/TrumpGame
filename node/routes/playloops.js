@@ -285,7 +285,7 @@ function setupScene(s){
             var animFrameMarkers; 
             if(s.num == 0){
                 frameRate = files.length/(s.endTime - s.startTime);
-                animFrameMarkers = [Math.round(frameRate*1), Math.round(frameRate*(1*.80)), Math.round(frameRate*(1*0.60)), Math.round(frameRate*(1*0.45)), Math.round(frameRate*(1*0.25)), 0]; 
+                animFrameMarkers = [Math.round(frameRate*1), Math.round(frameRate*(1*.80)), Math.round(frameRate*(1*0.70)), Math.round(frameRate*(1*0.5)), Math.round(frameRate*(1*0.3)), 0]; 
                 
                 //extend length of first clip to at least 1 sec if less than that
                 if((s.endTime - s.startTime) < 1){
@@ -442,7 +442,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                 }
                 
                 //if(addOnObjs[p].name == "cursor"){
-                if(p == 1 ){
+                if(p == (addOnObjs.length - 1) ){
                     console.log("in cursor" + " sceneNum: " + sceneNum);
                     var cursorAllowed = false; 
                     if(sceneNum == 1){
@@ -478,10 +478,10 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             if(sceneNum == 0){
                                 if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
                                    //show cursor in far right position
-                                    cImg.set({ left: 0.9*cW, top: cH/2});
+                                    cImg.set({ left: 0.95*cW, top: 0.65*cH});
                                 }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
                                    //show cursor almost near final position
-                                    cImg.set({ left: .575*cW, top: .7*cH});
+                                    cImg.set({ left: .575*cW, top: .75*cH});
                                 }else if(index >= (numFrames - animationFrames[2]) && index < (numFrames - animationFrames[3]) ){
                                    //show cursor at final location
                                     //cImg.set({ left: 0.5*cW, top: 0.67*cH});
