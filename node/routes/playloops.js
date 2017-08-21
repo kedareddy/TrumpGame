@@ -278,14 +278,14 @@ function setupScene(s){
             
             
             var delay = ((s.endTime - s.startTime)*1000)/files.length; 
-            console.log("difference in time:" + (s.endTime - s.startTime).toString());
-            console.log("num of files: " + files.length);
+            //console.log("difference in time:" + (s.endTime - s.startTime).toString());
+            //console.log("num of files: " + files.length);
             //calculate frame rate
             var frameRate = 0; 
             var animFrameMarkers; 
             if(s.num == 0){
                 frameRate = files.length/(s.endTime - s.startTime);
-                animFrameMarkers = [Math.round(frameRate*1), Math.round(frameRate*(1*.80)), Math.round(frameRate*(1*0.70)), Math.round(frameRate*(1*0.5)), Math.round(frameRate*(1*0.3)), 0]; 
+                animFrameMarkers = [Math.round(frameRate*1), Math.round(frameRate*(1*.87)), Math.round(frameRate*(1*0.77)), Math.round(frameRate*(1*0.57)), Math.round(frameRate*(1*0.37)), 0]; 
                 
                 //extend length of first clip to at least 1 sec if less than that
                 if((s.endTime - s.startTime) < 1){
@@ -405,6 +405,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
         //console.log("outputPath: " + outputPath);
         //console.log("img src: " + imgAddress);
         //var out = fs.createWriteStream(outputPath);
+        console.log("index: " + index + " numFrames: " + numFrames);
         //make canvas
         var c = fabric.createCanvasForNode(200, 200);
         c.setHeight(cH);
@@ -455,9 +456,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                         }
                     }
                     
-                    if(cursorAllowed == true){
-                        //console.log("image!!!! source is: " + addOnObjs[p].getSrc());
-                        
+                    if(cursorAllowed == true){                        
                         var cursorImg = new Image(); 
                         cursorImg.onload = function(){
                             //console.log("in second image loaded cursor" + " index: " + index + " totalFrames:" + numFrames);
