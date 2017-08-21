@@ -473,7 +473,7 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                             if(sceneNum == 0){
                                 if(index >= (numFrames - animationFrames[0]) && index < (numFrames - animationFrames[1]) ){
                                    //show cursor in far right position
-                                    cImg.set({ left: 0.97*cW, top: 0.65*cH});
+                                    cImg.set({ left: 0.96*cW, top: 0.65*cH});
                                 }else if(index >= (numFrames - animationFrames[1]) && index < (numFrames - animationFrames[2]) ){
                                    //show cursor almost near final position
                                     cImg.set({ left: .575*cW, top: .75*cH});
@@ -519,6 +519,10 @@ function populateFrames(cW, cH, orgImg, addOnObjs, posX, posY, enGIF, sceneNum, 
                     }
                     else{
                         console.log("resolving empty frame. SHIT WORKS!!!!!");
+                        //add non-cursor frames to the encoder
+                        c.renderAll();     
+                        var ctx = c.getContext('2d');
+                        enGIF.addFrame(ctx);
                         resolve();    
                         var a = 0; 
                         if(a == 1){ reject();}
