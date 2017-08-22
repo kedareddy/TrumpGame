@@ -57,8 +57,6 @@ exports.signS3 = function(req, res) {
             secretAccessKey: AWS_KEY,
             region: 'us-west-1'
     });
-
-
     
     const s3 = new aws.S3();
     const fileName = req.query['file-name'];
@@ -217,6 +215,7 @@ exports.createSummaryGIF = function(req, res){
                 var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
                 gifsicle.stderr.on('end', function () {
                     console.log("GIF optimized at temp1/final.gif");
+                    res.send("all done. heard back from server.");
                 });
                 gifsicle.stderr.on('data', function (data) {
                     //console.log("WTF is DATA??: " + data.toString());
@@ -252,7 +251,7 @@ exports.createSummaryGIF = function(req, res){
         console.error(err);
     })
     
-    res.send("converted");
+    
 
 
 }

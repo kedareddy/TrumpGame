@@ -45,7 +45,11 @@
                 //dataType: 'jsonp',
                 data: playloop_dict,
                 url: PLAYLOOPS_GET_URL,
-                success : function(data) { resolve(playloop_dict) },
+                success : function(data) { 
+                    console.log(data);
+                    //resolve(playloop_dict); 
+                    resolve(data);
+                },
                 error : function(jqXHR, textStatus, errorThrown) {
                     console.log("Error: Status: "+textStatus+" Message: "+errorThrown);
                     reject("Error: Status:"+textStatus+" Message: "+errorThrown);
