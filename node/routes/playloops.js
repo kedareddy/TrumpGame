@@ -92,8 +92,13 @@ exports.signS3 = function(req, res) {
   });
 }
 
-
 //Kedar's additions
+/*exports.pollServer = function(req, res) {
+    if(){
+          
+    }
+};*/
+
 exports.createSummaryGIF = function(req, res){
    var playloop = req.body;    
     
@@ -215,8 +220,6 @@ exports.createSummaryGIF = function(req, res){
                 var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
                 gifsicle.stderr.on('end', function () {
                     console.log("GIF optimized at temp1/final.gif");
-                    res.status(200).send("all done. heard back from server.");
-                    //res.send("all done. heard back from server.");
                 });
                 gifsicle.stderr.on('data', function (data) {
                     //console.log("WTF is DATA??: " + data.toString());
@@ -253,7 +256,8 @@ exports.createSummaryGIF = function(req, res){
     })
     
     
-
+    //res.status(200).send("all done. heard back from server.");
+    res.send("all done. heard back from server.");
 
 }
 
@@ -299,10 +303,6 @@ function setupScene(s){
                     files = files.concat(additionalFiles);
                 }
             }
-            
-            
-            
-            
 
             //setup gif encoder
             var encoder = new GIFEncoder(s.width, s.height);

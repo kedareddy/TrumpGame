@@ -9,6 +9,7 @@ const S3_BUCKET = 'playloops' || process.env.S3_BUCKET;
 var APP_PORT = process.env.PORT || CONFIG.port;
 
 var app = express();
+var io = require('socket.io').listen(app);
 
 // assign the swig engine to .html files
 app.engine('html', cons.swig);
@@ -43,14 +44,21 @@ app.put('/playloops/:id', playloops.updatePlayloop);
 app.delete('/playloops/:id', playloops.deletePlayloop);
 app.get('/playloops-all/', playloops.findAll);
 app.post('/createSummaryGIF', playloops.createSummaryGIF);
+//app.get('/pollServer', playloops.pollServer);
 
 app.get('/playloops-img/sign-s3', playloops.signS3);
 
 app.get('/view/:id', playloops.renderPlayLoop);
 
-console.log("routes set");
+io.sockets.on('connection', function (socket) {
+    socket.emit('message', { message: 'welcome to the chat' });
+    socket.on('send', function (data) {
+        io.sockets.emit('message', data);
+    });
+});
 
 app.listen(APP_PORT);
+//var io = require('socket.io').listen(app.listen(APP_PORT));
 console.log('Listening on port ' + APP_PORT);
 
 

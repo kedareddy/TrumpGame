@@ -54,24 +54,30 @@
                     console.log("Error: Status: "+textStatus+" Message: "+errorThrown);
                     reject("Error: Status:"+textStatus+" Message: "+errorThrown);
                 } 
-
             });
-            
         });    
-    
-       /*$.get( PLAYLOOPS_GET_URL, function( data ) {
-           console.log( "##$#create Summary GIF result: " + data );
-           //stitchGIF();
-        });*/
     }
 
-    function stitchGIF(){
-        const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/stitchGIF";
-    
-       $.get( PLAYLOOPS_GET_URL, function( data ) {
-           console.log( "GIF at: " + data );
-        });
-    }
+    /*function pollServer(){
+        return new Promise( function(resolve, reject) {
+            const PLAYLOOPS_GET_URL = PLAYLOOPS_SERVER_URL + "/pollServer";
+
+            setTimeout(function() {
+               $.ajax({ 
+                   url: PLAYLOOPS_GET_URL, 
+                   success: function(data) {
+                        console.log(data);
+                        resolve(data);
+                   },
+                   error : function(jqXHR, textStatus, errorThrown) {
+                        console.log("Error: Status: "+textStatus+" Message: "+errorThrown);
+                        reject("Error: Status:"+textStatus+" Message: "+errorThrown);
+                   }, 
+                   complete: poll 
+               });
+            }, 1000);
+        }); 
+    }*/
 
     //generates a 26 byte long low-ascii string 
     function generateUUID() {

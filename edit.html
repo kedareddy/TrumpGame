@@ -17,6 +17,9 @@
     <script src="/js/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="/js/jquery-ui.min.css">
     
+    <!-- import socket.io -->
+    <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+    
     <!--Jquery Slider-->
     <script src="/js/jquery-ui-slider-pips.js"></script>
     <link rel="stylesheet" href="/js/jquery-ui-slider-pips.css">
@@ -430,6 +433,27 @@ $(document).ready(function(){
     var span = document.getElementById("closeNodeEditor");
     //last object selected on working canvas
     var lastWCanvasObjSelected = null;
+    
+    var socket = io();
+    
+    
+    socket.on('message', function (data) {
+        if(data.message) {
+            messages.push(data.message);
+            var html = '';
+            for(var i=0; i<messages.length; i++) {
+                html += messages[i] + '<br />';
+            }
+            content.innerHTML = html;
+        } else {
+            console.log("There is a problem:", data);
+        }
+    });
+    socket.on('connect', function(data) {
+        socket.emit('send', { message: 'client to server. come in.' });
+    });
+    
+
     
     //
     
@@ -1987,8 +2011,7 @@ $(document).ready(function(){
         */
         
         
-    }
-    
+    } 
     
     function exportPlayLoop(){
         var myPlayLoop = {};
