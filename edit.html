@@ -438,7 +438,7 @@ $(document).ready(function(){
     
     
     socket.on('news', function (data) {
-        console.log("CLIENT: got news from server: " + data);
+        console.log("CLIENT: got news from server: " + data["hello"]);
         socket.emit('my other event', { my: 'data' });
     });
     

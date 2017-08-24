@@ -10,6 +10,9 @@ var fabric = require('fabric').fabric;
 //var fabricUtil = require('fabric').fabric.util;
 var GIFEncoder = require('gifencoder');
 
+//local io object
+var ioObj; 
+
 var Canvas = require('canvas');
 global.Image = Canvas.Image;
 
@@ -93,11 +96,17 @@ exports.signS3 = function(req, res) {
 }
 
 //Kedar's additions
-/*exports.pollServer = function(req, res) {
-    if(){
-          
-    }
-};*/
+// define constructor function that gets `io` sent to it
+module.exports = function(io) {
+    ioObj = io;
+    io.on('connection', function(socket) {
+      console.log("socket io connection golden");
+      socket.emit('news', { hello: 'world' });
+      socket.on('my other event', function (data) {
+        console.log("SERVER: got stuff from client: " + data);
+      });
+    });
+};
 
 exports.createSummaryGIF = function(req, res){
    var playloop = req.body;    
@@ -220,6 +229,7 @@ exports.createSummaryGIF = function(req, res){
                 var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
                 gifsicle.stderr.on('end', function () {
                     console.log("GIF optimized at temp1/final.gif");
+                    ioObj.sockets.emit('news', { hello: 'great cummunitacing!' });
                 });
                 gifsicle.stderr.on('data', function (data) {
                     //console.log("WTF is DATA??: " + data.toString());
