@@ -434,7 +434,7 @@ $(document).ready(function(){
     //last object selected on working canvas
     var lastWCanvasObjSelected = null;
     
-    var socket = io();
+    var socket = io.connect('https://www.playloops.io');
     
     
     socket.on('news', function (data) {
