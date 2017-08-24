@@ -60,6 +60,7 @@ app.get('/view/:id', playloops.renderPlayLoop);
 //var io = require('socket.io').listen(app.listen(APP_PORT));
 
 io.on('connection', function (socket) {
+  console.log("socket io connection golden");
   socket.emit('news', { hello: 'world' });
   socket.on('my other event', function (data) {
     console.log("SERVER: got stuff from client: " + data);
