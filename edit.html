@@ -437,20 +437,9 @@ $(document).ready(function(){
     var socket = io();
     
     
-    socket.on('message', function (data) {
-        if(data.message) {
-            messages.push(data.message);
-            var html = '';
-            for(var i=0; i<messages.length; i++) {
-                html += messages[i] + '<br />';
-            }
-            content.innerHTML = html;
-        } else {
-            console.log("There is a problem:", data);
-        }
-    });
-    socket.on('connect', function(data) {
-        socket.emit('send', { message: 'client to server. come in.' });
+    socket.on('news', function (data) {
+        console.log("CLIENT: got news from server: " + data);
+        socket.emit('my other event', { my: 'data' });
     });
     
 
