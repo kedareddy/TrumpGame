@@ -65,7 +65,7 @@ module.exports = function(io) {
 
 
 
-    exports.signS3 = function(req, res) {
+    module.signS3 = function(req, res) {
 
         aws.config.update({
                 accessKeyId: AWS_ID,
@@ -107,7 +107,7 @@ module.exports = function(io) {
       });
     }
 
-    exports.createSummaryGIF = function(req, res){
+    module.createSummaryGIF = function(req, res){
        var playloop = req.body;    
 
        var scenes = []; 
@@ -552,7 +552,7 @@ module.exports = function(io) {
     }
 
 
-    exports.findById = function(req, res) {
+    module.findById = function(req, res) {
         var id = req.params.id;
         console.log('Retrieving playloop: ' + id);
         db.collection('playloops', function(err, collection) {
@@ -564,7 +564,7 @@ module.exports = function(io) {
         });
     };
 
-    exports.findAll = function(req, res) {
+    module.findAll = function(req, res) {
         db.collection('playloops', function(err, collection) {
             collection.find().toArray(function(err, items) {
                 if (err) {
@@ -578,7 +578,7 @@ module.exports = function(io) {
         });
     };
 
-    exports.addPlayloop = function(req, res) {
+    module.addPlayloop = function(req, res) {
         var playloop = req.body;
 
         console.log('Adding playloop: ' + JSON.stringify(playloop));
@@ -596,7 +596,7 @@ module.exports = function(io) {
         });
     }
 
-    exports.updatePlayloop = function(req, res) {
+    module.updatePlayloop = function(req, res) {
         var id = req.params.id;
         var wine = req.body;
         console.log('Updating playloop: ' + id);
@@ -614,7 +614,7 @@ module.exports = function(io) {
         });
     }
 
-    exports.deletePlayloop = function(req, res) {
+    module.deletePlayloop = function(req, res) {
         var id = req.params.id;
         console.log('Deleting playloop: ' + id);
         db.collection('playloops', function(err, collection) {
@@ -630,7 +630,7 @@ module.exports = function(io) {
     }
 
 
-    exports.renderPlayLoop = function(req,res) {
+    module.renderPlayLoop = function(req,res) {
 
         var id = req.params.id;
 
@@ -650,7 +650,7 @@ module.exports = function(io) {
 
     }
 
-    exports.renderTempImage = function(req,res) {
+    module.renderTempImage = function(req,res) {
 
         var id = req.params.id;
 
