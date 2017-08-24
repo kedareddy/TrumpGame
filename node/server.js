@@ -8,7 +8,9 @@ console.log("got through all the requires");
 const S3_BUCKET = 'playloops' || process.env.S3_BUCKET;
 var APP_PORT = process.env.PORT || CONFIG.port;
 
-var app = express();
+//var app = express();
+var app = require('express').createServer();
+var io = require('socket.io')(app);
 //var io = require('socket.io').listen(app);
 
 // assign the swig engine to .html files
@@ -52,8 +54,8 @@ app.get('/view/:id', playloops.renderPlayLoop);
 
 
 
-//app.listen(APP_PORT);
-var io = require('socket.io').listen(app.listen(APP_PORT));
+app.listen(APP_PORT);
+//var io = require('socket.io').listen(app.listen(APP_PORT));
 
 io.sockets.on('connection', function (socket) {
     socket.emit('message', { message: 'welcome to the chat' });
