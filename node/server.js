@@ -9,9 +9,11 @@ const S3_BUCKET = 'playloops' || process.env.S3_BUCKET;
 var APP_PORT = process.env.PORT || CONFIG.port;
 
 //var app = express();
-var app = require('express').createServer();
-var io = require('socket.io')(app);
-//var io = require('socket.io').listen(app);
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+server.listen(APP_PORT);
 
 // assign the swig engine to .html files
 app.engine('html', cons.swig);
@@ -54,7 +56,7 @@ app.get('/view/:id', playloops.renderPlayLoop);
 
 
 
-app.listen(APP_PORT);
+//app.listen(APP_PORT);
 //var io = require('socket.io').listen(app.listen(APP_PORT));
 
 io.sockets.on('connection', function (socket) {
