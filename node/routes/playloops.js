@@ -120,7 +120,7 @@ module.exports = function(io) {
 
     }
     
-    function addPlayloop(playloop) {
+    /*function addPlayloop(playloop) {
         db.collection('playloops', function(err, collection) {
             collection.insert(playloop, {safe:true}, function(err, result) {
                 if (err) {
@@ -132,7 +132,7 @@ module.exports = function(io) {
                 }
             });
         });
-    }
+    }*/
     
     //was trying to upload file to directly from server to s3
     function directUploadToS3(playloop){
@@ -149,20 +149,6 @@ module.exports = function(io) {
             const s3 = new aws.S3({params: {Bucket: S3_BUCKET}});
             const fileName = playloop['_id'] + ".gif"; // req.query['file-name'];
             const fileType = "image/gif"; //req.query['file-type'];
-            //const contentEncoding = req.query['content-encoding'];
-            //const contentLength = req.query['content-length'];
-            //const callBack = req.query['callback'];
-
-            /*const s3Params = {
-                Bucket: S3_BUCKET,
-                Key: fileName,
-                Body: data,
-                Expires: 86400,
-                ContentType: fileType,
-                //ContentEncoding: contentEncoding,
-                //ContentLength: contentLength,
-                ACL: 'public-read'
-            };*/
 
             const s3Params = {
                 Bucket: S3_BUCKET,
@@ -176,52 +162,9 @@ module.exports = function(io) {
                   console.log('Error uploading data: ' + data); 
                 } else {
                   console.log('succesfully uploaded the image!');
-                    addPlayloop(playloop);
+                  //addPlayloop(playloop);
                 }
             });
-            
-            /*s3.getSignedUrl('putObject', s3Params, (err, data) => {
-                if(err){
-                    console.log(err);
-                    return res.end();
-                }
-
-                const returnData = {
-                    signedRequest: data,
-                    url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
-                    };
-
-                var response = callBack + '(' +  JSON.stringify(returnData) + ')';  
-                res.write(response);
-                res.end();
-            });*/
-            
-            
-            //var s3bucket = new AWS.S3({params: {Bucket: 'mybucketname'}});
-            /*s3bucket.createBucket(function () {
-                var params = {
-                    Key: file.originalFilename, //file.name doesn't exist as a property
-                    Body: data
-                };
-                s3bucket.upload(params, function (err, data) {
-                    // Whether there is an error or not, delete the temp file
-                    fs.unlink(file.path, function (err) {
-                        if (err) {
-                            console.error(err);
-                        }
-                        console.log('Temp File Delete');
-                    });
-
-                    console.log("PRINT FILE:", file);
-                    if (err) {
-                        console.log('ERROR MSG: ', err);
-                        res.status(500).send(err);
-                    } else {
-                        console.log('Successfully uploaded data');
-                        res.status(200).end();
-                    }
-                });
-            });*/
         });
     }
 
