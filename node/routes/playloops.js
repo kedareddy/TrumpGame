@@ -157,9 +157,9 @@ module.exports = function(io) {
             };
             s3Bucket.putObject(s3Params, function(err, data){
                 if (err) { 
-                  console.log('Error uploading data: ', data); 
+                  console.log('Error uploading data: ' + data); 
                 } else {
-                  console.log('succesfully uploaded the image!';
+                  console.log('succesfully uploaded the image!');
                 }
             });
             
