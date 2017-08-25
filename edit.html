@@ -1923,6 +1923,8 @@ $(document).ready(function(){
         playloop_dict['_id'] = playloop_id;
         playloop_dict['scene_name'] = 'IBranchTemplate';
         playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/view/' + playloop_id;
+        playloop_dict['summary_img'] = 'https://playloops.s3.amazonaws.com/' + playloop_id + '.gif';
+        console.log("summary_url" + playloop_dict['summary_img']);
 
         /*playloop_dict['text1'] = inputText1;
         playloop_dict['text2'] = inputText4;
