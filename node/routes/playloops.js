@@ -155,7 +155,7 @@ module.exports = function(io) {
                 Body: data,
                 ContentType: fileType
             };
-            s3Bucket.putObject(s3Params, function(err, data){
+            s3.putObject(s3Params, function(err, data){
                 if (err) { 
                   console.log('Error uploading data: ' + data); 
                 } else {
