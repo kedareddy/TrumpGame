@@ -132,7 +132,7 @@ module.exports = function(io) {
                 region: 'us-west-1'
             });
 
-            const s3 = new aws.S3();
+            const s3 = new aws.S3({params: {Bucket: S3_BUCKET}});
             const fileName = id + ".gif"; // req.query['file-name'];
             const fileType = "image/gif"; //req.query['file-type'];
             //const contentEncoding = req.query['content-encoding'];
@@ -151,9 +151,11 @@ module.exports = function(io) {
             };*/
 
             const s3Params = {
+                Bucket: S3_BUCKET,
                 Key: fileName, 
                 Body: data,
-                ContentType: fileType
+                ContentType: fileType, 
+                ACL: 'public-read'
             };
             s3.putObject(s3Params, function(err, data){
                 if (err) { 
