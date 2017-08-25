@@ -227,7 +227,13 @@ module.exports = function(io) {
            rimraf.sync(folder1Path);
         }
         fs.mkdirSync(folder1Path); 
-
+        if (fs.existsSync(folder1Path)) {
+           console.log("Apaarently folder1 does not exist......fuck");
+        }
+        else{
+           console.log("Yaaay created folder at: " + folder1Path);
+        }
+        
         if (fs.existsSync(folder2Path)) {
            rimraf.sync(folder2Path);
         }
@@ -319,13 +325,13 @@ module.exports = function(io) {
                 });*/
             });
             gifsicle.stderr.on('data', function (data) {
-                //console.log("WTF is DATA??: " + data.toString());
+                console.log("WTF is DATA??: " + data.toString());
             });
             gifsicle.stderr.on('exit', function () {
-                //console.log('child process exited2');
+                console.log('child process exited2');
             });
             gifsicle.stderr.on('close', function() {
-                //console.log('...closing time! bye2');
+                console.log('...closing time! bye2');
             });
         }).catch(err => {
             // handle I/O error
@@ -466,9 +472,9 @@ module.exports = function(io) {
 
             var outputPath = folderPath+num+".png";
             //console.log("outputPath: " + outputPath);
-            //console.log("img src: " + imgAddress);
+            console.log("img src: " + imgAddress);
             //var out = fs.createWriteStream(outputPath);
-            console.log("index: " + index + " numFrames: " + numFrames);
+            //console.log("index: " + index + " numFrames: " + numFrames);
             //make canvas
             var c = fabric.createCanvasForNode(200, 200);
             c.setHeight(cH);
