@@ -60,7 +60,7 @@ module.exports = function(io) {
 
 
     io.on('connection', function(socket) {
-      ioClientID = socket.engine.id; 
+      ioClientID = socket.id; 
       console.log("socket io connection golden. Client Id: " + ioClientID);
       socket.emit('news', { hello: 'world' });
       socket.on('my other event', function (data) {
