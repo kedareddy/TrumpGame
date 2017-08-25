@@ -120,8 +120,22 @@ module.exports = function(io) {
 
     }
     
+    function addPlayloop(playloop) {
+        db.collection('playloops', function(err, collection) {
+            collection.insert(playloop, {safe:true}, function(err, result) {
+                if (err) {
+                    console.log("error has occured: " + err);
+                    //res.send({'error':'An error has occurred'});
+                } else {
+                    console.log('Success: ' + JSON.stringify(result[0]));
+                    //res.send(result[0]);
+                }
+            });
+        });
+    }
+    
     //was trying to upload file to directly from server to s3
-    function directUploadToS3(id){
+    function directUploadToS3(playloop){
         
         fs.readFile('/app/temp1/final.gif', function (err, data) {
             if (err) throw err; // Something went wrong!
@@ -133,7 +147,7 @@ module.exports = function(io) {
             });
 
             const s3 = new aws.S3({params: {Bucket: S3_BUCKET}});
-            const fileName = id + ".gif"; // req.query['file-name'];
+            const fileName = playloop['_id'] + ".gif"; // req.query['file-name'];
             const fileType = "image/gif"; //req.query['file-type'];
             //const contentEncoding = req.query['content-encoding'];
             //const contentLength = req.query['content-length'];
@@ -162,6 +176,7 @@ module.exports = function(io) {
                   console.log('Error uploading data: ' + data); 
                 } else {
                   console.log('succesfully uploaded the image!');
+                    addPlayloop(playloop);
                 }
             });
             
@@ -328,7 +343,7 @@ module.exports = function(io) {
                         console.log("GIF optimized at temp1/final.gif");
                         io.sockets.emit('news', { hello: 'great cummunitacing!' });
                         console.log("playloop unique id: " + playloop['_id']);
-                        directUploadToS3(playloop['_id']);
+                        directUploadToS3(playloop);
                     });
                     gifsicle.stderr.on('data', function (data) {
                         //console.log("WTF is DATA??: " + data.toString());
