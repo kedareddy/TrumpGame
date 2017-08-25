@@ -17,6 +17,8 @@ var aws = require('aws-sdk');
 const S3_BUCKET = 'playloops'; //process.env.S3_BUCKET;
 const AWS_ID = 'AKIAJQMULTNLBGQO5VTQ';
 const AWS_KEY = 'vj/zdq56oUHkWpTk49n/Q5l9ECrcgUrxWEtCkE6h';
+const PLAYLOOPS_SERVER_URL = 'https://www.playloops.io';
+const PLAYLOOPS_SIGN_URL = PLAYLOOPS_SERVER_URL + '/playloops-img/sign-s3';
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -105,6 +107,105 @@ module.exports = function(io) {
         res.write(response);
         res.end();
       });
+    }
+    
+    function getS3SignedResponse(img_name, img_type) {
+        
+        //return new Promise( function(resolve, reject) {
+        return  $.ajax({
+                dataType: 'jsonp',
+                data: `file-name=${img_name}&file-type=${img_type}&content-encoding=base64`,
+                url: PLAYLOOPS_SIGN_URL,
+            });
+
+    }
+    
+    //was trying to upload file to directly from server to s3
+    function directUploadToS3(id){
+        
+        fs.readFile('/app/temp1/final.gif', function (err, data) {
+            if (err) throw err; // Something went wrong!
+            
+            aws.config.update({
+                accessKeyId: AWS_ID,
+                secretAccessKey: AWS_KEY,
+                region: 'us-west-1'
+            });
+
+            const s3 = new aws.S3();
+            const fileName = id + ".gif"; // req.query['file-name'];
+            const fileType = "image/gif"; //req.query['file-type'];
+            //const contentEncoding = req.query['content-encoding'];
+            //const contentLength = req.query['content-length'];
+            //const callBack = req.query['callback'];
+
+            /*const s3Params = {
+                Bucket: S3_BUCKET,
+                Key: fileName,
+                Body: data,
+                Expires: 86400,
+                ContentType: fileType,
+                //ContentEncoding: contentEncoding,
+                //ContentLength: contentLength,
+                ACL: 'public-read'
+            };*/
+
+            const s3Params = {
+                Key: fileName, 
+                Body: data,
+                ContentType: fileType
+            };
+            s3Bucket.putObject(s3Params, function(err, data){
+                if (err) { 
+                  console.log('Error uploading data: ', data); 
+                } else {
+                  console.log('succesfully uploaded the image!';
+                }
+            });
+            
+            /*s3.getSignedUrl('putObject', s3Params, (err, data) => {
+                if(err){
+                    console.log(err);
+                    return res.end();
+                }
+
+                const returnData = {
+                    signedRequest: data,
+                    url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+                    };
+
+                var response = callBack + '(' +  JSON.stringify(returnData) + ')';  
+                res.write(response);
+                res.end();
+            });*/
+            
+            
+            //var s3bucket = new AWS.S3({params: {Bucket: 'mybucketname'}});
+            /*s3bucket.createBucket(function () {
+                var params = {
+                    Key: file.originalFilename, //file.name doesn't exist as a property
+                    Body: data
+                };
+                s3bucket.upload(params, function (err, data) {
+                    // Whether there is an error or not, delete the temp file
+                    fs.unlink(file.path, function (err) {
+                        if (err) {
+                            console.error(err);
+                        }
+                        console.log('Temp File Delete');
+                    });
+
+                    console.log("PRINT FILE:", file);
+                    if (err) {
+                        console.log('ERROR MSG: ', err);
+                        res.status(500).send(err);
+                    } else {
+                        console.log('Successfully uploaded data');
+                        res.status(200).end();
+                    }
+                });
+            });*/
+        });
     }
 
     module.createSummaryGIF = function(req, res){
@@ -210,11 +311,6 @@ module.exports = function(io) {
         })
         .then(() => {
             //write combined gif to /app/temp1/
-            /*fs.readdir("/app/temp1/", function (err, files) {
-                console.log("now file number: " + files.length);
-            });*/
-            //ffmpeg -i 'concat:input1|input2' -codec copy output
-            //ffmpeg -f concat -i input.txt -codec copy output.mp4
             var concatString = 'concat:/app/temp1/myanimated.gif|/app/temp2/myanimated.gif';
             //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
             var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
@@ -229,6 +325,8 @@ module.exports = function(io) {
                     gifsicle.stderr.on('end', function () {
                         console.log("GIF optimized at temp1/final.gif");
                         io.sockets.emit('news', { hello: 'great cummunitacing!' });
+                        console.log("playloop unique id: " + playloop['_id']);
+                        directUploadToS3(playloop['_id']);
                     });
                     gifsicle.stderr.on('data', function (data) {
                         //console.log("WTF is DATA??: " + data.toString());
@@ -267,7 +365,6 @@ module.exports = function(io) {
 
         //res.status(200).send("all done. heard back from server.");
         res.send("all done. heard back from server.");
-
     }
 
     var pngCounter = 0;

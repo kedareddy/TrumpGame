@@ -120,15 +120,14 @@
                         resolve(xhr.status);
 
                     }         
-                        else{
-                            console.log("yoyo: " + xhr.statusText);
-                            console.log("yoyo2: " + xhr.response);
-                            //console.log("yoyoy3: " + file );
-                            reject(xhr.statusText);
-
-                        }
+                    else{
+                        console.log("yoyo: " + xhr.statusText);
+                        console.log("yoyo2: " + xhr.response);
+                        //console.log("yoyoy3: " + file );
+                        reject(xhr.statusText);
                     }
-                };
+                }
+            };
 
             xhr.send(buffer);
         });
