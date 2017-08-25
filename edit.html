@@ -1897,12 +1897,10 @@ $(document).ready(function(){
     }
     
     function uploadContent(){
-
         //First make the data structure to pass to mongo
         var playloop_dict = {};
 
         playloop_id = generateUUID();
-        
         
         var inputType = clickHold;  //Tap or TapHold
         var order = sceneOrder;
@@ -1918,21 +1916,14 @@ $(document).ready(function(){
         playloop_dict['transition'] = transition; 
         playloop_dict['scenes'] = scenes;
         
-        
         //playloop_dict['scene_name'] = 'AngerTranslator_001';
         playloop_dict['_id'] = playloop_id;
         playloop_dict['scene_name'] = 'IBranchTemplate';
         playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/view/' + playloop_id;
         playloop_dict['summary_img'] = 'https://playloops.s3.amazonaws.com/' + playloop_id + '.gif';
         console.log("summary_url" + playloop_dict['summary_img']);
-
-        /*playloop_dict['text1'] = inputText1;
-        playloop_dict['text2'] = inputText4;
-        playloop_dict['heroname'] = selectedBody;*/
-
-
+        
         //get signed request summary -> upload s3 summary -> add playloop
-
         Promise.resolve(
         ).then ( function() {
                 //save the playloop datastructure
@@ -1959,7 +1950,7 @@ $(document).ready(function(){
 
             }
         );
-        
+    
        /* Promise.resolve(
         ).then( function () {
                 //get the summary image signature
@@ -1999,9 +1990,7 @@ $(document).ready(function(){
             }
         );
         
-        */
-        
-        
+        */    
     } 
     
     function exportPlayLoop(){

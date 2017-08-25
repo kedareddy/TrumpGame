@@ -20,6 +20,8 @@ const AWS_KEY = 'vj/zdq56oUHkWpTk49n/Q5l9ECrcgUrxWEtCkE6h';
 const PLAYLOOPS_SERVER_URL = 'https://www.playloops.io';
 const PLAYLOOPS_SIGN_URL = PLAYLOOPS_SERVER_URL + '/playloops-img/sign-s3';
 
+var ioClientID; 
+
 var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
@@ -58,7 +60,8 @@ module.exports = function(io) {
 
 
     io.on('connection', function(socket) {
-      console.log("socket io connection golden");
+      ioClientID = socket.engine.id; 
+      console.log("socket io connection golden. Client Id: " + ioClientID);
       socket.emit('news', { hello: 'world' });
       socket.on('my other event', function (data) {
         console.log("SERVER: got stuff from client: " + data);
@@ -136,8 +139,8 @@ module.exports = function(io) {
     
     //was trying to upload file to directly from server to s3
     function directUploadToS3(playloop){
-        
-        fs.readFile('/app/temp1/final.gif', function (err, data) {
+        var finalGIFPath = '/app/temp1' + ioClientID + '/final.gif';
+        fs.readFile(finalGIFPath, function (err, data) {
             if (err) throw err; // Something went wrong!
             
             aws.config.update({
@@ -217,16 +220,18 @@ module.exports = function(io) {
            scenes.push(scene);
        }
 
+        var folder1Path = '/app/temp1' + ioClientID; 
+        var folder2Path = '/app/temp2' + ioClientID; 
         //if temp1 and temp2 exist, delete everything in there
-        if (fs.existsSync('/app/temp1')) {
-           rimraf.sync('/app/temp1');
+        if (fs.existsSync(folder1Path)) {
+           rimraf.sync(folder1Path);
         }
-        fs.mkdirSync('/app/temp1'); 
+        fs.mkdirSync(folder1Path); 
 
-        if (fs.existsSync('/app/temp2')) {
-           rimraf.sync('/app/temp2');
+        if (fs.existsSync(folder2Path)) {
+           rimraf.sync(folder2Path);
         }
-        fs.mkdirSync('/app/temp2'); 
+        fs.mkdirSync(folder2Path); 
 
 
         //split up the frames of the two videos from the first 2 scenes
@@ -271,24 +276,29 @@ module.exports = function(io) {
         })
         .then(() => {
             //write combined gif to /app/temp1/
-            var concatString = 'concat:/app/temp1/myanimated.gif|/app/temp2/myanimated.gif';
+            //var concatString = 'concat:' + folder1Path + '/myanimated.gif|'+ folder2Path + '/myanimated.gif';
+            var gif1Path = folder1Path + '/myanimated.gif';
+            var gif2Path = folder2Path + '/myanimated.gif';
+            var finalGIFPath = folder1Path + '/final.gif';
+                
             //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
-            var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
-            ffmpeg.stderr.on('end', function () {
-                console.log("final MOVIE made! at temp1/final.mp4");
+            //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
+            var gifsicle = spawn('gifsicle', ['-b', '-O2', '--colors=256', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
+            gifsicle.stderr.on('end', function () {
+                //console.log("final MOVIE made! at temp1/final.mp4");
                 //ffmpeg -i input.mp4 output.gif
-                var ffmpeg2 = spawn('ffmpeg',['-i', '/app/temp1/final.mp4', '/app/temp1/final.gif']);
-                ffmpeg2.stderr.on('end', function () {
-                    console.log("final GIF made at temp1/final.gif");
+                //var ffmpeg2 = spawn('ffmpeg',['-i', '/app/temp1/final.mp4', '/app/temp1/final.gif']);
+                //ffmpeg2.stderr.on('end', function () {
+                    //console.log("final GIF made at temp1/final.gif");
                     //gifsicle -b -O2 anim.gif  '--use-col=web',
-                    var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
-                    gifsicle.stderr.on('end', function () {
+                    //var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
+                    //gifsicle.stderr.on('end', function () {
                         console.log("GIF optimized at temp1/final.gif");
                         io.sockets.emit('news', { hello: 'great cummunitacing!' });
                         console.log("playloop unique id: " + playloop['_id']);
                         directUploadToS3(playloop);
-                    });
-                    gifsicle.stderr.on('data', function (data) {
+                    //});
+                    /*gifsicle.stderr.on('data', function (data) {
                         //console.log("WTF is DATA??: " + data.toString());
                     });
                     gifsicle.stderr.on('exit', function () {
@@ -296,9 +306,9 @@ module.exports = function(io) {
                     });
                     gifsicle.stderr.on('close', function() {
                         //console.log('...closing time! bye2');
-                    });   
-                });
-                ffmpeg2.stderr.on('data', function (data) {
+                    });  */ 
+                //});
+                /*ffmpeg2.stderr.on('data', function (data) {
                     //console.log("WTF is DATA??: " + data.toString());
                 });
                 ffmpeg2.stderr.on('exit', function () {
@@ -306,15 +316,15 @@ module.exports = function(io) {
                 });
                 ffmpeg2.stderr.on('close', function() {
                     //console.log('...closing time! bye2');
-                });
+                });*/
             });
-            ffmpeg.stderr.on('data', function (data) {
+            gifsicle.stderr.on('data', function (data) {
                 //console.log("WTF is DATA??: " + data.toString());
             });
-            ffmpeg.stderr.on('exit', function () {
+            gifsicle.stderr.on('exit', function () {
                 //console.log('child process exited2');
             });
-            ffmpeg.stderr.on('close', function() {
+            gifsicle.stderr.on('close', function() {
                 //console.log('...closing time! bye2');
             });
         }).catch(err => {
@@ -333,11 +343,11 @@ module.exports = function(io) {
             var folderPath; 
             var gifPath;
             if(s.num == 0){
-                folderPath = '/app/temp1/';
-                gifPath = '/app/temp1/myanimated.gif';
+                folderPath = '/app/temp1' + ioClientID + '/';
+                gifPath = '/app/temp1' + ioClientID + '/myanimated.gif';
             }else{
-                folderPath = '/app/temp2/';
-                gifPath = '/app/temp2/myanimated.gif';
+                folderPath = '/app/temp2' + ioClientID + '/';
+                gifPath = '/app/temp2' + ioClientID + '/myanimated.gif';
             }
             console.log("s num: " + s.num + " folderPath: " + folderPath);
             //var files = fs.readdirSync(folderPath);
@@ -346,10 +356,8 @@ module.exports = function(io) {
                     console.log(err);
                 }
 
-
                 var delay = ((s.endTime - s.startTime)*1000)/files.length; 
-                //console.log("difference in time:" + (s.endTime - s.startTime).toString());
-                //console.log("num of files: " + files.length);
+
                 //calculate frame rate
                 var frameRate = 0; 
                 var animFrameMarkers; 
@@ -379,19 +387,12 @@ module.exports = function(io) {
                 encoder.setDelay(delay);  // frame delay in ms 25fps or 1000/25 ms delay
                 encoder.setQuality(15); // image quality. 10 is default. 
 
-                //var encoderPromises = {};
-                //var promises = []; 
-
                 pngCounter = 0;
                 var myPromises = []; 
                 for (var j = 0; j < files.length; j++) {
                     var result = populateFrames(s.width, s.height, files[j], s.addOnObjs, s.vPosX, s.vPosY, encoder, s.num, j, files.length, animFrameMarkers);
                     myPromises.push(result);
                 }
-
-                /*const myPromises = files.map((file, index) => {
-                  return populateFrames(s.width, s.height, file, s.addOnObjs, s.vPosX, s.vPosY, encoder, s.num, index, files.length, animFrameMarkers);
-                });*/
 
                 Promise.all(myPromises).then(() => {
                     //encoderPromises.encoder.finish();
@@ -419,9 +420,9 @@ module.exports = function(io) {
         return new Promise(function(resolve, reject) {
             var outputAddress; 
             if(scene.num == 0){
-                outputAddress = '/app/temp1/output_%04d.png';
+                outputAddress = '/app/temp1' + ioClientID + '/output_%04d.png';
             }else{
-                outputAddress = '/app/temp2/output_%04d.png';
+                outputAddress = '/app/temp2' + ioClientID + '/output_%04d.png';
             }
             var scaleParam = "scale=-1:"+ scene.gifH;
             console.log("scaleParam: " + scaleParam);// '-r', '0.5',
@@ -454,11 +455,11 @@ module.exports = function(io) {
             var folderPath; 
             var imgAddress; 
             if(sceneNum == 0){
-                folderPath = "/app/temp1/exp_";
-                imgAddress = "/app/temp1/"+orgImg; 
+                folderPath = '/app/temp1'+ ioClientID + '/exp_';
+                imgAddress = '/app/temp1'+ ioClientID + '/' + orgImg; 
             }else{
-                folderPath = "/app/temp2/exp_";
-                imgAddress = "/app/temp2/"+orgImg; 
+                folderPath = '/app/temp2'+ ioClientID + '/exp_';
+                imgAddress = '/app/temp2'+ ioClientID + '/' + orgImg;
             }
             pngCounter +=1;
             var num = pad(pngCounter, 4); 
@@ -595,7 +596,6 @@ module.exports = function(io) {
                         }
                     }
                 }
-
             };
             img.src = imgAddress;
         });
