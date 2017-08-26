@@ -289,7 +289,8 @@ module.exports = function(io) {
                 
             //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
             //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
-            var gifsicle = spawn('gifsicle', ['-b', '-O2', '--colors=256', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
+            //'-b', '-O2',
+            var gifsicle = spawn('gifsicle', ['--colors=256', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
             gifsicle.stderr.on('end', function () {
                 //console.log("final MOVIE made! at temp1/final.mp4");
                 //ffmpeg -i input.mp4 output.gif
