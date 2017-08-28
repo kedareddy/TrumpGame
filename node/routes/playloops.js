@@ -280,7 +280,7 @@ module.exports = function(io) {
             // handle I/O error
             console.error(err);
         })
-        .then(() => {
+        /*.then(() => {
             //write combined gif to /app/temp1/
             //var concatString = 'concat:' + folder1Path + '/myanimated.gif|'+ folder2Path + '/myanimated.gif';
             var gif1Path = folder1Path + '/myanimated.gif';
@@ -324,7 +324,7 @@ module.exports = function(io) {
                 ffmpeg2.stderr.on('close', function() {
                     //console.log('...closing time! bye2');
                 });*/
-            });
+         /*   });
             gifsicle.stderr.on('data', function (data) {
                 console.log("WTF is DATA??: " + data.toString());
             });
@@ -338,7 +338,7 @@ module.exports = function(io) {
             // handle I/O error
             console.error(err);
         })
-
+*/
 
         //res.status(200).send("all done. heard back from server.");
         res.send("all done. heard back from server.");
@@ -350,7 +350,7 @@ module.exports = function(io) {
             var folderPath; 
             var gifPath;
             if(s.num == 0){
-                folderPath = '/app/temp1' + ioClientID + '/';
+                folderPath = '/app/temp1' + ioClientID;
                 gifPath = '/app/temp1' + ioClientID + '/myanimated.gif';
             }else{
                 folderPath = '/app/temp2' + ioClientID + '/';
