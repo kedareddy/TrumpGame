@@ -251,45 +251,6 @@ module.exports = function(io) {
            rimraf.sync(folder2Path);
         }
         fs.mkdirSync(folder2Path); */
-        
-        checkDirectory(folder1Path, function(error) {  
-          if(error) {
-            console.log("oh no!!!", error);
-          } else {
-            //Carry on, all good, directory exists / created.
-            //remove files from folder
-            var folder1Glob = folder1Path + '/*';
-            rimraf(folder1Glob, clearedFolder1);
-          }
-        });
-        
-        function clearedFolder1(err) {  
-            if (err){
-                console.log(err);
-            }else{
-                checkDirectory(folder2Path, dealWithFolder2);    
-            }
-        }
-        
-        function dealWithFolder2(err) {  
-            if(error) {
-            console.log("oh no!!!", error);
-          } else {
-            //Carry on, all good, directory exists / created.
-            //remove files from folder
-            var folder2Glob = folder2Path + '/*';
-            rimraf(folder2Glob, clearedFolder2);
-          }
-        }
-        
-        function clearedFolder2(err) {  
-            if (err){
-                console.log(err);
-            }else{
-                 continueProcess();  
-            }
-        }
-        
         function continueProcess(){
              //split up the frames of the two videos from the first 2 scenes
             /*var promisesSplitFrames = []; 
@@ -391,6 +352,61 @@ module.exports = function(io) {
             });
         //end of continueProcess
         }
+        function clearedFolder2(err) {  
+            if (err){
+                console.log(err);
+            }else{
+                 continueProcess();  
+            }
+        }
+        function dealWithFolder2(err) {  
+            if(error) {
+            console.log("oh no!!!", error);
+          } else {
+            //Carry on, all good, directory exists / created.
+            //remove files from folder
+            var folder2Glob = folder2Path + '/*';
+            rimraf(folder2Glob, clearedFolder2);
+          }
+        }
+        
+        function clearedFolder1(err) {  
+            if (err){
+                console.log(err);
+            }else{
+                //checkDirectory(folder2Path, dealWithFolder2);  
+                checkDirectory(folder1Path, function(error) {  
+                  if(error) {
+                    console.log("oh no!!!", error);
+                  } else {
+                    //Carry on, all good, directory exists / created.
+                    //remove files from folder
+                    var folder2Glob = folder2Path + '/*';
+                    rimraf(folder2Glob, clearedFolder2);
+                  }
+                });
+        
+            }
+        }
+        
+        checkDirectory(folder1Path, function(error) {  
+          if(error) {
+            console.log("oh no!!!", error);
+          } else {
+            //Carry on, all good, directory exists / created.
+            //remove files from folder
+            var folder1Glob = folder1Path + '/*';
+            rimraf(folder1Glob, clearedFolder1);
+          }
+        });
+        
+
+        
+       
+        
+ 
+        
+        
         
 
         //res.status(200).send("all done. heard back from server.");
