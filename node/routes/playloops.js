@@ -139,7 +139,7 @@ module.exports = function(io) {
     
     //function will check if a directory exists, and create it if it doesn't
     function checkDirectory(directory, callback) {  
-      fs.stat(directory, function(err, stats) {
+      //fs.stat(directory, function(err, stats) {
         //Check if error defined and the error code is "not exists"
         //if (err && err.errno === 34) {
           //Create the directory, call the callback.
@@ -148,7 +148,7 @@ module.exports = function(io) {
           //just in case there was a different error:
           //callback(err)
         //}
-      });
+      //});
     }
     
     //was trying to upload file to directly from server to s3
