@@ -137,6 +137,20 @@ module.exports = function(io) {
         });
     }*/
     
+    //function will check if a directory exists, and create it if it doesn't
+    function checkDirectory(directory, callback) {  
+      fs.stat(directory, function(err, stats) {
+        //Check if error defined and the error code is "not exists"
+        if (err && err.errno === 34) {
+          //Create the directory, call the callback.
+          fs.mkdir(directory, callback);
+        } else {
+          //just in case there was a different error:
+          callback(err)
+        }
+      });
+    }
+    
     //was trying to upload file to directly from server to s3
     function directUploadToS3(playloop){
         var finalGIFPath = '/app/temp1' + ioClientID + '/final.gif';
@@ -223,7 +237,7 @@ module.exports = function(io) {
         var folder1Path = '/app/temp1' + ioClientID; 
         var folder2Path = '/app/temp2' + ioClientID; 
         //if temp1 and temp2 exist, delete everything in there
-        if (fs.existsSync(folder1Path)) {
+        /*if (fs.existsSync(folder1Path)) {
            rimraf.sync(folder1Path);
         }
         fs.mkdirSync(folder1Path); 
@@ -233,112 +247,151 @@ module.exports = function(io) {
         else{
            console.log("Yaaay created folder at: " + folder1Path);
         }
-        
         if (fs.existsSync(folder2Path)) {
            rimraf.sync(folder2Path);
         }
-        fs.mkdirSync(folder2Path); 
-
-
-        //split up the frames of the two videos from the first 2 scenes
-        /*var promisesSplitFrames = []; 
-        for (var j = 0; j < 2; j++) {
-            var result = splitFrames(scenes[j]); 
-            promisesSplitFrames.push(result);
+        fs.mkdirSync(folder2Path); */
+        
+        checkDirectory(folder1Path, function(error) {  
+          if(error) {
+            console.log("oh no!!!", error);
+          } else {
+            //Carry on, all good, directory exists / created.
+            //remove files from folder
+            var folder1Glob = folder1Path + '/*';
+            rimraf(folder1Glob, clearedFolder1);
+          }
+        });
+        
+        function clearedFolder1(err) {  
+            if (err){
+                console.log(err);
+            }else{
+                checkDirectory(folder2Path, dealWithFolder2);    
+            }
         }
+        
+        function dealWithFolder2(err) {  
+            if(error) {
+            console.log("oh no!!!", error);
+          } else {
+            //Carry on, all good, directory exists / created.
+            //remove files from folder
+            var folder2Glob = folder2Path + '/*';
+            rimraf(folder2Glob, clearedFolder2);
+          }
+        }
+        
+        function clearedFolder2(err) {  
+            if (err){
+                console.log(err);
+            }else{
+                 continueProcess();  
+            }
+        }
+        
+        function continueProcess(){
+             //split up the frames of the two videos from the first 2 scenes
+            /*var promisesSplitFrames = []; 
+            for (var j = 0; j < 2; j++) {
+                var result = splitFrames(scenes[j]); 
+                promisesSplitFrames.push(result);
+            }
 
-        Promise.all(promisesSplitFrames).
-        */
-        Promise.resolve()
-        .then(() => {
-            //get array of promises to execute next
-            return splitFrames(scenes[0]);
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        })
-        .then(() => {
-            //get array of promises to execute next
-            return splitFrames(scenes[1]);
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        })
-        .then(() => {
-            //get array of promises to execute next
-            //return prepGIFS(scenes);
-            return setupScene(scenes[0]);
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        })
-        .then(() => {
-            //get array of promises to execute next
-            //return prepGIFS(scenes);
-            return setupScene(scenes[1]);
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        })
-        /*.then(() => {
-            //write combined gif to /app/temp1/
-            //var concatString = 'concat:' + folder1Path + '/myanimated.gif|'+ folder2Path + '/myanimated.gif';
-            var gif1Path = folder1Path + '/myanimated.gif';
-            var gif2Path = folder2Path + '/myanimated.gif';
-            var finalGIFPath = folder1Path + '/final.gif';
-                
-            //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
-            //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
-            //'-b', '-O2',
-            var gifsicle = spawn('gifsicle', ['--colors=256', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
-            gifsicle.stderr.on('end', function () {
-                //console.log("final MOVIE made! at temp1/final.mp4");
-                //ffmpeg -i input.mp4 output.gif
-                //var ffmpeg2 = spawn('ffmpeg',['-i', '/app/temp1/final.mp4', '/app/temp1/final.gif']);
-                //ffmpeg2.stderr.on('end', function () {
-                    //console.log("final GIF made at temp1/final.gif");
-                    //gifsicle -b -O2 anim.gif  '--use-col=web',
-                    //var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
-                    //gifsicle.stderr.on('end', function () {
-                        console.log("GIF optimized at temp1/final.gif");
-                        io.sockets.emit('news', { hello: 'great cummunitacing!' });
-                        console.log("playloop unique id: " + playloop['_id']);
-                        directUploadToS3(playloop);
+            Promise.all(promisesSplitFrames).
+            */
+            Promise.resolve()
+            .then(() => {
+                //get array of promises to execute next
+                return splitFrames(scenes[0]);
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
+            })
+            .then(() => {
+                //get array of promises to execute next
+                return splitFrames(scenes[1]);
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
+            })
+            .then(() => {
+                //get array of promises to execute next
+                //return prepGIFS(scenes);
+                return setupScene(scenes[0]);
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
+            })
+            .then(() => {
+                //get array of promises to execute next
+                //return prepGIFS(scenes);
+                return setupScene(scenes[1]);
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
+            })
+            .then(() => {
+                //write combined gif to /app/temp1/
+                //var concatString = 'concat:' + folder1Path + '/myanimated.gif|'+ folder2Path + '/myanimated.gif';
+                var gif1Path = folder1Path + '/myanimated.gif';
+                var gif2Path = folder2Path + '/myanimated.gif';
+                var finalGIFPath = folder1Path + '/final.gif';
+
+                //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
+                //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
+                //'-b', '-O2',
+                var gifsicle = spawn('gifsicle', ['--colors=256', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
+                gifsicle.stderr.on('end', function () {
+                    //console.log("final MOVIE made! at temp1/final.mp4");
+                    //ffmpeg -i input.mp4 output.gif
+                    //var ffmpeg2 = spawn('ffmpeg',['-i', '/app/temp1/final.mp4', '/app/temp1/final.gif']);
+                    //ffmpeg2.stderr.on('end', function () {
+                        //console.log("final GIF made at temp1/final.gif");
+                        //gifsicle -b -O2 anim.gif  '--use-col=web',
+                        //var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
+                        //gifsicle.stderr.on('end', function () {
+                            console.log("GIF optimized at temp1/final.gif");
+                            io.sockets.emit('news', { hello: 'great cummunitacing!' });
+                            console.log("playloop unique id: " + playloop['_id']);
+                            directUploadToS3(playloop);
+                        //});
+                        /*gifsicle.stderr.on('data', function (data) {
+                            //console.log("WTF is DATA??: " + data.toString());
+                        });
+                        gifsicle.stderr.on('exit', function () {
+                           // console.log('child process exited2');
+                        });
+                        gifsicle.stderr.on('close', function() {
+                            //console.log('...closing time! bye2');
+                        });  */ 
                     //});
-                    /*gifsicle.stderr.on('data', function (data) {
+                    /*ffmpeg2.stderr.on('data', function (data) {
                         //console.log("WTF is DATA??: " + data.toString());
                     });
-                    gifsicle.stderr.on('exit', function () {
-                       // console.log('child process exited2');
+                    ffmpeg2.stderr.on('exit', function () {
+                        //console.log('child process exited2');
                     });
-                    gifsicle.stderr.on('close', function() {
+                    ffmpeg2.stderr.on('close', function() {
                         //console.log('...closing time! bye2');
-                    });  */ 
-                //});
-                /*ffmpeg2.stderr.on('data', function (data) {
-                    //console.log("WTF is DATA??: " + data.toString());
+                    });*/
                 });
-                ffmpeg2.stderr.on('exit', function () {
-                    //console.log('child process exited2');
+                gifsicle.stderr.on('data', function (data) {
+                    console.log("WTF is DATA??: " + data.toString());
                 });
-                ffmpeg2.stderr.on('close', function() {
-                    //console.log('...closing time! bye2');
-                });*/
-         /*   });
-            gifsicle.stderr.on('data', function (data) {
-                console.log("WTF is DATA??: " + data.toString());
+                gifsicle.stderr.on('exit', function () {
+                    console.log('child process exited2');
+                });
+                gifsicle.stderr.on('close', function() {
+                    console.log('...closing time! bye2');
+                });
+            }).catch(err => {
+                // handle I/O error
+                console.error(err);
             });
-            gifsicle.stderr.on('exit', function () {
-                console.log('child process exited2');
-            });
-            gifsicle.stderr.on('close', function() {
-                console.log('...closing time! bye2');
-            });
-        }).catch(err => {
-            // handle I/O error
-            console.error(err);
-        })
-*/
+        //end of continueProcess
+        }
+        
 
         //res.status(200).send("all done. heard back from server.");
         res.send("all done. heard back from server.");
