@@ -243,8 +243,8 @@ module.exports = function(io) {
            scenes.push(scene);
        }
 
-        var folder1Path = '/app/temp1' + ioClientID; 
-        var folder2Path = '/app/temp2' + ioClientID; 
+        var folder1Path = '/app/temp1' + ioClientID+'/'; 
+        var folder2Path = '/app/temp2' + ioClientID+'/'; 
         //if temp1 and temp2 exist, delete everything in there
         /*if (fs.existsSync(folder1Path)) {
            rimraf.sync(folder1Path);
