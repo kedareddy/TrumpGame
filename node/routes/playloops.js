@@ -141,13 +141,13 @@ module.exports = function(io) {
     function checkDirectory(directory, callback) {  
       fs.stat(directory, function(err, stats) {
         //Check if error defined and the error code is "not exists"
-        if (err && err.errno === 34) {
+        //if (err && err.errno === 34) {
           //Create the directory, call the callback.
           fs.mkdir(directory, callback);
-        } else {
+        //} else {
           //just in case there was a different error:
-          callback(err)
-        }
+          //callback(err)
+        //}
       });
     }
     
