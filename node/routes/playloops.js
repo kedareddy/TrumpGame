@@ -387,7 +387,7 @@ module.exports = function(io) {
                 console.log(err);
             }else{
                 //checkDirectory(folder2Path, dealWithFolder2);  
-                checkDirectory(folder1Path, function(error) {  
+                checkDirectory(folder2Path, function(error) {  
                   if(error) {
                     console.log("oh no!!!", error);
                   } else {
