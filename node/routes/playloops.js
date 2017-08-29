@@ -303,8 +303,8 @@ module.exports = function(io) {
             }).catch(err => {
                 // handle I/O error
                 console.error(err);
-            });
-            /*.then(() => {
+            })
+            .then(() => {
                 //write combined gif to /app/temp1/
                 //var concatString = 'concat:' + folder1Path + '/myanimated.gif|'+ folder2Path + '/myanimated.gif';
                 var gif1Path = folder1Path + 'myanimated.gif';
@@ -314,7 +314,7 @@ module.exports = function(io) {
                 //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
                 //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
                 //'-b', '-O2',
-                var gifsicle = spawn('gifsicle', ['--colors=256', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
+                var gifsicle = spawn('gifsicle', ['--colors=256', '--merge', '/app/images/firstgif.gif', '/app/assets/giphy.gif', '-o', '/app/images/finalfinal.gif']);
                 gifsicle.stderr.on('end', function () {
                     //console.log("final MOVIE made! at temp1/final.mp4");
                     //ffmpeg -i input.mp4 output.gif
