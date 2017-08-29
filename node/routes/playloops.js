@@ -307,9 +307,9 @@ module.exports = function(io) {
             .then(() => {
                 //write combined gif to /app/temp1/
                 //var concatString = 'concat:' + folder1Path + '/myanimated.gif|'+ folder2Path + '/myanimated.gif';
-                var gif1Path = folder1Path + '/myanimated.gif';
-                var gif2Path = folder2Path + '/myanimated.gif';
-                var finalGIFPath = folder1Path + '/final.gif';
+                var gif1Path = folder1Path + 'myanimated.gif';
+                var gif2Path = folder2Path + 'myanimated.gif';
+                var finalGIFPath = folder1Path + 'final.gif';
 
                 //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
                 //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
@@ -431,7 +431,7 @@ module.exports = function(io) {
             var folderPath; 
             var gifPath;
             if(s.num == 0){
-                folderPath = '/app/temp1' + ioClientID;
+                folderPath = '/app/temp1' + ioClientID + '/';
                 gifPath = '/app/temp1' + ioClientID + '/myanimated.gif';
             }else{
                 folderPath = '/app/temp2' + ioClientID + '/';
