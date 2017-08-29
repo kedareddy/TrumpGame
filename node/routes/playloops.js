@@ -470,7 +470,7 @@ module.exports = function(io) {
 
                 //setup gif encoder
                 var encoder = new GIFEncoder(s.width, s.height);
-                encoder.createReadStream().pipe(fs.createWriteStream(gifPath));
+                //encoder.createReadStream().pipe(fs.createWriteStream(gifPath));
                 //start gif encoder
                 encoder.start();
                 encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat 
@@ -487,13 +487,20 @@ module.exports = function(io) {
                 Promise.all(myPromises).then(() => {
                     //encoderPromises.encoder.finish();
                     encoder.finish();
-                    console.log("encoding finished");
+                    
+                    var buf = encoder.out.getData();
+                    fs.writeFile(gifPath, buf, function (err) {
+                      // animated GIF written to myanimated.gif
+                        console.log("encoding finished");
+                        resolve();
+                        var a = 0; 
+                        if(a == 1){ reject();}
+                    });
+
                     //encoderPromises['encoder'] = encoder; 
                     //encoderPromises['promises'] = promises; 
                     //resolve(encoderPromises);
-                    resolve();
-                    var a = 0; 
-                    if(a == 1){ reject();}
+                    
 
                 }).catch(err => {
                     // handle I/O error
