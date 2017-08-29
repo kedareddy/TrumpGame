@@ -348,7 +348,7 @@ module.exports = function(io) {
                     ffmpeg2.stderr.on('close', function() {
                         //console.log('...closing time! bye2');
                     });*/
-             /*   });
+                });
                 gifsicle.stderr.on('data', function (data) {
                     console.log("WTF is DATA??: " + data.toString());
                 });
@@ -361,7 +361,7 @@ module.exports = function(io) {
             }).catch(err => {
                 // handle I/O error
                 console.error(err);
-            });*/
+            });
         //end of continueProcess
         }
         function clearedFolder2(err) {  
