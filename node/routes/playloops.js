@@ -303,8 +303,8 @@ module.exports = function(io) {
             }).catch(err => {
                 // handle I/O error
                 console.error(err);
-            })
-            .then(() => {
+            });
+            /*.then(() => {
                 //write combined gif to /app/temp1/
                 //var concatString = 'concat:' + folder1Path + '/myanimated.gif|'+ folder2Path + '/myanimated.gif';
                 var gif1Path = folder1Path + 'myanimated.gif';
@@ -324,7 +324,7 @@ module.exports = function(io) {
                         //gifsicle -b -O2 anim.gif  '--use-col=web',
                         //var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
                         //gifsicle.stderr.on('end', function () {
-                            console.log("GIF optimized at temp1/final.gif");
+                            console.log("GIF optimized at: " + finalGIFPath);
                             io.sockets.emit('news', { hello: 'great cummunitacing!' });
                             console.log("playloop unique id: " + playloop['_id']);
                             directUploadToS3(playloop);
@@ -348,7 +348,7 @@ module.exports = function(io) {
                     ffmpeg2.stderr.on('close', function() {
                         //console.log('...closing time! bye2');
                     });*/
-                });
+             /*   });
                 gifsicle.stderr.on('data', function (data) {
                     console.log("WTF is DATA??: " + data.toString());
                 });
@@ -361,7 +361,7 @@ module.exports = function(io) {
             }).catch(err => {
                 // handle I/O error
                 console.error(err);
-            });
+            });*/
         //end of continueProcess
         }
         function clearedFolder2(err) {  
@@ -437,13 +437,13 @@ module.exports = function(io) {
                 folderPath = '/app/temp2' + ioClientID + '/';
                 gifPath = '/app/temp2' + ioClientID + '/myanimated.gif';
             }
-            console.log("s num: " + s.num + " folderPath: " + folderPath);
+            console.log("s num: " + s.num + " folderPath: " + folderPath + " gifPath: " + gifPath);
             //var files = fs.readdirSync(folderPath);
             fs.readdir(folderPath, function (err, files) {
                 if (err) {
                     console.log(err);
                 }
-
+                console.log("num fo total files: " + files.length + "" + folderPath); 
                 var delay = ((s.endTime - s.startTime)*1000)/files.length; 
 
                 //calculate frame rate
@@ -555,6 +555,7 @@ module.exports = function(io) {
             var outputPath = folderPath+num+".png";
             //console.log("outputPath: " + outputPath);
             console.log("img src: " + imgAddress);
+            console.log("outputpath: " + outputPath);
             //var out = fs.createWriteStream(outputPath);
             //console.log("index: " + index + " numFrames: " + numFrames);
             //make canvas
