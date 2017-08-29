@@ -314,8 +314,10 @@ module.exports = function(io) {
                 //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
                 //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
                 //'-b', '-O2',
-                var gifsicle = spawn('gifsicle', ['--colors', '256', '--merge', '/app/images/firstgif.gif', '/app/assets/giphy.gif', '-o', '/app/images/finalfinal.gif']);
-                gifsicle.stderr.on('end', function () {
+                //var gifsicle = spawn('gifsicle', ['--colors', '256', '--merge', '/app/images/firstgif.gif', '/app/assets/giphy.gif', '-o', '/app/images/finalfinal.gif']);
+                //ffmpeg -i images/firstgif.gif -i images/firstgif_eye.gif -filter_complex '[0:v][1:v] concat=n=2:v=1:a=0 [v]' -map '[v]' images/turner1.gif
+                var ffmpeg = spawn("ffmpeg", ["-i", gif1Path, "-i", gif2Path, "-filter_complex", "'[0:v][1:v]", "concat=n=2:v=1:a=0", "[v]'", "-map", "'[v]'", finalGIFPath]);
+                ffmpeg.stderr.on('end', function () {
                     //console.log("final MOVIE made! at temp1/final.mp4");
                     //ffmpeg -i input.mp4 output.gif
                     //var ffmpeg2 = spawn('ffmpeg',['-i', '/app/temp1/final.mp4', '/app/temp1/final.gif']);
@@ -349,13 +351,13 @@ module.exports = function(io) {
                         //console.log('...closing time! bye2');
                     });*/
                 });
-                gifsicle.stderr.on('data', function (data) {
+                ffmpeg.stderr.on('data', function (data) {
                     console.log("WTF is DATA??: " + data.toString());
                 });
-                gifsicle.stderr.on('exit', function () {
+                ffmpeg.stderr.on('exit', function () {
                     console.log('child process exited2');
                 });
-                gifsicle.stderr.on('close', function() {
+                ffmpeg.stderr.on('close', function() {
                     console.log('...closing time! bye2');
                 });
             }).catch(err => {
