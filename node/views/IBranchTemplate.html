@@ -56,12 +56,13 @@
     <audio id="pushAudio" src="/audio/blinking.mp3" autostart="false" ></audio>
     <div style="font-family:'MyDosis'">&nbsp;</div>
     
-    <blockquote class="embedly-card">
+    <!--<blockquote class="embedly-card">
         <h4><a href="http://embed.ly/docs">My PlayLoop</a></h4>
         <p>
           Play more at playloops.io!
         </p>
     </blockquote>
+    -->
     
 </section>
     
@@ -157,6 +158,15 @@ var parentVideoListener = function (nVideo, sT, eT) {
 };    
     
 $(document).ready(function(){
+    
+    embedly("defaults", {
+      cards: {
+        key: 'aba85429c1d249689d9cb126aaae22a8',
+        width: 700,
+        align: 'left',
+        chrome: 0
+      }
+    });
 
     //var game_id = window.location.toString().split('?')[1];
     //if(game_id){
