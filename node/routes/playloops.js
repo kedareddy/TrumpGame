@@ -7,6 +7,8 @@ var rimraf = require('rimraf');
 var fabric = require('fabric').fabric;
 //var fabricUtil = require('fabric').fabric.util;
 var GIFEncoder = require('gifencoder'); 
+var xml = require('xml');
+
 
 var Canvas = require('canvas');
 global.Image = Canvas.Image;
@@ -69,6 +71,49 @@ module.exports = function(io) {
     });
 
 
+    module.makeOembed = function(req, res) {
+        //"author_name": "__",
+        //"author_url": "https://www.playloops.io/user/__",
+        var id = req.params.id;
+        var playLoopURL = id.substring(id.indexOf("url=")+4);
+        
+        if(id.substring(id.indexOf("format=")) == "format=json"){
+            playLoopURL = playLoopURL.substring(0, playLoopURL.indexOf("&format=json"));
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(
+                {
+                    "version": "1.0",
+                    "type": "rich",
+                    "provider_name": "PlayLoops",
+                    "provider_url": "https://playloops.io/",
+                    "width": 425,
+                    "height": 344,
+                    "aspect": 1.7,
+                    "title": "PlayLoops",
+                    "html":
+                        "<iframe frameborder='0' allowfullscreen='' onmousewheel='event.preventDefault()' width='1023' height='576' src='"+playLoopURL+"'></iframe>"
+                }
+            ));
+        }
+        else if(id.substring(id.indexOf("format=")) == "format=xml"){
+            playLoopURL = playLoopURL.substring(0, playLoopURL.indexOf("&format=xml"));
+            res.setHeader('Content-Type', 'text/xml');
+            var xmlData = [ { 
+                "version": "1.0",
+                "type": "rich",
+                "provider_name": "PlayLoops",
+                "provider_url": "https://playloops.io/",
+                "width": 1023,
+                "height": 576,
+                "aspect": 1.7,
+                "title": "PlayLoops",
+                "html":
+                    "<iframe frameborder='0' allowfullscreen='' onmousewheel='event.preventDefault()' width='1023' height='576' src='"+playLoopURL+"'></iframe>"
+            } ];
+            console.log("xmlData Made on Server: " + xmlData); 
+            res.send(xml(xmlData));
+        }
+    }
 
     module.signS3 = function(req, res) {
 

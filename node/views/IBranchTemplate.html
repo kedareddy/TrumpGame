@@ -19,8 +19,9 @@
     <meta name="twitter:description" content="Click to play! Make your own at Playloops.io">
     <meta name="twitter:image" content="{{summary_img}}">
     
-
-    
+    <!--oembed-->
+    <link rel="alternate" type="application/json+oembed" href="{{oembedurl_json}}" title="Playloop oembed profile" />
+    <link rel="alternate" type="text/xml+oembed" href="{{oembedurl_xml}}" title="Playloop oembed profile" />
     
     <!-- Canvas Library --> 
     <script type="text/javascript" src="/js/fabric.min.js"></script>
@@ -66,7 +67,7 @@
     
 </section>
     
-<style class="embedly-css">
+<!--<style class="embedly-css">
   @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
   .card {
     font-family: 'Open Sans Condensed', sans-serif;
@@ -77,7 +78,21 @@
   .hdr {
     display:none;
   }
-</style>    
+</style>
+    
+<style class="embedly-css">
+  @import url(https://fonts.googleapis.com/css?family=Merriweather);
+  .card {
+    font-family: 'Merriweather', serif;
+  }
+  .card .title {
+    margin-bottom:5px;
+  }
+  .card .action {
+    color: #fa4b2a;
+  }
+</style>  -->  
+    
 <style> 
     .section.main{display: table; font-family: 'Oswald medium', sans-serif; color: white;}
     
@@ -171,14 +186,14 @@ var parentVideoListener = function (nVideo, sT, eT) {
     
 $(document).ready(function(){
     
-    embedly("defaults", {
+   /* embedly("defaults", {
       cards: {
         key: 'aba85429c1d249689d9cb126aaae22a8',
         width: 700,
         align: 'left',
         chrome: 0
       }
-    });
+    });*/
 
     //var game_id = window.location.toString().split('?')[1];
     //if(game_id){

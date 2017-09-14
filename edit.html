@@ -1922,7 +1922,10 @@ $(document).ready(function(){
         playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/view/' + playloop_id;
         playloop_dict['summary_img'] = 'https://playloops.s3.amazonaws.com/' + playloop_id + '.gif';
         console.log("summary_url" + playloop_dict['summary_img']);
-        
+        playloop_dict['oembedurl_json'] = 'https://www.playloops.io/oembed/?url=' + playloop_dict['playloop_url'] + '&format=json';
+        playloop_dict['oembedurl_xml'] = 'https://www.playloops.io/oembed/?url=' + playloop_dict['playloop_url'] + '&format=xml';
+        console.log("oembedurl_json" + playloop_dict['oembedurl_json']);
+        console.log("oembedurl_xml" + playloop_dict['oembedurl_xml']);
         //get signed request summary -> upload s3 summary -> add playloop
         Promise.resolve(
         ).then ( function() {
