@@ -49,7 +49,7 @@ app.put('/playloops/:id', playloops.updatePlayloop);
 app.delete('/playloops/:id', playloops.deletePlayloop);
 app.get('/playloops-all/', playloops.findAll);
 app.post('/createSummaryGIF', playloops.createSummaryGIF);
-app.get('/oembed/:id', playloops.makeOembed);
+app.get('/oembed', playloops.makeOembed);
 //app.get('/pollServer', playloops.pollServer);
 
 app.get('/playloops-img/sign-s3', playloops.signS3);

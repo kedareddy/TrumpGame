@@ -72,13 +72,18 @@ module.exports = function(io) {
 
 
     module.makeOembed = function(req, res) {
+        console.log("makeOembed called");
         //"author_name": "__",
         //"author_url": "https://www.playloops.io/user/__",
-        var id = req.params.id;
-        var playLoopURL = id.substring(id.indexOf("url=")+4);
+        //var id = req.query.id;
+        //var playLoopURL = id.substring(id.indexOf("url=")+4);
+        var urlFormat = req.query.format; 
+        var playLoopURL = req.query.url; 
         
-        if(id.substring(id.indexOf("format=")) == "format=json"){
-            playLoopURL = playLoopURL.substring(0, playLoopURL.indexOf("&format=json"));
+        //if(id.substring(id.indexOf("format=")) == "format=json"){
+        if(urlFormat == "json"){
+            console.log("json make Oembed called"); 
+            //playLoopURL = playLoopURL.substring(0, playLoopURL.indexOf("&format=json"));
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify(
                 {
@@ -95,8 +100,8 @@ module.exports = function(io) {
                 }
             ));
         }
-        else if(id.substring(id.indexOf("format=")) == "format=xml"){
-            playLoopURL = playLoopURL.substring(0, playLoopURL.indexOf("&format=xml"));
+        else if(urlFormat == "xml"){
+            //playLoopURL = playLoopURL.substring(0, playLoopURL.indexOf("&format=xml"));
             res.setHeader('Content-Type', 'text/xml');
             var xmlData = [ { 
                 "version": "1.0",
