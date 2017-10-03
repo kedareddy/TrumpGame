@@ -53,7 +53,7 @@
       <h2>Your Play Loop!</h2>
       
     </div>
-    <div class="modal body">
+    <div class="modal body" id="modalBody">
       <p>Loop Link</p>
       <a href="" id="exportURL" target="_blank" style="display: inline-block; width: 7%; height: auto;">
         <img id = 'newtab' src="/assets/newtabicon.svg" alt="HTML5 Icon" style="opacity: 0.75; ">
@@ -61,7 +61,7 @@
       <textarea id="exportTextArea" readonly style="width: 75%; padding-left:3px; display: inline-block;">
           http://www.playloops.io/template1.html
       </textarea>
-      <img crossOrigin="Anonymous" id = "summaryGIF" src="/images/firstgif.gif">
+      <img crossOrigin="Anonymous" class="modal gif" id = "summaryGIF" src="/images/firstgif.gif">
     </div>
     <div class="modal footer">
       <h3></h3>
@@ -143,18 +143,20 @@
     /*.button.nodeeditor{float: left; width: 15%; margin: 5%; left: 13%;top:1%}*/
     .button {border-style: solid; border-radius: 0px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none;  }
     
-    .section.modal {display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+    .section.modal {display: none; position: fixed; z-index: 1; padding-top: 6%; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
     .modal.content { background-color: gainsboro;margin: auto;padding: 0;border: 1px solid #888;width: 60%; height: 60%;}
     .close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;padding-right:1%;padding-top: 0%;}
     .close:hover,
     .close:focus {color: #000;text-decoration: none;cursor: pointer;}
-    .modal.footer{ height: 40%; display: block; padding: 2px 16px; background-color: rgba(0,0,0,0.75); color: white;}
+    .modal.footer{ height: 10%; display: block; padding: 2px 16px; background-color: rgba(0,0,0,0.75); color: white;}
     .container.giphy{ margin: 0 auto; position:relative; background-color:black;overflow-x:auto;overflow-y:hidden; white-space: nowrap;}
     .searchDiv{width: 75%;}
     video { object-fit: contain;}
     
     .modal.publish.header{padding: 2px; background-color: rgba(0,0,0,0.75);color: white; display: inline-block; width:  100%;}
-    .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 30%;}
+    .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 80%;overflow: auto;}
+    .modal.body{min-height: calc(100% - 25%);}
+    .modal.gif{width: 60%;opacity: 0%;}
     
     .sliderholder{position: relative; width: 100%; z-index: 13;}
   /*  .searchResults{}*/
@@ -290,6 +292,7 @@ var sceneOrder = "ordered";
 var clickHold = "click"; 
 var transitionType = "default";
 var videoSlider; 
+var spinner; 
 
 
 $.contextMenu({
@@ -953,6 +956,30 @@ $(document).ready(function(){
         if(event.target == publishButton){
             //exportPlayLoop();
             $("#publishModal").show(); 
+            var opts = {
+              lines: 13 // The number of lines to draw
+            , length: 28 // The length of each line
+            , width: 14 // The line thickness
+            , radius: 42 // The radius of the inner circle
+            , scale: 1 // Scales overall size of the spinner
+            , corners: 1 // Corner roundness (0..1)
+            , color: '#000' // #rgb or #rrggbb or array of colors
+            , opacity: .5 // Opacity of the lines
+            , rotate: 0 // The rotation offset
+            , direction: 1 // 1: clockwise, -1: counterclockwise
+            , speed: 1 // Rounds per second
+            , trail: 60 // Afterglow percentage
+            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+            , zIndex: 2e9 // The z-index (defaults to 2000000000)
+            , className: 'spinner' // The CSS class to assign to the spinner
+            , top: '50%' // Top position relative to parent
+            , left: '50%' // Left position relative to parent
+            , shadow: false // Whether to render a shadow
+            , hwaccel: false // Whether to use hardware acceleration
+            , position: 'absolute' // Element positioning
+            }
+            var target = document.getElementById('modalBody')
+            spinner = new Spinner(opts).spin(target);
             uploadContent(); 
             //generateSummaryGIF(); 
         }
@@ -1947,10 +1974,14 @@ $(document).ready(function(){
                 //window.location.href = playloop_dict['playloop_url'];
             }
         ).then ( function(message) {
-            console.log("message from server: " + message);
-                 $('#exportURL').attr('href', playloop_dict['playloop_url']);
+                console.log("message from server: " + message);
+                $('#exportURL').attr('href', playloop_dict['playloop_url']);
                 $('#exportTextArea').val(playloop_dict['playloop_url']);
-
+                //hide spinner and show summary gif
+                $("#spinnerParent").hide();
+                spinner.stop();
+                $('#summaryGIF').attr('src', playloop_dict['summary_img']);
+                $('#summaryGIF').css('opacity') = '1';
             }
         );
     
