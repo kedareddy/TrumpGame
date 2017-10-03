@@ -156,7 +156,7 @@
     .modal.publish.header{padding: 2px; background-color: rgba(0,0,0,0.75);color: white; display: inline-block; width:  100%;}
     .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 80%;overflow: auto;}
     .modal.body{min-height: calc(100% - 25%);}
-    .modal.gif{width: 60%;opacity: 0%;}
+    .modal.gif{width: 60%;opacity:0.0;}
     
     .sliderholder{position: relative; width: 100%; z-index: 13;}
   /*  .searchResults{}*/
@@ -1981,7 +1981,7 @@ $(document).ready(function(){
                 $("#spinnerParent").hide();
                 spinner.stop();
                 $('#summaryGIF').attr('src', playloop_dict['summary_img']);
-                $('#summaryGIF').css('opacity') = '1';
+                $('#summaryGIF').css({opacity:0.5});
             }
         );
     
