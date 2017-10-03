@@ -292,7 +292,8 @@ var sceneOrder = "ordered";
 var clickHold = "click"; 
 var transitionType = "default";
 var videoSlider; 
-var spinner; 
+var spinner;
+var summaryGIFURL; 
 
 
 $.contextMenu({
@@ -442,6 +443,13 @@ $(document).ready(function(){
     
     socket.on('news', function (data) {
         console.log("CLIENT: got news from server: " + data["hello"]);
+        if(!(data["hello"].indexOf("world") >= 0)){
+            //hide spinner and show summary gif
+            $("#spinnerParent").hide();
+            spinner.stop();
+            $('#summaryGIF').attr('src', summaryGIFURL);
+            $('#summaryGIF').css({opacity:1.0});
+        }
         socket.emit('my other event', { my: 'data' });
     });
     
@@ -957,29 +965,30 @@ $(document).ready(function(){
             //exportPlayLoop();
             $("#publishModal").show(); 
             var opts = {
-              lines: 13 // The number of lines to draw
-            , length: 28 // The length of each line
-            , width: 14 // The line thickness
-            , radius: 42 // The radius of the inner circle
-            , scale: 1 // Scales overall size of the spinner
-            , corners: 1 // Corner roundness (0..1)
-            , color: '#000' // #rgb or #rrggbb or array of colors
-            , opacity: .5 // Opacity of the lines
-            , rotate: 0 // The rotation offset
-            , direction: 1 // 1: clockwise, -1: counterclockwise
-            , speed: 1 // Rounds per second
-            , trail: 60 // Afterglow percentage
-            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-            , zIndex: 2e9 // The z-index (defaults to 2000000000)
-            , className: 'spinner' // The CSS class to assign to the spinner
-            , top: '50%' // Top position relative to parent
-            , left: '50%' // Left position relative to parent
-            , shadow: false // Whether to render a shadow
-            , hwaccel: false // Whether to use hardware acceleration
-            , position: 'absolute' // Element positioning
+                  lines: 13 // The number of lines to draw
+                , length: 28 // The length of each line
+                , width: 14 // The line thickness
+                , radius: 42 // The radius of the inner circle
+                , scale: 1 // Scales overall size of the spinner
+                , corners: 1 // Corner roundness (0..1)
+                , color: '#000' // #rgb or #rrggbb or array of colors
+                , opacity: .5 // Opacity of the lines
+                , rotate: 0 // The rotation offset
+                , direction: 1 // 1: clockwise, -1: counterclockwise
+                , speed: 1 // Rounds per second
+                , trail: 60 // Afterglow percentage
+                , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+                , zIndex: 2e9 // The z-index (defaults to 2000000000)
+                , className: 'spinner' // The CSS class to assign to the spinner
+                , top: '50%' // Top position relative to parent
+                , left: '50%' // Left position relative to parent
+                , shadow: false // Whether to render a shadow
+                , hwaccel: false // Whether to use hardware acceleration
+                , position: 'absolute' // Element positioning
             }
             var target = document.getElementById('modalBody')
             spinner = new Spinner(opts).spin(target);
+            
             uploadContent(); 
             //generateSummaryGIF(); 
         }
@@ -1948,6 +1957,7 @@ $(document).ready(function(){
         playloop_dict['scene_name'] = 'IBranchTemplate';
         playloop_dict['playloop_url'] = PLAYLOOPS_SERVER_URL + '/view/' + playloop_id;
         playloop_dict['summary_img'] = 'https://playloops.s3.amazonaws.com/' + playloop_id + '.gif';
+        summaryGIFURL = playloop_dict['summary_img'];
         console.log("summary_url" + playloop_dict['summary_img']);
         playloop_dict['oembedurl_json'] = 'https://www.playloops.io/oembed?url=' + playloop_dict['playloop_url'] + '&format=json';
         playloop_dict['oembedurl_xml'] = 'https://www.playloops.io/oembed?url=' + playloop_dict['playloop_url'] + '&format=xml';
@@ -1977,11 +1987,7 @@ $(document).ready(function(){
                 console.log("message from server: " + message);
                 $('#exportURL').attr('href', playloop_dict['playloop_url']);
                 $('#exportTextArea').val(playloop_dict['playloop_url']);
-                //hide spinner and show summary gif
-                $("#spinnerParent").hide();
-                spinner.stop();
-                $('#summaryGIF').attr('src', playloop_dict['summary_img']);
-                $('#summaryGIF').css({opacity:0.5});
+
             }
         );
     
