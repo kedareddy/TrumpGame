@@ -447,7 +447,9 @@ $(document).ready(function(){
             //hide spinner and show summary gif
             $("#spinnerParent").hide();
             spinner.stop();
-            $('#summaryGIF').attr('src', summaryGIFURL);
+            var sumGIF = document.getElementById("summaryGIF");
+            sumGIF.src = summaryGIFURL;
+           // $('#summaryGIF').attr('src', summaryGIFURL);
             $('#summaryGIF').css({opacity:1.0});
         }
         socket.emit('my other event', { my: 'data' });
