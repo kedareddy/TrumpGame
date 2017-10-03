@@ -61,7 +61,7 @@
       <textarea id="exportTextArea" readonly style="width: 75%; padding-left:3px; display: inline-block;">
           http://www.playloops.io/template1.html
       </textarea>
-      <img crossOrigin="Anonymous" class="modal gif" id = "summaryGIF" src="/images/firstgif.gif">
+      <img crossOrigin="anonymous" class="modal gif" id = "summaryGIF" src="/images/firstgif.gif" style="opacity:0.0;">
     </div>
     <div class="modal footer">
       <h3></h3>
@@ -156,7 +156,7 @@
     .modal.publish.header{padding: 2px; background-color: rgba(0,0,0,0.75);color: white; display: inline-block; width:  100%;}
     .modal.publish.content { background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 60%; height: 80%;overflow: auto;}
     .modal.body{min-height: calc(100% - 25%);}
-    .modal.gif{width: 60%;opacity:0.0;}
+    .modal.gif{width: 60%;}
     
     .sliderholder{position: relative; width: 100%; z-index: 13;}
   /*  .searchResults{}*/
@@ -447,14 +447,15 @@ $(document).ready(function(){
             //hide spinner and show summary gif
             $("#spinnerParent").hide();
             spinner.stop();
-            var sumGIF = document.getElementById("summaryGIF");
-            sumGIF.src = summaryGIFURL;
+            //var sumGIF = document.getElementById("summaryGIF");
+            //sumGIF.src = summaryGIFURL;
            // $('#summaryGIF').attr('src', summaryGIFURL);
-            $('#summaryGIF').css({opacity:1.0});
+           // $('#summaryGIF').css({opacity:1.0});
+            $('#summaryGIF').remove();
+            $('#modalBody').append('<img crossOrigin="anonymous" class="modal gif id="summaryGIF" src="' + summaryGIFURL + '" style="opacity:1.0;">');
         }
         socket.emit('my other event', { my: 'data' });
-    });
-    
+    }); 
 
     
     //
