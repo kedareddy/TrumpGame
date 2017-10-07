@@ -15,14 +15,14 @@
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="/js/jquery-ui.min.css">
+    <link rel="stylesheet" href="/js/jquery-ui.min.css"/>
     
     <!-- import socket.io -->
     <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
     
     <!--Jquery Slider-->
     <script src="/js/jquery-ui-slider-pips.js"></script>
-    <link rel="stylesheet" href="/js/jquery-ui-slider-pips.css">
+    <link rel="stylesheet" href="/js/jquery-ui-slider-pips.css" />
     
     <!-- spinner for loading --> 
     <script src="/js/spin.min.js"></script>
@@ -40,6 +40,8 @@
     
     <!--PlayLooops library -->
     <script src="js/playloops.js"></script>
+    <!--Dropzone for uploads-->
+    <script src="/js/dropzone.js"></script>
     
 </head>
 
@@ -75,12 +77,20 @@
         <!--<button class="button nodeeditor AddText">Text</button>
         <button class="button nodeeditor AddImage">Image</button>
         <button class="button nodeeditor AddRectangle">Rect</button>-->
-        <br></br>
+        <!--dropzone to uploadfiles-->
+        <form action="/file-upload" id="upload-widget" class="dropzone">
+          <div class="fallback">
+            <input name="file" type="file" multiple class="dropzone-input"/>
+          </div>
+        </form>
+
         <div class="div nodecanvas" id="nodecanvasdiv">
-            <div class="sliderholder"><div id="flat-slider"></div></div>
+            <div class="sliderholder">
+                <div id="flat-slider"></div>
+            </div>
             <canvas class="canvas node" id="nodecanvas"></canvas>
         </div>
-        <br></br>
+        <br/>
         <div class="modal footer" id="videoHelpMenu">
             <div id="myForm" class="searchDiv">
                 <form>
@@ -135,7 +145,7 @@
     .div.header{margin: .5em;}
     .logo{width: 100%; height: auto;}
     
-    .nodecanvas{padding: 5% 10% 0% 10%;}
+    .nodecanvas{padding: 0% 10% 0% 10%;}
     .canvas-container{left: 0; margin: auto;}
     .canvas.node.lower-canvas{background-color:white;}
     
@@ -158,6 +168,9 @@
     .modal.body{min-height: calc(100% - 25%);}
     .modal.gif{width: 60%;}
     
+    .dropzone{text-align: center; justify-content: center;align-items: center; display: block;}  
+    .dropzone-input{text-align: center;}
+
     .sliderholder{position: relative; width: 100%; z-index: 13;}
   /*  .searchResults{}*/
     br {display: block;margin-top: 2px;line-height:2px;content: " "}
@@ -458,7 +471,34 @@ $(document).ready(function(){
     }); 
 
     
-    //
+    //uplading via dropzone
+    Dropzone.options.uploadWidget = {
+      paramName: 'file',
+      maxFilesize: 2, // MB
+      maxFiles: 1,
+      dictDefaultMessage: 'Drag an image here to upload, or click to select one',
+      acceptedFiles: 'image/*',
+      init: function() {
+        this.on('success', function( file, resp ){
+          console.log( file );
+          console.log( resp );
+        });
+        this.on('thumbnail', function(file) {
+          if ( file.width < 640 || file.height < 480 ) {
+            file.rejectDimensions();
+          }
+          else {
+            file.acceptDimensions();
+          }
+        });
+      },
+      accept: function(file, done) {
+        file.acceptDimensions = done;
+        file.rejectDimensions = function() {
+          done('The image must be at least 640 x 480px')
+        };
+      }
+    };
     
     
     // create a wrapper around native canvas element (with id="c")

@@ -50,6 +50,8 @@ app.delete('/playloops/:id', playloops.deletePlayloop);
 app.get('/playloops-all/', playloops.findAll);
 app.post('/createSummaryGIF', playloops.createSummaryGIF);
 app.get('/oembed', playloops.makeOembed);
+
+app.post('/uploads', playloops.handleUploads);
 //app.get('/pollServer', playloops.pollServer);
 
 app.get('/playloops-img/sign-s3', playloops.signS3);

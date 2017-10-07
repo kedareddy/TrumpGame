@@ -70,6 +70,23 @@ module.exports = function(io) {
       });
     });
 
+    module.handleUploads = function(req, res){
+      if ( !req.file.mimetype.startsWith( 'image/' ) ) {
+        return res.status( 422 ).json( {
+          error : 'The uploaded file must be an image'
+        } );
+      }
+
+      var dimensions = sizeOf( req.file.path );
+
+      if ( ( dimensions.width < 640 ) || ( dimensions.height < 480 ) ) {
+        return res.status( 422 ).json( {
+          error : 'The image must be at least 640 x 480px'
+        } );
+      }
+
+      return res.status( 200 ).send( req.file );
+    }
 
     module.makeOembed = function(req, res) {
         console.log("makeOembed called");
