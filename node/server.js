@@ -3,6 +3,8 @@ var cons = require('consolidate');
 var multer = require( 'multer' );
 var path = require('path');
 var shortid = require('shortid');
+var bodyParser = require('body-parser');
+var fileUpload = require('express-fileupload');
 
 var upload = multer({
     storage: multer.diskStorage({
@@ -43,6 +45,7 @@ app.configure(function () {
     app.use("/view/js", express.static(__dirname + '/images'));
     app.use("/view/assets", express.static(__dirname + '/images'));
     app.use("/tmp", express.static(__dirname + '/tmp'));
+    //app.use(fileUpload());
 });
 
 console.log("app configured with " + __dirname);
