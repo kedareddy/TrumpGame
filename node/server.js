@@ -11,6 +11,7 @@ var upload = multer({
         destination: './uploads/',
         filename: function (req, file, cb){
             // user shortid.generate() alone if no extension is needed
+            console.log("multer" + file.originalname);
             cb( null, shortid.generate() + path.parse(file.originalname).ext);
         }
     })
@@ -66,8 +67,8 @@ app.get('/playloops-all/', playloops.findAll);
 app.post('/createSummaryGIF', playloops.createSummaryGIF);
 app.get('/oembed', playloops.makeOembed);
 
-//app.post('/uploads', upload.single('displayImage'), playloops.handleUploads);
-app.post('/uploads', playloops.handleUploads);
+app.post('/uploads', upload.single('displayImage'), playloops.handleUploads);
+//app.post('/uploads', playloops.handleUploads);
 //app.get('/uploads', playloops.handleUploads);
 
 
