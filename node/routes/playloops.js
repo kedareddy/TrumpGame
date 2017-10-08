@@ -104,7 +104,7 @@ module.exports = function(io) {
         //upload to s3
         //send unique url to client
         //client side update current url of video
-        console.log("What was uploaded: " + req.files); 
+        console.log("What was uploaded: " + req.files.toString()); 
 
       return res.status( 200 ).send( req.files);
     }
