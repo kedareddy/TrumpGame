@@ -1,6 +1,7 @@
 var express = require('express');
 var cons = require('consolidate');
-
+var multer   =  require( 'multer' );
+var upload   =  multer( { dest: 'images/' } );
 var aws = require('aws-sdk');
 
 console.log("got through all the requires");
@@ -31,7 +32,6 @@ app.configure(function () {
     app.use("/view/js", express.static(__dirname + '/images'));
     app.use("/view/assets", express.static(__dirname + '/images'));
     app.use("/tmp", express.static(__dirname + '/tmp'));
-    app.use("/uploads", express.static(__dirname + '/uploads'));
 });
 
 console.log("app configured with " + __dirname);
@@ -52,7 +52,7 @@ app.get('/playloops-all/', playloops.findAll);
 app.post('/createSummaryGIF', playloops.createSummaryGIF);
 app.get('/oembed', playloops.makeOembed);
 
-app.post('/uploads', playloops.handleUploads);
+app.post('/uploads', upload.single('displayImage'), playloops.handleUploads);
 //app.get('/uploads', playloops.handleUploads);
 
 

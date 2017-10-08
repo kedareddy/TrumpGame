@@ -70,7 +70,7 @@ module.exports = function(io) {
       });
     });
 
-    module.handleUploads = function(req, res, next){
+    module.handleUploads = function(req, res){
       /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
         return res.status( 422 ).json( {
           error : 'The uploaded file must be an image'
@@ -104,7 +104,7 @@ module.exports = function(io) {
         //upload to s3
         //send unique url to client
         //client side update current url of video
-        console.log("What was uploaded: " + req.files.toString()); 
+        console.log("What was uploaded: " + req.file); 
         /*var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , outputAddress]);
 
         ffmpeg.stderr.on('data', function (data) {
@@ -124,7 +124,7 @@ module.exports = function(io) {
             console.log('...closing time! bye2');
         });*/
         
-        var tempImgPath = "/app/uploads/Editor.png" //req.files.displayImage.path;
+        var tempImgPath = req.file.displayImage.path;// "/app/uploads/Editor.png" //req.files.displayImage.path;
         fs.readFile(tempImgPath, function (err, data) {
             if (err) throw err; // Something went wrong!
             
@@ -135,7 +135,7 @@ module.exports = function(io) {
             });
 
             const s3 = new aws.S3({params: {Bucket: S3_BUCKET}});
-            const fileName = "Uploads/Editor.png"; // req.query['file-name'];
+            const fileName = "images/Editor.png"; // req.query['file-name'];
             const fileType = "image/png"; //req.query['file-type'];
 
             const s3Params = {
@@ -155,7 +155,7 @@ module.exports = function(io) {
             });
         });
 
-      return res.status( 200 ).send( req.files);
+      return res.status(200).send( req.file);
     }
     
     
