@@ -70,10 +70,13 @@ module.exports = function(io) {
       });
     });
 
-    module.handleUploads = function(req, res){
+    module.handleUploads = function(req, res, next){
         
         //console.log(req.body);
         console.log(req.files);
+        console.log("array: " + req.files['displayImage']);
+        console.log("first element: " + req.files['displayImage'][0]);
+        console.log("body" + req.body);
         var uploadedImage = req.files.displayImage;
         console.log("WHAT IS DISPLAY: " +  uploadedImage );
         

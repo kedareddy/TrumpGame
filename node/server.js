@@ -46,7 +46,7 @@ app.configure(function () {
     app.use("/view/js", express.static(__dirname + '/images'));
     app.use("/view/assets", express.static(__dirname + '/images'));
     app.use("/tmp", express.static(__dirname + '/tmp'));
-    app.use(fileUpload());
+    //app.use(fileUpload());
 });
 
 console.log("app configured with " + __dirname);
