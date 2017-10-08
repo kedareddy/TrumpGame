@@ -84,9 +84,26 @@ module.exports = function(io) {
           error : 'The image must be at least 640 x 480px'
         } );
       }
+    
+       /* var tempFileName; 
+        if(req.file.mimetype == 'image/jpeg'){
+            tempFileName = "/app/tempUploads/temp.jpeg";
+        }
+        
+      //take req.body write to temp folder
+        fs.writeFile("/app/tempUploads/temp.jpeg", req.body, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log("The file was saved!");
+        });     
+        */
+        console.log("What was uploaded: " + req.file); 
 
       return res.status( 200 ).send( req.file );
     }
+    
+    
 
     module.makeOembed = function(req, res) {
         console.log("makeOembed called");
