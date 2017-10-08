@@ -98,6 +98,12 @@ module.exports = function(io) {
             console.log("The file was saved!");
         });     
         */
+        
+        //convert to video using ffmpeg
+        //make unique url 
+        //upload to s3
+        //send unique url to client
+        //client side update current url of video
         console.log("What was uploaded: " + req.file); 
 
       return res.status( 200 ).send( req.file );
