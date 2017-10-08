@@ -70,7 +70,7 @@ module.exports = function(io) {
       });
     });
 
-    module.handleUploads = function(req, res){
+    module.handleUploads = function(req, res, next){
       /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
         return res.status( 422 ).json( {
           error : 'The uploaded file must be an image'
