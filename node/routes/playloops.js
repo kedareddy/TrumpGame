@@ -74,6 +74,7 @@ module.exports = function(io) {
         
         //console.log(req.body);
         console.log(req.files);
+        console.log("WHAT IS DISPLAY: " + req.files.displayImage )
         
       /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
         return res.status( 422 ).json( {
