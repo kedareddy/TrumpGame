@@ -76,9 +76,9 @@ module.exports = function(io) {
         console.log(req.files);
         console.log("array: " + req.files['displayImage']);
         console.log("first element: " + req.files['displayImage']['originalFilename']);
-        console.log("body" + req.body);
-        var uploadedImage = req.files.displayImage;
-        console.log("WHAT IS DISPLAY: " +  uploadedImage );
+        //console.log("body" + req.body);
+        //var uploadedImage = req.files.displayImage;
+        //console.log("WHAT IS DISPLAY: " +  uploadedImage );
         
         
       /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
