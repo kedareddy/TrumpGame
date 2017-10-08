@@ -5,6 +5,7 @@ var path = require('path');
 var fs = require('fs');
 var rimraf = require('rimraf');
 var fabric = require('fabric').fabric;
+var shortid = require('shortid');
 //var fabricUtil = require('fabric').fabric.util;
 var GIFEncoder = require('gifencoder'); 
 var xml = require('xml');
@@ -71,137 +72,79 @@ module.exports = function(io) {
     });
 
     module.handleUploads = function(req, res, next){
+        /*
+        { displayImage: 
+            2017-10-08T09:30:21.478295+00:00 app[web.1]:    { fieldName: 'displayImage',
+            2017-10-08T09:30:21.478296+00:00 app[web.1]:      originalFilename: 'Editor.png',
+            2017-10-08T09:30:21.478297+00:00 app[web.1]:      path: '/tmp/4-13qcwyo.sbtd3d6lxr.png',
+            2017-10-08T09:30:21.478298+00:00 app[web.1]:      headers: 
+            2017-10-08T09:30:21.478299+00:00 app[web.1]:       { 'content-disposition': 'form-data; name="displayImage"; filename="Editor.png"',
+            2017-10-08T09:30:21.478300+00:00 app[web.1]:         'content-type': 'image/png' },
+            2017-10-08T09:30:21.478300+00:00 app[web.1]:      ws: 
+            2017-10-08T09:30:21.478301+00:00 app[web.1]:       WriteStream {
+            2017-10-08T09:30:21.478302+00:00 app[web.1]:         _writableState: [Object],
+            2017-10-08T09:30:21.478302+00:00 app[web.1]:         writable: false,
+            2017-10-08T09:30:21.478303+00:00 app[web.1]:         domain: null,
+            2017-10-08T09:30:21.478303+00:00 app[web.1]:         _events: [Object],
+            2017-10-08T09:30:21.478304+00:00 app[web.1]:         _eventsCount: 2,
+            2017-10-08T09:30:21.478305+00:00 app[web.1]:         _maxListeners: undefined,
+            2017-10-08T09:30:21.478305+00:00 app[web.1]:         path: '/tmp/4-13qcwyo.sbtd3d6lxr.png',
+            2017-10-08T09:30:21.478306+00:00 app[web.1]:         fd: null,
+            2017-10-08T09:30:21.478307+00:00 app[web.1]:         mode: 438,
+            2017-10-08T09:30:21.478306+00:00 app[web.1]:         flags: 'w',
+            2017-10-08T09:30:21.478308+00:00 app[web.1]:         start: undefined,
+            2017-10-08T09:30:21.478308+00:00 app[web.1]:         autoClose: true,
+            2017-10-08T09:30:21.478309+00:00 app[web.1]:         pos: undefined,
+            2017-10-08T09:30:21.478309+00:00 app[web.1]:         bytesWritten: 634927,
+            2017-10-08T09:30:21.478310+00:00 app[web.1]:         closed: true },
+            2017-10-08T09:30:21.478310+00:00 app[web.1]:      size: 634927,
+            2017-10-08T09:30:21.478311+00:00 app[web.1]:      name: 'Editor.png',
+            2017-10-08T09:30:21.478312+00:00 app[web.1]:      type: 'image/png' } }
+        */
+        var fileInfo= path.parse(req.files['displayImage']['originalFilename']); // = path.parse(req.files.filename);
+        console.log("fileInfo is: " + fileInfo);
+        var outputPath = 'Uploads/' + generateUUID() + '.mp4';
+        var s3URL = 'https://playloops.s3.amazonaws.com/' + outputPath;
+        console.log("s3URL: " + s3URL); 
         
-        //console.log(req.body);
-        console.log(req.files);
-        console.log("array: " + req.files['displayImage']);
-        console.log("first element: " + req.files['displayImage']['originalFilename']);
-        //console.log("body" + req.body);
-        //var uploadedImage = req.files.displayImage;
-        //console.log("WHAT IS DISPLAY: " +  uploadedImage );
-        
-        
-      /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
-        return res.status( 422 ).json( {
-          error : 'The uploaded file must be an image'
-        } );
-      }
+        if(fileInfo.ext === '.png' || fileInfo.ext === '.jpeg' || fileInfo.ext === '.jpg' ){
+            var videoPath = 'uploads/' + fileInfo.name + '.mp4';
+            
+            //ffmpeg -loop 1 -i exit.png -c:v libx264 -t 1 -pix_fmt yuv420p out.mp4
+            var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1', '-pix_fmt','yuv420p', videoPath]);
 
-      var dimensions = sizeOf( req.file.path );
+            ffmpeg.stderr.on('data', function (data) {
+                //console.log("WTF is DATA??: " + data.toString());
+            });
 
-      if ( ( dimensions.width < 640 ) || ( dimensions.height < 480 ) ) {
-        return res.status( 422 ).json( {
-          error : 'The image must be at least 640 x 480px'
-        } );
-      }*/
-    
-       /* var tempFileName; 
-        if(req.file.mimetype == 'image/jpeg'){
-            tempFileName = "/app/tempUploads/temp.jpeg";
+            ffmpeg.stderr.on('end', function () {
+                uploadFile(videoPath, outputPath, s3URL);
+                console.log("finished converting image to video");
+            });
+
+            ffmpeg.stderr.on('exit', function () {
+                console.log('child process exited3');
+            });
+
+            ffmpeg.stderr.on('close', function() {
+                console.log('...closing time! bye3');
+            });
+        }
+        else {
+            //fileInfo.name + '.mp4'
+            uploadFile(req.files['displayImage']['path'], outputPath, s3URL);
         }
         
-      //take req.body write to temp folder
-        fs.writeFile("/app/tempUploads/temp.jpeg", req.body, function(err) {
-            if(err) {
-                return console.log(err);
-            }
-            console.log("The file was saved!");
-        });     
-        */
-        
-        //convert to video using ffmpeg
-        //make unique url 
-        //upload to s3
-        //send unique url to client
-        //client side update current url of video
-        //console.log("What was uploaded: " + req.file); 
-        /*var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , outputAddress]);
-
-        ffmpeg.stderr.on('data', function (data) {
-            //console.log("WTF is DATA??: " + data.toString());
-        });
-
-        ffmpeg.stderr.on('end', function () {
-            resolve();
-            console.log("finished splitting");
-        });
-
-        ffmpeg.stderr.on('exit', function () {
-            console.log('child process exited2');
-        });
-
-        ffmpeg.stderr.on('close', function() {
-            console.log('...closing time! bye2');
-        });*/
-        
-        /*var tempImgPath = req.file.displayImage.path;// "/app/uploads/Editor.png" //req.files.displayImage.path;
-        fs.readFile(tempImgPath, function (err, data) {
-            if (err) throw err; // Something went wrong!
-            
-            aws.config.update({
-                accessKeyId: AWS_ID,
-                secretAccessKey: AWS_KEY,
-                region: 'us-west-1'
-            });
-
-            const s3 = new aws.S3({params: {Bucket: S3_BUCKET}});
-            const fileName = "images/Editor.png"; // req.query['file-name'];
-            const fileType = "image/png"; //req.query['file-type'];
-
-            const s3Params = {
-                Bucket: S3_BUCKET,
-                Key: fileName, 
-                Body: data,
-                ContentType: fileType, 
-                ACL: 'public-read'
-            };
-            s3.putObject(s3Params, function(err, data){
-                if (err) { 
-                  console.log('Error uploading data: ' + data); 
-                } else {
-                  console.log('succesfully uploaded the image!');
-                  //addPlayloop(playloop);
-                }
-            });
-        });
-
-      return res.status(200).send( req.file);*/
-        
-            var fileInfo= path.parse(req.files['displayImage']['originalFilename']); // = path.parse(req.files.filename);
-            console.log("fileInfo is: " + fileInfo);
-
-            if(fileInfo.ext === '.png' || fileInfo.ext === '.jpeg' || fileInfo.ext === '.jpg' ){
-                var videoPath = 'uploads/' + fileInfo.name + '.mp4';
-                
-                //ffmpeg -loop 1 -i exit.png -c:v libx264 -t 1 -pix_fmt yuv420p out.mp4
-                var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1', '-pix_fmt','yuv420p', videoPath]);
-
-                ffmpeg.stderr.on('data', function (data) {
-                    //console.log("WTF is DATA??: " + data.toString());
-                });
-
-                ffmpeg.stderr.on('end', function () {
-                    uploadFile(videoPath, fileInfo.name + '.mp4');
-                    console.log("finished converting image to video");
-                });
-
-                ffmpeg.stderr.on('exit', function () {
-                    console.log('child process exited3');
-                });
-
-                ffmpeg.stderr.on('close', function() {
-                    console.log('...closing time! bye3');
-                });
-            }
-            else {
-                uploadFile(req.files['displayImage']['path'], fileInfo.name + '.mp4');
-            }
-
-            res.end();
+        res.end();
+        //res.send(s3URL);
     }
     
+    function generateUUID() {
+        return Math.random().toString(36).substring(2, 15) +
+            Math.random().toString(36).substring(2, 15);
+    }
     
-    function uploadFile(source, target){
+    function uploadFile(source, target, s3url){
 
         fs.readFile(source, function (err, data) {
 
@@ -229,7 +172,8 @@ module.exports = function(io) {
                       console.log('Error uploading data: ' + data); 
                     } else {
                       console.log('succesfully uploaded the video!');
-                      //addPlayloop(playloop);
+                      //tell client that you've completely uploaded video and can update url
+                      io.sockets.emit('updateVideoURL', { url: s3url });
                     }
                 });
  

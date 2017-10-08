@@ -469,7 +469,14 @@ $(document).ready(function(){
         }
         socket.emit('my other event', { my: 'data' });
     }); 
+    
+    socket.on('updateVideoURL', function (data) {
+        console.log("CLIENT: got news from server: " + data["url"]);
+        //equate url to current media. 
+        changeVideo(data["url"]);    
+    }); 
 
+    
     
     //uplading via dropzone
     Dropzone.options.uploadWidget = {
@@ -483,8 +490,16 @@ $(document).ready(function(){
           console.log( file );
           console.log( resp );
         });
+        /*this.on("sending", function(file, xhr, formData) {
+            var name = generateUUID();
+            formData.append(name, file);
+        });*/
+        this.on("success", function(file, response) {
+            console.log("response from server" + response);
+        });
       }
     };
+                               
     
     
     // create a wrapper around native canvas element (with id="c")
@@ -933,61 +948,8 @@ $(document).ready(function(){
         //detect which search result video user clicks on
         if(String(event.target.id).substring(0,3) == "vid"){
             //console.log("bla: " + event.target.id);
-            var $target = event.target;
-            var videoID = "#video00"+currentSceneNumber; 
-            var currentDOMVideo = document.getElementById("video00"+currentSceneNumber);
-            
-            $(videoID).attr("src",$target.src); 
-            
-            var setNewDuration = function(e) {
-                currentDOMVideo.removeEventListener("loadedmetadata", setNewDuration);  
-            
-                
-                var fabricVideo; 
-                for(var j=0; j< workingCanvas.getObjects().length; j++){
-                    if(workingCanvas.getObjects()[j].get('name') == "video"){
-                       // console.log("found video"); 
-                       fabricVideo = workingCanvas.getObjects()[j];
-                    }
-                }
-                
-                //console.log('NAME: ', fabricVideo.duration);    
-                fabricVideo.set('duration', currentDOMVideo.duration);      
-                
-                var aspect = currentDOMVideo.videoWidth/currentDOMVideo.videoHeight; 
-                //console.log("aspect" + aspect); 
-                var newH = fabricVideo.getHeight(); 
-                fabricVideo.setWidth(newH * aspect);
-                fabricVideo.setHeight(newH);
-                
-                
-                var leftOffset = (workingCanvas.width - fabricVideo.getWidth())/2;
-                fabricVideo.setLeft(leftOffset);
-                
-                $("#flat-slider").slider({
-                    max: currentDOMVideo.duration,
-                    min: 0,
-                    range: true,
-                    values: [0, currentDOMVideo.duration], 
-                    step: 0.1
-                }).slider("float");
-                
-                for (var i = 0; i < workingCanvas.getObjects().length; i++) {
-                    //var klass = fabric.util.getKlass(workingCanvas.getObjects()[i].type);
-                    var klass = workingCanvas.getObjects()[i].name; 
-                    if (klass != "video" && klass != "cursor") {
-                    //if(!klass.async){
-                        //console.log("element width: " + fabricVideo.width + ":i: " + i);
-                        //console.log("video WIDTH: " + currentDOMVideo.videoWidth + "::" + currentDOMVideo.offsetWidth); 
-                        //var aspect = workingCanvas.getObjects()[2].width/ workingCanvas.getObjects()[i].height; 
-                        workingCanvas.getObjects()[i].setWidth(fabricVideo.getWidth()); 
-                        workingCanvas.getObjects()[i].setLeft(leftOffset);
-                    }
-                }
-            };
-            
-            //change the range on the video slider
-            currentDOMVideo.addEventListener('loadedmetadata', setNewDuration);
+            $target = event.target; 
+            changeVideo($target.src);
         }
         
         if(event.target == publishButton){
@@ -1038,6 +1000,67 @@ $(document).ready(function(){
  
         }
     }
+    
+    
+    function changeVideo(tar){
+            var videoID = "#video00"+currentSceneNumber; 
+            var currentDOMVideo = document.getElementById("video00"+currentSceneNumber);
+            
+            $(videoID).attr("src",tar); 
+            
+            var setNewDuration = function(e) {
+                currentDOMVideo.removeEventListener("loadedmetadata", setNewDuration);  
+            
+                
+                var fabricVideo; 
+                for(var j=0; j< workingCanvas.getObjects().length; j++){
+                    if(workingCanvas.getObjects()[j].get('name') == "video"){
+                       // console.log("found video"); 
+                       fabricVideo = workingCanvas.getObjects()[j];
+                    }
+                }
+                
+                //console.log('NAME: ', fabricVideo.duration);    
+                fabricVideo.set('duration', currentDOMVideo.duration);      
+                
+                var aspect = currentDOMVideo.videoWidth/currentDOMVideo.videoHeight; 
+                //console.log("aspect" + aspect); 
+                var newH = fabricVideo.getHeight(); 
+                fabricVideo.setWidth(newH * aspect);
+                fabricVideo.setHeight(newH);
+                
+                
+                var leftOffset = (workingCanvas.width - fabricVideo.getWidth())/2;
+                fabricVideo.setLeft(leftOffset);
+                
+                $("#flat-slider").slider({
+                    max: currentDOMVideo.duration,
+                    min: 0,
+                    range: true,
+                    values: [0, currentDOMVideo.duration], 
+                    step: 0.1
+                }).slider("float");
+                
+                for (var i = 0; i < workingCanvas.getObjects().length; i++) {
+                    //var klass = fabric.util.getKlass(workingCanvas.getObjects()[i].type);
+                    var klass = workingCanvas.getObjects()[i].name; 
+                    if (klass != "video" && klass != "cursor") {
+                    //if(!klass.async){
+                        //console.log("element width: " + fabricVideo.width + ":i: " + i);
+                        //console.log("video WIDTH: " + currentDOMVideo.videoWidth + "::" + currentDOMVideo.offsetWidth); 
+                        //var aspect = workingCanvas.getObjects()[2].width/ workingCanvas.getObjects()[i].height; 
+                        workingCanvas.getObjects()[i].setWidth(fabricVideo.getWidth()); 
+                        workingCanvas.getObjects()[i].setLeft(leftOffset);
+                    }
+                }
+            };
+            
+            //change the range on the video slider
+            currentDOMVideo.addEventListener('loadedmetadata', setNewDuration);
+    }
+    
+    
+    
     
     $('#myForm').on('submit', function(e){
         e.preventDefault();
