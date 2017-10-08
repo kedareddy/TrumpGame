@@ -3,7 +3,7 @@ var cons = require('consolidate');
 var multer = require( 'multer' );
 var path = require('path');
 var shortid = require('shortid');
-var bodyParser = require('body-parser');
+//var bodyParser = require('body-parser');
 var fileUpload = require('express-fileupload');
 
 var upload = multer({
@@ -45,7 +45,7 @@ app.configure(function () {
     app.use("/view/js", express.static(__dirname + '/images'));
     app.use("/view/assets", express.static(__dirname + '/images'));
     app.use("/tmp", express.static(__dirname + '/tmp'));
-    //app.use(fileUpload());
+    app.use(fileUpload());
 });
 
 console.log("app configured with " + __dirname);
@@ -66,7 +66,8 @@ app.get('/playloops-all/', playloops.findAll);
 app.post('/createSummaryGIF', playloops.createSummaryGIF);
 app.get('/oembed', playloops.makeOembed);
 
-app.post('/uploads', upload.single('displayImage'), playloops.handleUploads);
+//app.post('/uploads', upload.single('displayImage'), playloops.handleUploads);
+app.post('/uploads', playloops.handleUploads);
 //app.get('/uploads', playloops.handleUploads);
 
 

@@ -70,12 +70,13 @@ module.exports = function(io) {
       });
     });
 
-    module.handleUploads = function(req, res, next){
+    module.handleUploads = function(req, res){
         
         //console.log(req.body);
         console.log(req.files);
-        //var parsed = JSON.parse(req.files);
-        //console.log("WHAT IS DISPLAY: " +  parsed.displayImage )
+        var uploadedImage = req.files.displayImage;
+        console.log("WHAT IS DISPLAY: " +  uploadedImage );
+        
         
       /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
         return res.status( 422 ).json( {
@@ -163,7 +164,7 @@ module.exports = function(io) {
 
       return res.status(200).send( req.file);*/
         
-            var fileInfo = path.parse(req.files.filename);
+            var fileInfo= uploadedImage; // = path.parse(req.files.filename);
             console.log("fileInfo is: " + fileInfo);
 
             if(fileInfo.ext === '.png' || fileInfo.ext === '.jpeg' || fileInfo.ext === '.jpg' ){
