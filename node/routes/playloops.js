@@ -65,10 +65,10 @@ module.exports = function(io) {
     io.on('connection', function(socket) {
       ioClientID = socket.id; 
       console.log("socket io connection golden. Client Id: " + ioClientID);
-      socket.emit('news', { hello: 'world' });
-      socket.on('my other event', function (data) {
-        console.log("SERVER: got stuff from client: " + data);
-      });
+      //socket.emit('news', { hello: 'world' });
+      //socket.on('my other event', function (data) {
+        //    console.log("SERVER: got stuff from client: " + data);
+      //});
     });
 
     module.handleUploads = function(req, res, next){
@@ -111,7 +111,7 @@ module.exports = function(io) {
             var videoPath = 'uploads/' + fileInfo.name + '.mp4';
             
             //ffmpeg -loop 1 -i exit.png -c:v libx264 -t 1 -pix_fmt yuv420p out.mp4
-            var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1', '-pix_fmt','yuv420p', videoPath]);
+            var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1.25', '-pix_fmt','yuv420p', videoPath]);
 
             ffmpeg.stderr.on('data', function (data) {
                 //console.log("WTF is DATA??: " + data.toString());
@@ -352,7 +352,7 @@ module.exports = function(io) {
                   console.log('Error uploading data: ' + data); 
                 } else {
                   console.log('succesfully uploaded the image!');
-                  //addPlayloop(playloop);
+                  io.sockets.emit('news', { hello: 'great cummunitacing!' });
                 }
             });
         });
@@ -474,8 +474,8 @@ module.exports = function(io) {
 
                 //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
                 //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
-                //'-b', '-O2',
-                var ffmpeg = spawn('gifsicle', ['--colors=256', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
+                //'-b', '-O2', '--colors=256'
+                var ffmpeg = spawn('gifsicle', ['-O2', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
                 //ffmpeg -i images/firstgif.gif -i images/firstgif_eye.gif -filter_complex '[0:v][1:v] concat=n=2:v=1:a=0 [v]' -map '[v]' images/turner1.gif
                 //var ffmpeg = spawn("ffmpeg", ["-i", gif1Path, "-i", gif2Path, "-filter_complex", "'[0:v][1:v]", "concat=n=2:v=1:a=0", "[v]'", "-map", "'[v]'", finalGIFPath]);
                 ffmpeg.stderr.on('end', function () {
@@ -487,9 +487,7 @@ module.exports = function(io) {
                         //gifsicle -b -O2 anim.gif  '--use-col=web',
                         //var gifsicle = spawn('gifsicle', ['-b', '--colors=256', '--color-method=blend-diversity', '-O2','/app/temp1/final.gif']);
                         //gifsicle.stderr.on('end', function () {
-                            console.log("GIF optimized at: " + finalGIFPath);
-                            io.sockets.emit('news', { hello: 'great cummunitacing!' });
-                            console.log("playloop unique id: " + playloop['_id']);
+                            
                             directUploadToS3(playloop);
                         //});
                         /*gifsicle.stderr.on('data', function (data) {
