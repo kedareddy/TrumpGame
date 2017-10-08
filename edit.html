@@ -78,9 +78,9 @@
         <button class="button nodeeditor AddImage">Image</button>
         <button class="button nodeeditor AddRectangle">Rect</button>-->
         <!--dropzone to uploadfiles-->
-        <form action="/uploads" id="upload-widget" class="dropzone">
+        <form action="/uploads" id="upload-widget" method="post" enctype="multipart/form-data" class="dropzone">
           <div class="fallback">
-            <input name="file" type="file" multiple class="dropzone-input"/>
+            <input name="displayImage" type="file" multiple class="dropzone-input"/>
           </div>
         </form>
 

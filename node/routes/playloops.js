@@ -70,8 +70,8 @@ module.exports = function(io) {
       });
     });
 
-    module.handleUploads = function(req, res){
-      if ( !req.file.mimetype.startsWith( 'image/' ) ) {
+    module.handleUploads = function(req, res, next){
+      /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
         return res.status( 422 ).json( {
           error : 'The uploaded file must be an image'
         } );
@@ -83,7 +83,7 @@ module.exports = function(io) {
         return res.status( 422 ).json( {
           error : 'The image must be at least 640 x 480px'
         } );
-      }
+      }*/
     
        /* var tempFileName; 
         if(req.file.mimetype == 'image/jpeg'){
@@ -104,9 +104,9 @@ module.exports = function(io) {
         //upload to s3
         //send unique url to client
         //client side update current url of video
-        console.log("What was uploaded: " + req.file); 
+        console.log("What was uploaded: " + req.files); 
 
-      return res.status( 200 ).send( req.file );
+      return res.status( 200 ).send( req.files);
     }
     
     
