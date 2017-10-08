@@ -105,6 +105,55 @@ module.exports = function(io) {
         //send unique url to client
         //client side update current url of video
         console.log("What was uploaded: " + req.files.toString()); 
+        /*var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , outputAddress]);
+
+        ffmpeg.stderr.on('data', function (data) {
+            //console.log("WTF is DATA??: " + data.toString());
+        });
+
+        ffmpeg.stderr.on('end', function () {
+            resolve();
+            console.log("finished splitting");
+        });
+
+        ffmpeg.stderr.on('exit', function () {
+            console.log('child process exited2');
+        });
+
+        ffmpeg.stderr.on('close', function() {
+            console.log('...closing time! bye2');
+        });*/
+        
+        var tempImgPath = req.files.displayImage.path;
+        fs.readFile(tempImgPath, function (err, data) {
+            if (err) throw err; // Something went wrong!
+            
+            aws.config.update({
+                accessKeyId: AWS_ID,
+                secretAccessKey: AWS_KEY,
+                region: 'us-west-1'
+            });
+
+            const s3 = new aws.S3({params: {Bucket: S3_BUCKET}});
+            const fileName = "Uploads/Editor.png"; // req.query['file-name'];
+            const fileType = "image/png"; //req.query['file-type'];
+
+            const s3Params = {
+                Bucket: S3_BUCKET,
+                Key: fileName, 
+                Body: data,
+                ContentType: fileType, 
+                ACL: 'public-read'
+            };
+            s3.putObject(s3Params, function(err, data){
+                if (err) { 
+                  console.log('Error uploading data: ' + data); 
+                } else {
+                  console.log('succesfully uploaded the image!');
+                  //addPlayloop(playloop);
+                }
+            });
+        });
 
       return res.status( 200 ).send( req.files);
     }
