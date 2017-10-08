@@ -31,6 +31,7 @@ app.configure(function () {
     app.use("/view/js", express.static(__dirname + '/images'));
     app.use("/view/assets", express.static(__dirname + '/images'));
     app.use("/tmp", express.static(__dirname + '/tmp'));
+    app.use("/uploads", express.static(__dirname + '/uploads'));
 });
 
 console.log("app configured with " + __dirname);
@@ -52,6 +53,9 @@ app.post('/createSummaryGIF', playloops.createSummaryGIF);
 app.get('/oembed', playloops.makeOembed);
 
 app.post('/uploads', playloops.handleUploads);
+//app.get('/uploads', playloops.handleUploads);
+
+
 //app.get('/pollServer', playloops.pollServer);
 
 app.get('/playloops-img/sign-s3', playloops.signS3);
