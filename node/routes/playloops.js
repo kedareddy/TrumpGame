@@ -74,7 +74,7 @@ module.exports = function(io) {
         
         //console.log(req.body);
         console.log(req.files);
-        console.log(req.files[0]);
+        
       /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
         return res.status( 422 ).json( {
           error : 'The uploaded file must be an image'
@@ -161,7 +161,7 @@ module.exports = function(io) {
 
       return res.status(200).send( req.file);*/
         
-            var fileInfo = path.parse(req.file.filename);
+            var fileInfo = path.parse(req.files.filename);
             console.log("fileInfo is: " + fileInfo);
 
             if(fileInfo.ext === '.png' || fileInfo.ext === '.jpeg' || fileInfo.ext === '.jpg' ){
