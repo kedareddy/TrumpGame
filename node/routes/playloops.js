@@ -124,7 +124,7 @@ module.exports = function(io) {
             console.log('...closing time! bye2');
         });*/
         
-        var tempImgPath = req.files.displayImage.path;
+        var tempImgPath = "/app/uploads/Editor.png" //req.files.displayImage.path;
         fs.readFile(tempImgPath, function (err, data) {
             if (err) throw err; // Something went wrong!
             
