@@ -167,14 +167,14 @@ module.exports = function(io) {
 
       return res.status(200).send( req.file);*/
         
-            var fileInfo= uploadedImage; // = path.parse(req.files.filename);
+            var fileInfo= path.parse(req.files['displayImage']['originalFilename']); // = path.parse(req.files.filename);
             console.log("fileInfo is: " + fileInfo);
 
             if(fileInfo.ext === '.png' || fileInfo.ext === '.jpeg' || fileInfo.ext === '.jpg' ){
                 var videoPath = 'uploads/' + fileInfo.name + '.mp4';
                 
                 //ffmpeg -loop 1 -i exit.png -c:v libx264 -t 1 -pix_fmt yuv420p out.mp4
-                var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.file.path, '-c:v', 'libx264', '-t','1', '-pix_fmt','yuv420p', videoPath]);
+                var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1', '-pix_fmt','yuv420p', videoPath]);
 
                 ffmpeg.stderr.on('data', function (data) {
                     //console.log("WTF is DATA??: " + data.toString());
@@ -194,7 +194,7 @@ module.exports = function(io) {
                 });
             }
             else {
-                uploadFile(req.file.path, req.file.filename);
+                uploadFile(req.files['displayImage']['path'], fileInfo.name + '.mp4');
             }
 
             res.end();
