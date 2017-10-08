@@ -72,8 +72,9 @@ module.exports = function(io) {
 
     module.handleUploads = function(req, res, next){
         
-        console.log(JSON.parse(req.body));
-        console.log(JSON.parse(req.file));
+        //console.log(req.body);
+        console.log(req.files);
+        console.log(req.files[0]);
       /*if ( !req.file.mimetype.startsWith( 'image/' ) ) {
         return res.status( 422 ).json( {
           error : 'The uploaded file must be an image'
