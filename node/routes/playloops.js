@@ -111,7 +111,7 @@ module.exports = function(io) {
             var videoPath = 'uploads/' + fileInfo.name + '.mp4';
             
             //ffmpeg -loop 1 -i exit.png -c:v libx264 -t 1 -pix_fmt yuv420p out.mp4
-            var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1.25', '-pix_fmt','yuv420p', videoPath]);
+            var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1.4', '-pix_fmt','yuv420p', videoPath]);
 
             ffmpeg.stderr.on('data', function (data) {
                 //console.log("WTF is DATA??: " + data.toString());
