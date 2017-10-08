@@ -104,7 +104,7 @@ module.exports = function(io) {
         //upload to s3
         //send unique url to client
         //client side update current url of video
-        console.log("What was uploaded: " + req.file); 
+        //console.log("What was uploaded: " + req.file); 
         /*var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , outputAddress]);
 
         ffmpeg.stderr.on('data', function (data) {
@@ -124,7 +124,7 @@ module.exports = function(io) {
             console.log('...closing time! bye2');
         });*/
         
-        var tempImgPath = req.file.displayImage.path;// "/app/uploads/Editor.png" //req.files.displayImage.path;
+        /*var tempImgPath = req.file.displayImage.path;// "/app/uploads/Editor.png" //req.files.displayImage.path;
         fs.readFile(tempImgPath, function (err, data) {
             if (err) throw err; // Something went wrong!
             
@@ -155,9 +155,77 @@ module.exports = function(io) {
             });
         });
 
-      return res.status(200).send( req.file);
+      return res.status(200).send( req.file);*/
+        
+            var fileInfo = path.parse(req.file.filename);
+            console.log("fileInfo is: " + fileInfo);
+
+            if(fileInfo.ext === '.png' || fileInfo.ext === '.jpeg' || fileInfo.ext === '.jpg' ){
+                var videoPath = 'uploads/' + fileInfo.name + '.mp4';
+                
+                //ffmpeg -loop 1 -i exit.png -c:v libx264 -t 1 -pix_fmt yuv420p out.mp4
+                var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.file.path, '-c:v', 'libx264', '-t','1', '-pix_fmt','yuv420p', videoPath]);
+
+                ffmpeg.stderr.on('data', function (data) {
+                    //console.log("WTF is DATA??: " + data.toString());
+                });
+
+                ffmpeg.stderr.on('end', function () {
+                    uploadFile(videoPath, fileInfo.name + '.mp4');
+                    console.log("finished converting image to video");
+                });
+
+                ffmpeg.stderr.on('exit', function () {
+                    console.log('child process exited3');
+                });
+
+                ffmpeg.stderr.on('close', function() {
+                    console.log('...closing time! bye3');
+                });
+            }
+            else {
+                uploadFile(req.file.path, req.file.filename);
+            }
+
+            res.end();
     }
     
+    
+    function uploadFile(source, target){
+
+        fs.readFile(source, function (err, data) {
+
+            if (!err) {
+
+                aws.config.update({
+                    accessKeyId: AWS_ID,
+                    secretAccessKey: AWS_KEY,
+                    region: 'us-west-1'
+                });
+
+                const s3 = new aws.S3({params: {Bucket: S3_BUCKET}});
+                //const fileName = "images/Editor.png"; // req.query['file-name'];
+                //const fileType = "image/png"; //req.query['file-type'];
+                // ContentType: fileType, 
+
+                const s3Params = {
+                    Bucket: S3_BUCKET,
+                    Key: target, 
+                    Body: data,
+                    ACL: 'public-read'
+                };
+                s3.putObject(s3Params, function(err, data){
+                    if (err) { 
+                      console.log('Error uploading data: ' + data); 
+                    } else {
+                      console.log('succesfully uploaded the video!');
+                      //addPlayloop(playloop);
+                    }
+                });
+ 
+            }
+        });
+    }
     
 
     module.makeOembed = function(req, res) {

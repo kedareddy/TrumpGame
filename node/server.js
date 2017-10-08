@@ -1,7 +1,18 @@
 var express = require('express');
 var cons = require('consolidate');
-var multer   =  require( 'multer' );
-var upload   =  multer( { dest: 'images/' } );
+var multer = require( 'multer' );
+var path = require('path');
+var shortid = require('shortid');
+
+var upload = multer({
+    storage: multer.diskStorage({
+        destination: './uploads/',
+        filename: function (req, file, cb){
+            // user shortid.generate() alone if no extension is needed
+            cb( null, shortid.generate() + path.parse(file.originalname).ext);
+        }
+    })
+});
 var aws = require('aws-sdk');
 
 console.log("got through all the requires");
