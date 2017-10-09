@@ -374,7 +374,11 @@ $.contextMenu({
     }
 }); 
     
-var SceneNode = fabric.util.createClass(fabric.Image, {
+    
+    
+$(document).ready(function(){
+    
+    var SceneNode = fabric.util.createClass(fabric.Image, {
     
       type: 'sceneNode',
 
@@ -413,37 +417,35 @@ var SceneNode = fabric.util.createClass(fabric.Image, {
             
           }
       }
-    
-});
-    
-var LabeledRect = fabric.util.createClass(fabric.Rect, {
 
-      type: 'labeledRect',
+    });
 
-      initialize: function(options) {
-        options || (options = { });
+    var LabeledRect = fabric.util.createClass(fabric.Rect, {
 
-        this.callSuper('initialize', options);
-        this.set('label', options.label || '');
-      },
+          type: 'labeledRect',
 
-      toObject: function() {
-        return fabric.util.object.extend(this.callSuper('toObject'), {
-          label: this.get('label')
-        });
-      },
+          initialize: function(options) {
+            options || (options = { });
 
-      _render: function(ctx) {
-        this.callSuper('_render', ctx);
+            this.callSuper('initialize', options);
+            this.set('label', options.label || '');
+          },
 
-        
-        ctx.font = '20px Helvetica';
-        ctx.fillStyle = '#333';
-        ctx.fillText(this.label, -this.width/2.9, this.height/7.5);
-      }
-    });    
-    
-$(document).ready(function(){
+          toObject: function() {
+            return fabric.util.object.extend(this.callSuper('toObject'), {
+              label: this.get('label')
+            });
+          },
+
+          _render: function(ctx) {
+            this.callSuper('_render', ctx);
+
+
+            ctx.font = '20px Helvetica';
+            ctx.fillStyle = '#333';
+            ctx.fillText(this.label, -this.width/2.9, this.height/7.5);
+          }
+    });
     
     // Get the modal
     var modal = document.getElementById('nodeeditormodal');

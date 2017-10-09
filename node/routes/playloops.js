@@ -11,8 +11,12 @@ var GIFEncoder = require('gifencoder');
 var xml = require('xml');
 
 
+
 var Canvas = require('canvas');
 global.Image = Canvas.Image;
+
+process.env.PANGOCAIRO_BACKEND = 'fontconfig';
+process.env.FONTCONFIG_PATH = '/app/fonts';
 
 var mongo = require('mongodb');
 
@@ -28,7 +32,7 @@ var ioClientID;
 var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
-
+''
 var server = new Server('ds057476.mlab.com', 57476, {auto_reconnect: true});
 db = new Db('heroku_bsmmjq6z', server);
 
