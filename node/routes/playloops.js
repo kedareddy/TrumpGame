@@ -111,11 +111,22 @@ module.exports = function(io) {
         var s3URL = 'https://playloops.s3.amazonaws.com/' + outputPath;
         console.log("s3URL: " + s3URL); 
         
-        if(fileInfo.ext === '.png' || fileInfo.ext === '.jpeg' || fileInfo.ext === '.jpg' ){
+        
+        
+        if(fileInfo.ext === '.png' || fileInfo.ext === '.jpeg' || fileInfo.ext === '.jpg'|| fileInfo.ext === '.gif' ){
             var videoPath = 'uploads/' + fileInfo.name + '.mp4';
-            
+            //for jpegs and pngs
             //ffmpeg -loop 1 -i exit.png -c:v libx264 -t 1 -pix_fmt yuv420p out.mp4
-            var ffmpeg = spawn('ffmpeg', ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1.4', '-pix_fmt','yuv420p', videoPath]);
+            //for gifs
+            //ffmpeg -i animated.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" video.mp4 
+            var params; 
+            if(fileInfo.ext === '.gif'){
+               params = ['-i', req.files['displayImage']['path'], '-movflags', 'faststart', '-pix_fmt','yuv420p', '-vf','scale=trunc(iw/2)*2:trunc(ih/2)*2', videoPath];
+            }else{
+               params = ['-loop', '1', '-i', req.files['displayImage']['path'], '-c:v', 'libx264', '-t','1.4', '-pix_fmt','yuv420p', videoPath];
+            }
+            
+            var ffmpeg = spawn('ffmpeg', params);
 
             ffmpeg.stderr.on('data', function (data) {
                 //console.log("WTF is DATA??: " + data.toString());
