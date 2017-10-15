@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1252.8 299.5" style="enable-background:new 0 0 1252.8 299.5;" xml:space="preserve">
+<style type="text/css">
+	.st0{opacity:9.000000e-02;fill:#3A3A39;}
+	.st1{fill:url(#SVGID_1_);}
+	.st2{fill:none;}
+	.st3{fill:#FFFFFF;}
+	.st4{font-family:'Rubik-BoldItalic';}
+	.st5{font-size:164.2555px;}
+	.st6{font-family:'Monoton-Regular';}
+	.st7{font-size:111.6937px;}
+	.st8{font-size:137.9746px;}
+	.st9{fill-opacity:0.55;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
+</style>
+<g>
+	<g>
+		<polygon class="st0" points="1160.5,191.1 15,191.1 107.4,17 1252.8,17 		"/>
+	</g>
+	<g>
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="261.7295" y1="-206.2431" x2="959.454" y2="366.6852">
+			<stop  offset="0" style="stop-color:#F89A4C"/>
+			<stop  offset="0" style="stop-color:#EA8E62"/>
+			<stop  offset="0" style="stop-color:#C76E9A"/>
+			<stop  offset="0" style="stop-color:#B059BF"/>
+			<stop  offset="1" style="stop-color:#00A994"/>
+		</linearGradient>
+		<polygon class="st1" points="1145.5,174.1 0,174.1 92.4,0 1237.8,0 		"/>
+	</g>
+	<rect x="118.4" y="27.9" class="st2" width="1063.8" height="160.2"/>
+	<text transform="matrix(1 0 0 1 118.3795 144.5557)"><tspan x="0" y="0" class="st3 st4 st5">PLAYL</tspan><tspan x="541.7" y="0" class="st3 st6 st7">O</tspan><tspan x="646" y="0" class="st3 st6 st8">O</tspan><tspan x="774.8" y="0" class="st3 st4 st5">PS</tspan></text>
+	<path class="st9" d="M797.5,297c7.1-8.1,12.7-50.6,12.7-50.6V182c-14.5-20.5-24.8,0-24.8,0v25.1l-4.2,0.4v-39.3
+		c-14.1-18.4-25.5,0-25.5,0V199h-4.2v-38.2c-13.1-23.3-25.1-0.4-25.1-0.4v29h-4.2v-74.3c-14.1-23-25.1,0-25.1,0v113.5l-36.4-36.8
+		c-26.5-6-16.6,17-16.6,17l53.1,88.1H797.5z"/>
+</g>
+</svg>
