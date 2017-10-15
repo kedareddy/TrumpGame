@@ -60,12 +60,12 @@ app.use(function(req, res, next) {
 //app.get('/playloops', wine.findAll);
 //app.get("/hello", function(req, res) { res.send("hello world"); });
 // set the home page route
-/*app.get('/', function(req, res) {
+app.get('/', function(req, res) {
     console.log("REQUEST CAME TO RENDER HOMEPAGE HAHAHAHAHAH");
     //res.render('/app/LandingPage/index');
     res.sendfile('/app/LandingPage/index.html');
     //res.sendfile('index.html', { root: __dirname + "../LandingPage/" } );
-});*/
+});
 app.get('/playloops/:id', playloops.findById);
 app.post('/playloops', playloops.addPlayloop);
 app.put('/playloops/:id', playloops.updatePlayloop);
