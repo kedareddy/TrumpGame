@@ -109,7 +109,7 @@
     <div class="container left">
         <!-- Logo & Nav options --> 
         <div class="div header">
-           <img class="logo" src="/images/bluelogo.svg">  
+           <img class="logo" src="/images/logo.svg">  
         </div>
     </div>
     <div class="container middle" id="middlecontainer">
@@ -133,10 +133,10 @@
     
 <style> 
     
-    .section.main{display: table; height: 100vh; font-family: 'Oswald medium', sans-serif; color: gray;}
+    .section.main{display: table; height: 100vh; font-family: 'Oswald medium', sans-serif; background: linear-gradient(135deg, #f89a4c , #b059bf, #00a994);}
     .container.left{ display: table-cell; width: 20%; vertical-align: top;padding: 1%;}
-    .container.middle{display: table-cell; width: 60%; border-style: solid;}
-    .container.right{ display: table-cell; width:  20%; vertical-align: top; padding: 1%;}
+    .container.middle{display: table-cell; width: 60%; border-style: solid;background: rgba(0,0,0,0.4);}
+    .container.right{ display: table-cell; width:  20%; vertical-align: top; padding: 1%; }
     .container.preview.canvasses{margin-left: auto; margin-right: auto; position: relative; }
     .lower-canvas{left:200; top:45;}
     .canvas.main{width: 100%; height: 100%;}
@@ -1335,8 +1335,8 @@ $(document).ready(function(){
         oSHandler = function(e){
                // console.log("updating time: " + sT + " :: " + eT + " v: " + v.currentTime);
             if(cTimes){
-                if (v.currentTime >= eT) {
-                    v.currentTime = sT;
+                if (v.currentTime >= parseFloat(eT)) {
+                    v.currentTime = parseFloat(sT);
                     console.log("Loop cause greater than max length");
                     v.play();
                     oSVidLoops++; 
@@ -1551,12 +1551,19 @@ $(document).ready(function(){
                          videoCustomElement.loop = true; 
                         
                         //set the video sliders to previous values parsed from the url.
+                        var startTime = 0; 
+                        var endTime = sceneObjects[i].duration; 
+                        
                         var urlText = videoCustomElement.src;
                         var indexTC = urlText.indexOf("#t=");
-                        var timeCodes = urlText.slice(indexTC+3).split(","); 
+                        //console.log("indexTC is: " + indexTC); 
+                        if(indexTC != "-1"){
+                            var timeCodes = urlText.slice(indexTC+3).split(","); 
 
-                        var startTime = timeCodes[0]; 
-                        var endTime = timeCodes[1];
+                            startTime = timeCodes[0]; 
+                            endTime = timeCodes[1];    
+                        }
+                        
       
                         $("#flat-slider").slider({
                             max: sceneObjects[i].duration,
@@ -1591,9 +1598,11 @@ $(document).ready(function(){
                         backVideo.style.display = "none";
                         // backVideo.crossOrigin = "anonymous";
                         backVideo.addEventListener("loadeddata", function(sT){
-                            return function(err) { 
-                                backVideo.currentTime = sT;
+                            return function(err){
+                               // console.log("the magical number: " + sT);
+                                backVideo.currentTime = parseFloat(sT);
                             };
+                    
                         }(startTime), false);
                         
                         $('body').append(backVideo);
@@ -1780,8 +1789,8 @@ $(document).ready(function(){
                     
                     newVideo.src = srcText + "#t=" +startTime+","+endTime; 
                     newVideo.load();
-                    workingCanvas.getObjects()[i].getElement().pause; 
-                    workingCanvas.getObjects()[i].getElement().src = srcText + "#t=" +startTime+","+endTime; 
+                    //workingCanvas.getObjects()[i].getElement().pause; 
+                    //workingCanvas.getObjects()[i].getElement().src = srcText + "#t=" +startTime+","+endTime; 
                     newVideo.style.display = "none";
                     //newVideo.style.position = "absolute";
                    // newVideo.crossOrigin = 'anonymous';
@@ -1789,8 +1798,8 @@ $(document).ready(function(){
 
                     newVideo.addEventListener('timeupdate', function (sT, eT) {
                         return function(err) { 
-                            if (newVideo.currentTime >= eT) {
-                                newVideo.currentTime = sT;
+                            if (newVideo.currentTime >= parseFloat(eT)) {
+                                newVideo.currentTime = parseFloat(sT);
                                 newVideo.play();
                             }
                         };
@@ -1807,7 +1816,7 @@ $(document).ready(function(){
                    // backVideo.crossOrigin = "anonymous";
                     backVideo.addEventListener("loadeddata", function(sT){
                         return function(err) { 
-                            backVideo.currentTime = sT;
+                            backVideo.currentTime = parseFloat(sT);
                         };
                     }(startTime), false);
 
@@ -2428,7 +2437,7 @@ $(document).ready(function(){
                         startTime = $('#flat-slider').slider("values")[0];
                     }
                     
-                    bkgVideo2.currentTime = startTime; 
+                    bkgVideo2.currentTime = parseFloat(startTime); 
 
                     var setOnce = false; 
                     //capture frames
