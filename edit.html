@@ -1057,15 +1057,17 @@ $(document).ready(function(){
                         workingCanvas.getObjects()[i].setLeft(leftOffset);
                     }
                 }
+                
+                /*Promise.resolve()
+                .then((val)=>saveSceneCanvas(" "))
+                .catch(function(err){
+                    console.log("" + err);
+                });*/
             };
             
             //change the range on the video slider
             currentDOMVideo.addEventListener('loadedmetadata', setNewDuration);
-            Promise.resolve()
-            .then((val)=>saveSceneCanvas(" "))
-            .catch(function(err){
-                console.log("" + err);
-            });
+
     }
     
     
