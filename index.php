@@ -1,1 +1,1 @@
-<?php header( 'Location: /LandingPage/index.html' ) ;  ?>
+<?php include_once("/LandingPage/index.html"); ?>

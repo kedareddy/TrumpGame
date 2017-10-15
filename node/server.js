@@ -61,6 +61,7 @@ app.use(function(req, res, next) {
 //app.get("/hello", function(req, res) { res.send("hello world"); });
 // set the home page route
 app.get('/', function(req, res) {
+    console.log("REQUEST CAME TO RENDER HOMEPAGE HAHAHAHAHAH");
     res.render('/app/LandingPage/index.html');
 });
 app.get('/playloops/:id', playloops.findById);
