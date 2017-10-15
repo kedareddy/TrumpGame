@@ -1020,6 +1020,7 @@ $(document).ready(function(){
                 
                 var fabricVideo; 
                 for(var j=0; j< workingCanvas.getObjects().length; j++){
+                    console.log("object is: " + workingCanvas.getObjects()[j].get('name'));
                     if(workingCanvas.getObjects()[j].get('name') == "video"){
                        fabricVideo = workingCanvas.getObjects()[j];
                     }
