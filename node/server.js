@@ -59,6 +59,10 @@ app.use(function(req, res, next) {
 
 //app.get('/playloops', wine.findAll);
 //app.get("/hello", function(req, res) { res.send("hello world"); });
+// set the home page route
+app.get('/', function(req, res) {
+    res.render('/app/LandingPage/index.html');
+});
 app.get('/playloops/:id', playloops.findById);
 app.post('/playloops', playloops.addPlayloop);
 app.put('/playloops/:id', playloops.updatePlayloop);
