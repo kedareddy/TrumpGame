@@ -187,34 +187,11 @@ var parentVideoListener = function (nVideo, sT, eT) {
     
 $(document).ready(function(){
     
-   /* embedly("defaults", {
-      cards: {
-        key: 'aba85429c1d249689d9cb126aaae22a8',
-        width: 700,
-        align: 'left',
-        chrome: 0
-      }
-    });*/
-
-    //var game_id = window.location.toString().split('?')[1];
-    //if(game_id){
-		//var dataUrl = 'https://api.mlab.com/api/1/databases/heroku_bsmmjq6z/collections/Library/'+game_id+'?apiKey=lJBb-_YOK_hCBfJ3_jL5kmDbaL5Xs1p-';
-		//$.ajax({url:dataUrl,type: "GET",contentType: "application/json"}).done(function( jsonData ) {
-           // console.log("inside ajax callback *****");
-            
-            //if(jsonData){
-              //  console.log("inside jsonData *****");
-                //console.log('stored: ', jsonData);
-                //console.log("OrderType: " + jsonData.order + " IType: " + jsonData.inputType + " TransitionT: " + jsonData.transition); 
                 
                 orderType = {{order | safe |json}};   
                 inputType = {{inputType | safe |json}};   
                 transitionType = {{transition | safe |json}};   
-                /*orderType = jsonData.order; 
-                inputType = jsonData.inputType; 
-                transitionType = jsonData.transition; 
-                */
-                //console.log("inside jsonData *****");
+
                 var scenes = {{scenes | safe |json}};   
                 //jsonData['scenes']
                 for(var j = 0; j < scenes.length; j++){
@@ -265,7 +242,7 @@ $(document).ready(function(){
                             allVideos.push(newVideo); 
                             if(j == 0 || inputType == "hold")
                             {                                
-                                addTimeHandler(newVideo, parseFloat(startTime), parseFloat(endTime);
+                                addTimeHandler(newVideo, parseFloat(startTime), parseFloat(endTime));
                             }
 
                             var backVideo = document.createElement("video");
@@ -336,18 +313,7 @@ $(document).ready(function(){
                     
                 }
                 
-           // } //JsonData
-  
-	/*	}).fail(function(jqXHR, textStatus, errorThrown )  {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        }); */
-	//} game_id
-    
-    //style the canvases..
 
-    //setTimeout(function(){
     var initLook = function(e){
         allFabricObjects[(allFabricObjects.length-1)].off('after:render', initLook);
         if(transitionType == "default"){
@@ -355,7 +321,6 @@ $(document).ready(function(){
             $(".upper-canvas").addClass("shadowOutset");
             $(".lower-canvas").addClass("roundcorners");
         }
-        else{}
     };
    
     
