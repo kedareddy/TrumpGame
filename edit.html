@@ -1550,7 +1550,7 @@ $(document).ready(function(){
             else{
                 //resetting variable
                 throttle = true; 
-                workingCanvas.backgroundColor="black";
+                workingCanvas.backgroundColor="white";
                 workingCanvas.renderAll();
                 var sceneJSON = JSON.parse(canvasStr);
                 //console.log("sceneJSON: " + canvasStr); 
@@ -1565,7 +1565,7 @@ $(document).ready(function(){
                         var videoID = "video00"+currentSceneNumber; 
                         var videoCustomElement = document.getElementById(videoID);
                         videoCustomElement.muted = true; 
-                       
+                       console.log("source when creating new node: " + sceneObjects[i].src);
                         $(videoID).attr("src",sceneObjects[i].src);
                          videoCustomElement.loop = true; 
                         
