@@ -394,12 +394,22 @@ module.exports = function(io) {
            for (var i = 0; i < sceneObjects.length; i++) {
                 console.log("obj is: " + sceneObjects[i].name + " scenenum: " + k + " numberofOBjs: " + sceneObjects.length);
                 if (sceneObjects[i].name == "video") {
+                    
+                    scene['startTime'] = 0; 
+                    scene['endTime'] = sceneObjects[i].duration;
+
                     var urlText = sceneObjects[i].src;
                     var indexTC = urlText.indexOf("#t=");
-                    var timeCodes = urlText.slice(indexTC+3).split(","); 
-                    console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
-                    scene['startTime'] = timeCodes[0]; 
-                    scene['endTime'] = timeCodes[1];
+                    if(indexTC != "-1"){
+                        var timeCodes = urlText.slice(indexTC+3).split(","); 
+                        console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
+                        startTime = parseFloat(timeCodes[0]); 
+                        endTime = parseFloat(timeCodes[1]);    
+                    }
+                    //var timeCodes = urlText.slice(indexTC+3).split(","); 
+                    //console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
+                    //scene['startTime'] = timeCodes[0]; 
+                    //scene['endTime'] = timeCodes[1];
 
                     urlText = urlText.split('mp4')[0];
                     urlText = urlText.concat("mp4"); 
