@@ -132,8 +132,8 @@
 </section>
     
 <style> 
-    
-    .section.main{display: table; height: 100vh; font-family: 'Oswald medium', sans-serif; background: linear-gradient(135deg, #f89a4c , #b059bf, #00a994);}
+    .body{font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;}
+    .section.main{display: table; height: 100vh; background: linear-gradient(135deg, #f89a4c , #b059bf, #00a994);}
     .container.left{ display: table-cell; width: 20%; vertical-align: top;padding: 1%;}
     .container.middle{display: table-cell; width: 60%; border-style: solid;background: rgba(0,0,0,0.4);}
     .container.right{ display: table-cell; width:  20%; vertical-align: top; padding: 1%; }
@@ -151,7 +151,8 @@
     
     
     /*.button.nodeeditor{float: left; width: 15%; margin: 5%; left: 13%;top:1%}*/
-    .button {border-style: solid; border-radius: 0px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none;  }
+    .button.publish {border-style: solid; border: 1px solid transparent;border-radius: 4px; padding: .5em; text-align: center; display: inline-block; font-size: 1em; cursor: pointer; box-shadow: none; background-color: #00a994;border-color: #4cae4c; color: #fff; text-shadow: none; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;}
+    .button.publish-success{background-color: #5cb85c;border-color: #4cae4c; color: #fff;}
     
     .section.modal {display: none; position: fixed; z-index: 1; padding-top: 6%; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
     .modal.content { background-color: gainsboro;margin: auto;padding: 0;border: 1px solid #888;width: 60%; height: 60%;}
@@ -442,7 +443,7 @@ $(document).ready(function(){
 
 
             ctx.font = '20px Helvetica';
-            ctx.fillStyle = '#333';
+            ctx.fillStyle = '#fff';
             ctx.fillText(this.label, -this.width/2.9, this.height/7.5);
           }
     });
@@ -533,6 +534,7 @@ $(document).ready(function(){
         //make line add to canvas
         var line = makeLine([ canvas.width/2, canvas.height/2, .85*canvas.width, canvas.height/1.2]);
         canvas.add(line);
+  
         canvas.sendToBack(line);
         //makeNode pass above line
         var node = makeNode("SceneNode", allScenes.length.toString(), line.get('x2'), line.get('y2'), line);
@@ -664,7 +666,7 @@ $(document).ready(function(){
               originX: 'center',
               originY: 'center',
               label: 'Options',
-              fill: 'white',
+              fill: 'rgba(0, 0, 0, 0.4)',
               stroke: 'black',
               rx: '7', 
               ry: '7',
@@ -1409,16 +1411,18 @@ $(document).ready(function(){
                 
                 
                 //console.log("source is: "  + video1El.src);
+                //https://playloops.s3.amazonaws.com/Uploads/qfzsqcfrqg3die0s8abul9vzpz.mp4
+                //https://playloops.s3.amazonaws.com/Uploads/2d3qgicslhqk1vvb0223rg48t0.mp4
                 var startingUrl; 
                 if(sceneSetupCounter == 0){
-                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/qfzsqcfrqg3die0s8abul9vzpz.mp4";
+                    startingUrl = "images/AEMP/parent.mp4";
                 }else if(sceneSetupCounter == 1){
-                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/2d3qgicslhqk1vvb0223rg48t0.mp4";
+                    startingUrl = "images/AEMP/child1.mp4";
                 }else if(sceneSetupCounter == 2){
-                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/2d3qgicslhqk1vvb0223rg48t0.mp4";
+                    startingUrl = "https://media.giphy.com/media/qbTkx3CaYMoUg/giphy.mp4";
                 }
                 else if(sceneSetupCounter == 3){
-                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/2d3qgicslhqk1vvb0223rg48t0.mp4";
+                    startingUrl = "images/AEMP/child2.mp4";
                 }
                 sceneSetupCounter++; 
                 
@@ -1455,7 +1459,7 @@ $(document).ready(function(){
 
                 var resolveOnce = false; 
                 //wait until the metadata of the DOM video loaded to set the min/max on the slider, and assign duration for the fabric video object
-                videoCustomElement.addEventListener('loadedmetadata', function videoLoaded(fabricVideo, wCanvas, resolve, rOnce) {
+                videoCustomElement.addEventListener('loadedmetadata', function videoLoaded(fabricVideo, DOMVideo,wCanvas, resolve, rOnce) {
                     this.removeEventListener("loadedmetadata", videoLoaded);
                     
                       //this.removeEventListener('loadedmetadata',arguments.callee,false);
@@ -1502,30 +1506,45 @@ $(document).ready(function(){
 
 
                             wCanvas.add(fabricVideo);
-
-
-                            /*var videoAspect = fabricVideo.getWidth()/ fabricVideo.getHeight();     
-                            fabricVideo.setHeight(wCanvas.height); 
-                            fabricVideo.setWidth(wCanvas.height * videoAspect); 
-                              */
-                            wCanvas.getObjects()[0].setWidth(fabricVideo.getWidth()); 
-                            wCanvas.getObjects()[1].setWidth(fabricVideo.getWidth());
                             
+                            //changeVideo code
+                            var aspect = DOMVideo.videoWidth/DOMVideo.videoHeight; 
+                            //console.log("aspect" + aspect); 
+                            var newH = wCanvas.height; 
+                            fabricVideo.setWidth(newH * aspect);
+                            fabricVideo.setHeight(newH);
+                            wCanvas.getObjects()[0].setWidth(newH * aspect);
+                            //wCanvas.getObjects()[0].setHeight(newH);
+                            
+                            wCanvas.getObjects()[1].setWidth(newH * aspect);
+                            //wCanvas.getObjects()[1].setHeight(newH);
+                
                             var leftOffset = (wCanvas.width - fabricVideo.getWidth())/2;
                             fabricVideo.setLeft(leftOffset);
                             wCanvas.getObjects()[0].setLeft(leftOffset);
                             wCanvas.getObjects()[1].setLeft(leftOffset);
+                            //end of changeVideo code    
+                            
+                            /*var videoAspect = fabricVideo.getWidth()/ fabricVideo.getHeight();     
+                            fabricVideo.setHeight(wCanvas.height); 
+                            fabricVideo.setWidth(wCanvas.height * videoAspect); 
+                              */
+                            //wCanvas.getObjects()[0].setWidth(fabricVideo.getWidth()); 
+                            //wCanvas.getObjects()[1].setWidth(fabricVideo.getWidth());
+                            
+                            //var leftOffset = (wCanvas.width - fabricVideo.getWidth())/2;
+                            //fabricVideo.setLeft(leftOffset);
+                            //wCanvas.getObjects()[0].setLeft(leftOffset);
+                            //wCanvas.getObjects()[1].setLeft(leftOffset);
 
                             wCanvas.sendToBack(fabricVideo);
                             fabricVideo.getElement().play();
-                            wCanvas.renderAll(); 
-
-                             //console.log("the open src: " + this.src);
+                            wCanvas.renderAll();
 
                             resolve();
                         }
                     };
-                }(videoT, workingCanvas, resolve, resolveOnce), false);
+                }(videoT, videoCustomElement, workingCanvas, resolve, resolveOnce), false);
 
             }
             else{
