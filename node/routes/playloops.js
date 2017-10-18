@@ -413,7 +413,7 @@ module.exports = function(io) {
 
                     urlText = urlText.split('mp4')[0];
                     urlText = urlText.concat("mp4"); 
-                    if(urlText.match('^https://')){
+                    if(urlText.match('https://')){
                          urlText = urlText.replace("https://","http://")
                     } 
 
@@ -707,7 +707,8 @@ module.exports = function(io) {
             }
             var scaleParam = "scale=-1:"+ scene.gifH;
             console.log("scaleParam: " + scaleParam);// '-r', '0.5',
-            var ffmpeg = spawn('ffmpeg', ['-y', '-i', scene.movURL, '-filter:v', scaleParam , outputAddress]);
+            //adding seeking -ss -to 
+            var ffmpeg = spawn('ffmpeg', ['-y', '-ss', scene.startTime, '-i', scene.movURL, '-to' , scene.endTime , '-filter:v', scaleParam , '-copyts', outputAddress]);
 
             ffmpeg.stderr.on('data', function (data) {
                 //console.log("WTF is DATA??: " + data.toString());

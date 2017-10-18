@@ -531,6 +531,7 @@ $(document).ready(function(){
     
     var initModalZIndex; 
     window.addNode = function addNode(){
+        
         //make line add to canvas
         var line = makeLine([ canvas.width/2, canvas.height/2, .85*canvas.width, canvas.height/1.2]);
         canvas.add(line);
@@ -584,7 +585,13 @@ $(document).ready(function(){
         */
         Promise.resolve()
             .then((nodeObj, canvasObj)=> openSceneCanvas(allScenes[currentSceneNumber].fabricNodeObject, allScenes[currentSceneNumber].fabricCanvasObject))
+            .catch(function(error){
+                console.log("adding node openerror: " + error); 
+            })
             .then((iVal) => saveSceneCanvas("InitSliderValues"))
+            .catch(function(error){
+                console.log("adding node error: " + error); 
+            })
             .then(function(){
                 modal.style.display = "none";
                 modal.style.zIndex = initModalZIndex;
@@ -1367,9 +1374,10 @@ $(document).ready(function(){
     var sceneSetupCounter = 0; 
     function openSceneCanvas (sceneNode, canvasStr){
         return new Promise(function (resolve) {
-            
+         
             //if first time create a rectangle
             if(canvasStr == " "){ 
+                 alert("no");
                 //console.log("CANVAS Str: " + canvasStr);
                 if(workingCanvas == undefined){
                     workingCanvas = new fabric.Canvas('nodecanvas', {preserveObjectStacking: true});
@@ -1421,7 +1429,7 @@ $(document).ready(function(){
                 }else if(sceneSetupCounter == 2){
                     startingUrl = "https://playloops.s3.amazonaws.com/Uploads/fjae323p85fqaxcz8wch0lrd3g.mp4";
                 }
-                else if(sceneSetupCounter == 3){
+                else if(sceneSetupCounter >= 3){
                     startingUrl = "https://playloops.s3.amazonaws.com/Uploads/4fz0lmda4hyot3qdxmsqv398uk.mp4";
                 }
                 sceneSetupCounter++; 
@@ -1565,6 +1573,7 @@ $(document).ready(function(){
                         var videoID = "video00"+currentSceneNumber; 
                         var videoCustomElement = document.getElementById(videoID);
                         videoCustomElement.muted = true; 
+                       
                        console.log("source when creating new node: " + sceneObjects[i].src);
                         $(videoID).attr("src",sceneObjects[i].src);
                          videoCustomElement.loop = true; 
