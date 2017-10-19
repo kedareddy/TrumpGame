@@ -1719,32 +1719,7 @@ $(document).ready(function(){
             for (var i = 0; i < workingCanvas.getObjects().length; i++) {   
                 console.log(workingCanvas.getObjects()[i].name);
                 if (workingCanvas.getObjects()[i].name == "videoB") {
-                     var startTime = 0; 
-                    var endTime = workingCanvas.getObjects()[i].duration; 
-                    //console.log("DURATION: " + endTime + "**" + currentSceneNumber );
-                    if(initVal != "InitSliderValues"){
-                        if($('#flat-slider').slider("values")[0] > $('#flat-slider').slider("values")[1]){
-                            startTime = $('#flat-slider').slider("values")[1];
-                            endTime = $('#flat-slider').slider("values")[0];
-                        }
-                        else{
-                            startTime = $('#flat-slider').slider("values")[0];
-                            endTime = $('#flat-slider').slider("values")[1];
-                            //alert(startTime);
-                        }
-                    }
                     
-                    //check if #t= is there, if so remove it. 
-                    var srcText = workingCanvas.getObjects()[i].src;
-                    if(srcText.indexOf("#t=") !== -1){
-                        srcText = srcText.substring(0, srcText.indexOf('#t='));
-                    }
-                    
-                    //workingCanvas.getObjects()[i].src = srcText+"#t="+startTime+","+endTime; 
-                    srcText = srcText+"#t="+startTime+","+endTime;
-                    $(vID).attr("src", srcText);
-                    workingCanvas.getObjects()[i].src = srcText;
-                    console.log("working src: " + workingCanvas.getObjects()[i].src);
                     workingCanvas.getObjects()[i].remove(); 
                 }
                 else if(workingCanvas.getObjects()[i].name == "cursor"){
@@ -1939,6 +1914,41 @@ $(document).ready(function(){
                             
                     }
                 }
+            }
+            
+             for (var i = 0; i < workingCanvas.getObjects().length; i++) {   
+                //console.log("obj again: " + workingCanvas.getObjects()[i].name);
+                if (workingCanvas.getObjects()[i].name == "video") {
+                    var startTime = 0; 
+                    var endTime = workingCanvas.getObjects()[i].duration; 
+                    //console.log("DURATION: " + endTime + "**" + currentSceneNumber );
+                    if(initVal != "InitSliderValues"){
+                        if($('#flat-slider').slider("values")[0] > $('#flat-slider').slider("values")[1]){
+                            startTime = $('#flat-slider').slider("values")[1];
+                            endTime = $('#flat-slider').slider("values")[0];
+                        }
+                        else{
+                            startTime = $('#flat-slider').slider("values")[0];
+                            endTime = $('#flat-slider').slider("values")[1];
+                            //alert(startTime);
+                        }
+                    }
+                    
+                    //check if #t= is there, if so remove it. 
+                    var srcText = workingCanvas.getObjects()[i].src;
+                    if(srcText.indexOf("#t=") !== -1){
+                        srcText = srcText.substring(0, srcText.indexOf('#t='));
+                    }
+                    
+                    //workingCanvas.getObjects()[i].src = srcText+"#t="+startTime+","+endTime; 
+                    srcText = srcText+"#t="+startTime+","+endTime;
+                    $(vID).attr("src", srcText);
+                    workingCanvas.getObjects()[i].src = srcText;
+                    console.log("working src: " + workingCanvas.getObjects()[i].src);
+                    //console.log("working src again: " + workingCanvas.getObjects()[i].src);
+                   // workingCanvas.getObjects()[i].remove(); 
+                }
+    
             }
             allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height'])); 
             workingCanvas.clear(); 

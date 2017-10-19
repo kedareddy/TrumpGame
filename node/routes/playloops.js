@@ -397,7 +397,7 @@ module.exports = function(io) {
                     
                     scene['startTime'] = 0; 
                     scene['endTime'] = sceneObjects[i].duration;
-
+                    console.log("server side url: " + sceneObjects[i].src);
                     var urlText = sceneObjects[i].src;
                     var indexTC = urlText.indexOf("#t=");
                     if(indexTC != "-1"){
