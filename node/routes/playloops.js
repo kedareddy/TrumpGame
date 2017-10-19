@@ -403,8 +403,8 @@ module.exports = function(io) {
                     if(indexTC != "-1"){
                         var timeCodes = urlText.slice(indexTC+3).split(","); 
                         console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
-                        startTime = parseFloat(timeCodes[0]); 
-                        endTime = parseFloat(timeCodes[1]);    
+                        scene['startTime'] = parseFloat(timeCodes[0]); 
+                        scene['endTime'] = parseFloat(timeCodes[1]);    
                     }
                     //var timeCodes = urlText.slice(indexTC+3).split(","); 
                     //console.log("!!!!!!!!!!!timeCodes: " + timeCodes[0] + " :: " + timeCodes[1]); 
