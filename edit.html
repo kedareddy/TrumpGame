@@ -1037,7 +1037,8 @@ $(document).ready(function(){
                     }
                 }
                 
-                fabricVideo.set('duration', currentDOMVideo.duration);      
+                fabricVideo.set('duration', currentDOMVideo.duration);
+                fabricVideo.set('src', tar);
                 
                 var aspect = currentDOMVideo.videoWidth/currentDOMVideo.videoHeight; 
                 //console.log("aspect" + aspect); 
