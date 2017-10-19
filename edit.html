@@ -1916,6 +1916,7 @@ $(document).ready(function(){
                 }
             }
             
+            var srcText; 
              for (var i = 0; i < workingCanvas.getObjects().length; i++) {   
                 //console.log("obj again: " + workingCanvas.getObjects()[i].name);
                 if (workingCanvas.getObjects()[i].name == "video") {
@@ -1935,22 +1936,37 @@ $(document).ready(function(){
                     }
                     
                     //check if #t= is there, if so remove it. 
-                    var srcText = workingCanvas.getObjects()[i].src;
+                    srcText = workingCanvas.getObjects()[i].src;
                     if(srcText.indexOf("#t=") !== -1){
                         srcText = srcText.substring(0, srcText.indexOf('#t='));
                     }
                     
                     //workingCanvas.getObjects()[i].src = srcText+"#t="+startTime+","+endTime; 
                     srcText = srcText+"#t="+startTime+","+endTime;
-                    $(vID).attr("src", srcText);
-                    workingCanvas.getObjects()[i].src = srcText;
-                    console.log("working src: " + workingCanvas.getObjects()[i].src);
+                    //$(vID).attr("src", srcText);
+                    //workingCanvas.getObjects()[i].set({ src: srcText});
+                    //workingCanvas.getObjects()[i].src = srcText;
+                    //console.log("working src: " + workingCanvas.getObjects()[i].src);
+                
                     //console.log("working src again: " + workingCanvas.getObjects()[i].src);
                    // workingCanvas.getObjects()[i].remove(); 
                 }
     
             }
-            allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height'])); 
+            //allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height']));
+            //saving the custom src property of the video object after it's been initialized
+            var sCanvas = JSON.stringify(workingCanvas.toJSON(['width','height']));
+            var oCanvas = JSON.parse(sCanvas);
+            $.each(oCanvas.objects, function(n, object){
+                if(oCanvas.objects[n].name == "video"){
+                    oCanvas.objects[n].src = srcText;
+                }
+                //console.log("trickobje: " + oCanvas.objects[n].name);
+            })
+            
+            var canvasStr = JSON.stringify(oCanvas);
+            allScenes[currentSceneNumber].fabricCanvasObject = canvasStr; 
+            console.log("CANVASSTR!!!: "  + canvasStr);
             workingCanvas.clear(); 
             
             resolve(); 
