@@ -109,7 +109,9 @@
     <div class="container left">
         <!-- Logo & Nav options --> 
         <div class="div header">
-           <img class="logo" src="/images/logo.svg">  
+            <a href="https://www.playloops.io/">
+                <img class="logo" src="/images/logo.svg">
+            </a>
         </div>
     </div>
     <div class="container middle" id="middlecontainer">
@@ -1710,8 +1712,39 @@ $(document).ready(function(){
             //console.log("in the SAVE SCENE!!!!!:: " + initVal + " sceneNumb: " + currentSceneNumber); 
             //console.log("currenscenenum: " + currentSceneNumber);
             //remove the src from the video in the modal to mute the video
+            var vID = "video00"+currentSceneNumber; 
+            var v = document.getElementById(vID);
+            v.muted = true;  
+           
             for (var i = 0; i < workingCanvas.getObjects().length; i++) {   
+                console.log(workingCanvas.getObjects()[i].name);
                 if (workingCanvas.getObjects()[i].name == "videoB") {
+                     var startTime = 0; 
+                    var endTime = workingCanvas.getObjects()[i].duration; 
+                    //console.log("DURATION: " + endTime + "**" + currentSceneNumber );
+                    if(initVal != "InitSliderValues"){
+                        if($('#flat-slider').slider("values")[0] > $('#flat-slider').slider("values")[1]){
+                            startTime = $('#flat-slider').slider("values")[1];
+                            endTime = $('#flat-slider').slider("values")[0];
+                        }
+                        else{
+                            startTime = $('#flat-slider').slider("values")[0];
+                            endTime = $('#flat-slider').slider("values")[1];
+                            //alert(startTime);
+                        }
+                    }
+                    
+                    //check if #t= is there, if so remove it. 
+                    var srcText = workingCanvas.getObjects()[i].src;
+                    if(srcText.indexOf("#t=") !== -1){
+                        srcText = srcText.substring(0, srcText.indexOf('#t='));
+                    }
+                    
+                    //workingCanvas.getObjects()[i].src = srcText+"#t="+startTime+","+endTime; 
+                    srcText = srcText+"#t="+startTime+","+endTime;
+                    $(vID).attr("src", srcText);
+                    workingCanvas.getObjects()[i].src = srcText;
+                    console.log("working src: " + workingCanvas.getObjects()[i].src);
                     workingCanvas.getObjects()[i].remove(); 
                 }
                 else if(workingCanvas.getObjects()[i].name == "cursor"){
@@ -1722,13 +1755,12 @@ $(document).ready(function(){
                     workingCanvas.getObjects()[i].opacity = 0; 
                 }
                 else if(workingCanvas.getObjects()[i].name == "video"){
+                    //save the time stamps in the url
+                   
                     //workingCanvas.getObjects()[i].getElement().removeEventListener('timeupdate', oSHandler);
                 }
             }
-            var vID = "video00"+currentSceneNumber; 
-            var v = document.getElementById(vID);
-            v.muted = true;  
-           // $(videoID).attr("src"," ");
+            
                  
             previewFabricCanvases[currentSceneNumber].clear();
             //was trying to resize the canvas, but not a good idea, because the end playloop needs a consistent size.
@@ -1738,7 +1770,7 @@ $(document).ready(function(){
             allScenes[currentSceneNumber].fabricCanvasObject = JSON.stringify(workingCanvas.toJSON(['width','height']));    
 
             var canvasStr = allScenes[currentSceneNumber].fabricCanvasObject;
-
+            //console.log("CANVASSTR!!!: "  + canvasStr);
             var sceneJSON = JSON.parse(canvasStr);
             var sceneObjects = sceneJSON.objects;
             //console.log("let's see what's written: " + canvasStr);
@@ -1782,7 +1814,7 @@ $(document).ready(function(){
             for (var i = 0; i < sceneObjects.length; i++) {
                 var klass = fabric.util.getKlass(sceneObjects[i].type);
                 //var klass = sceneObjects[i].name;
-
+                console.log("obj: " + sceneObjects[i].name);
                 //if (klass == "video") {
                 if(sceneObjects[i].name == "video"){
                     var startTime = 0; 
@@ -1810,12 +1842,15 @@ $(document).ready(function(){
                     //console.log("src: " + sceneObjects[i].src); 
                     
                     //check if #t= is there, if so remove it. 
-                    var srcText = sceneObjects[i].src;
+                    //var srcText = sceneObjects[i].src;
+                    var srcText = v.src;
                     if(srcText.indexOf("#t=") !== -1){
                         srcText = srcText.substring(0, srcText.indexOf('#t='));
                     }
-                    
-                    newVideo.src = srcText + "#t=" +startTime+","+endTime; 
+                    srcText =srcText + "#t=" +startTime+","+endTime;
+                    newVideo.src = srcText; 
+                    console.log("video src is: " + newVideo.src);
+                    console.log("recorded src is: " + sceneObjects[i].src);
                     newVideo.load();
                     //workingCanvas.getObjects()[i].getElement().pause; 
                     //workingCanvas.getObjects()[i].getElement().src = srcText + "#t=" +startTime+","+endTime; 
