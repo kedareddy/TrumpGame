@@ -416,7 +416,7 @@ module.exports = function(io) {
                     if(urlText.match('https://')){
                          urlText = urlText.replace("https://","http://")
                     } 
-
+                    console.log("serverside urlTEXT: " + urlText);
                     scene['movURL'] = urlText; 
                     scene['vPosX'] = sceneObjects[i].left; 
                     scene['vPosY'] = sceneObjects[i].top; 
@@ -708,7 +708,10 @@ module.exports = function(io) {
             var scaleParam = "scale=-1:"+ scene.gifH;
             console.log("scaleParam: " + scaleParam);// '-r', '0.5',
             //adding seeking -ss -to 
-            var ffmpeg = spawn('ffmpeg', ['-y', '-ss', scene.startTime, '-i', scene.movURL, '-to' , scene.endTime , '-filter:v', scaleParam , '-copyts', outputAddress]);
+            //'-copyts'
+            console.log("start time: " + scene.startTime+ " end time: " + scene.endTime ); 
+            var dur = scene.endTime - scene.startTime; 
+            var ffmpeg = spawn('ffmpeg', ['-y', '-ss', scene.startTime, '-i', scene.movURL, '-to' , dur , '-filter:v', scaleParam, outputAddress]);
 
             ffmpeg.stderr.on('data', function (data) {
                 //console.log("WTF is DATA??: " + data.toString());
