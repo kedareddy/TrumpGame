@@ -500,7 +500,8 @@ module.exports = function(io) {
                 //var ffmpeg = spawn('ffmpeg', ['-i', concatString, '-c', 'copy', '/app/temp1/final.gif']);
                 //var ffmpeg = spawn('ffmpeg', ['-f', 'concat', '-safe', '0', '-protocol_whitelist', 'file,http,https,tcp,tls', '-i', '/app/input.txt', '-c:v', 'libx264', '/app/temp1/final.mp4']);
                 //'-b', '-O2', '--colors=256'
-                var ffmpeg = spawn('gifsicle', ['-O2', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
+                //'-O2', '--merge',
+                var ffmpeg = spawn('gifsicle', ['-O3', '--lossy=80', '--merge', gif1Path, gif2Path, '-o', finalGIFPath]);
                 //ffmpeg -i images/firstgif.gif -i images/firstgif_eye.gif -filter_complex '[0:v][1:v] concat=n=2:v=1:a=0 [v]' -map '[v]' images/turner1.gif
                 //var ffmpeg = spawn("ffmpeg", ["-i", gif1Path, "-i", gif2Path, "-filter_complex", "'[0:v][1:v]", "concat=n=2:v=1:a=0", "[v]'", "-map", "'[v]'", finalGIFPath]);
                 ffmpeg.stderr.on('end', function () {
