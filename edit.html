@@ -1449,18 +1449,18 @@ $(document).ready(function(){
                 //https://playloops.s3.amazonaws.com/Uploads/2d3qgicslhqk1vvb0223rg48t0.mp4
                 var startingUrl; 
                 if(sceneSetupCounter == 0){
-                    startingUrl = " https://playloops.s3.amazonaws.com/Uploads/xvqgio1i4f2mk927jckblhrp5o.mp4";
+                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/xvqgio1i4f2mk927jckblhrp5o.mp4" + "?crossorigin";
                 }else if(sceneSetupCounter == 1){
-                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/1odl7gqzabrlu6uz9djd5bvdg6.mp4";
+                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/1odl7gqzabrlu6uz9djd5bvdg6.mp4"+ "?crossorigin";
                 }else if(sceneSetupCounter == 2){
-                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/fjae323p85fqaxcz8wch0lrd3g.mp4";
+                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/fjae323p85fqaxcz8wch0lrd3g.mp4"+ "?crossorigin";
                 }
                 else if(sceneSetupCounter >= 3){
-                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/4fz0lmda4hyot3qdxmsqv398uk.mp4";
+                    startingUrl = "https://playloops.s3.amazonaws.com/Uploads/4fz0lmda4hyot3qdxmsqv398uk.mp4"+ "?crossorigin";
                 }
                 sceneSetupCounter++; 
                 
-                $('body').append('<video crossOrigin="Anonymous" autoplay="autoplay" loop="loop" id="video'+"00"+currentSceneNumber+'" style="display: none" src="'+startingUrl+'"></video>');
+                $('body').append('<video crossOrigin="anonymous" autoplay="autoplay" loop="loop" id="video'+"00"+currentSceneNumber+'" style="display: none" src="'+startingUrl+'"></video>');
                 
                 var videoID = "video00"+currentSceneNumber; 
                 var videoCustomElement = document.getElementById(videoID);
