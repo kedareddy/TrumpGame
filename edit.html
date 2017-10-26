@@ -1577,7 +1577,7 @@ $(document).ready(function(){
                         var videoCustomElement = document.getElementById(videoID);
                         videoCustomElement.muted = true; 
                        
-                       console.log("source when creating new node: " + sceneObjects[i].src);
+                       //console.log("source when creating new node: " + sceneObjects[i].src);
                         $(videoID).attr("src",sceneObjects[i].src);
                          videoCustomElement.loop = true; 
                         
@@ -1585,17 +1585,18 @@ $(document).ready(function(){
                         var startTime = 0; 
                         var endTime = sceneObjects[i].duration; 
                         
-                        var urlText = videoCustomElement.src;
+                        var urlText = sceneObjects[i].src;//videoCustomElement.src;
+                        console.log("urlText: " + urlText); 
                         var indexTC = urlText.indexOf("#t=");
                         //console.log("indexTC is: " + indexTC); 
                         if(indexTC != "-1"){
                             var timeCodes = urlText.slice(indexTC+3).split(","); 
-
+                            console.log("it should go here");     
                             startTime = timeCodes[0]; 
                             endTime = timeCodes[1];    
                         }
                         
-      
+                        console.log("startTime: " + startTime + "endTime: " + endTime); 
                         $("#flat-slider").slider({
                             max: sceneObjects[i].duration,
                             min: 0,

@@ -38,12 +38,12 @@
 </head>
 <body>
 <section class="section main">
-    <div class="container left">
+    <!--<div class="container left">
         <!-- Logo & Nav options --> 
-        <div class="div header">
+        <!--<div class="div header">
            <img class="logo" src="/images/bluelogo.svg">  
         </div>
-    </div>
+    </div>-->
     <div class="container middle" id="middlecontainer">
         <div class="canvascontainer" id="canvasesdiv">
             <!--Canvas with editor--> 
@@ -51,10 +51,10 @@
             <!--<canvas class="canvas main" id="maincanvas"></canvas>-->
         </div>
     </div>
-    <div class="container right">
+    <!--<div class="container right">
         <!-- Edit Button 
         <button class="button edit" id="editbutton">Edit</button>-->
-    </div>
+    <!--</div>-->
     <audio id="popAudio" src="/audio/cartoon.mp3" autostart="false" ></audio>
     <audio id="pushAudio" src="/audio/blinking.mp3" autostart="false" ></audio>
     <div style="font-family:'MyDosis'">&nbsp;</div>
@@ -96,11 +96,11 @@
 </style>  -->  
     
 <style> 
-    .section.main{display: table; font-family: 'Oswald medium', sans-serif; background-color: black; height: 800px; padding-top: 5%;}
+    .section.main{display: table; font-family: 'Oswald medium', sans-serif; background-color: black; height: 800px; width:100%; padding-top: 5%;}
     
-    .container.left{ display: table-cell; width: 0%; vertical-align: top;padding: 1%;}
-    .container.middle{display: table-cell; width: 100%; height: auto;/*border-style: solid; */text-align: center;/* background-color: gainsboro;*/}
-    .container.right{ display: table-cell; width: 0%; vertical-align: top; padding: 1%;}
+    .container.left{ display: table-cell; width: 0%; vertical-align: top;}
+    .container.middle{display: table-cell; max-width: 100%; height: auto;/*border-style: solid; */text-align: center;/* background-color: gainsboro;*/}
+    .container.right{ display: table-cell; width: 0%; vertical-align: top;}
     
     .canvascontainer{margin-left: auto; margin-right: auto; position: relative; }
     .canvas-container{margin-left: auto; margin-right: auto; position: absolute;left: 0; right: 0; }
