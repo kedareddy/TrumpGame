@@ -459,7 +459,7 @@ $(document).ready(function(){
     //last object selected on working canvas
     var lastWCanvasObjSelected = null;
     
-    var socket = io.connect('');
+    var socket = io.connect('',{transports: ['websocket']});
     
     
     socket.on('news', function (data) {
