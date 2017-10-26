@@ -56,14 +56,19 @@
       
     </div>
     <div class="modal body" id="modalBody">
-      <p>Loop Link</p>
-      <a href="" id="exportURL" target="_blank" style="display: inline-block; width: 7%; height: auto;">
-        <img id = 'newtab' src="/assets/newtabicon.svg" alt="HTML5 Icon" style="opacity: 0.75; ">
-      </a>
-      <textarea id="exportTextArea" readonly style="width: 75%; padding-left:3px; display: inline-block;">
-          http://www.playloops.io/template1.html
-      </textarea>
-      <img crossOrigin="anonymous" class="modal gif" id = "summaryGIF" src="/images/firstgif.gif" style="opacity:0.0;">
+      <div style="text-align: center;">
+        <span  id="spinnerText">This will take a minute. Please bear with us. Thank you.</span>
+      </div>
+      <div style="display: block;" id="publishPreview">
+          <p>Loop Link</p>
+          <a href="" id="exportURL" target="_blank" style="display: inline-block; width: 7%; height: auto;">
+            <img id = 'newtab' src="/assets/newtabicon.svg" alt="HTML5 Icon" style="opacity: 0.75; ">
+          </a>
+          <textarea id="exportTextArea" readonly style="width: 75%; padding-left:3px; display: inline-block;">
+              http://www.playloops.io/template1.html
+          </textarea>
+          <img crossOrigin="anonymous" class="modal gif" id = "summaryGIF" src="/images/firstgif.gif" style="opacity:0.0;">
+      </div>
     </div>
     <div class="modal footer">
       <h3></h3>
@@ -468,6 +473,9 @@ $(document).ready(function(){
             //hide spinner and show summary gif
             $("#spinnerParent").hide();
             spinner.stop();
+            $("#publishPreview").show(); 
+            $("#spinnerText").text("Try out the PlayLoop a the link below! And share it on social media!");
+        
             //var sumGIF = document.getElementById("summaryGIF");
             //sumGIF.src = summaryGIFURL;
            // $('#summaryGIF').attr('src', summaryGIFURL);
@@ -985,6 +993,8 @@ $(document).ready(function(){
         if(event.target == publishButton){
             //exportPlayLoop();
             $("#publishModal").show(); 
+            $("#publishPreview").hide(); 
+            $("#spinnerText").text("This will take a minute. Please bear with us. Thank you.");
             var opts = {
                   lines: 13 // The number of lines to draw
                 , length: 28 // The length of each line
