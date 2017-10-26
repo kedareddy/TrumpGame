@@ -506,7 +506,7 @@ $(document).ready(function(){
         this.on("sending", function (file) {
             this.options.renameFile = function(file){
                 //keeping the file extension.
-                var ext = file.split('.').pop();
+                var ext = file.name.split('.').pop();
                 var newName = Date.now() + '.' + ext;
                 console.log("newName: " + newName); 
                 return file.name = newName; 
