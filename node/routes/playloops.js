@@ -869,7 +869,7 @@ module.exports = function(io) {
                                     reject();
                                 });*/
                             }
-                            cursorImg.src = "/app/images/cursor.png"; 
+                            cursorImg.src = "/app/images/cursorALT.png"; 
                         }
                         else{
                             console.log("resolving empty frame. SHIT WORKS!!!!!");

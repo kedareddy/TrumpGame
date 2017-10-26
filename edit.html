@@ -503,6 +503,15 @@ $(document).ready(function(){
             var name = generateUUID();
             formData.append(name, file);
         });*/
+        this.on("sending", function (file) {
+            this.options.renameFile = function(file){
+                //keeping the file extension.
+                var ext = file.split('.').pop();
+                var newName = Date.now() + '.' + ext;
+                console.log("newName: " + newName); 
+                return file.name = newName; 
+            };
+        });
         this.on("success", function(file, response) {
             console.log("response from server" + response);
         });
