@@ -106,7 +106,7 @@ module.exports = function(io) {
             2017-10-08T09:30:21.478312+00:00 app[web.1]:      type: 'image/png' } }
         */
         var fileInfo= path.parse(req.files['displayImage']['originalFilename']); // = path.parse(req.files.filename);
-        console.log("fileInfo is: " + fileInfo);
+        console.log("file temp path is: " + req.files['displayImage']['path']);
         var outputPath = 'Uploads/' + generateUUID() + '.mp4';
         var s3URL = 'https://playloops.s3.amazonaws.com/' + outputPath;
         console.log("s3URL: " + s3URL); 
