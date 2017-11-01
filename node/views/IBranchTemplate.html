@@ -197,10 +197,11 @@ function resizeCanvas() {
         //var newW = window.innerWidth;
         //var newH = (newW*359)/547;
         var newScale = window.innerWidth/547; 
-        console.log("smaller than 547" + newScale);
+        var scaleT = "scale(" + newScale.toString() + ")";
+        console.log("smaller than 547" + newScale + ":: " + scaleT);
         
-        $(".canvas-container").css("-webkit-transform", newScale);
-        $(".canvas-container").css("-webkit-transform-origin", '0 0');
+        $('.canvas-container').css('-webkit-transform', scaleT);
+        $('.canvas-container').css('-webkit-transform-origin', '0 0');
         
         /*for(var i =0; i < allFabricObjects.length; i++){
             allFabricObjects[i].setWidth(newW);            
