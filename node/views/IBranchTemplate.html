@@ -191,19 +191,26 @@ window.addEventListener('resize', resizeCanvas, false);
 
 function resizeCanvas() {
     console.log("canvas has been resized" + window.innerWidth + " :: "  + window.innerHeight);
-    if(window.innerWidth < 600){
-        console.log("smaller than 600");   
+    if(window.innerWidth < 547){
+           
         //aspect ratio w/h 547/359
-        var newW = window.innerWidth;
-        var newH = (newW*359)/547;
-        for(var i =0; i < allFabricObjects.length; i++){
+        //var newW = window.innerWidth;
+        //var newH = (newW*359)/547;
+        var newScale = window.innerWidth/547; 
+        console.log("smaller than 547" + newScale);
+        
+        $(".canvas-container").css("-webkit-transform", newScale);
+        $(".canvas-container").css("-webkit-transform-origin", '0 0');
+        
+        /*for(var i =0; i < allFabricObjects.length; i++){
             allFabricObjects[i].setWidth(newW);            
             allFabricObjects[i].setHeight(newH);            
             allFabricObjects[i].renderAll();            
-        }
+        }*/
         
     }
 }    
+      
     
 $(document).ready(function(){
     
