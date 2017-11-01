@@ -185,7 +185,25 @@ var parentVideoListener = function (nVideo, sT, eT) {
                 console.log("in newVideo callback");
             }
     };
-};    
+};   
+    
+window.addEventListener('resize', resizeCanvas, false);
+
+function resizeCanvas() {
+    console.log("canvas has been resized" + window.innerWidth + " :: "  + window.innerHeight);
+    if(window.innerWidth < 600){
+        console.log("smaller than 600");   
+        //aspect ratio w/h 547/359
+        var newW = window.innerWidth;
+        var newH = (newW*359)/547;
+        for(var i =0; i < allFabricObjects.length; i++){
+            allFabricObjects[i].setWidth(newW);            
+            allFabricObjects[i].setHeight(newH);            
+            allFabricObjects[i].renderAll();            
+        }
+        
+    }
+}    
     
 $(document).ready(function(){
     
@@ -317,8 +335,10 @@ $(document).ready(function(){
                     }
                     
                 }
-                
-
+    
+    //reset canvas width/height
+    resizeCanvas();
+    
     var initLook = function(e){
         allFabricObjects[(allFabricObjects.length-1)].off('after:render', initLook);
         if(transitionType == "default"){
