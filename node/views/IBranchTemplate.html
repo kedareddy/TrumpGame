@@ -265,7 +265,8 @@ $(document).ready(function(){
                                   left: sceneObjects[i].left,
                                   top: sceneObjects[i].top,
                                   width: sceneObjects[i].width, 
-                                  height: sceneObjects[i].height
+                                  height: sceneObjects[i].height,
+                                  selectable: false
                             });
 
                             canvas.add(videoB);
@@ -276,7 +277,8 @@ $(document).ready(function(){
                                   left: sceneObjects[i].left,
                                   top: sceneObjects[i].top,
                                   width: sceneObjects[i].width, 
-                                  height: sceneObjects[i].height
+                                  height: sceneObjects[i].height,
+                                  selectable: false
                             });
                             
                             canvas.add(videoT);
@@ -287,6 +289,7 @@ $(document).ready(function(){
                             if(sceneObjects[i].name != "cursor"){
                                 var aObj = klass.fromObject(sceneObjects[i]);
                                 canvas.add(aObj);
+                                aObj.selectable = false; 
                                 //aObj.fontFamily = 'MyDosis';   
                                 //canvas.renderAll();
                             }
