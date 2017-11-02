@@ -97,7 +97,8 @@
     
 <style> 
     /*display: table;*/
-    .section.main{font-family: 'Oswald medium', sans-serif; background-color: black; height: 800px; width:100%; padding-top: 5%;}
+    body {background-color: black;}
+    .section.main{font-family: 'Oswald medium', sans-serif; background-color: black; height: 800px; width:100%; margin-top: 5%;}
     
     .container.left{ display: table-cell; width: 0%; vertical-align: top;}
     .container.middle{display: block; max-width: 100%; height: auto;/*border-style: solid; */text-align: center;/* background-color: gainsboro;*/}
@@ -192,23 +193,20 @@ window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
     console.log("canvas has been resized" + window.innerWidth + " :: "  + window.innerHeight);
     if(window.innerWidth < 547){
-           
-        //aspect ratio w/h 547/359
-        //var newW = window.innerWidth;
-        //var newH = (newW*359)/547;
-        var newScale = window.innerWidth/547; 
+        
+        var maxW = 0; 
+        for(var i =0; i < allFabricObjects.length; i++){
+            if(maxW < allFabricObjects[i].getWidth()){
+                maxW = allFabricObjects[i].getWidth();   
+            }
+        }
+        console.log("maxW: " + maxW); 
+        var newScale = window.innerWidth/maxW; 
         var scaleT = "scale(" + newScale.toString() + ")";
         console.log("smaller than 547" + newScale + ":: " + scaleT);
         
         $('.canvas-container').css('-webkit-transform', scaleT);
         $('.canvas-container').css('-webkit-transform-origin', '0 0');
-        
-        /*for(var i =0; i < allFabricObjects.length; i++){
-            allFabricObjects[i].setWidth(newW);            
-            allFabricObjects[i].setHeight(newH);            
-            allFabricObjects[i].renderAll();            
-        }*/
-        
     }
 }    
       
