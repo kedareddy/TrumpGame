@@ -7,6 +7,7 @@
     "canvas": "^1.6.6",
     "consolidate": "^0.15.0",
     "express": "3.x",
+    "express-fileupload": "^0.3.0",
     "fabric": "^2.0.0-beta.4",
     "multer": "^1.2.1",
     "shortid": "^2.2.8",
