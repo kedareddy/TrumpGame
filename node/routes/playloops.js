@@ -34,37 +34,33 @@ var Server = mongo.Server,
     BSON = mongo.BSONPure;
 ''
 var server = new Server('ds057476.mlab.com', 57476, {auto_reconnect: true});
-db = new Db('heroku_bsmmjq6z', server);
+var db = new Db('heroku_bsmmjq6z', server);
+db.open(function(err, db) {
+    if(!err) {
+        console.log("Connected to 'heroku_bsmmjq6z' database");
+                db.authenticate("praveen", "m1crog@m3s", function(err, res) {
+            if(!err) {
+                console.log("Authenticated");
+            } else {
+                console.log("Error in authentication.");
+                console.log(err);
+            }
+        });
+
+        /*
+        db.collection('playloops', {strict:true}, function(err, collection) {
+            if (err) {
+                console.log("The 'playloops' collection doesn't exist. Creating it with sample data...");
+                populateDB();
+            }
+        });
+        */
+   }
+});
 
 // define constructor function that gets `io` sent to it
 module.exports = function(io) {
     var module = {};
-
-
-    /*db.open(function(err, db) {
-        if(!err) {
-            console.log("Connected to 'heroku_bsmmjq6z' database");
-                    db.authenticate("praveen", "m1crog@m3s", function(err, res) {
-                if(!err) {
-                    console.log("Authenticated");
-                } else {
-                    console.log("Error in authentication.");
-                    console.log(err);
-                }
-            });
-
-            /*
-            db.collection('playloops', {strict:true}, function(err, collection) {
-                if (err) {
-                    console.log("The 'playloops' collection doesn't exist. Creating it with sample data...");
-                    populateDB();
-                }
-            });
-            */
-    /*    }
-    });*/
-
-
 
     io.on('connection', function(socket) {
       ioClientID = socket.id;
