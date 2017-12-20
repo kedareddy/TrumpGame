@@ -10,6 +10,7 @@
     "express": "3.x",
     "express-fileupload": "^0.3.0",
     "fabric": "^2.0.0-beta.4",
+    "fluent-ffmpeg": "^2.1.2",
     "multer": "^1.2.1",
     "shortid": "^2.2.8",
     "socket.io": "^2.0.3"
