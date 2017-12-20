@@ -32,12 +32,12 @@ var ioClientID;
 var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
-    MongoClient = mongo.MongoClient;
 ''
 var server = new Server('ds057476.mlab.com', 57476, {auto_reconnect: true});
 var db = new Db('heroku_bsmmjq6z', server);
 
-MongoClient.connect(server, function(err, db){
+//MongoClient = mongo.MongoClient;
+/*MongoClient.connect(server, function(err, db){
   if(!err) {
       console.log("Connected to 'heroku_bsmmjq6z' database");
               db.authenticate("praveen", "m1crog@m3s", function(err, res) {
@@ -49,8 +49,8 @@ MongoClient.connect(server, function(err, db){
           }
       });
  }
-});
-/*db.open(function(err, db) {
+});*/
+db.open(function(err, db) {
     if(!err) {
         console.log("Connected to 'heroku_bsmmjq6z' database");
                 db.authenticate("praveen", "m1crog@m3s", function(err, res) {
@@ -70,8 +70,8 @@ MongoClient.connect(server, function(err, db){
             }
         });
         */
-/*   }
-});*/
+   }
+});
 
 // define constructor function that gets `io` sent to it
 module.exports = function(io) {
